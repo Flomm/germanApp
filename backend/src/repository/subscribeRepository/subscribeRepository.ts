@@ -7,7 +7,7 @@ export const subscriptionRepository = {
   getSubscriptionByEmail(email: string): Promise<ISubscriptionDomainModel> {
     return db
       .query<ISubscriptionDomainModel[]>(
-        'SELECT * FROM foxticket.subscription WHERE email = ?',
+        'SELECT * FROM german_app.subscription WHERE email = ?',
         [email],
       )
       .then(dbResult => dbResult[0])
@@ -18,7 +18,7 @@ export const subscriptionRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `INSERT INTO foxticket.subscription (name, email)
+        `INSERT INTO german_app.subscription (name, email)
     VALUES (?, ?)`,
         [subscription.name, subscription.email],
       )

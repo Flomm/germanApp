@@ -12,7 +12,7 @@ export const purchaseRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `INSERT INTO foxticket.purchase (ticketId, userId, validationCode)
+        `INSERT INTO german_app.purchase (ticketId, userId, validationCode)
         VALUES ${generateMultipleInsertQueryQuestionMarks(
           3,
           newPurchases.length,
@@ -24,16 +24,17 @@ export const purchaseRepository = {
       .catch(err => Promise.reject(err));
   },
 
-  getMyPurchases(userId: number, includePast: boolean): Promise<ITicketDomainModel[]> {
-    let query = 'SELECT p.id, t.type, t.name, t.price, t.date, t.cityName, p.validationCode FROM foxticket.purchase p JOIN foxticket.ticket t ON p.ticketId = t.id WHERE p.userId = ?';
+  getMyPurchases(
+    userId: number,
+    includePast: boolean,
+  ): Promise<ITicketDomainModel[]> {
+    let query =
+      'SELECT p.id, t.type, t.name, t.price, t.date, t.cityName, p.validationCode FROM german_app.purchase p JOIN german_app.ticket t ON p.ticketId = t.id WHERE p.userId = ?';
     if (!includePast) {
-      query += ' AND date > now()'
+      query += ' AND date > now()';
     }
     return db
-      .query<ITicketDomainModel[]>(
-        query,
-        [`${userId}`],
-      )
+      .query<ITicketDomainModel[]>(query, [`${userId}`])
       .catch(err => Promise.reject(err));
   },
 };

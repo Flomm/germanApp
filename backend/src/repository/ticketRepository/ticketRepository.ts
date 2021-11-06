@@ -6,13 +6,16 @@ import IAddTicketDataModel from '../../models/models/dataModels/IAddTicketDataMo
 
 export const ticketRepository = {
   getTickets(): Promise<ITicketDomainModel[]> {
-    return db.query<ITicketDomainModel[]>('SELECT * FROM foxticket.ticket', []);
+    return db.query<ITicketDomainModel[]>(
+      'SELECT * FROM german_app.ticket',
+      [],
+    );
   },
-  
+
   addTicket(newTicket: IAddTicketDataModel): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `INSERT INTO foxticket.ticket (type, name, price, date, cityName, numberOfAllTickets)
+        `INSERT INTO german_app.ticket (type, name, price, date, cityName, numberOfAllTickets)
     VALUES (?, ?, ?, ?, ?, ?)`,
         [
           `${newTicket.type}`,
@@ -28,18 +31,19 @@ export const ticketRepository = {
 
   removeTicket(ticketId: number): Promise<IDbResultDataModel> {
     return db.query<IDbResultDataModel>(
-      'DELETE FROM foxticket.ticket WHERE id = ?',
+      'DELETE FROM german_app.ticket WHERE id = ?',
       [`${ticketId}`],
     );
   },
 
   getTicketById(ticketId: number): Promise<ITicketDomainModel> {
-    return db.query<ITicketDomainModel[]>(
-      'SELECT * FROM foxticket.ticket WHERE id = ?',
-      [`${ticketId}`],
-    )
-    .then(tickets => tickets[0])
-    .catch(err => Promise.reject(err));
+    return db
+      .query<ITicketDomainModel[]>(
+        'SELECT * FROM german_app.ticket WHERE id = ?',
+        [`${ticketId}`],
+      )
+      .then(tickets => tickets[0])
+      .catch(err => Promise.reject(err));
   },
 
   updateTicket(
@@ -47,7 +51,7 @@ export const ticketRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        'UPDATE foxticket.ticket SET type = ?, name = ?, price = ?, date = ?, cityName = ?, numberOfAllTickets = ? WHERE id = ?',
+        'UPDATE german_app.ticket SET type = ?, name = ?, price = ?, date = ?, cityName = ?, numberOfAllTickets = ? WHERE id = ?',
         [
           `${modifiedTicket.type}`,
           modifiedTicket.name,
@@ -62,7 +66,7 @@ export const ticketRepository = {
   },
   getFutureTickets(): Promise<ITicketDomainModel[]> {
     return db.query<ITicketDomainModel[]>(
-      'SELECT * FROM foxticket.ticket WHERE date > now()',
+      'SELECT * FROM german_app.ticket WHERE date > now()',
       [],
     );
   },
