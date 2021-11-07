@@ -3,7 +3,7 @@
     <img src="../../../../../../assets/logo.svg" />
   </div>
   <div class="title-holder">
-    <h1>FoxTicket</h1>
+    <h1>Tanulj németül</h1>
   </div>
   <div *ngIf="hasAuthorizationButtons && !userName" class="button-holder">
     <button
@@ -11,9 +11,11 @@
       class="registration-button"
       routerLink="/registration"
     >
-      Registration
+      Regisztráció
     </button>
-    <button mat-raised-button color="accent" routerLink="/login">Login</button>
+    <button mat-raised-button color="accent" routerLink="/login">
+      Belépés
+    </button>
   </div>
   <div *ngIf="userName" class="user-holder flex-center">
     <div class="shopping-cart">
@@ -35,10 +37,13 @@
       </div>
     </div>
     <div class="username-holder">
-      <h2>Hi, {{ userName }}</h2>
+      <h2>Szia, {{ userName }}</h2>
     </div>
     <div class="profile-button-holder">
-      <img src="../../../../../../assets/profile-logo.svg" routerLink="/myprofile" />
+      <img
+        src="../../../../../../assets/profile-logo.svg"
+        routerLink="/myprofile"
+      />
     </div>
     <div class="logout-button-holder">
       <img src="../../../../../../assets/logout.svg" (click)="logOut()" />
@@ -47,8 +52,8 @@
 </header>
 <nav *ngIf="userRole">
   <div class="flex-center nav" *ngIf="userRole === userRolesList.Admin">
-    <a routerLink="/admin/tickets">Tickets</a>
-    <a routerLink="/admin/users">Users</a>
+    <a routerLink="/admin/tickets">Szólista</a>
+    <a routerLink="/admin/users">Felhasználók</a>
   </div>
   <div class="flex-center nav" *ngIf="userRole === userRolesList.Consumer">
     <a routerLink="/consumer/tickets">Browse</a>

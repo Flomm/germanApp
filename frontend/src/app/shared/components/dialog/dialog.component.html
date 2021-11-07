@@ -3,7 +3,7 @@
   mat-icon-button
   class="close-button"
 >
-  <mat-icon [mat-dialog-close]="false">close</mat-icon>
+  <mat-icon [mat-dialog-close]="false">bezár</mat-icon>
 </button>
 <mat-dialog-content align="center">{{ params.dialogText }}</mat-dialog-content>
 <mat-dialog-actions align="center">
@@ -14,7 +14,7 @@
     color="primary"
     [mat-dialog-close]="false"
   >
-    {{ params.cancelButtonText ? params.cancelButtonText : "Cancel" }}
+    {{ params.cancelButtonText ? params.cancelButtonText : "Mégsem" }}
   </button>
   <button mat-raised-button color="primary" [mat-dialog-close]="true">
     {{ params.okButtonText ? params.okButtonText : "Ok" }}
