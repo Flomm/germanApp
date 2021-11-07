@@ -1,0 +1,32 @@
+<app-header [hasAuthorizationButtons]="false"></app-header>
+<app-registration-form
+  *ngIf="formType === 'registration'"
+  class="flex-center"
+  [registrationResponse]="registrationResponse"
+  (registrationRequest)="onRegistrationSubmit($event)"
+></app-registration-form>
+<app-login-form
+  *ngIf="formType === 'login'"
+  class="flex-center"
+  [loginResponse]="loginResponse"
+  (loginRequest)="onLoginSubmit($event)"
+></app-login-form>
+<app-password-recovery-form
+*ngIf="formType === 'password-recovery'"
+class="flex-center"
+[passwordRecoveryResponse]="passwordRecoveryResponse"
+(passwordRecoveryRequest)="onPasswordRecoverySubmit($event)"
+>
+</app-password-recovery-form>
+<app-new-password-form
+  *ngIf="formType === 'new-password'"
+  class="flex-center"
+  [newPasswordChangeResponse]="newPasswordChangeResponse"
+  (newPasswordChangeRequest)="onNewPasswordSubmit($event)"
+>
+</app-new-password-form>
+<app-my-profile
+*ngIf="formType === 'myprofile'"class="flex-center"
+[newUsernameResponse]="newUsernameResponse"
+  (newUsernameRequest)="onNewUsernameChangeSubmit($event)"></app-my-profile>
+<app-footer></app-footer>

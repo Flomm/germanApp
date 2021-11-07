@@ -1,0 +1,14 @@
+@import "../../../../styles/variables.scss";
+
+.description-container {
+  padding: $smallGap;
+  flex-direction: column;
+  text-align: center;
+
+  p {
+    padding: 0 $smallGap;
+    text-transform: uppercase;
+    line-height: 30px;
+    font-size: $bigFontSize;
+  }
+}

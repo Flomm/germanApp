@@ -1,0 +1,14 @@
+<div class="ticket-container flex-center" *ngIf="getMyTicketsResponse">
+  <h2>My tickets</h2>
+  <app-ticket
+    *ngFor="let ticket of getMyTicketsResponse.ticketList"
+    [ticketData]="ticket"
+    [purchasable]="false"
+  ></app-ticket>
+  <div
+    *ngIf="getMyTicketsResponse.isError"
+    class="warn"
+  >
+    {{ getTicketResponse.message }}
+  </div>
+</div>

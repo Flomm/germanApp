@@ -1,0 +1,146 @@
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.default-anchor {
+  text-align: center;
+  text-decoration: none;
+  color: $spotiGreen;
+  font-weight: bold;
+
+  &:hover {
+    filter: brightness(80%);
+  }
+}
+
+.default-form {
+  .mat-form-field {
+    .mat-input-element::placeholder,
+    mat-label {
+      color: $spotiGreen;
+    }
+
+    mat-error {
+      display: none;
+
+      &:first-child {
+        display: block;
+      }
+    }
+    ::-webkit-calendar-picker-indicator {
+      filter: $spotiIconFilter;
+      cursor: pointer;
+    }
+    .mat-form-field-outline-thick {
+      opacity: 1 !important;
+      color: $spotiGreen;
+    }
+
+    &.disabled-form-field {
+      .mat-input-element::placeholder,
+      mat-label,
+      .mat-input-element,
+      .mat-form-field-outline-thick {
+        color: $disabled !important;
+      }
+    }
+  }
+
+  .mat-raised-button.mat-button-disabled {
+    background-color: $disabled;
+    color: $black;
+  }
+}
+
+.default-dialog {
+  mat-dialog-container {
+    position: relative;
+    background-color: $black;
+    color: $spotiGreen;
+    border: 1px solid $spotiGreen;
+
+    mat-dialog-content {
+      margin: 15px 0px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: auto;
+
+      mat-icon {
+        cursor: pointer;
+        color: $warn;
+      }
+    }
+
+    .cancel-button {
+      background-color: $warn;
+    }
+  }
+}
+
+.warn {
+  color: $warn;
+}
+
+.primary {
+  color: $spotiGreen;
+}
+
+.default-table {
+  width: 100%;
+  border: 1px solid $spotiGreen;
+  * {
+    color: $spotiGreen;
+    background-color: $black;
+    text-align: center;
+  }
+
+  .mat-header-cell {
+    font-weight: bolder;
+    font-size: larger;
+    text-align: center;
+    color: $black;
+    background-color: $spotiGreen;
+  }
+
+  .mat-cell {
+    border: 1px solid $spotiGreen;
+    border-top: none;
+  }
+}
+.default-select {
+  color: $spotiGreen;
+  background-color: $black;
+  border: 1px solid $spotiGreen;
+
+  .mat-option {
+    .mat-option-text {
+      color: $spotiGreen;
+    }
+
+    &.mat-selected {
+      color: $spotiGreen;
+
+      &:hover {
+        background-color: $spotiGreen;
+        color: $black;
+      }
+    }
+
+    &:hover {
+      background-color: $spotiGreen;
+      .mat-option-text {
+        color: $black;
+      }
+    }
+  }
+}
+
+.warn {
+  color: $warn;
+}

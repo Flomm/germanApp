@@ -1,0 +1,39 @@
+@import "../../../../../styles/variables.scss";
+
+.form-holder {
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 100%;
+  flex-direction: column;
+
+  form {
+    flex-direction: column;
+
+    .field-holder {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+
+      .mat-form-field {
+        margin-bottom: 12px;
+        width: 40%;
+      }
+    }
+
+    button {
+      margin-bottom: 30px;
+    }
+
+    mat-select {
+      ::ng-deep .mat-select-value,
+      ::ng-deep .mat-select-arrow {
+        color: $spotiGreen;
+      }
+    }
+  }
+
+  .response-holder {
+    margin-bottom: 80px;
+    height: 75px;
+  }
+}

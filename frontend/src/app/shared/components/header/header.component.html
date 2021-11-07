@@ -1,0 +1,57 @@
+<header [ngClass]="{ 'without-button': !hasAuthorizationButtons }">
+  <div class="logo-holder" routerLink="/landing">
+    <img src="../../../../../../assets/logo.svg" />
+  </div>
+  <div class="title-holder">
+    <h1>FoxTicket</h1>
+  </div>
+  <div *ngIf="hasAuthorizationButtons && !userName" class="button-holder">
+    <button
+      mat-raised-button
+      class="registration-button"
+      routerLink="/registration"
+    >
+      Registration
+    </button>
+    <button mat-raised-button color="accent" routerLink="/login">Login</button>
+  </div>
+  <div *ngIf="userName" class="user-holder flex-center">
+    <div class="shopping-cart">
+      <mat-icon
+        [matBadge]="cartList ? cartList.length : 0"
+        matBadgeColor="accent"
+        matBadgeSize="small"
+        (click)="showCartItems()"
+      >
+        shopping_cart
+      </mat-icon>
+      <div class="cart-items" *ngIf="isTicketVisible && cartList.length > 0">
+        <app-small-ticket
+          *ngFor="let ticket of cartList"
+          [smallTicketData]="ticket"
+          (removeTicket)="removeTicket($event)"
+        >
+        </app-small-ticket>
+      </div>
+    </div>
+    <div class="username-holder">
+      <h2>Hi, {{ userName }}</h2>
+    </div>
+    <div class="profile-button-holder">
+      <img src="../../../../../../assets/profile-logo.svg" routerLink="/myprofile" />
+    </div>
+    <div class="logout-button-holder">
+      <img src="../../../../../../assets/logout.svg" (click)="logOut()" />
+    </div>
+  </div>
+</header>
+<nav *ngIf="userRole">
+  <div class="flex-center nav" *ngIf="userRole === userRolesList.Admin">
+    <a routerLink="/admin/tickets">Tickets</a>
+    <a routerLink="/admin/users">Users</a>
+  </div>
+  <div class="flex-center nav" *ngIf="userRole === userRolesList.Consumer">
+    <a routerLink="/consumer/tickets">Browse</a>
+    <a routerLink="/consumer/my-tickets">My tickets</a>
+  </div>
+</nav>

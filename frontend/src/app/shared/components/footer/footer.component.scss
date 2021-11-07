@@ -1,0 +1,12 @@
+@import "../../../../styles/variables.scss";
+
+footer {
+  height: 50px;
+  background-color: $spotiGreen;
+  width: 100%;
+  h3 {
+    font-size: $smallFontSize;
+    color: $black;
+    margin: 0px;
+  }
+}

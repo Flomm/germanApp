@@ -1,0 +1,32 @@
+@import "../../../../styles/variables.scss";
+
+.video-holder {
+  height: 678px;
+  flex-direction: column;
+  padding: $smallGap;
+
+  h2 {
+    text-align: center;
+  }
+
+  .video-frame {
+    width: 700px;
+    height: 393.75px;
+    max-width: 100%;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: $smallScreenBreakPoint) {
+  .video-frame {
+    text-align: center;
+    padding: $smallGap;
+    iframe {
+      width: 98%;
+    }
+  }
+}

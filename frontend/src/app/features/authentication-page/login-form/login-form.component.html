@@ -1,0 +1,57 @@
+<div class="flex-center form-holder">
+  <h2>Login</h2>
+  <form class="flex-center default-form" [formGroup]="loginForm">
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input
+        matInput
+        placeholder="Enter your e-mail"
+        type="email"
+        formControlName="email"
+      />
+      <mat-error *ngIf="loginForm.controls.email.hasError('required')"
+        >E-mail is required</mat-error
+      >
+      <mat-error *ngIf="loginForm.controls.email.hasError('email')"
+        >Not a valid e-mail</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        placeholder="Enter your password"
+        [type]="isPasswordVisible ? 'text' : 'password'"
+        formControlName="password"
+      />
+      <mat-icon (click)="togglePasswordVisibility()" matSuffix>{{
+        isPasswordVisible ? "visibility_off" : "visibility"
+      }}</mat-icon>
+      <mat-error *ngIf="loginForm.controls.password.hasError('required')"
+        >Password is required</mat-error
+      >
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!loginForm.valid"
+      (click)="submitLogin()"
+    >
+      Login
+    </button>
+  </form>
+  <div class="forgot-password-holder">
+    <a class="default-anchor" routerLink="/password-recovery">Forgot password?</a>
+  </div>
+  <div class="response-holder flex-center warn primary">
+    <p
+      *ngIf="loginResponse"
+      [ngClass]="loginResponse.isError ? 'warn' : 'primary'"
+    >
+      {{ loginResponse.message }}
+    </p>
+  </div>
+  <a class="default-anchor" routerLink="/registration"
+    >Not registered yet? Sign up here.</a
+  >
+</div>

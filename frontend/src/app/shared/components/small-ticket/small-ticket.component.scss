@@ -1,0 +1,31 @@
+@import "../../../../styles/variables.scss";
+
+.small-ticket-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  width: 350px;
+  height: 100px;
+  margin: 5px;
+  background-color: $black;
+  border: solid $spotiGreen;
+  border-radius: 20px;
+
+  .small-ticket-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .small-ticket-information {
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+  }
+}

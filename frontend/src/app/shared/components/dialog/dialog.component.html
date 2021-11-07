@@ -1,0 +1,22 @@
+<button
+  *ngIf="params.isClosable ? true : false"
+  mat-icon-button
+  class="close-button"
+>
+  <mat-icon [mat-dialog-close]="false">close</mat-icon>
+</button>
+<mat-dialog-content align="center">{{ params.dialogText }}</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button
+    *ngIf="params.isCancelButtonVisible ? true : false"
+    mat-raised-button
+    class="cancel-button"
+    color="primary"
+    [mat-dialog-close]="false"
+  >
+    {{ params.cancelButtonText ? params.cancelButtonText : "Cancel" }}
+  </button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">
+    {{ params.okButtonText ? params.okButtonText : "Ok" }}
+  </button>
+</mat-dialog-actions>

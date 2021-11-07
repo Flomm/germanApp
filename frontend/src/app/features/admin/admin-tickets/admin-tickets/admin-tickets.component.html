@@ -1,0 +1,7 @@
+<div class="list-holder flex-center">
+  <h1>Ticket list</h1>
+  <button mat-raised-button routerLink="/admin/new-ticket">
+    Add new ticket
+  </button>
+  <app-ticket-list [getTicketResponse]="getTicketResponse"></app-ticket-list>
+</div>

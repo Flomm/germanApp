@@ -1,0 +1,31 @@
+<app-header [hasAuthorizationButtons]="false"></app-header>
+<main class="flex-center warn">
+  <mat-spinner *ngIf="!verificationResponse"></mat-spinner>
+  <h1
+    *ngIf="verificationResponse"
+    [ngClass]="verificationResponse.isError ? 'warn' : 'primary'"
+  >
+    {{
+      verificationResponse.message
+        ? verificationResponse.message
+        : "Server not responding"
+    }}
+  </h1>
+  <button
+    *ngIf="verificationResponse && !verificationResponse.isError"
+    mat-raised-button
+    color="primary"
+    routerLink="/login"
+  >
+    You can now log in!
+  </button>
+  <button
+    *ngIf="verificationResponse && verificationResponse.isError"
+    mat-raised-button
+    color="primary"
+    routerLink="/"
+  >
+    Return to homepage
+  </button>
+</main>
+<app-footer></app-footer>
