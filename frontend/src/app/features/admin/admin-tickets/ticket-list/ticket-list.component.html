@@ -1,9 +1,0 @@
-<div *ngIf="getTicketResponse">
-  <app-ticket
-    *ngFor="let ticket of getTicketResponse.ticketList"
-    [ticketData]="ticket"
-  ></app-ticket>
-</div>
-<div *ngIf="getTicketResponse && getTicketResponse.isError" class="warn">
-  {{ getTicketResponse.message }}
-</div>

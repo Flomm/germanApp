@@ -14,7 +14,6 @@ import { ILoginResponse } from 'src/app/shared/models/responses/ILoginResponse';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
-import { CartService } from '../cartService/cart.service';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
 
 @Injectable({
@@ -24,7 +23,7 @@ export default class AuthService {
   private userSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
     this.getUserName()
   );
-  
+
   private roleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
     localStorage.getItem('role')
   );
@@ -38,8 +37,7 @@ export default class AuthService {
   constructor(
     private router: Router,
     private httpClient: HttpClient,
-    private dialog: MatDialog,
-    private cartService: CartService
+    private dialog: MatDialog
   ) {}
 
   getToken(): string {
@@ -161,7 +159,6 @@ export default class AuthService {
     this.router.navigate(['login']);
     this.userSubject.next(null);
     this.roleSubject.next(null);
-    this.cartService.resetCart();
   }
 
   recoverPassword(

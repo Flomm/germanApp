@@ -18,24 +18,6 @@
     </button>
   </div>
   <div *ngIf="userName" class="user-holder flex-center">
-    <div class="shopping-cart">
-      <mat-icon
-        [matBadge]="cartList ? cartList.length : 0"
-        matBadgeColor="accent"
-        matBadgeSize="small"
-        (click)="showCartItems()"
-      >
-        shopping_cart
-      </mat-icon>
-      <div class="cart-items" *ngIf="isTicketVisible && cartList.length > 0">
-        <app-small-ticket
-          *ngFor="let ticket of cartList"
-          [smallTicketData]="ticket"
-          (removeTicket)="removeTicket($event)"
-        >
-        </app-small-ticket>
-      </div>
-    </div>
     <div class="username-holder">
       <h2>Szia, {{ userName }}</h2>
     </div>

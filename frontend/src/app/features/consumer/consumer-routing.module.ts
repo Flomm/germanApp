@@ -12,20 +12,6 @@ const routes: Routes = [
         redirectTo: 'tickets',
         pathMatch: 'full',
       },
-      {
-        path: 'tickets',
-        loadChildren: () =>
-          import('./consumer-ticket/consumer-ticket.module').then(
-            (m) => m.ConsumerTicketModule
-          ),
-      },
-      {
-        path: 'my-tickets',
-        loadChildren: () =>
-          import('./consumer-my-tickets/consumer-my-tickets.module').then(
-            (m) => m.ConsumerMyTicketsModule
-          ),
-      },
     ],
   },
 ];

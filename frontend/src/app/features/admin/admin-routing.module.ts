@@ -8,9 +8,9 @@ const routes: Routes = [
     component: AdminPageComponent,
     children: [
       {
-        path:'',
+        path: '',
         redirectTo: 'tickets',
-        pathMatch: 'full' 
+        pathMatch: 'full',
       },
       {
         path: 'users',
@@ -19,21 +19,7 @@ const routes: Routes = [
             (m) => m.AdminUsersModule
           ),
       },
-      {
-        path: 'tickets',
-        loadChildren: () =>
-          import('./admin-tickets/admin-tickets.module').then(
-            (m) => m.AdminTicketsModule
-          ),
-      },
-      {
-        path: 'new-ticket',
-        loadChildren: () =>
-          import('./admin-add-ticket/admin-add-ticket.module').then(
-            (m) => m.AdminAddTicketModule
-          ),
-      },
-    ]
+    ],
   },
 ];
 

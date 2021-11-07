@@ -37,29 +37,6 @@ header {
     justify-content: space-evenly;
     width: 220px;
 
-    .shopping-cart {
-      position: relative;
-      mat-icon {
-        color: $black;
-        cursor: pointer;
-      }
-
-      .cart-items {
-        position: absolute;
-        overflow: scroll;
-        height: 300px;
-        padding: 5px;
-        left: -50px;
-        top: 35px;
-        border: 1px solid $spotiGreen;
-        border-radius: 20px;
-        box-shadow: 2px 2px 10px 5px #2b2a2a;
-        background-color: $black;
-        transform: scale(0.8);
-        transform-origin: 50% 0;
-      }
-    }
-
     .username-holder {
       color: $black;
       h2 {
