@@ -1,21 +1,21 @@
 @import "~@angular/material/theming";
 @include mat-core();
 
-$mat-green: (
-  50: #e8f5e9,
-  100: #c8e6c9,
-  200: #a5d6a7,
-  300: #81c784,
-  400: #66bb6a,
-  500: #1db954,
-  600: #43a047,
-  700: #000000,
-  800: #2e7d32,
-  900: #1b5e20,
-  A100: #b9f6ca,
-  A200: #69f0ae,
-  A400: #00e676,
-  A700: #00c853,
+$mat-amber: (
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe082,
+  300: #ffd54f,
+  400: #ffca28,
+  500: #ffc107,
+  600: #ffb300,
+  700: #ffa000,
+  800: #ff8f00,
+  900: #ff6f00,
+  A100: #ffe57f,
+  A200: #ffd740,
+  A400: #ffc400,
+  A700: #ffab00,
   contrast: (
     50: $dark-primary-text,
     100: $dark-primary-text,
@@ -34,8 +34,8 @@ $mat-green: (
   ),
 );
 
-$theming-material-components-primary: mat-palette($mat-green, 500);
-$theming-material-components-accent: mat-palette($mat-green, 700);
+$theming-material-components-primary: mat-palette($mat-amber, 500);
+$theming-material-components-accent: mat-palette($mat-amber, 700);
 $theming-material-components-warn: mat-palette($mat-red);
 
 $theming-material-components-theme: mat-light-theme(
