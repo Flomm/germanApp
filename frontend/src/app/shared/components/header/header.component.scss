@@ -9,7 +9,7 @@ header {
   height: 70px;
   top: 0;
   width: 100%;
-  background-color: $spotiGreen;
+  background-color: $mainPurple;
   z-index: 1;
 
   .logo-holder {
@@ -72,7 +72,7 @@ header {
 }
 
 .nav {
-  background-color: $spotiGreen;
+  background-color: $mainPurple;
   justify-content: space-around;
   padding-bottom: 5px;
 
@@ -82,7 +82,7 @@ header {
     font-weight: bolder;
 
     &:hover {
-      color: $hoverSpotiGreen;
+      color: $hoverMainPurple;
     }
   }
 }

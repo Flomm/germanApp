@@ -12,13 +12,13 @@
 
 mat-paginator {
   margin-top: 5px;
-  background-color: $spotiGreen;
+  background-color: $mainPurple;
   color: $black;
   align-self: flex-end;
 }
 
 ::ng-deep .mat-select-panel {
-  background-color: $spotiGreen;
+  background-color: $mainPurple;
 }
 
 ::ng-deep .mat-option {

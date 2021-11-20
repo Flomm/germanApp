@@ -7,7 +7,7 @@
 .default-anchor {
   text-align: center;
   text-decoration: none;
-  color: $spotiGreen;
+  color: $mainPurple;
   font-weight: bold;
 
   &:hover {
@@ -19,7 +19,7 @@
   .mat-form-field {
     .mat-input-element::placeholder,
     mat-label {
-      color: $spotiGreen;
+      color: $mainPurple;
     }
 
     mat-error {
@@ -30,12 +30,12 @@
       }
     }
     ::-webkit-calendar-picker-indicator {
-      filter: $spotiIconFilter;
+      filter: $purpleIconFilter;
       cursor: pointer;
     }
     .mat-form-field-outline-thick {
       opacity: 1 !important;
-      color: $spotiGreen;
+      color: $mainPurple;
     }
 
     &.disabled-form-field {
@@ -58,8 +58,8 @@
   mat-dialog-container {
     position: relative;
     background-color: $black;
-    color: $spotiGreen;
-    border: 1px solid $spotiGreen;
+    color: $mainPurple;
+    border: 1px solid $mainPurple;
 
     mat-dialog-content {
       margin: 15px 0px;
@@ -88,14 +88,14 @@
 }
 
 .primary {
-  color: $spotiGreen;
+  color: $mainPurple;
 }
 
 .default-table {
   width: 100%;
-  border: 1px solid $spotiGreen;
+  border: 1px solid $mainPurple;
   * {
-    color: $spotiGreen;
+    color: $mainPurple;
     background-color: $black;
     text-align: center;
   }
@@ -105,35 +105,35 @@
     font-size: larger;
     text-align: center;
     color: $black;
-    background-color: $spotiGreen;
+    background-color: $mainPurple;
   }
 
   .mat-cell {
-    border: 1px solid $spotiGreen;
+    border: 1px solid $mainPurple;
     border-top: none;
   }
 }
 .default-select {
-  color: $spotiGreen;
+  color: $mainPurple;
   background-color: $black;
-  border: 1px solid $spotiGreen;
+  border: 1px solid $mainPurple;
 
   .mat-option {
     .mat-option-text {
-      color: $spotiGreen;
+      color: $mainPurple;
     }
 
     &.mat-selected {
-      color: $spotiGreen;
+      color: $mainPurple;
 
       &:hover {
-        background-color: $spotiGreen;
+        background-color: $mainPurple;
         color: $black;
       }
     }
 
     &:hover {
-      background-color: $spotiGreen;
+      background-color: $mainPurple;
       .mat-option-text {
         color: $black;
       }
