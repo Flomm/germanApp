@@ -1,15 +1,15 @@
 <div class="flex-center form-holder">
-    <h2>My profile</h2>
+    <h2>Saját profil</h2>
     <form class="flex-center default-form" [formGroup]="myUserProfileForm">
         <mat-form-field appearance="outline" class="disabled-form-field">
             <mat-label>E-mail</mat-label>
             <input matInput formControlName="email" />
         </mat-form-field>
         <mat-form-field appearance="outline" [class.disabled-form-field]="!myUserProfileForm.controls.name.enabled">
-            <mat-label>Username</mat-label>
+            <mat-label>Felhasználónév</mat-label>
             <input matInput formControlName="name" />
             <mat-icon (click)="enableUsernameModification()" matSuffix>create</mat-icon>
-            <mat-error *ngIf="myUserProfileForm.controls.name.hasError('required')">Username is required</mat-error>
+            <mat-error *ngIf="myUserProfileForm.controls.name.hasError('required')">Kötelező mező</mat-error>
         </mat-form-field>
         <button mat-raised-button color="primary" [disabled]="!myUserProfileForm.valid"
             (click)="submitUsernameChange()">

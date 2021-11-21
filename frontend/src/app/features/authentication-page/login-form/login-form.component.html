@@ -1,26 +1,26 @@
 <div class="flex-center form-holder">
-  <h2>Login</h2>
+  <h2>Belépés</h2>
   <form class="flex-center default-form" [formGroup]="loginForm">
     <mat-form-field appearance="outline">
       <mat-label>E-mail</mat-label>
       <input
         matInput
-        placeholder="Enter your e-mail"
+        placeholder="Add meg az e-mailed"
         type="email"
         formControlName="email"
       />
       <mat-error *ngIf="loginForm.controls.email.hasError('required')"
-        >E-mail is required</mat-error
+        >Kötelező mező</mat-error
       >
       <mat-error *ngIf="loginForm.controls.email.hasError('email')"
-        >Not a valid e-mail</mat-error
+        >Érvénytelen e-mail cím</mat-error
       >
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
+      <mat-label>Jelszó</mat-label>
       <input
         matInput
-        placeholder="Enter your password"
+        placeholder="Add meg a jelszavad"
         [type]="isPasswordVisible ? 'text' : 'password'"
         formControlName="password"
       />
@@ -28,7 +28,7 @@
         isPasswordVisible ? "visibility_off" : "visibility"
       }}</mat-icon>
       <mat-error *ngIf="loginForm.controls.password.hasError('required')"
-        >Password is required</mat-error
+        >Kötelező mező</mat-error
       >
     </mat-form-field>
     <button
@@ -37,11 +37,11 @@
       [disabled]="!loginForm.valid"
       (click)="submitLogin()"
     >
-      Login
+      Belépés
     </button>
   </form>
   <div class="forgot-password-holder">
-    <a class="default-anchor" routerLink="/password-recovery">Forgot password?</a>
+    <a class="default-anchor" routerLink="/password-recovery">Elfelejtetted a jelszavad?</a>
   </div>
   <div class="response-holder flex-center warn primary">
     <p
@@ -52,6 +52,6 @@
     </p>
   </div>
   <a class="default-anchor" routerLink="/registration"
-    >Not registered yet? Sign up here.</a
+    >Még nem regisztráltál? Itt megteheted.</a
   >
 </div>
