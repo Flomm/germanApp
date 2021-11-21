@@ -31,7 +31,7 @@ describe('tokenAuthentication', () => {
     );
 
     //Assert
-    expect(next).toBeCalledWith(unauthorizedError('No valid token found'));
+    expect(next).toBeCalledWith(unauthorizedError('Nincs érvényes token.'));
   });
 
   test('it should call next if the token in the header is invalid', () => {
@@ -51,7 +51,7 @@ describe('tokenAuthentication', () => {
     );
 
     //Assert
-    expect(next).toBeCalledWith(forbiddenError('No access'));
+    expect(next).toBeCalledWith(forbiddenError('Hozzáférés megtagadva.'));
   });
 
   test('it should call next if there is a valid token', () => {

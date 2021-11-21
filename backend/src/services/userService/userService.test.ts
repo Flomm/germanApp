@@ -87,7 +87,7 @@ describe('loginUser', () => {
       await userService.loginUser(loginRequest);
     } catch (err) {
       //Assert
-      expect(err).toEqual(forbiddenError('E-mail has not been verified yet'));
+      expect(err).toEqual(forbiddenError('Ez az e-mail cím még nincs megerősítve.'));
       expect(userRepository.getUserByEmail).toHaveBeenCalledWith(
         'test@test.hu',
       );
@@ -108,7 +108,7 @@ describe('loginUser', () => {
       await userService.loginUser(loginRequest);
     } catch (err) {
       //Assert
-      expect(err).toEqual(unauthorizedError('E-mail or password is incorrect'));
+      expect(err).toEqual(unauthorizedError('E-mail vagy jelszó helytelen.'));
       expect(userRepository.getUserByEmail).toHaveBeenCalledWith(
         'test@test.hu',
       );
@@ -126,7 +126,7 @@ describe('loginUser', () => {
       await userService.loginUser(loginRequest);
     } catch (err) {
       //Assert
-      expect(err).toEqual(unauthorizedError('E-mail or password is incorrect'));
+      expect(err).toEqual(unauthorizedError('E-mail vagy jelszó helytelen.'));
       expect(userRepository.getUserByEmail).toHaveBeenCalledWith(
         'test@test.hu',
       );
@@ -201,8 +201,8 @@ describe('recoverPasswordByEmail', () => {
 
     const mockEmailReplacements: IEmailReplacements = {
       userName: 'test',
-      instructions: 'Please click on the button below to reset your password!',
-      buttonText: 'Recover password',
+      instructions: 'Kattints az alábbi gombra új jelsző megadásához!',
+      buttonText: 'Új jelszó',
       url: `http://localhost:4200/new-password?email=${passwordRecoveryRequest.email}&code=${mockSixDigitCode}`,
     };
 
@@ -218,7 +218,7 @@ describe('recoverPasswordByEmail', () => {
     const email: IEmail = {
       from: config.transporter.auth.user!,
       to: 'test@test.hu',
-      subject: 'Password recovery for FoxTicket',
+      subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
       html: emailService.readTemplate(mockTemplatePath, mockEmailReplacements),
     };
 
@@ -243,7 +243,7 @@ describe('recoverPasswordByEmail', () => {
       );
     } catch (err) {
       //Assert
-      expect(err).toEqual(notFoundError('E-mail is not found'));
+      expect(err).toEqual(notFoundError('E-mail nem található.'));
       expect(userRepository.getUserByEmail).toHaveBeenCalledWith(
         'test@test.hu',
       );
@@ -326,7 +326,7 @@ describe('updatePassword', () => {
       );
     } catch (err) {
       //Assert
-      expect(err).toEqual(notFoundError('E-mail is not found'));
+      expect(err).toEqual(notFoundError('E-mail nem található.'));
       expect(hashPasswordService.generateHash).not.toHaveBeenCalled();
       expect(userRepository.updatePassword).not.toHaveBeenCalled();
     }
@@ -384,7 +384,7 @@ describe('getMyData', () => {
       await userService.getMyData(mockUserId);
     } catch (err) {
       //Assert
-      expect(err).toEqual(notFoundError('User does not exist'));
+      expect(err).toEqual(notFoundError('A felhasználó nem létezik.'));
       expect(userRepository.getUserById).toHaveBeenLastCalledWith(mockUserId);
     }
   });
@@ -443,7 +443,7 @@ describe('update username', () => {
       await userService.changeUserName(modifiedUserName);
     } catch (err) {
       //Assert
-      expect(err).toEqual(notFoundError('User is not found'));
+      expect(err).toEqual(notFoundError('A felhasználó nem található.'));
       expect(userRepository.getUserById).toHaveBeenLastCalledWith(
         modifiedUserName.id,
       );
@@ -465,7 +465,7 @@ describe('update username', () => {
       await userService.changeUserName(modifiedUserName);
     } catch (err) {
       //Assert
-      expect(err).toEqual(serverError('Cannot change username'));
+      expect(err).toEqual(serverError('Nem sikerült megváltoztatni a felhasználónevet.'));
       expect(userRepository.getUserById).toHaveBeenLastCalledWith(
         modifiedUserName.id,
       );

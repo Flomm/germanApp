@@ -37,7 +37,7 @@ export const userService = {
       .then(async user => {
         if (user) {
           return Promise.reject(
-            conflictError('You are already registered, please log in'),
+            conflictError('Már regisztrálva vagy, kérlek jelentkezz be.'),
           );
         }
 
@@ -53,20 +53,20 @@ export const userService = {
           const emailReplacements: IEmailReplacements = {
             userName: registration.name,
             instructions:
-              'Thanks for your registration! Please click on the button below to confirm it!',
+              'Köszönjük a regisztrációt! Kattints a lenti gombra a megerősítéshez!',
             buttonText: 'Confirm registration',
             url: `http://localhost:4200/email/verify?code=${verificationCode}&email=${registration.email}`,
           };
           const email: IEmail = {
             from: config.transporter.auth.user!,
             to: `${registration.email}`,
-            subject: 'Registration confirmation for FoxTicket',
+            subject: 'Regisztráció megerősítése a némettanuló alkalmazáshoz',
             html: emailService.readTemplate(templatePath, emailReplacements),
           };
           emailService.sendEmail(email);
           return;
         }
-        return Promise.reject(serverError('Cannot add registration'));
+        return Promise.reject(serverError('Sikertelen regisztáció.'));
       })
       .catch(err => Promise.reject(err));
   },
@@ -76,15 +76,15 @@ export const userService = {
       .getUserByEmail(email)
       .then(async user => {
         if (!user) {
-          return Promise.reject(notFoundError('E-mail is not found'));
+          return Promise.reject(notFoundError('E-mail cím nem található.'));
         }
         if (user.verificationCode !== verificationCode) {
           return Promise.reject(
-            badRequestError('Verification is unsuccessful'),
+            badRequestError('Hibás megerősítő kód.'),
           );
         }
         if (user.isVerified === 1) {
-          return Promise.reject(conflictError('You are already verified'));
+          return Promise.reject(conflictError('A regisztráció már meg van erősítve.'));
         }
         return await userRepository.verifyUser(email, verificationCode);
       })
@@ -92,7 +92,7 @@ export const userService = {
         if (result && result.affectedRows > 0) {
           return;
         }
-        return Promise.reject(serverError('User cannot be verified'));
+        return Promise.reject(serverError('Sikertelen megerősítés.'));
       })
       .catch(err => Promise.reject(err));
   },
@@ -110,12 +110,12 @@ export const userService = {
             )
           ) {
             return Promise.reject(
-              unauthorizedError('E-mail or password is incorrect'),
+              unauthorizedError('E-mail vagy jelszó helytelen.'),
             );
           }
           if (user.isVerified !== 1) {
             return Promise.reject(
-              forbiddenError('E-mail has not been verified yet'),
+              forbiddenError('Ez az e-mail cím még nincs megerősítve.'),
             );
           }
           return Promise.resolve(user);
@@ -133,7 +133,7 @@ export const userService = {
       .getUserByEmail(userEmail)
       .then(async user => {
         if (!user) {
-          return Promise.reject(notFoundError('E-mail is not found'));
+          return Promise.reject(notFoundError('E-mail nem található.'));
         }
         userName = user.name;
         const passwordRecoveryCodeData: IPasswordRecoveryDataModel = {
@@ -147,20 +147,20 @@ export const userService = {
           const emailReplacements: IEmailReplacements = {
             userName: userName,
             instructions:
-              'Please click on the button below to reset your password!',
-            buttonText: 'Recover password',
+              'Kattints az alábbi gombra új jelsző megadásához!',
+            buttonText: 'Új jelszó',
             url: `http://localhost:4200/new-password?email=${userEmail}&code=${passwordRecoveryCode}`,
           };
           const email: IEmail = {
             from: config.transporter.auth.user!,
             to: `${userEmail}`,
-            subject: 'Password recovery for FoxTicket',
+            subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
             html: emailService.readTemplate(templatePath, emailReplacements),
           };
           emailService.sendEmail(email);
           return;
         }
-        return Promise.reject(serverError('Cannot recover password'));
+        return Promise.reject(serverError('Sikertelen jelszóvisszaállítás.'));
       })
       .catch(err => Promise.reject(err));
   },
@@ -174,12 +174,12 @@ export const userService = {
       .getUserByEmail(email)
       .then(async user => {
         if (!user) {
-          return Promise.reject(notFoundError('E-mail is not found'));
+          return Promise.reject(notFoundError('E-mail nem található.'));
         }
 
         if (user.passwordRecoveryCode !== passwordRecoveryCode) {
           return Promise.reject(
-            badRequestError('Invalid password recovery code'),
+            badRequestError('Érvénytelen jelszóvisszaállító kód.'),
           );
         }
 
@@ -194,7 +194,7 @@ export const userService = {
         if (result && result.affectedRows > 0) {
           return;
         }
-        return Promise.reject(serverError('Cannot add registration'));
+        return Promise.reject(serverError('Sikertelen regisztráció.'));
       })
       .catch(err => Promise.reject(err));
   },
@@ -204,7 +204,7 @@ export const userService = {
       .getUserById(id)
       .then(userData => {
         if (!userData) {
-          return Promise.reject(notFoundError('User does not exist'));
+          return Promise.reject(notFoundError('A felhasználó nem létezik.'));
         }
         return userData;
       })
@@ -216,7 +216,7 @@ export const userService = {
       .getUserById(newUserName.id)
       .then(async user => {
         if (!user) {
-          return Promise.reject(notFoundError('User is not found'));
+          return Promise.reject(notFoundError('A felhasználó nem található.'));
         }
         return await userRepository.changeUserName(newUserName);
       })
@@ -224,7 +224,7 @@ export const userService = {
         if (result && result.affectedRows > 0) {
           return;
         }
-        return Promise.reject(serverError('Cannot change username'));
+        return Promise.reject(serverError('Nem sikerült megváltoztatni a felhasználónevet.'));
       })
       .catch(err => Promise.reject(err));
   },

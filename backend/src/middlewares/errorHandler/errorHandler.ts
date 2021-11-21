@@ -17,7 +17,7 @@ export default function errorHandler(
       message:
         req.app.get('env') === 'development'
           ? err.message
-          : 'Unknown error happened',
+          : 'Ismeretlen hiba történt.',
     });
   } else {
     res.status(err.status).json({ message: err.message });

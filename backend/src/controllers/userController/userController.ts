@@ -46,14 +46,14 @@ export const userController = {
     if (!userController.checkPassword(newRegistration.password)) {
       return next(
         notAcceptableError(
-          'Password must be at least 6 characters and contain letter and number',
+          'A jelszó legalább 6 karakter kell legyen és tartalmaznia kell egy számot.',
         ),
       );
     }
     userService
       .registerUser(newRegistration)
       .then(_ => {
-        res.status(201).json({ message: 'Registration was successful' });
+        res.status(201).json({ message: 'Sikeres regisztráció.' });
       })
       .catch(err => {
         next(err);
@@ -71,7 +71,7 @@ export const userController = {
     userService
       .verifyUser(email, verificationCode)
       .then(_ => {
-        res.status(200).json({ message: 'Verification was successful' });
+        res.status(200).json({ message: 'Sikeres megerősítés.' });
       })
       .catch(err => {
         next(err);
@@ -114,7 +114,7 @@ export const userController = {
       .then(_ => {
         res
           .status(200)
-          .json({ message: 'Password recovery code successfully sent out' });
+          .json({ message: 'A jelszó visszaállító kód sikeresen elküldve.' });
       })
       .catch(err => {
         return next(err);
@@ -131,14 +131,14 @@ export const userController = {
     if (!userController.checkPassword(req.body.password)) {
       return next(
         notAcceptableError(
-          'Password must be at least 6 characters and contain letter and number',
+          'A jelszó legalább 6 karakter kell legyen és tartalmaznia kell egy számot.',
         ),
       );
     }
     userService
       .updatePassword(email, passwordRecoveryCode, password)
       .then(_ => {
-        res.status(200).json({ message: 'New password has been added' });
+        res.status(200).json({ message: 'Új jelszó hozzáadva.' });
       })
       .catch(err => {
         return next(err);
@@ -179,7 +179,7 @@ export const userController = {
     userService
       .changeUserName(modifiedUserName)
       .then(_ => {
-        res.status(200).json({ message: 'Username successfully changed' });
+        res.status(200).json({ message: 'A felhasználónév sikeresen megváltoztatva.' });
       })
       .catch(err => {
         return next(err);

@@ -9,12 +9,12 @@ export default function tokenAuthentication() {
   return (req: Request, res: Response, next: NextFunction) => {
     const token: string | null = jwtService.getTokenFromRequest(req);
     if (!token) {
-      return next(unauthorizedError('No valid token found'));
+      return next(unauthorizedError('Nincs érvényes token.'));
     } else {
       if (jwtService.verifyToken(token)) {
         return next();
       }
-      return next(forbiddenError('No access'));
+      return next(forbiddenError('Hozzáférés megtagadva.'));
     }
   };
 }

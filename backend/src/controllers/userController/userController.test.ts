@@ -81,7 +81,7 @@ describe('POST /login', () => {
 
     //Assert
     expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({ message: 'Password is required.' });
+    expect(response.body).toEqual({ message: 'Password mező megadása kötelező.' });
     expect(userService.loginUser).not.toHaveBeenCalled();
     expect(jwtService.generateAccessToken).not.toHaveBeenCalled();
   });
@@ -102,7 +102,7 @@ describe('POST /login', () => {
 
     //Assert
     expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({ message: 'Email is required.' });
+    expect(response.body).toEqual({ message: 'Email mező megadása kötelező.' });
     expect(userService.loginUser).not.toHaveBeenCalled();
     expect(jwtService.generateAccessToken).not.toHaveBeenCalled();
   });
@@ -122,7 +122,7 @@ describe('POST /login', () => {
     //Assert
     expect(response.statusCode).toEqual(400);
     expect(response.body).toEqual({
-      message: 'Email is required. Password is required.',
+      message: 'Email mező megadása kötelező. Password mező megadása kötelező.',
     });
     expect(userService.loginUser).not.toHaveBeenCalled();
     expect(jwtService.generateAccessToken).not.toHaveBeenCalled();
@@ -180,7 +180,7 @@ describe('PUT /password-recovery', () => {
     //Assert
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({
-      message: 'Password recovery code successfully sent out',
+      message: 'A jelszó visszaállító kód sikeresen elküldve.',
     });
     expect(userService.recoverUserPasswordByEmail).toHaveBeenCalledWith(
       passwordRecoveryRequest.email,
@@ -204,7 +204,7 @@ describe('PUT /password-recovery', () => {
 
     //Assert
     expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({ message: 'Email is required.' });
+    expect(response.body).toEqual({ message: 'Email mező megadása kötelező.' });
     expect(userService.recoverUserPasswordByEmail).not.toHaveBeenCalled();
   });
 });
@@ -231,7 +231,7 @@ describe('PUT /new-password', () => {
     );
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({
-      message: 'New password has been added',
+      message: 'Új jelszó hozzáadva.',
     });
     expect(userService.updatePassword).toHaveBeenCalledWith(
       newPasswordAddingRequest.email,
@@ -261,7 +261,7 @@ describe('PUT /new-password', () => {
     expect(userController.checkPassword).not.toHaveBeenCalledWith(
       newPasswordAddingRequest.password,
     );
-    expect(response.body).toEqual({ message: 'Password is required.' });
+    expect(response.body).toEqual({ message: 'Password mező megadása kötelező.' });
     expect(userService.updatePassword).not.toHaveBeenCalled();
   });
 
@@ -350,7 +350,7 @@ describe('PUT /change-name', () => {
     //Assert
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({
-      message: 'Username successfully changed',
+      message: 'A felhasználónév sikeresen megváltoztatva.',
     });
     expect(userService.changeUserName).toHaveBeenCalledWith(
       mockUserNameChangeData,
@@ -374,7 +374,7 @@ describe('PUT /change-name', () => {
     //Assert
     expect(response.statusCode).toEqual(400);
     expect(response.body).toEqual({
-      message: 'Name is required.',
+      message: 'Name mező megadása kötelező.',
     });
     expect(userService.changeUserName).not.toHaveBeenCalledWith(
       mockUserNameChangeData,

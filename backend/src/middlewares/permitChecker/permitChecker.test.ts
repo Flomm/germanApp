@@ -29,7 +29,7 @@ describe('permitChecker', () => {
     );
 
     //Assert
-    expect(next).toBeCalledWith(forbiddenError('Not authorized'));
+    expect(next).toBeCalledWith(forbiddenError('Nincs autorizálva.'));
   });
 
   test('it should call next without arguments if token is present and allowedRoles is All', () => {
@@ -71,7 +71,7 @@ describe('permitChecker', () => {
     );
 
     //Assert
-    expect(next).toBeCalledWith(forbiddenError('No permission'));
+    expect(next).toBeCalledWith(forbiddenError('Hozzáférés megtagadva.'));
   });
 
   test('it should call next without arguments if allowedRoles contains userRole', () => {
