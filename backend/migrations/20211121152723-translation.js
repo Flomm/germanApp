@@ -28,7 +28,7 @@ exports.up = function(db) {
       notNull: true,
       foreignKey: {
         name: 'germanId',
-        table: 'ger',
+        table: 'de',
         rules: {
           onDelete: 'CASCADE',
           onUpdate: 'RESTRICT',
@@ -43,7 +43,7 @@ exports.up = function(db) {
       notNull: true,
       foreignKey: {
         name: 'hungarianId',
-        table: 'hun',
+        table: 'hu',
         rules: {
           onDelete: 'CASCADE',
           onUpdate: 'RESTRICT',

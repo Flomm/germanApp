@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('ger', {
+  return db.createTable('hu', {
     id: {
       type: 'int',
       primaryKey: true,
@@ -23,12 +23,12 @@ exports.up = function(db) {
       unique: 'true',
       notNull: true,
     },
-    meaning: { type: 'string', length: 70, notNull: true, unique: 'true' },
+    word: { type: 'string', length: 70, notNull: true, unique: 'true' },
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('ger');
+  return db.dropTable('hu');
 };
 
 exports._meta = {
