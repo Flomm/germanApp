@@ -15,7 +15,11 @@ export const emailService = {
   },
 
   sendEmail(email: IEmail): void {
+    try {
     transporter.sendMail(email);
+    } catch (err) {
+      throw err;    
+    }
   },
 
   readTemplate(templatePath: string, replacements: IEmailReplacements): string {
