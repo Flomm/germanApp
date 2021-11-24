@@ -4,6 +4,7 @@ import { AdminWordsComponent } from './admin-words/admin-words.component';
 import { AdminWordsRoutingModule } from './admin-words-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WordsListTableComponent } from './words-list-table/words-list-table.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +14,7 @@ import { WordsListTableComponent } from './words-list-table/words-list-table.com
     WordsListTableComponent
   ],
   imports: [
-    CommonModule, AdminWordsRoutingModule, SharedModule
+    CommonModule, AdminWordsRoutingModule, SharedModule, ReactiveFormsModule
   ]
 })
 export class AdminWordsModule { }
