@@ -1,1 +1,36 @@
-<p>words-list-table works!</p>
+<div class="table-holder flex-center">
+  <h1>Szavak listája</h1>
+  <div
+    class="table-paginator-container flex-center"
+    *ngIf="getWordResponse && getWordResponse.wordList.length"
+  >
+    <table mat-table class="default-table" [dataSource]="dataSource">
+      <ng-container matColumnDef="word">
+        <th mat-header-cell *matHeaderCellDef>Szó</th>
+        <td mat-cell *matCellDef="let word">{{ word.word }}</td>
+      </ng-container>
+      <ng-container matColumnDef="info">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let word">Information</td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let word">
+          Törlés
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [length]="dataSource.data.length"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
+      aria-label="Select page"
+    ></mat-paginator>
+  </div>
+  <div *ngIf="getWordResponse && getWordResponse.isError" class="warn">
+    {{ getWordResponse.message }}
+  </div>
+</div>
+

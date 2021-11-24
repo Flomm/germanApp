@@ -1,0 +1,28 @@
+@import "../../../../../styles/variables.scss";
+
+.table-holder {
+  margin: 20px 0px;
+  flex-direction: column;
+
+  .table-paginator-container {
+    flex-direction: column;
+    width: 80%;
+  }
+}
+
+mat-paginator {
+  margin-top: 5px;
+  background-color: $mainPurple;
+  color: $black;
+  align-self: flex-end;
+}
+
+::ng-deep .mat-select-panel {
+  background-color: $mainPurple;
+}
+
+::ng-deep .mat-option {
+  &.mat-selected {
+    color: $black !important;
+  }
+}
