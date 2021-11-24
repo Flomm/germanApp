@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Language } from 'src/app/shared/models/enums/Language.enum';
 
 import { WordsListTableComponent } from './words-list-table.component';
 
@@ -21,5 +22,18 @@ describe('WordsListTableComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit the expected values and format when request is submitted', () => {
+    //Arrange
+
+    spyOn(component.wordRequest, 'emit');
+    component.chooseLanguageForm.setValue({language: Language.DE});
+
+    //Act
+    component.submitWordRequest();
+
+    //Assert
+    expect(component.wordRequest.emit).toHaveBeenCalledWith(Language.DE);
   });
 });
