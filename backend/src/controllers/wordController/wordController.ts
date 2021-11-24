@@ -13,7 +13,6 @@ export const wordController = {
         next: NextFunction,
       ) {
         const lang: string = req.params.lang
-        console.log(lang)
         if(!(<any>Object).values(Language).includes(lang)) {
             return next(badRequestError('Nincs ilyen nyelv a szótárban.'))
         }
