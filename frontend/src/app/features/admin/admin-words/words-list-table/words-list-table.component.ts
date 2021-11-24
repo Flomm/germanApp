@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 
@@ -13,9 +15,14 @@ export class WordsListTableComponent implements OnInit {
   private paginator: MatPaginator;
   displayedColumns: string[] = ['word', 'info', 'delete'];
   dataSource: MatTableDataSource<IGetWordData>;
+  chooseLanguageForm: FormGroup
+  languageList: object[] = [{name: 'német', value: Language.DE},{name: 'magyar', value: Language.HU}]
 
   @Input()
   getWordResponse: IGetWordResponse;
+
+  @Output()
+  wordRequest: EventEmitter<Language> = new EventEmitter<Language>()
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
@@ -24,6 +31,9 @@ export class WordsListTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<IGetWordData>([]);
+    this.chooseLanguageForm = new FormGroup({
+      language: new FormControl('német', [])
+    })
   }
 
   ngOnChanges() {
@@ -32,5 +42,9 @@ export class WordsListTableComponent implements OnInit {
         this.getWordResponse.wordList
       );
     }
+  }
+
+  submitWordRequest(): void {
+    this.wordRequest.emit(this.chooseLanguageForm.value.language)
   }
 }  

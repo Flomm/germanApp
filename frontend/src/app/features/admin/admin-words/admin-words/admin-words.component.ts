@@ -14,12 +14,16 @@ export class AdminWordsComponent implements OnInit {
   constructor(private wordService: WordService) {}
 
   ngOnInit(): void {
-    this.getWordData();
+    this.getWordData(Language.DE);
   }
 
-  getWordData(): void {
+  getWordData(lang: Language): void {
     this.wordService
-      .getAllWords(Language.DE)
+      .getAllWords(lang)
       .subscribe((response) => (this.getWordResponse = response));
+  }
+
+  onLanguageChange(lang: Language) {
+    this.getWordData(lang)
   }
 }

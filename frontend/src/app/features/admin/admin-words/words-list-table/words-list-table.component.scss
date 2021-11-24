@@ -1,5 +1,9 @@
 @import "../../../../../styles/variables.scss";
 
+h1 {
+  text-align: center;
+}
+
 .table-holder {
   margin: 20px 0px;
   flex-direction: column;
@@ -17,6 +21,7 @@ mat-paginator {
   align-self: flex-end;
 }
 
+
 ::ng-deep .mat-select-panel {
   background-color: $mainPurple;
 }
@@ -25,4 +30,49 @@ mat-paginator {
   &.mat-selected {
     color: $black !important;
   }
+}
+
+
+form {
+  mat-select {
+    ::ng-deep .mat-select-value,
+    ::ng-deep .mat-select-arrow {
+      color: $mainPurple;
+    }
+  }
+}
+
+.black-select {
+  color: $mainPurple;
+  background-color: $black;
+  border: 1px solid $mainPurple;
+
+  .mat-option {
+    .mat-option-text {
+      color: $mainPurple;
+    }
+
+    &.mat-selected {
+      color: $mainPurple;
+
+      &:hover {
+        background-color: $mainPurple;
+        color: $black;
+      }
+    }
+
+    &:hover {
+      background-color: $mainPurple;
+      .mat-option-text {
+        color: $black;
+      }
+    }
+  }
+}
+::ng-deep .mat-icon {
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(110%);
+    }
 }
