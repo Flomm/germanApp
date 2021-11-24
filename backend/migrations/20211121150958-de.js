@@ -23,7 +23,9 @@ exports.up = function(db) {
       unique: 'true',
       notNull: true,
     },
-    meaning: { type: 'string', length: 70, notNull: true, unique: 'true' },
+    word: { type: 'string', length: 70, notNull: true, unique: 'true' },
+    pos: { type: 'string', length: 1, notNull: false, unique: 'false' },
+    isDeleted: { type: 'boolean', notNull: true, unique: 'true', defaultValue: false }
   });
 };
 

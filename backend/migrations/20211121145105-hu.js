@@ -24,6 +24,7 @@ exports.up = function(db) {
       notNull: true,
     },
     word: { type: 'string', length: 70, notNull: true, unique: 'true' },
+    isDeleted: { type: 'boolean', notNull: true, unique: 'true', defaultValue: false }
   });
 };
 
