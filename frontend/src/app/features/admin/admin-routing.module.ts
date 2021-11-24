@@ -19,6 +19,13 @@ const routes: Routes = [
             (m) => m.AdminUsersModule
           ),
       },
+      {
+        path: 'words',
+        loadChildren: () =>
+          import('./admin-words/admin-words.module').then(
+            (m) => m.AdminWordsModule
+          ),
+      },
     ],
   },
 ];
