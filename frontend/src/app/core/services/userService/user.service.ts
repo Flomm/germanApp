@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import IGetUserResponse from 'src/app/shared/models/responses/IGetUserResponse';
 import { environment } from 'src/environments/environment';
 
