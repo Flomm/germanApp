@@ -1,4 +1,7 @@
+import { Gender } from "../../enums/Gender.enum";
+
 export default interface IGetWordData {
     id: number,
-    word: string
+    word: string,
+    gender?: Gender
 }
