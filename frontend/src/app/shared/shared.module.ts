@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import EnumToViewPipe from '../shared/pipes/enumToView/enumToView.pipe';
@@ -33,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatTableModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatSnackBarModule,
     RouterModule,
     MatBadgeModule,
     ReactiveFormsModule,
@@ -47,6 +49,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatTableModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatSnackBarModule,
     EnumToViewPipe,
     MatBadgeModule,
   ],
