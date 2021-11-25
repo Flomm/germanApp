@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar  } from '@angular/material/snack-bar';
 import { WordService } from 'src/app/core/services/wordService/word.service';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
@@ -11,8 +14,12 @@ import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse'
 })
 export class AdminWordsComponent implements OnInit {
   getWordResponse: IGetWordResponse;
+  language: Language = Language.DE
 
-  constructor(private wordService: WordService) {}
+  constructor(
+    private wordService: WordService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getWordData(Language.DE);
@@ -24,13 +31,36 @@ export class AdminWordsComponent implements OnInit {
       .subscribe((response) => (this.getWordResponse = response));
   }
 
-  onLanguageChange(lang: Language) {
+  onLanguageChange(lang: Language): void {
+    this.language = lang
     this.getWordData(lang)
   }
 
   onRemoveWord(removeRequest: IWordRemovalRequest): void {
-    this.wordService.removeWord(removeRequest.language, removeRequest.wordId).subscribe((response => {
-      console.log(response)
-    }))
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        isCancelButtonVisible: true,
+        cancelButtonText: 'Nem',
+        okButtonText: 'Igen',
+        dialogText:
+          'Biztosan ki szeretnéd törölni ezt a szót?',
+      },
+      panelClass: 'default-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe((res)=>{
+      if(res) {
+        this.wordService.removeWord(removeRequest.language, removeRequest.wordId).subscribe((response => {
+          if(!response.isError) {
+          this.onLanguageChange(this.language)
+          }
+          const panelClass: string = response.isError ? 'warn' : 'default-color'
+          this.snackBar.open(response.message, '', {
+            panelClass: [panelClass],
+            duration: 3000
+          });     
+        }))
+      }
+    })
   }
 }
