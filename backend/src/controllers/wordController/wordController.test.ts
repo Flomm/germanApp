@@ -54,6 +54,21 @@ describe('GET /', () => {
         expect(response.body).toEqual({ wordList: mockHunWords });
         expect(wordService.getAllWords).toHaveBeenCalledTimes(1);
       });
+
+      test('invalid language', async () => {
+        //Arrange
+        console.error = jest.fn();
+    
+        //Act
+        const response = await request(app)
+          .get('/api/word/lol')
+          .set({ authorization: `Bearer ${token}` });
+    
+        //Assert
+        expect(response.statusCode).toEqual(400);
+        expect(response.body).toEqual({ message: 'Nincs ilyen nyelv a szótárban.' });
+      });
+
   
     test('error in the service', async () => {
       //Arrange
@@ -71,4 +86,79 @@ describe('GET /', () => {
       expect(wordService.getAllWords).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('DELETE /word', () => {
+    const idRequest = '1';
+  
+    test('successfully delete german word', async () => {
+      //Arrange
+      wordService.removeWord = jest.fn().mockResolvedValue(idRequest);
+  
+      //Act
+      const response = await request(app)
+        .delete('/api/word/de/1')
+        .set({ authorization: `Bearer ${token}` })
+        .send(idRequest);
+  
+      //Assert
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toEqual({
+        message: 'A szó sikeresen eltávolítva.',
+      });
+      expect(wordService.removeWord).toHaveBeenLastCalledWith(
+        parseInt(idRequest), 'de'
+      );
+    });
+
+    test('successfully delete hungarian word', async () => {
+      //Arrange
+      wordService.removeWord = jest.fn().mockResolvedValue(idRequest);
+  
+      //Act
+      const response = await request(app)
+        .delete('/api/word/hu/1')
+        .set({ authorization: `Bearer ${token}` })
+        .send(idRequest);
+  
+      //Assert
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toEqual({
+        message: 'A szó sikeresen eltávolítva.',
+      });
+      expect(wordService.removeWord).toHaveBeenLastCalledWith(
+        parseInt(idRequest), 'hu'
+      );
+    });
+
+    test('invalid word id', async () => {
+      //Act
+      const response = await request(app)
+        .delete('/api/word/hu/azaz')
+        .set({ authorization: `Bearer ${token}` })
+        .send(idRequest);
+  
+      //Assert
+      expect(response.statusCode).toEqual(400);
+      expect(response.body).toEqual({
+        message: 'A szó id pozitív egész szám kell legyen.',
+      });
+    });
+  
+    test('error in the service', async () => {
+      //Arrange
+      wordService.removeWord = jest
+        .fn()
+        .mockRejectedValue(serverError('error'));
+      console.error = jest.fn();
+      //Act
+      const response = await request(app)
+        .delete('/api/word/hu/1')
+        .set({ authorization: `Bearer ${token}` })
+        .send(idRequest);
+  
+      //Assert
+      expect(response.statusCode).toEqual(500);
+      expect(response.body).toEqual({ message: 'error' });
+    });
+  }) 
   
