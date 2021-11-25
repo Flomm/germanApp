@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 
 @Component({
@@ -25,5 +26,11 @@ export class AdminWordsComponent implements OnInit {
 
   onLanguageChange(lang: Language) {
     this.getWordData(lang)
+  }
+
+  onRemoveWord(removeRequest: IWordRemovalRequest): void {
+    this.wordService.removeWord(removeRequest.language, removeRequest.wordId).subscribe((response => {
+      console.log(response)
+    }))
   }
 }

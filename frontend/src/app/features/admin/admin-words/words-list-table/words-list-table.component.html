@@ -28,7 +28,7 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let word">
-            <mat-icon class="warn">delete_forever</mat-icon>
+            <mat-icon class="warn" (click)="submitRemoval(word.id)">delete_forever</mat-icon>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

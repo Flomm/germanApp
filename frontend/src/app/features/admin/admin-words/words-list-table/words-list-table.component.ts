@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 
 @Component({
@@ -17,12 +18,12 @@ export class WordsListTableComponent implements OnInit {
   dataSource: MatTableDataSource<IGetWordData>;
   chooseLanguageForm: FormGroup
   languageList: object[] = [{name: 'német', value: Language.DE},{name: 'magyar', value: Language.HU}]
+  currentLanguage: Language = Language.DE
 
-  @Input()
-  getWordResponse: IGetWordResponse;
+  @Input() getWordResponse: IGetWordResponse;
 
-  @Output()
-  wordRequest: EventEmitter<Language> = new EventEmitter<Language>()
+  @Output() wordRequest: EventEmitter<Language> = new EventEmitter<Language>()
+  @Output() wordRemoval: EventEmitter<IWordRemovalRequest> = new EventEmitter<IWordRemovalRequest>()
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
@@ -45,6 +46,11 @@ export class WordsListTableComponent implements OnInit {
   }
 
   submitWordRequest(): void {
-    this.wordRequest.emit(this.chooseLanguageForm.value.language)
+    this.currentLanguage = this.chooseLanguageForm.value.language
+    this.wordRequest.emit(this.currentLanguage)
+  }
+
+  submitRemoval(wordId: number): void {
+    this.wordRemoval.emit({language: this.currentLanguage, wordId: wordId})
   }
 }  
