@@ -9,4 +9,9 @@ export const wordRouter = express.Router();
 wordRouter
   .route('/:lang')
   .all(tokenAuthentication(), permitChecker([UserRole.Admin]))
-  .get(wordController.getAllUsers);
+  .get(wordController.getAllWords);
+
+wordRouter
+  .route('/:lang/:id')
+  .all(tokenAuthentication(), permitChecker([UserRole.Admin]))
+  .delete(wordController.removeWord)
