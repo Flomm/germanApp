@@ -12,6 +12,11 @@ wordRouter
   .get(wordController.getAllWords);
 
 wordRouter
+.route('/:lang/')
+.all(tokenAuthentication(), permitChecker([UserRole.Admin]))
+.post()
+
+wordRouter
   .route('/:lang/:id')
   .all(tokenAuthentication(), permitChecker([UserRole.Admin]))
   .delete(wordController.removeWord)
