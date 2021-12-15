@@ -38,4 +38,7 @@
   <div *ngIf="getUserResponse && getUserResponse.isError" class="warn">
     {{ getUserResponse.message }}
   </div>
+  <div *ngIf="getUserResponse && getUserResponse.userList.length < 1">
+    Nincs megjeleníthető elem
+  </div>
 </div>
