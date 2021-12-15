@@ -29,7 +29,7 @@ export const wordService = {
     return wordRepository
       .removeWord(wordId, lang)
       .then(dbResult => {
-        if (dbResult.affectedRows === 0) {
+        if (dbResult.affectedRows < 1) {
           return Promise.reject(notFoundError('A szó id nem található.'));
         }
       })

@@ -19,9 +19,9 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
-  getWordByWord(lang: Language, word: string): Promise<IGetWordsDataModel> {
+  getWordByWord(lang: Language, word: string): Promise<IGetWordsDomainModel> {
     return db
-      .query<IGetWordsDataModel[]>(
+      .query<IGetWordsDomainModel[]>(
         `SELECT * FROM german_app.${lang} WHERE word = ?`,
         [word],
       )
@@ -112,6 +112,14 @@ export const wordRepository = {
         `UPDATE german_app.${lang} SET isDeleted = 1 WHERE id = ?`,
         [`${wordId}`],
       )
+      .then(_ => {
+        return db
+          .query<IDbResultDataModel>(
+            `DELETE german_app.translation WHERE id = ? AND lang = ?`,
+            [`${wordId}`, lang],
+          )
+          .catch(err => Promise.reject(err));
+      })
       .catch(err => Promise.reject(err));
   },
 };
