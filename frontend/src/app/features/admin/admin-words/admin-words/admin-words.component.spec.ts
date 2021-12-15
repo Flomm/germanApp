@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
@@ -17,7 +19,7 @@ describe('AdminWordsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AdminWordsComponent],
       providers: [{ provide: WordService, useValue: wordServiceSpy }],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MatSnackBarModule, MatDialogModule],
     }).compileComponents();
   });
 
