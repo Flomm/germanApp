@@ -1,8 +1,7 @@
-import { Gender } from "../Enums/Gender.enum";
-import IAddTranslationWordDataModel from "./IAddTranslationWordDataModel";
+import { Gender } from '../Enums/Gender.enum';
 
 export default interface IAddWordDataModel {
-    word: string,
-    translations: IAddTranslationWordDataModel[],
-    gender?: Gender,
-  }
+  word: string;
+  translations: string[];
+  gender?: Gender;
+}
