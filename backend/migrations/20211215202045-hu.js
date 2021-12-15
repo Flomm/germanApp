@@ -27,7 +27,6 @@ exports.up = function (db) {
     isDeleted: {
       type: 'boolean',
       notNull: true,
-      unique: 'true',
       defaultValue: false,
     },
   });
