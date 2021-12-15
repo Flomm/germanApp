@@ -1,4 +1,5 @@
 import { db } from '../../data/connection';
+import IAddTranslationDataModel from '../../models/models/dataModels/IAddTranslationDataModel';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
@@ -67,7 +68,7 @@ export const wordRepository = {
         let queryArray: string[];
         if (lang === Language.DE && newWord.gender) {
           queryString = `INSERT INTO german_app.${lang} (word, gender) VALUES (?, ?)`;
-          queryArray = [newWord.word, newWord.gender!];
+          queryArray = [newWord.word, newWord.gender];
         } else {
           queryString = `INSERT INTO german_app.${lang} (word) VALUES (?)`;
           queryArray = [newWord.word];
@@ -90,25 +91,21 @@ export const wordRepository = {
   addTranslations(
     lang: Language,
     newWordId: number,
-    translations: string[],
+    translations: IAddTranslationDataModel[],
   ): Promise<IDbResultDataModel> {
-    console.log(
-      `INSERT INTO german_app.translation (lang, wordId, translation) VALUES ${generateMultipleInsertQueryQuestionMarks(
-        3,
-        translations.length,
-      )}`,
-      translations
-        .map(trans => [`${lang}`, `${newWordId}`, `${trans}`])
-        .reduce((acc, val) => acc.concat(val), []),
-    );
     return db
       .query<IDbResultDataModel>(
-        `INSERT INTO german_app.translation (lang, wordId, translation) VALUES ${generateMultipleInsertQueryQuestionMarks(
-          3,
+        `INSERT INTO german_app.translation (lang, wordId, translation, gender) VALUES ${generateMultipleInsertQueryQuestionMarks(
+          4,
           translations.length,
         )}`,
         translations
-          .map(trans => [`${lang}`, `${newWordId}`, `${trans}`])
+          .map(trans => [
+            `${lang}`,
+            `${newWordId}`,
+            `${trans.translation}`,
+            trans.gender!,
+          ])
           .reduce((acc, val) => acc.concat(val), []),
       )
       .catch(err => Promise.reject(err));
