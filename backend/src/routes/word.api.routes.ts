@@ -14,10 +14,10 @@ wordRouter
 
 wordRouter
 .route('/:lang/')
-.all(tokenAuthentication(), permitChecker([UserRole.Admin]))
-.post()
+.all(tokenAuthentication(), permitChecker([UserRole.Admin]), bodyValidator(['word', 'translations']))
+.post(wordController.addWord)
 
 wordRouter
   .route('/:lang/:id')
-  .all(tokenAuthentication(), permitChecker([UserRole.Admin]), bodyValidator(['word', 'translations']))
+  .all(tokenAuthentication(), permitChecker([UserRole.Admin]))
   .delete(wordController.removeWord)

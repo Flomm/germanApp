@@ -44,7 +44,7 @@ export const wordController = {
       const newWord: IAddWordDataModel = req.body
 
       wordService
-      .addWord(lang as Language, newWord)
+      .addNewWord(lang as Language, newWord)
       .then(_ => {
         res.status(201).json({ message: 'Szó sikeresen hozzáadva.' });
       })
