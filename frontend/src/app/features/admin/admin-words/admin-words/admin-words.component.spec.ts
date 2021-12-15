@@ -10,7 +10,6 @@ describe('AdminWordsComponent', () => {
   let fixture: ComponentFixture<AdminWordsComponent>;
   let wordServiceSpy: jasmine.SpyObj<WordService>;
 
-
   beforeEach(async () => {
     wordServiceSpy = jasmine.createSpyObj<WordService>('wordService', [
       'getAllWords',

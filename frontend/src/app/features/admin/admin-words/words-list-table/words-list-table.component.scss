@@ -21,7 +21,6 @@ mat-paginator {
   align-self: flex-end;
 }
 
-
 ::ng-deep .mat-select-panel {
   background-color: $mainPurple;
 }
@@ -31,7 +30,6 @@ mat-paginator {
     color: $black !important;
   }
 }
-
 
 form {
   mat-select {
@@ -70,9 +68,9 @@ form {
   }
 }
 ::ng-deep .mat-icon {
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover {
-        filter: brightness(110%);
-    }
+  &:hover {
+    filter: brightness(110%);
+  }
 }

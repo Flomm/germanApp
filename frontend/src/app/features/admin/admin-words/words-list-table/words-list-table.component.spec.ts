@@ -9,9 +9,8 @@ describe('WordsListTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WordsListTableComponent ]
-    })
-    .compileComponents();
+      declarations: [WordsListTableComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -28,7 +27,7 @@ describe('WordsListTableComponent', () => {
     //Arrange
 
     spyOn(component.wordRequest, 'emit');
-    component.chooseLanguageForm.setValue({language: Language.DE});
+    component.chooseLanguageForm.setValue({ language: Language.DE });
 
     //Act
     component.submitWordRequest();

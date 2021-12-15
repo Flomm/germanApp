@@ -6,15 +6,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { WordsListTableComponent } from './words-list-table/words-list-table.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
-  declarations: [
-    AdminWordsComponent,
-    WordsListTableComponent
-  ],
+  declarations: [AdminWordsComponent, WordsListTableComponent],
   imports: [
-    CommonModule, AdminWordsRoutingModule, SharedModule, ReactiveFormsModule
-  ]
+    CommonModule,
+    AdminWordsRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+  ],
 })
-export class AdminWordsModule { }
+export class AdminWordsModule {}

@@ -8,7 +8,7 @@ import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse'
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WordService {
   constructor(private httpClient: HttpClient) {}
@@ -29,7 +29,9 @@ export class WordService {
 
   removeWord(lang: Language, wordId: number): Observable<ICustomResponse> {
     return this.httpClient
-      .delete<ICustomResponse>(`${environment.serverUrl}/word/${lang}/${wordId}`)
+      .delete<ICustomResponse>(
+        `${environment.serverUrl}/word/${lang}/${wordId}`
+      )
       .pipe(
         map((response) => {
           return {
