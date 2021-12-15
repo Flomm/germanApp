@@ -32,6 +32,7 @@ exports.up = function (db) {
       type: 'int',
       notNull: true,
     },
+    gender: { type: 'string', length: 3, notNull: false },
     translation: { type: 'string', length: 70, notNull: true, unique: 'true' },
   });
 };

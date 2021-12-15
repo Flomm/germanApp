@@ -24,7 +24,7 @@ exports.up = function (db) {
       notNull: true,
     },
     word: { type: 'string', length: 70, notNull: true, unique: 'true' },
-    gender: { type: 'string', length: 1, notNull: false, unique: 'false' },
+    gender: { type: 'string', length: 3, notNull: false },
     isDeleted: {
       type: 'boolean',
       notNull: true,
