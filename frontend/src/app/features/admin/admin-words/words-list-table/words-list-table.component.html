@@ -44,7 +44,7 @@
   <div *ngIf="getWordResponse && getWordResponse.isError" class="warn">
     {{ getWordResponse.message }}
   </div>
-  <div *ngIf="getWordResponse && getWordResponse.wordList.length < 1">
+  <div *ngIf="getWordResponse && getWordResponse.wordList.length < 1 && !getWordResponse.isError">
     Nincs megjeleníthető elem
   </div>
 </div>
