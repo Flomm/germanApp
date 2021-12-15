@@ -1,5 +1,5 @@
 export enum Gender {
-    F = 'f',
-    M = 'm',
-    N = 'n'
+    DER = 'der',
+    DIE = 'die',
+    DAS = 'das'
 }
