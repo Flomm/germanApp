@@ -8,12 +8,13 @@ import {
   badRequestError,
   serverError,
 } from '../../services/errorCreatorService/errorCreator.service';
+import { generateMultipleInsertQueryQuestionMarks } from '../repository.helper';
 
 export const wordRepository = {
   getAllWords(lang: Language): Promise<IGetWordsDataModel[]> {
     return db
       .query<IGetWordsDataModel[]>(
-        `SELECT * FROM german_app.${lang} ORDER BY word `,
+        `SELECT * FROM german_app.${lang} WHERE isDeleted = 0 ORDER BY word`,
         [],
       )
       .catch(err => Promise.reject(err));
@@ -26,26 +27,6 @@ export const wordRepository = {
         [word],
       )
       .then(res => res[0])
-      .catch(err => Promise.reject(err));
-  },
-
-  addNewTranslation(
-    firstLang: Language,
-    firstId: number,
-    secondId: number,
-  ): Promise<IDbResultDataModel> {
-    let langArray: string[];
-    if (firstLang === Language.DE) {
-      langArray = [`${firstId}`, `${secondId}`];
-    } else {
-      langArray = [`${secondId}`, `${firstId}`];
-    }
-    return db
-      .query<IDbResultDataModel>(
-        `INSERT INTO german_app.translation (germanId, hungarianId) VALUES (?, ?)`,
-        langArray,
-      )
-      .then(res => res)
       .catch(err => Promise.reject(err));
   },
 
@@ -106,6 +87,52 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
+  addTranslations(
+    lang: Language,
+    newWordId: number,
+    translations: string[],
+  ): Promise<IDbResultDataModel> {
+    console.log(
+      `INSERT INTO german_app.translation (lang, wordId, translation) VALUES ${generateMultipleInsertQueryQuestionMarks(
+        3,
+        translations.length,
+      )}`,
+      translations
+        .map(trans => [`${lang}`, `${newWordId}`, `${trans}`])
+        .reduce((acc, val) => acc.concat(val), []),
+    );
+    return db
+      .query<IDbResultDataModel>(
+        `INSERT INTO german_app.translation (lang, wordId, translation) VALUES ${generateMultipleInsertQueryQuestionMarks(
+          3,
+          translations.length,
+        )}`,
+        translations
+          .map(trans => [`${lang}`, `${newWordId}`, `${trans}`])
+          .reduce((acc, val) => acc.concat(val), []),
+      )
+      .catch(err => Promise.reject(err));
+  },
+
+  addNewWordEntry(
+    lang: Language,
+    newWord: IAddWordDataModel,
+  ): Promise<IDbResultDataModel> {
+    return wordRepository
+      .addWord(lang, newWord)
+      .then(_ => {
+        return wordRepository
+          .getWordByWord(lang, newWord.word)
+          .then(word => {
+            return wordRepository
+              .addTranslations(lang, word.id, newWord.translations)
+              .catch(err => Promise.reject(err));
+          })
+          .catch(err => Promise.reject(err));
+      })
+      .catch(err => Promise.reject(err));
+  },
+
   removeWord(wordId: number, lang: Language): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
@@ -115,7 +142,7 @@ export const wordRepository = {
       .then(_ => {
         return db
           .query<IDbResultDataModel>(
-            `DELETE german_app.translation WHERE id = ? AND lang = ?`,
+            `DELETE FROM german_app.translation WHERE id = ? AND lang = ?`,
             [`${wordId}`, lang],
           )
           .catch(err => Promise.reject(err));

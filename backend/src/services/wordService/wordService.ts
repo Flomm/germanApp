@@ -1,4 +1,3 @@
-import IAddTranslationWordDataModel from '../../models/models/dataModels/IAddTranslationWordDataModel';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
@@ -16,7 +15,7 @@ export const wordService = {
     newWord: IAddWordDataModel,
   ): Promise<IDbResultDataModel | undefined> {
     return wordRepository
-      .addWord(lang, newWord)
+      .addNewWordEntry(lang, newWord)
       .then(dbResult => {
         if (dbResult.affectedRows === 0) {
           return Promise.reject(notFoundError('A hozzáadás nem sikerült.'));
