@@ -5,7 +5,7 @@ import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataMode
 import ILoginUserDataModel from '../../models/models/dataModels/ILoginUserDataModel';
 import IUpdatePasswordDataModel from '../../models/models/dataModels/IUpdatePasswordDataModel';
 import IUserDomainModel from '../../models/models/domainModels/IUserDomainModel';
-import { UserRole } from '../../models/models/enums/UserRole.enum';
+import { UserRole } from '../../models/models/Enums/UserRole.enum';
 import INewPasswordAddingRequest from '../../models/requests/INewPasswordAddingRequest';
 import IPasswordRecoveryRequest from '../../models/requests/IPasswordRecoveryRequest';
 import { userRepository } from '../../repository/userRepository/userRepository';
@@ -87,7 +87,9 @@ describe('loginUser', () => {
       await userService.loginUser(loginRequest);
     } catch (err) {
       //Assert
-      expect(err).toEqual(forbiddenError('Ez az e-mail cím még nincs megerősítve.'));
+      expect(err).toEqual(
+        forbiddenError('Ez az e-mail cím még nincs megerősítve.'),
+      );
       expect(userRepository.getUserByEmail).toHaveBeenCalledWith(
         'test@test.hu',
       );
@@ -465,7 +467,9 @@ describe('update username', () => {
       await userService.changeUserName(modifiedUserName);
     } catch (err) {
       //Assert
-      expect(err).toEqual(serverError('Nem sikerült megváltoztatni a felhasználónevet.'));
+      expect(err).toEqual(
+        serverError('Nem sikerült megváltoztatni a felhasználónevet.'),
+      );
       expect(userRepository.getUserById).toHaveBeenLastCalledWith(
         modifiedUserName.id,
       );

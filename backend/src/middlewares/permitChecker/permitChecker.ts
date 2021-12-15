@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserRole } from '../../models/models/enums/UserRole.enum';
+import { UserRole } from '../../models/models/Enums/UserRole.enum';
 import { forbiddenError } from '../../services/errorCreatorService/errorCreator.service';
 import { jwtService } from '../../services/jwtService/jwt.service';
 

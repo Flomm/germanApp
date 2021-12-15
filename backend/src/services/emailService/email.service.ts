@@ -16,9 +16,9 @@ export const emailService = {
 
   sendEmail(email: IEmail): void {
     try {
-    transporter.sendMail(email);
+      transporter.sendMail(email);
     } catch (err) {
-      throw err;    
+      throw err;
     }
   },
 

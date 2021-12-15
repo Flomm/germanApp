@@ -3,7 +3,7 @@ import request from 'supertest';
 import IUserLoginRequest from '../../models/requests/IUserLoginRequest';
 import { userService } from '../../services/userService/userService';
 import { jwtService } from '../../services/jwtService/jwt.service';
-import { UserRole } from '../../models/models/enums/UserRole.enum';
+import { UserRole } from '../../models/models/Enums/UserRole.enum';
 import IGetUserDataModel from '../../models/models/dataModels/IGetUserDataModel';
 import { serverError } from '../../services/errorCreatorService/errorCreator.service';
 import IPasswordRecoveryRequest from '../../models/requests/IPasswordRecoveryRequest';
@@ -81,7 +81,9 @@ describe('POST /login', () => {
 
     //Assert
     expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({ message: 'Password mező megadása kötelező.' });
+    expect(response.body).toEqual({
+      message: 'Password mező megadása kötelező.',
+    });
     expect(userService.loginUser).not.toHaveBeenCalled();
     expect(jwtService.generateAccessToken).not.toHaveBeenCalled();
   });
@@ -261,7 +263,9 @@ describe('PUT /new-password', () => {
     expect(userController.checkPassword).not.toHaveBeenCalledWith(
       newPasswordAddingRequest.password,
     );
-    expect(response.body).toEqual({ message: 'Password mező megadása kötelező.' });
+    expect(response.body).toEqual({
+      message: 'Password mező megadása kötelező.',
+    });
     expect(userService.updatePassword).not.toHaveBeenCalled();
   });
 

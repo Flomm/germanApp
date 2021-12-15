@@ -179,7 +179,9 @@ export const userController = {
     userService
       .changeUserName(modifiedUserName)
       .then(_ => {
-        res.status(200).json({ message: 'A felhasználónév sikeresen megváltoztatva.' });
+        res
+          .status(200)
+          .json({ message: 'A felhasználónév sikeresen megváltoztatva.' });
       })
       .catch(err => {
         return next(err);

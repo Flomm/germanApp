@@ -1,9 +1,11 @@
 import IApiError from '../../models/IApiError';
 
-const generalError = (status: number) => (message: string): IApiError => ({
-  status,
-  message,
-});
+const generalError =
+  (status: number) =>
+  (message: string): IApiError => ({
+    status,
+    message,
+  });
 
 export const badRequestError = generalError(400);
 export const notFoundError = generalError(404);

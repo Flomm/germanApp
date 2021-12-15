@@ -3,7 +3,7 @@ import { userController } from '../controllers/userController/userController';
 import tokenAuthentication from '../middlewares/jwtAuthenticator/jwtAuthenticator';
 import permitChecker from '../middlewares/permitChecker/permitChecker';
 import { bodyValidator } from '../middlewares/requestValidator/requestValidator';
-import { UserRole } from '../models/models/enums/UserRole.enum';
+import { UserRole } from '../models/models/Enums/UserRole.enum';
 
 export const userRouter = express.Router();
 

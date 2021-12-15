@@ -9,7 +9,6 @@ import tokenAuthentication from './jwtAuthenticator';
 describe('tokenAuthentication', () => {
   let mockResponse: Partial<Response>;
   let mockRequest: Partial<Request>;
-  let mockToken: string;
   let next: NextFunction;
 
   beforeEach(() => {

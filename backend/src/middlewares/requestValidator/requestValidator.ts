@@ -21,7 +21,12 @@ export default function requestValidator(
     }
     if (errors.length) {
       const errorMessages: string = errors
-        .map(err => `${err[0].toUpperCase() + err.substring(1)} mező megadása kötelező.`)
+        .map(
+          err =>
+            `${
+              err[0].toUpperCase() + err.substring(1)
+            } mező megadása kötelező.`,
+        )
         .join(' ');
       return next(badRequestError(errorMessages));
     }

@@ -1,6 +1,6 @@
 import { jwtService } from './jwt.service';
 import { Request } from 'express';
-import { UserRole } from '../../models/models/enums/UserRole.enum';
+import { UserRole } from '../../models/models/Enums/UserRole.enum';
 
 describe('generateAccessToken', () => {
   test('it should return a new token', () => {

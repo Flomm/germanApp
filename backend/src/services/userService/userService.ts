@@ -30,7 +30,8 @@ export const userService = {
   },
 
   registerUser(registration: IRegisterUserDataModel): Promise<void> {
-    const verificationCode: number = codeGeneratorService.generateSixDigitCode();
+    const verificationCode: number =
+      codeGeneratorService.generateSixDigitCode();
 
     return userRepository
       .getUserByEmail(registration.email)
@@ -79,12 +80,12 @@ export const userService = {
           return Promise.reject(notFoundError('E-mail cím nem található.'));
         }
         if (user.verificationCode !== verificationCode) {
-          return Promise.reject(
-            badRequestError('Hibás megerősítő kód.'),
-          );
+          return Promise.reject(badRequestError('Hibás megerősítő kód.'));
         }
         if (user.isVerified === 1) {
-          return Promise.reject(conflictError('A regisztráció már meg van erősítve.'));
+          return Promise.reject(
+            conflictError('A regisztráció már meg van erősítve.'),
+          );
         }
         return await userRepository.verifyUser(email, verificationCode);
       })
@@ -146,8 +147,7 @@ export const userService = {
         if (result && result.affectedRows > 0) {
           const emailReplacements: IEmailReplacements = {
             userName: userName,
-            instructions:
-              'Kattints az alábbi gombra új jelsző megadásához!',
+            instructions: 'Kattints az alábbi gombra új jelsző megadásához!',
             buttonText: 'Új jelszó',
             url: `http://localhost:4200/new-password?email=${userEmail}&code=${passwordRecoveryCode}`,
           };
@@ -224,7 +224,9 @@ export const userService = {
         if (result && result.affectedRows > 0) {
           return;
         }
-        return Promise.reject(serverError('Nem sikerült megváltoztatni a felhasználónevet.'));
+        return Promise.reject(
+          serverError('Nem sikerült megváltoztatni a felhasználónevet.'),
+        );
       })
       .catch(err => Promise.reject(err));
   },
