@@ -25,7 +25,6 @@ exports.up = function (db) {
 exports.down = function (db) {
   return db.truncateTable('user');
 };
-
 exports._meta = {
   version: 1,
 };
