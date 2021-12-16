@@ -21,7 +21,7 @@ export default class ExpiredTokenInterceptor implements HttpInterceptor {
       catchError((caughtError) => {
         if (
           caughtError.status === 401 &&
-          caughtError.error.message === 'Expired token'
+          caughtError.error.message === 'Nincs érvényes token.'
         ) {
           this.authService.logout();
         }

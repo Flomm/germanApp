@@ -1,8 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import {
-  forbiddenError,
-  unauthorizedError,
-} from '../../services/errorCreatorService/errorCreator.service';
+import { unauthorizedError } from '../../services/errorCreatorService/errorCreator.service';
 import { jwtService } from '../../services/jwtService/jwt.service';
 
 export default function tokenAuthentication() {
@@ -14,7 +11,7 @@ export default function tokenAuthentication() {
       if (jwtService.verifyToken(token)) {
         return next();
       }
-      return next(forbiddenError('Hozzáférés megtagadva.'));
+      return next(unauthorizedError('Nincs érvényes token.'));
     }
   };
 }
