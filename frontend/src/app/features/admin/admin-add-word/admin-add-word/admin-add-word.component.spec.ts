@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import EnumToViewPipe from 'src/app/shared/pipes/enumToView/enumToView.pipe';
 import { AdminAddWordComponent } from './admin-add-word.component';
 
 describe('AdminAddWordComponent', () => {
@@ -8,9 +8,8 @@ describe('AdminAddWordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminAddWordComponent ]
-    })
-    .compileComponents();
+      declarations: [AdminAddWordComponent, EnumToViewPipe],
+    }).compileComponents();
   });
 
   beforeEach(() => {

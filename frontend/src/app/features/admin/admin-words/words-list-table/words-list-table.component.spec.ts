@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
-
+import EnumToViewPipe from 'src/app/shared/pipes/enumToView/enumToView.pipe';
 import { WordsListTableComponent } from './words-list-table.component';
 
 describe('WordsListTableComponent', () => {
@@ -9,7 +9,7 @@ describe('WordsListTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WordsListTableComponent],
+      declarations: [WordsListTableComponent, EnumToViewPipe],
     }).compileComponents();
   });
 
