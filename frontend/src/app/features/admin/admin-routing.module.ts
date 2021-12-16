@@ -33,6 +33,13 @@ const routes: Routes = [
             (m) => m.AdminWordsModule
           ),
       },
+      {
+        path: 'add-word',
+        loadChildren: () =>
+          import('./admin-add-word/admin-add-word.module').then(
+            (m) => m.AdminAddWordModule
+          ),
+      },
     ],
   },
 ];
