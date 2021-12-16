@@ -24,10 +24,7 @@ export class WordsListTableComponent implements OnInit {
   displayedColumns: string[] = ['word', 'info', 'delete'];
   dataSource: MatTableDataSource<IGetWordData>;
   chooseLanguageForm: FormGroup;
-  languageList: object[] = [
-    { name: 'német', value: Language.DE },
-    { name: 'magyar', value: Language.HU },
-  ];
+  languageType = Language;
   currentLanguage: Language = Language.DE;
 
   @Input() getWordResponse: IGetWordResponse;

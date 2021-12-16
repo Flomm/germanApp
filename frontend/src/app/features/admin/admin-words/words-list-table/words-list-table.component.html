@@ -1,17 +1,35 @@
 <div class="table-holder flex-center">
-    <div>
+  <div>
     <h1>Szavak listája</h1>
     <form class="default-form" [formGroup]="chooseLanguageForm">
-        <mat-form-field appearance="outline">
-            <mat-label>Nyelv</mat-label>
-            <mat-select (selectionChange)="submitWordRequest()" formControlName="language" panelClass="black-select">
-                <mat-option *ngFor="let language of languageList" [value]="language.value">
-                    {{language.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nyelv</mat-label>
+        <mat-select
+          formControlName="language"
+          (selectionChange)="submitWordRequest()"
+          panelClass="black-select"
+        >
+          <mat-option
+            *ngFor="let language of languageType | enumToView"
+            [value]="language.value"
+          >
+            {{ language.name }}
+            <span
+              *ngIf="
+                chooseLanguageForm.controls.language.value === language.value
+              "
+            >
+              &#10004;</span
+            >
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="chooseLanguageForm.controls.language.hasError('required')"
+          >Kötelező mező</mat-error
+        >
+      </mat-form-field>
     </form>
-    </div>
+  </div>
   <div
     class="table-paginator-container flex-center"
     *ngIf="getWordResponse && getWordResponse.wordList.length"
@@ -28,7 +46,9 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let word">
-            <mat-icon class="warn" (click)="submitRemoval(word.id)">delete_forever</mat-icon>
+          <mat-icon class="warn" (click)="submitRemoval(word.id)"
+            >delete_forever</mat-icon
+          >
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -44,8 +64,13 @@
   <div *ngIf="getWordResponse && getWordResponse.isError" class="warn">
     {{ getWordResponse.message }}
   </div>
-  <div *ngIf="getWordResponse && getWordResponse.wordList.length < 1 && !getWordResponse.isError">
+  <div
+    *ngIf="
+      getWordResponse &&
+      getWordResponse.wordList.length < 1 &&
+      !getWordResponse.isError
+    "
+  >
     Nincs megjeleníthető elem
   </div>
 </div>
-
