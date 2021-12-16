@@ -1,1 +1,70 @@
-<p>admin-add-word works!</p>
+<div class="flex-center form-holder">
+  <h2>Új szó hozzáadása</h2>
+  <form class="flex-center default-form" [formGroup]="addWordForm">
+    <div class="field-holder">
+      <mat-form-field appearance="outline">
+        <mat-label>Nyelv</mat-label>
+        <mat-select formControlName="language" panelClass="default-select">
+          <mat-option
+            *ngFor="let language of languageType | enumToView"
+            [value]="language.value"
+          >
+            {{ language.name }}
+            <span
+              *ngIf="addWordForm.controls.language.value === language.value"
+            >
+              &#10004;</span
+            >
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="addWordForm.controls.language.hasError('required')"
+          >Kötelező mező</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Új szó</mat-label>
+        <input
+          matInput
+          placeholder="Add meg egy új szót"
+          formControlName="word"
+        />
+        <mat-error *ngIf="addWordForm.controls.word.hasError('required')"
+          >Kötelező mező</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nem</mat-label>
+        <mat-select formControlName="gender" panelClass="default-select">
+          <mat-option
+            *ngFor="let gender of genderType | enumToView"
+            [value]="gender.value"
+          >
+            {{ gender.name }}
+            <span *ngIf="addWordForm.controls.gender.value === gender.value">
+              &#10004;</span
+            >
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="addWordForm.controls.gender.hasError('required')"
+          >Kötelező mező</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!addWordForm.valid"
+      (click)="submitNewTicket()"
+    >
+      Add ticket
+    </button>
+  </form>
+  <div class="response-holder flex-center">
+    <p
+      *ngIf="addWordResponse"
+      [ngClass]="addWordResponse.isError ? 'warn' : 'primary'"
+    >
+      {{ addWordResponse.message }}
+    </p>
+  </div>
+</div>
