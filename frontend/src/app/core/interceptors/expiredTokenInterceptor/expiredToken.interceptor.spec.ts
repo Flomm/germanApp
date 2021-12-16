@@ -42,7 +42,7 @@ describe(`ExpiredTokenInterceptor`, () => {
     // Arrange
     const mockHttpError: Partial<HttpErrorResponse> = {
       status: 401,
-      error: { message: 'Expired token' },
+      error: { message: 'Nincs érvényes token.' },
     };
     httpHandlerSpy.handle.and.returnValue(throwError(mockHttpError));
 
