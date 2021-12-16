@@ -44,7 +44,7 @@ export class WordsListTableComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<IGetWordData>([]);
     this.chooseLanguageForm = new FormGroup({
-      language: new FormControl('német', []),
+      language: new FormControl(Language.DE, []),
     });
   }
 
