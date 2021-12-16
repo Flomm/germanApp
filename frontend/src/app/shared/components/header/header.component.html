@@ -34,9 +34,9 @@
 </header>
 <nav *ngIf="userRole">
   <div class="flex-center nav" *ngIf="userRole === userRolesList.Admin">
+    <a routerLink="/admin/add-word">Szó hozzáadása</a>
     <a routerLink="/admin/words">Szólista és módosítás</a>
     <a routerLink="/admin/users">Felhasználók</a>
-    <a routerLink="/admin/add-word">Szó hozzáadása</a>
   </div>
   <div class="flex-center nav" *ngIf="userRole === userRolesList.Consumer">
     <a routerLink="/consumer/tickets">Browse</a>
