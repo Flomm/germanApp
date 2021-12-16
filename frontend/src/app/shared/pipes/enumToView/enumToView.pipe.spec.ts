@@ -4,10 +4,9 @@ import EnumToViewPipe from './enumToView.pipe';
 
 describe('EnumToViewPipe', () => {
   enum testTicketType {
-    Theatre = 1,
-    Concert,
-    Ballet,
-    Cinema,
+    DER = 'der',
+    DIE = 'die',
+    DAS = 'das',
   }
   let testPipeClass: EnumToViewPipe;
   beforeEach(() => {
@@ -22,10 +21,9 @@ describe('EnumToViewPipe', () => {
   it(`'s transform method should return the expected array.`, () => {
     //Arrange
     const expectedObjectArray: IValueName[] = [
-      { value: 1, name: 'Theatre' },
-      { value: 2, name: 'Concert' },
-      { value: 3, name: 'Ballet' },
-      { value: 4, name: 'Cinema' },
+      { value: 'der', name: 'DER' },
+      { value: 'die', name: 'DIE' },
+      { value: 'das', name: 'DAS' },
     ];
 
     //Act
