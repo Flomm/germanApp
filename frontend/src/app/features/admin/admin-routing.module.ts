@@ -9,8 +9,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'tickets',
+        redirectTo: 'welcome',
         pathMatch: 'full',
+      },
+      {
+        path: 'welcome',
+        loadChildren: () =>
+          import('./admin-main/admin-main.module').then(
+            (m) => m.AdminMainModule
+          ),
       },
       {
         path: 'users',
