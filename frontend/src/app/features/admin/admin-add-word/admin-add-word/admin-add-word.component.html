@@ -49,6 +49,25 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
+      <ng-container formGroupName="translations">
+        <!--ide egy ngfor!!!-->
+        <mat-form-field appearance="outline">
+          <mat-label>1. jelentés</mat-label>
+          <input
+            matInput
+            placeholder="Add meg egy jelentést"
+            formControlName="translation1"
+          />
+          <mat-error
+            *ngIf="
+              addWordForm.controls.translations['controls'][
+                'translation1'
+              ].hasError('required')
+            "
+            >Kötelező mező</mat-error
+          >
+        </mat-form-field>
+      </ng-container>
     </div>
     <button
       mat-raised-button

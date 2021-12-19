@@ -29,10 +29,13 @@ export class AdminAddWordComponent implements OnInit {
       language: new FormControl('', [Validators.required]),
       word: new FormControl('', [Validators.required]),
       gender: new FormControl('', [Validators.required]),
-      // translations: new FormGroup({
-      //   translation1: new FormControl('', [Validators.required]),
-      // }),
+      translations: new FormGroup({
+        translation1: new FormControl('', [Validators.required]),
+      }),
     });
+    console.log(
+      this.addWordForm.controls.translations['controls']['translation1']
+    );
   }
 
   submitNewTicket(): void {
