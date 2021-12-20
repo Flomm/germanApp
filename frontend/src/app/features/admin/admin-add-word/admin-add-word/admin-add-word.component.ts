@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 
 @Component({
@@ -21,6 +22,7 @@ export class AdminAddWordComponent implements OnInit {
   addWordResponse: ICustomResponse;
   genderType = Gender;
   languageType = Language;
+  isGenderShown: boolean = false;
 
   constructor() {}
 
@@ -29,17 +31,32 @@ export class AdminAddWordComponent implements OnInit {
       language: new FormControl('', [Validators.required]),
       word: new FormControl('', [Validators.required]),
       gender: new FormControl('', [Validators.required]),
-      translations: new FormGroup({
-        translation1: new FormControl('', [Validators.required]),
+      translation1: new FormGroup({
+        translation1Meaning: new FormControl('', [Validators.required]),
+        translation1Gender: new FormControl('', [Validators.required]),
       }),
     });
-    console.log(
-      this.addWordForm.controls.translations['controls']['translation1']
-    );
   }
 
-  submitNewTicket(): void {
+  submitNewWord(lang: Language): void {
+    // const addWordRequestData: IAddWordRequest = {
+    //   word: this.addWordForm.controls.word.value,
+
+    // }
     console.log(this.addWordForm.value);
+  }
+
+  genderSetter(): void {
+    if (this.addWordForm.controls.language.value === Language.DE) {
+      this.isGenderShown = true;
+      this.addWordForm.addControl(
+        'gender',
+        new FormControl('', [Validators.required])
+      );
+    } else {
+      this.isGenderShown = false;
+    }
+    console.warn(this.isGenderShown);
   }
 
   // dateTimeValidator(dateControlField: string): ValidatorFn {

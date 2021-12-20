@@ -4,7 +4,11 @@
     <div class="field-holder">
       <mat-form-field appearance="outline">
         <mat-label>Nyelv</mat-label>
-        <mat-select formControlName="language" panelClass="default-select">
+        <mat-select
+          formControlName="language"
+          panelClass="default-select"
+          (selectionChange)="genderSetter()"
+        >
           <mat-option
             *ngFor="let language of languageType | enumToView"
             [value]="language.value"
@@ -32,7 +36,7 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="isGenderShown">
         <mat-label>Nem</mat-label>
         <mat-select formControlName="gender" panelClass="default-select">
           <mat-option
@@ -49,19 +53,50 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
-      <ng-container formGroupName="translations">
+      <ng-container formGroupName="translation1">
         <!--ide egy ngfor!!!-->
         <mat-form-field appearance="outline">
           <mat-label>1. jelentés</mat-label>
           <input
             matInput
             placeholder="Add meg egy jelentést"
-            formControlName="translation1"
+            formControlName="translation1Meaning"
           />
           <mat-error
             *ngIf="
-              addWordForm.controls.translations['controls'][
-                'translation1'
+              addWordForm.controls.translation1['controls'][
+                'translation1Meaning'
+              ].hasError('required')
+            "
+            >Kötelező mező</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Nem</mat-label>
+          <mat-select
+            formControlName="translation1Gender"
+            panelClass="default-select"
+          >
+            <mat-option
+              *ngFor="let gender of genderType | enumToView"
+              [value]="gender.value"
+            >
+              {{ gender.name }}
+              <span
+                *ngIf="
+                  addWordForm.controls.translation1['controls'][
+                    'translation1Gender'
+                  ].value === gender.value
+                "
+              >
+                &#10004;</span
+              >
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              addWordForm.controls.translation1['controls'][
+                'translation1Gender'
               ].hasError('required')
             "
             >Kötelező mező</mat-error
@@ -73,7 +108,7 @@
       mat-raised-button
       color="primary"
       [disabled]="!addWordForm.valid"
-      (click)="submitNewTicket()"
+      (click)="submitNewWord(addWordForm.controls.language.value)"
     >
       Add ticket
     </button>
