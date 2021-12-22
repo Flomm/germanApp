@@ -8,15 +8,15 @@
 
   form {
     flex-direction: column;
+    width: 40%;
 
     .field-holder {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: space-evenly;
+      width: 100%;
 
       .mat-form-field {
         margin-bottom: 12px;
-        width: 40%;
       }
     }
 

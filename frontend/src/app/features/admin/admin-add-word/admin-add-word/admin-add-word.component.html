@@ -25,6 +25,8 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
+    </div>
+    <div class="field-holder">
       <mat-form-field appearance="outline">
         <mat-label>Új szó</mat-label>
         <input
@@ -53,14 +55,17 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
-      <ng-container formArrayName="translationArray">
-        <ng-container
-          *ngFor="
-            let translation of translationsFormArray['controls'];
-            let i = index
-          "
-          [formGroupName]="i"
-        >
+    </div>
+    <ng-container formArrayName="translationArray">
+      <h2>Jelentések:</h2>
+      <ng-container
+        *ngFor="
+          let translation of translationsFormArray['controls'];
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <div class="field-holder">
           <mat-form-field appearance="outline">
             <mat-label>{{ i + 1 }}. jelentés</mat-label>
             <input
@@ -104,9 +109,9 @@
               >Kötelező mező</mat-error
             >
           </mat-form-field>
-        </ng-container>
+        </div>
       </ng-container>
-    </div>
+    </ng-container>
     <button
       mat-raised-button
       color="primary"
