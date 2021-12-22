@@ -1,14 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
@@ -26,13 +18,13 @@ export class AdminAddWordComponent implements OnInit {
   languageType = Language;
   isMainGenderShown: boolean = true;
 
-  constructor() {}
+  constructor(private wordService: WordService) {}
 
   ngOnInit(): void {
     this.addWordForm = new FormGroup({
       language: new FormControl(Language.DE, [Validators.required]),
       word: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required]),
+      gender: new FormControl(''),
       translations: new FormArray([
         new FormGroup({
           translation: new FormControl('', [Validators.required]),
@@ -45,16 +37,18 @@ export class AdminAddWordComponent implements OnInit {
     return this.addWordForm.get('translations') as FormArray;
   }
 
-  submitNewWord(lang: Language): void {
-    // const addWordRequestData: IAddWordRequest = {
-    //   word: this.addWordForm.controls.word.value,
-
-    // }
-    console.log(this.addWordForm.value);
-  }
-
-  transformFormToRequest(): IAddWordRequest {
-    return this.addWordForm.value;
+  submitNewWord(): void {
+    const formData = this.addWordForm.value;
+    const { language, ...newWordRequest } = formData;
+    this.wordService
+      .addNewWord(language, newWordRequest)
+      .subscribe((addWordResponse: ICustomResponse) => {
+        if (!addWordResponse.isError) {
+          this.addWordForm.reset();
+          this.addWordForm.get('language').setValue(Language.DE);
+        }
+        this.addWordResponse = addWordResponse;
+      });
   }
 
   addTranslationGroup(): void {
@@ -62,10 +56,7 @@ export class AdminAddWordComponent implements OnInit {
       translation: new FormControl('', [Validators.required]),
     });
     if (!this.isMainGenderShown) {
-      newTranslationGroup.addControl(
-        'gender',
-        new FormControl('', [Validators.required])
-      );
+      newTranslationGroup.addControl('gender', new FormControl(''));
     }
     this.translationsFormArray.push(newTranslationGroup);
   }
@@ -76,10 +67,7 @@ export class AdminAddWordComponent implements OnInit {
       !this.addWordForm.controls.gender
     ) {
       this.isMainGenderShown = true;
-      this.addWordForm.addControl(
-        'gender',
-        new FormControl('', [Validators.required])
-      );
+      this.addWordForm.addControl('gender', new FormControl(''));
       this.translationsFormArray.controls.forEach((group: FormGroup) => {
         group.removeControl('gender');
       });
@@ -88,10 +76,7 @@ export class AdminAddWordComponent implements OnInit {
       this.addWordForm.removeControl('gender');
       this.translationsFormArray.controls.forEach((group: FormGroup) => {
         if (!group.controls.gender) {
-          group.addControl(
-            'gender',
-            new FormControl('', [Validators.required])
-          );
+          group.addControl('gender', new FormControl(''));
         }
       });
     }

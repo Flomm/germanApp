@@ -51,9 +51,6 @@
             >
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="addWordForm.controls.gender.hasError('required')"
-          >Kötelező mező</mat-error
-        >
       </mat-form-field>
     </div>
     <ng-container formArrayName="translations">
@@ -68,7 +65,7 @@
       </button>
       <ng-container
         *ngFor="
-          let translation of translationsFormArray['controls'];
+          let translation of translationsFormArray.controls;
           let i = index
         "
         [formGroupName]="i"
@@ -83,7 +80,7 @@
             />
             <mat-error
               *ngIf="
-                translationsFormArray['controls'][i][
+                translationsFormArray.controls[i][
                   'controls'
                 ].translation.hasError('required')
               "
@@ -100,7 +97,7 @@
                 {{ gender.name }}
                 <span
                   *ngIf="
-                    translationsFormArray['controls'][i]['controls'].gender
+                    translationsFormArray.controls[i]['controls'].gender
                       .value === gender.value
                   "
                 >
@@ -108,14 +105,6 @@
                 >
               </mat-option>
             </mat-select>
-            <mat-error
-              *ngIf="
-                translationsFormArray['controls'][i][
-                  'controls'
-                ].gender.hasError('required')
-              "
-              >Kötelező mező</mat-error
-            >
           </mat-form-field>
         </div>
       </ng-container>
@@ -123,8 +112,9 @@
     <button
       mat-raised-button
       color="primary"
+      type="button"
       [disabled]="!addWordForm.valid"
-      (click)="submitNewWord(addWordForm.controls.language.value)"
+      (click)="submitNewWord()"
     >
       Hozzáadás
     </button>
@@ -132,7 +122,7 @@
   <div class="response-holder flex-center">
     <p
       *ngIf="addWordResponse"
-      [ngClass]="addWordResponse.isError ? 'warn' : 'primary'"
+      [ngClass]="addWordResponse.isError ? 'warn' : 'success'"
     >
       {{ addWordResponse.message }}
     </p>
