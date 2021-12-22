@@ -36,7 +36,7 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
-      <mat-form-field appearance="outline" *ngIf="isGenderShown">
+      <mat-form-field appearance="outline" *ngIf="isMainGenderShown">
         <mat-label>Nem</mat-label>
         <mat-select formControlName="gender" panelClass="default-select">
           <mat-option
@@ -53,55 +53,59 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
-      <!-- <ng-container formGroupName="translation1">
-        <mat-form-field appearance="outline">
-          <mat-label>1. jelentés</mat-label>
-          <input
-            matInput
-            placeholder="Add meg egy jelentést"
-            formControlName="translation1Meaning"
-          />
-          <mat-error
-            *ngIf="
-              addWordForm.controls.translation1['controls'][
-                'translation1Meaning'
-              ].hasError('required')
-            "
-            >Kötelező mező</mat-error
-          >
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Nem</mat-label>
-          <mat-select
-            formControlName="translation1Gender"
-            panelClass="default-select"
-          >
-            <mat-option
-              *ngFor="let gender of genderType | enumToView"
-              [value]="gender.value"
+      <ng-container formArrayName="translationArray">
+        <ng-container
+          *ngFor="
+            let translation of translationsFormArray['controls'];
+            let i = index
+          "
+          [formGroupName]="i"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i + 1 }}. jelentés</mat-label>
+            <input
+              formControlName="translation"
+              matInput
+              placeholder="Add meg egy jelentést"
+            />
+            <mat-error
+              *ngIf="
+                translationsFormArray['controls'][i][
+                  'controls'
+                ].translation.hasError('required')
+              "
+              >Kötelező mező</mat-error
             >
-              {{ gender.name }}
-              <span
-                *ngIf="
-                  addWordForm.controls.translation1['controls'][
-                    'translation1Gender'
-                  ].value === gender.value
-                "
+          </mat-form-field>
+          <mat-form-field appearance="outline" *ngIf="!isMainGenderShown">
+            <mat-label>Nem</mat-label>
+            <mat-select formControlName="gender" panelClass="default-select">
+              <mat-option
+                *ngFor="let gender of genderType | enumToView"
+                [value]="gender.value"
               >
-                &#10004;</span
-              >
-            </mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="
-              addWordForm.controls.translation1['controls'][
-                'translation1Gender'
-              ].hasError('required')
-            "
-            >Kötelező mező</mat-error
-          >
-        </mat-form-field>
-      </ng-container> -->
+                {{ gender.name }}
+                <span
+                  *ngIf="
+                    translationsFormArray['controls'][i]['controls'].gender
+                      .value === gender.value
+                  "
+                >
+                  &#10004;</span
+                >
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                translationsFormArray['controls'][i][
+                  'controls'
+                ].gender.hasError('required')
+              "
+              >Kötelező mező</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
     </div>
     <button
       mat-raised-button

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
+  FormBuilder,
   FormControl,
   FormGroup,
   ValidationErrors,
@@ -23,21 +24,25 @@ export class AdminAddWordComponent implements OnInit {
   addWordResponse: ICustomResponse;
   genderType = Gender;
   languageType = Language;
-  isGenderShown: boolean = false;
+  isMainGenderShown: boolean = true;
 
   constructor() {}
 
   ngOnInit(): void {
     this.addWordForm = new FormGroup({
-      language: new FormControl('', [Validators.required]),
+      language: new FormControl(Language.DE, [Validators.required]),
       word: new FormControl('', [Validators.required]),
       gender: new FormControl('', [Validators.required]),
-      // translations: new FormArray(
-      //   [new FormGroup()]
-      //   // translation1Meaning: new FormControl('', [Validators.required]),
-      //   // translation1Gender: new FormControl('', [Validators.required]),
-      // ),
+      translationArray: new FormArray([
+        new FormGroup({
+          translation: new FormControl('', [Validators.required]),
+        }),
+      ]),
     });
+  }
+
+  get translationsFormArray(): FormArray {
+    return this.addWordForm.get('translationArray') as FormArray;
   }
 
   submitNewWord(lang: Language): void {
@@ -48,37 +53,32 @@ export class AdminAddWordComponent implements OnInit {
     console.log(this.addWordForm.value);
   }
 
+  addTranslationGroup(): void {}
+
   toggleGender(): void {
-    if (this.addWordForm.controls.language.value === Language.DE) {
-      this.isGenderShown = true;
+    if (
+      this.addWordForm.controls.language.value === Language.DE &&
+      !this.addWordForm.controls.gender
+    ) {
+      this.isMainGenderShown = true;
       this.addWordForm.addControl(
         'gender',
         new FormControl('', [Validators.required])
       );
+      this.translationsFormArray.controls.forEach((group: FormGroup) => {
+        group.removeControl('gender');
+      });
     } else {
-      this.isGenderShown = false;
+      this.isMainGenderShown = false;
       this.addWordForm.removeControl('gender');
+      this.translationsFormArray.controls.forEach((group: FormGroup) => {
+        if (!group.controls.gender) {
+          group.addControl(
+            'gender',
+            new FormControl('', [Validators.required])
+          );
+        }
+      });
     }
-    console.warn(this.addWordForm);
   }
-
-  // dateTimeValidator(dateControlField: string): ValidatorFn {
-  //   return (fg: FormGroup): ValidationErrors => {
-  //     const dateControl: AbstractControl = fg.controls[dateControlField];
-  //     let validationErrors: ValidationErrors;
-  //     const today = new Date().getTime();
-  //     if (new Date(dateControl.value).getTime() < today) {
-  //       validationErrors = {
-  //         ...dateControl.errors,
-  //         ...{ invalidDate: true },
-  //       };
-  //     } else if (dateControl.errors && !dateControl.errors['invalidDate']) {
-  //       validationErrors = dateControl.errors;
-  //     } else {
-  //       validationErrors = null;
-  //     }
-  //     dateControl.setErrors(validationErrors);
-  //     return validationErrors;
-  //   };
-  // }
 }
