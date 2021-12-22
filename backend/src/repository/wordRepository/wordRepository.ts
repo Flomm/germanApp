@@ -139,7 +139,7 @@ export const wordRepository = {
       .then(_ => {
         return db
           .query<IDbResultDataModel>(
-            `DELETE FROM german_app.translation WHERE id = ? AND lang = ?`,
+            `DELETE FROM german_app.translation WHERE wordId = ? AND lang = ?`,
             [`${wordId}`, lang],
           )
           .catch(err => Promise.reject(err));
