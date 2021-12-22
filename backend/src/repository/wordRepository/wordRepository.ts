@@ -130,6 +130,15 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
+  modifyWord(
+    lang: Language,
+    modifiedWord: IAddWordDataModel,
+  ): Promise<IDbResultDataModel> {
+    return db
+      .query<IDbResultDataModel>('', [])
+      .catch(err => Promise.reject(err));
+  },
+
   removeWord(wordId: number, lang: Language): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(

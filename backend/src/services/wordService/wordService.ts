@@ -10,6 +10,7 @@ export const wordService = {
     return wordRepository.getAllWords(lang).catch(err => Promise.reject(err));
   },
 
+  //!!!!!!!!!!!UNDEFINED-ot megoldani!
   addNewWord(
     lang: Language,
     newWord: IAddWordDataModel,
@@ -19,6 +20,20 @@ export const wordService = {
       .then(dbResult => {
         if (dbResult.affectedRows === 0) {
           return Promise.reject(notFoundError('A hozzáadás nem sikerült.'));
+        }
+      })
+      .catch(err => Promise.reject(err));
+  },
+
+  modifyWord(
+    lang: Language,
+    modifyWord: IAddWordDataModel,
+  ): Promise<IDbResultDataModel | undefined> {
+    return wordRepository
+      .modifyWord(lang, modifyWord)
+      .then(dbResult => {
+        if (dbResult.affectedRows === 0) {
+          return Promise.reject(notFoundError('A módosítás nem sikerült.'));
         }
       })
       .catch(err => Promise.reject(err));

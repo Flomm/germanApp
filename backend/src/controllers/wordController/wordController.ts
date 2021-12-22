@@ -45,6 +45,24 @@ export const wordController = {
       });
   },
 
+  modifyWord(req: Request, res: Response<ICustomResponse>, next: NextFunction) {
+    const lang: string = req.params.lang;
+    if (languageChecker(lang as Language)) {
+      return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
+    }
+
+    const modifiedWord: IAddWordDataModel = req.body;
+
+    wordService
+      .modifyWord(lang as Language, modifiedWord)
+      .then(_ => {
+        res.status(200).json({ message: 'Szó sikeresen módosítva.' });
+      })
+      .catch(err => {
+        return next(err);
+      });
+  },
+
   removeWord(req: Request, res: Response, next: NextFunction) {
     const lang: string = req.params.lang;
     if (languageChecker(lang as Language)) {

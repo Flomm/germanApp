@@ -22,6 +22,15 @@ wordRouter
   .post(wordController.addWord);
 
 wordRouter
+  .route('/modify/:lang/:id')
+  .all(
+    tokenAuthentication(),
+    permitChecker([UserRole.Admin]),
+    bodyValidator(['word', 'translations']),
+  )
+  .put(wordController.modifyWord);
+
+wordRouter
   .route('/:lang/:id')
   .all(tokenAuthentication(), permitChecker([UserRole.Admin]))
   .delete(wordController.removeWord);
