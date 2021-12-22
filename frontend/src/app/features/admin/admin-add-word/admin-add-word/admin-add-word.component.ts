@@ -33,7 +33,7 @@ export class AdminAddWordComponent implements OnInit {
       language: new FormControl(Language.DE, [Validators.required]),
       word: new FormControl('', [Validators.required]),
       gender: new FormControl('', [Validators.required]),
-      translationArray: new FormArray([
+      translations: new FormArray([
         new FormGroup({
           translation: new FormControl('', [Validators.required]),
         }),
@@ -42,7 +42,7 @@ export class AdminAddWordComponent implements OnInit {
   }
 
   get translationsFormArray(): FormArray {
-    return this.addWordForm.get('translationArray') as FormArray;
+    return this.addWordForm.get('translations') as FormArray;
   }
 
   submitNewWord(lang: Language): void {
@@ -53,7 +53,22 @@ export class AdminAddWordComponent implements OnInit {
     console.log(this.addWordForm.value);
   }
 
-  addTranslationGroup(): void {}
+  transformFormToRequest(): IAddWordRequest {
+    return this.addWordForm.value;
+  }
+
+  addTranslationGroup(): void {
+    let newTranslationGroup: FormGroup = new FormGroup({
+      translation: new FormControl('', [Validators.required]),
+    });
+    if (!this.isMainGenderShown) {
+      newTranslationGroup.addControl(
+        'gender',
+        new FormControl('', [Validators.required])
+      );
+    }
+    this.translationsFormArray.push(newTranslationGroup);
+  }
 
   toggleGender(): void {
     if (

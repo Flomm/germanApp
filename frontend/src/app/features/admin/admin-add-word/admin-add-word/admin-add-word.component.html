@@ -1,5 +1,5 @@
 <div class="flex-center form-holder">
-  <h2>Új szó hozzáadása</h2>
+  <h1>Új szó hozzáadása</h1>
   <form class="flex-center default-form" [formGroup]="addWordForm">
     <div class="field-holder">
       <mat-form-field appearance="outline">
@@ -56,8 +56,16 @@
         >
       </mat-form-field>
     </div>
-    <ng-container formArrayName="translationArray">
+    <ng-container formArrayName="translations">
       <h2>Jelentések:</h2>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addTranslationGroup()"
+        type="button"
+      >
+        Új jelentés
+      </button>
       <ng-container
         *ngFor="
           let translation of translationsFormArray['controls'];
@@ -118,7 +126,7 @@
       [disabled]="!addWordForm.valid"
       (click)="submitNewWord(addWordForm.controls.language.value)"
     >
-      Add ticket
+      Hozzáadás
     </button>
   </form>
   <div class="response-holder flex-center">
