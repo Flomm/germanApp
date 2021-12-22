@@ -56,9 +56,7 @@ export class AdminWordsComponent implements OnInit {
             if (!response.isError) {
               this.onLanguageChange(this.language);
             }
-            const panelClass: string = response.isError
-              ? 'warn'
-              : 'default-color';
+            const panelClass: string = response.isError ? 'warn' : 'success';
             this.snackBar.open(response.message, '', {
               panelClass: [panelClass],
               duration: 3000,
