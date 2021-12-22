@@ -3,7 +3,7 @@
   <mat-spinner *ngIf="!verificationResponse"></mat-spinner>
   <h1
     *ngIf="verificationResponse"
-    [ngClass]="verificationResponse.isError ? 'warn' : 'primary'"
+    [ngClass]="verificationResponse.isError ? 'warn' : 'success'"
   >
     {{
       verificationResponse.message

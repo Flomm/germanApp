@@ -41,12 +41,14 @@
     </button>
   </form>
   <div class="forgot-password-holder">
-    <a class="default-anchor" routerLink="/password-recovery">Elfelejtetted a jelszavad?</a>
+    <a class="default-anchor" routerLink="/password-recovery"
+      >Elfelejtetted a jelszavad?</a
+    >
   </div>
   <div class="response-holder flex-center warn primary">
     <p
       *ngIf="loginResponse"
-      [ngClass]="loginResponse.isError ? 'warn' : 'primary'"
+      [ngClass]="loginResponse.isError ? 'warn' : 'success'"
     >
       {{ loginResponse.message }}
     </p>

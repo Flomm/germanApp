@@ -1,24 +1,38 @@
 <div class="flex-center form-holder">
-    <h2>Saját profil</h2>
-    <form class="flex-center default-form" [formGroup]="myUserProfileForm">
-        <mat-form-field appearance="outline" class="disabled-form-field">
-            <mat-label>E-mail</mat-label>
-            <input matInput formControlName="email" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" [class.disabled-form-field]="!myUserProfileForm.controls.name.enabled">
-            <mat-label>Felhasználónév</mat-label>
-            <input matInput formControlName="name" />
-            <mat-icon (click)="enableUsernameModification()" matSuffix>create</mat-icon>
-            <mat-error *ngIf="myUserProfileForm.controls.name.hasError('required')">Kötelező mező</mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="primary" [disabled]="!myUserProfileForm.valid"
-            (click)="submitUsernameChange()">
-            Save
-        </button>
-    </form>
-    <div class="response-holder flex-center warn primary">
-        <p *ngIf="newUsernameResponse" [ngClass]="newUsernameResponse.isError ? 'warn' : 'primary'">
-            {{ newUsernameResponse.message }}
-        </p>
-    </div>
+  <h2>Saját profil</h2>
+  <form class="flex-center default-form" [formGroup]="myUserProfileForm">
+    <mat-form-field appearance="outline" class="disabled-form-field">
+      <mat-label>E-mail</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      [class.disabled-form-field]="!myUserProfileForm.controls.name.enabled"
+    >
+      <mat-label>Felhasználónév</mat-label>
+      <input matInput formControlName="name" />
+      <mat-icon (click)="enableUsernameModification()" matSuffix
+        >create</mat-icon
+      >
+      <mat-error *ngIf="myUserProfileForm.controls.name.hasError('required')"
+        >Kötelező mező</mat-error
+      >
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!myUserProfileForm.valid"
+      (click)="submitUsernameChange()"
+    >
+      Save
+    </button>
+  </form>
+  <div class="response-holder flex-center warn primary">
+    <p
+      *ngIf="newUsernameResponse"
+      [ngClass]="newUsernameResponse.isError ? 'warn' : 'success'"
+    >
+      {{ newUsernameResponse.message }}
+    </p>
+  </div>
 </div>

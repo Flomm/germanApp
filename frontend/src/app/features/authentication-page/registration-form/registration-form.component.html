@@ -3,7 +3,11 @@
   <form class="flex-center default-form" [formGroup]="registrationForm">
     <mat-form-field appearance="outline">
       <mat-label>Felhasználónév</mat-label>
-      <input matInput placeholder="Add meg a felhasználóneved" formControlName="name" />
+      <input
+        matInput
+        placeholder="Add meg a felhasználóneved"
+        formControlName="name"
+      />
       <mat-error *ngIf="registrationForm.controls.name.hasError('required')"
         >Kötelező mező</mat-error
       >
@@ -74,7 +78,7 @@
   <div class="response-holder flex-center warn primary">
     <p
       *ngIf="registrationResponse"
-      [ngClass]="registrationResponse.isError ? 'warn' : 'primary'"
+      [ngClass]="registrationResponse.isError ? 'warn' : 'success'"
     >
       {{ registrationResponse.message }}
     </p>
