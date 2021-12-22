@@ -55,7 +55,7 @@ export class WordService {
   ): Observable<ICustomResponse> {
     return this.httpClient
       .post<ICustomResponse>(
-        `${environment.serverUrl}/word${lang}`,
+        `${environment.serverUrl}/word/${lang}`,
         addWordRequestData
       )
       .pipe(
