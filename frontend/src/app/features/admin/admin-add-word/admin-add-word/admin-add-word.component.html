@@ -7,7 +7,7 @@
         <mat-select
           formControlName="language"
           panelClass="default-select"
-          (selectionChange)="genderSetter()"
+          (selectionChange)="toggleGender()"
         >
           <mat-option
             *ngFor="let language of languageType | enumToView"
@@ -53,8 +53,7 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
-      <ng-container formGroupName="translation1">
-        <!--ide egy ngfor!!!-->
+      <!-- <ng-container formGroupName="translation1">
         <mat-form-field appearance="outline">
           <mat-label>1. jelentés</mat-label>
           <input
@@ -102,7 +101,7 @@
             >Kötelező mező</mat-error
           >
         </mat-form-field>
-      </ng-container>
+      </ng-container> -->
     </div>
     <button
       mat-raised-button

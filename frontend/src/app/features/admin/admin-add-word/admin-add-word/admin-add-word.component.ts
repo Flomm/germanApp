@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
+  FormArray,
   FormControl,
   FormGroup,
   ValidationErrors,
@@ -31,10 +32,11 @@ export class AdminAddWordComponent implements OnInit {
       language: new FormControl('', [Validators.required]),
       word: new FormControl('', [Validators.required]),
       gender: new FormControl('', [Validators.required]),
-      translation1: new FormGroup({
-        translation1Meaning: new FormControl('', [Validators.required]),
-        translation1Gender: new FormControl('', [Validators.required]),
-      }),
+      // translations: new FormArray(
+      //   [new FormGroup()]
+      //   // translation1Meaning: new FormControl('', [Validators.required]),
+      //   // translation1Gender: new FormControl('', [Validators.required]),
+      // ),
     });
   }
 
@@ -46,7 +48,7 @@ export class AdminAddWordComponent implements OnInit {
     console.log(this.addWordForm.value);
   }
 
-  genderSetter(): void {
+  toggleGender(): void {
     if (this.addWordForm.controls.language.value === Language.DE) {
       this.isGenderShown = true;
       this.addWordForm.addControl(
@@ -55,8 +57,9 @@ export class AdminAddWordComponent implements OnInit {
       );
     } else {
       this.isGenderShown = false;
+      this.addWordForm.removeControl('gender');
     }
-    console.warn(this.isGenderShown);
+    console.warn(this.addWordForm);
   }
 
   // dateTimeValidator(dateControlField: string): ValidatorFn {
