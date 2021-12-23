@@ -50,11 +50,14 @@ export const wordController = {
     if (languageChecker(lang as Language)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
-
+    const wordId: number = parseInt(req.params.id);
+    if (isNaN(wordId) || wordId < 1) {
+      return next(badRequestError('A szó id pozitív egész szám kell legyen.'));
+    }
     const modifiedWord: IAddWordDataModel = req.body;
 
     wordService
-      .modifyWord(lang as Language, modifiedWord)
+      .modifyWord(lang as Language, modifiedWord, wordId)
       .then(_ => {
         res.status(200).json({ message: 'Szó sikeresen módosítva.' });
       })
@@ -78,8 +81,7 @@ export const wordController = {
         res.status(200).json({ message: 'A szó sikeresen eltávolítva.' });
       })
       .catch(err => {
-        next(err);
-        return;
+        return next(err);
       });
   },
 };
