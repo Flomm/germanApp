@@ -176,7 +176,6 @@ describe('DELETE /word', () => {
     expect(response.body).toEqual({ message: 'error' });
   });
 });
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 describe('POST /ticket', () => {
   beforeEach(() => {
@@ -241,6 +240,90 @@ describe('POST /ticket', () => {
     expect(wordService.addNewWord).toHaveBeenCalledWith(
       Language.DE,
       mockDeWord,
+    );
+  });
+});
+
+describe('PUT /word', () => {
+  test('successfully updating german word', async () => {
+    //Arrange
+    wordService.modifyWord = jest.fn().mockResolvedValue(Promise.resolve);
+
+    //Act
+    const response = await request(app)
+      .put('/api/word//de/1')
+      .set({ authorization: `Bearer ${token}` })
+      .send(mockDeWord);
+
+    //Assert
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({
+      message: 'Szó sikeresen módosítva.',
+    });
+    expect(wordService.modifyWord).toHaveBeenCalledWith(
+      Language.DE,
+      mockDeWord,
+      1,
+    );
+  });
+
+  test('successfully updating hungarian word', async () => {
+    //Arrange
+    wordService.modifyWord = jest.fn().mockResolvedValue(Promise.resolve);
+
+    //Act
+    const response = await request(app)
+      .put('/api/word//hu/1')
+      .set({ authorization: `Bearer ${token}` })
+      .send(mockHuWord);
+
+    //Assert
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({
+      message: 'Szó sikeresen módosítva.',
+    });
+    expect(wordService.modifyWord).toHaveBeenCalledWith(
+      Language.HU,
+      mockHuWord,
+      1,
+    );
+  });
+
+  test('should send back 400 error if params is not an integer', async () => {
+    //Arrange
+    wordService.modifyWord = jest.fn().mockResolvedValue(Promise.resolve);
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    //Act
+    const response = await request(app)
+      .put('/api/word/de/fail')
+      .set({ authorization: `Bearer ${token}` })
+      .send(mockDeWord);
+
+    //Assert
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      message: 'A szó id pozitív egész szám kell legyen.',
+    });
+  });
+
+  test('error in the service', async () => {
+    //Arrange
+    wordService.modifyWord = jest.fn().mockRejectedValue(serverError('test'));
+    console.error = jest.fn();
+    //Act
+    const response = await request(app)
+      .put('/api/word/de/1')
+      .set({ authorization: `Bearer ${token}` })
+      .send(mockDeWord);
+
+    //Assert
+    expect(response.statusCode).toEqual(500);
+    expect(response.body).toEqual({ message: 'test' });
+    expect(wordService.modifyWord).toHaveBeenCalledWith(
+      Language.DE,
+      mockDeWord,
+      1,
     );
   });
 });
