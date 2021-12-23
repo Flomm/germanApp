@@ -28,11 +28,12 @@ export const wordService = {
   modifyWord(
     lang: Language,
     modifyWord: IAddWordDataModel,
+    wordId: number,
   ): Promise<IDbResultDataModel | undefined> {
     return wordRepository
-      .modifyWord(lang, modifyWord)
+      .modifyWordEntry(lang, modifyWord, wordId)
       .then(dbResult => {
-        if (dbResult.affectedRows === 0) {
+        if (dbResult?.affectedRows === 0) {
           return Promise.reject(notFoundError('A módosítás nem sikerült.'));
         }
       })

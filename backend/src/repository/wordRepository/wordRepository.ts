@@ -7,11 +7,62 @@ import IGetWordsDomainModel from '../../models/models/domainModels/IWordDomainMo
 import { Language } from '../../models/models/Enums/Language.enum';
 import {
   badRequestError,
+  notFoundError,
   serverError,
 } from '../../services/errorCreatorService/errorCreator.service';
 import { generateMultipleInsertQueryQuestionMarks } from '../repository.helper';
 
 export const wordRepository = {
+  modifyWordEntry(
+    lang: Language,
+    modifiedWord: IAddWordDataModel,
+    wordId: number,
+  ): Promise<IDbResultDataModel> {
+    return wordRepository
+      .getWordById(lang, wordId)
+      .then(res => {
+        if (res) {
+          return wordRepository
+            .modifyWord(lang, modifiedWord, wordId)
+            .then(res => {
+              if (res.affectedRows < 0) {
+                return Promise.reject(
+                  serverError('A módosítás sikertelen volt.'),
+                );
+              } else {
+                return wordRepository
+                  .removeTranslations(wordId, lang)
+                  .then(_ => {
+                    return wordRepository
+                      .addTranslations(lang, wordId, modifiedWord.translations)
+                      .catch(err => Promise.reject(err));
+                  })
+                  .catch(err => Promise.reject(err));
+              }
+            })
+            .catch(err => Promise.reject(err));
+        } else {
+          return Promise.reject(
+            notFoundError('A szó nem szerepel az adatbázisban.'),
+          );
+        }
+      })
+      .catch(err => Promise.reject(err));
+  },
+
+  modifyWord(
+    lang: Language,
+    modifiedWord: IAddWordDataModel,
+    wordId: number,
+  ): Promise<IDbResultDataModel> {
+    return db
+      .query<IDbResultDataModel>(
+        `UPDATE german_app.${lang} SET word = ?, gender = ?  WHERE id = ?`,
+        [modifiedWord.word, modifiedWord.gender!, `${wordId}`],
+      )
+      .catch(err => Promise.reject(err));
+  },
+
   getAllWords(lang: Language): Promise<IGetWordsDataModel[]> {
     return db
       .query<IGetWordsDataModel[]>(
@@ -26,6 +77,16 @@ export const wordRepository = {
       .query<IGetWordsDomainModel[]>(
         `SELECT * FROM german_app.${lang} WHERE word = ?`,
         [word],
+      )
+      .then(res => res[0])
+      .catch(err => Promise.reject(err));
+  },
+
+  getWordById(lang: Language, wordId: number): Promise<IGetWordsDomainModel> {
+    return db
+      .query<IGetWordsDomainModel[]>(
+        `SELECT * FROM german_app.${lang} WHERE id = ? AND isDeleted = 0`,
+        [`${wordId}`],
       )
       .then(res => res[0])
       .catch(err => Promise.reject(err));
@@ -111,6 +172,18 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
+  removeTranslations(
+    wordId: number,
+    lang: Language,
+  ): Promise<IDbResultDataModel> {
+    return db
+      .query<IDbResultDataModel>(
+        `DELETE FROM german_app.translation WHERE wordId = ? AND lang = ?`,
+        [`${wordId}`, lang],
+      )
+      .catch(err => Promise.reject(err));
+  },
+
   addNewWordEntry(
     lang: Language,
     newWord: IAddWordDataModel,
@@ -130,15 +203,6 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
-  modifyWord(
-    lang: Language,
-    modifiedWord: IAddWordDataModel,
-  ): Promise<IDbResultDataModel> {
-    return db
-      .query<IDbResultDataModel>('', [])
-      .catch(err => Promise.reject(err));
-  },
-
   removeWord(wordId: number, lang: Language): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
@@ -146,11 +210,8 @@ export const wordRepository = {
         [`${wordId}`],
       )
       .then(_ => {
-        return db
-          .query<IDbResultDataModel>(
-            `DELETE FROM german_app.translation WHERE wordId = ? AND lang = ?`,
-            [`${wordId}`, lang],
-          )
+        return wordRepository
+          .removeTranslations(wordId, lang)
           .catch(err => Promise.reject(err));
       })
       .catch(err => Promise.reject(err));
