@@ -30,10 +30,10 @@ describe('tokenAuthentication', () => {
     );
 
     //Assert
-    expect(next).toBeCalledWith(unauthorizedError('Hozzáférés megtagadva.'));
+    expect(next).toBeCalledWith(unauthorizedError('Nincs érvényes token.'));
   });
 
-  test('it should call next if the token in the header is invalid', () => {
+  test('it should call next with the unauthorized error if the token in the header is invalid', () => {
     //Arrange
     mockRequest = {
       headers: {
@@ -50,7 +50,7 @@ describe('tokenAuthentication', () => {
     );
 
     //Assert
-    expect(next).toBeCalledWith(unauthorizedError('Hozzáférés megtagadva.'));
+    expect(next).toBeCalledWith(unauthorizedError('Nincs érvényes token.'));
   });
 
   test('it should call next if there is a valid token', () => {
