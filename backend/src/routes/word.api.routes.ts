@@ -7,6 +7,39 @@ import { UserRole } from '../models/models/Enums/UserRole.enum';
 
 export const wordRouter = express.Router();
 
+/**
+ * @swagger
+ * paths:
+ *  /api/word:
+ *    get:
+ *      tags:
+ *        - WORD
+ *      summary: List words as Admin
+ *      security:
+ *        - Bearer: []
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        '200':
+ *          description: The resource has been fetched and is transmitted in the message body.
+ *          content:
+ *              schema:
+ *               $ref: "#/definitions/getWord"
+ *        '403':
+ *          description: User is not an admin
+ *        '500':
+ *          description: Internal Server Error.
+ * definitions:
+ *  getWord:
+ *      type: object
+ *      properties:
+ *          word:
+ *              type: string
+ *          id:
+ *              type: integer
+ *          transition:
+ *              type: array
+ */
 wordRouter
   .route('/:lang')
   .all(tokenAuthentication(), permitChecker([UserRole.Admin]))
