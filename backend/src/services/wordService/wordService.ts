@@ -1,5 +1,4 @@
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
-import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
@@ -10,11 +9,7 @@ export const wordService = {
     return wordRepository.getAllWords(lang).catch(err => Promise.reject(err));
   },
 
-  //!!!!!!!!!!!UNDEFINED-ot megoldani!
-  addNewWord(
-    lang: Language,
-    newWord: IAddWordDataModel,
-  ): Promise<IDbResultDataModel | undefined> {
+  addNewWord(lang: Language, newWord: IAddWordDataModel): Promise<void> {
     return wordRepository
       .addNewWordEntry(lang, newWord)
       .then(dbResult => {
@@ -29,7 +24,7 @@ export const wordService = {
     lang: Language,
     modifyWord: IAddWordDataModel,
     wordId: number,
-  ): Promise<IDbResultDataModel | undefined> {
+  ): Promise<void> {
     return wordRepository
       .modifyWordEntry(lang, modifyWord, wordId)
       .then(dbResult => {
