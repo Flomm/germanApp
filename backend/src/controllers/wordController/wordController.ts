@@ -15,7 +15,7 @@ export const wordController = {
     next: NextFunction,
   ) {
     const lang: string = req.params.lang;
-    if (languageChecker(lang as Language)) {
+    if (!languageChecker(lang as Language)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     wordService
@@ -30,7 +30,7 @@ export const wordController = {
 
   addWord(req: Request, res: Response<ICustomResponse>, next: NextFunction) {
     const lang: string = req.params.lang;
-    if (languageChecker(lang as Language)) {
+    if (!languageChecker(lang as Language)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
 
@@ -48,7 +48,7 @@ export const wordController = {
 
   modifyWord(req: Request, res: Response<ICustomResponse>, next: NextFunction) {
     const lang: string = req.params.lang;
-    if (languageChecker(lang as Language)) {
+    if (!languageChecker(lang as Language)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
@@ -69,7 +69,7 @@ export const wordController = {
 
   removeWord(req: Request, res: Response, next: NextFunction) {
     const lang: string = req.params.lang;
-    if (languageChecker(lang as Language)) {
+    if (!languageChecker(lang as Language)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
