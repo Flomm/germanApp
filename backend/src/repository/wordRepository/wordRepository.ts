@@ -45,19 +45,15 @@ export const wordRepository = {
     lang: Language,
     newWord: IAddWordDataModel,
   ): Promise<IDbResultDataModel> {
-    return db
-      .query<IGetWordsDomainModel[]>(
-        `SELECT * FROM german_app.${lang} WHERE word = ?`,
-        [newWord.word],
-      )
+    return wordRepository
+      .getWordByWord(lang, newWord.word)
       .then(res => {
-        if (res[0]) {
-          const wordToRestore: IGetWordsDomainModel = res[0];
-          if (wordToRestore.isDeleted) {
+        if (res) {
+          if (res.isDeleted) {
             return db
               .query<IDbResultDataModel>(
                 `UPDATE german_app.${lang} SET isDeleted = 0 WHERE id = ?`,
-                [`${wordToRestore.id}`],
+                [`${res.id}`],
               )
               .then(res => {
                 if (res.affectedRows === 0) {
@@ -73,27 +69,27 @@ export const wordRepository = {
               badRequestError('A szó már szerepel az adatbázisban.'),
             );
           }
-        }
-        let queryString: string;
-        let queryArray: string[];
-        if (lang === Language.DE && newWord.gender) {
-          queryString = `INSERT INTO german_app.${lang} (word, gender) VALUES (?, ?)`;
-          queryArray = [newWord.word, newWord.gender];
         } else {
-          queryString = `INSERT INTO german_app.${lang} (word) VALUES (?)`;
-          queryArray = [newWord.word];
+          let queryString: string;
+          let queryArray: string[] = [newWord.word];
+          if (lang === Language.DE && newWord.gender) {
+            queryString = `INSERT INTO german_app.${lang} (word, gender) VALUES (?, ?)`;
+            queryArray.push(newWord.gender);
+          } else {
+            queryString = `INSERT INTO german_app.${lang} (word) VALUES (?)`;
+          }
+          return db
+            .query<IDbResultDataModel>(queryString, queryArray)
+            .then(res => {
+              if (res.affectedRows === 0) {
+                return Promise.reject(
+                  serverError('Nem sikerült hozzáadni a szót.'),
+                );
+              }
+              return res;
+            })
+            .catch(err => Promise.reject(err));
         }
-        return db
-          .query<IDbResultDataModel>(queryString, queryArray)
-          .then(res => {
-            if (res.affectedRows === 0) {
-              return Promise.reject(
-                serverError('Nem sikerült hozzáadni a szót.'),
-              );
-            }
-            return res;
-          })
-          .catch(err => Promise.reject(err));
       })
       .catch(err => Promise.reject(err));
   },
