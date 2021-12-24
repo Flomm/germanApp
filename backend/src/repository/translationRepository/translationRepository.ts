@@ -1,5 +1,5 @@
 import { db } from '../../data/connection';
-import IAddTranslationDataModel from '../../models/models/dataModels/IAddTranslationDataModel';
+import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
 import { generateMultipleInsertQueryQuestionMarks } from '../repository.helper';
@@ -8,7 +8,7 @@ export const translationRepository = {
   addTranslations(
     lang: Language,
     newWordId: number,
-    translations: IAddTranslationDataModel[],
+    translations: ITranslationDataModel[],
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
