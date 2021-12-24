@@ -150,7 +150,7 @@ describe('DELETE /word', () => {
   test('invalid word id', async () => {
     //Act
     const response = await request(app)
-      .delete('/api/word/hu/azaz')
+      .delete('/api/word/hu/test')
       .set({ authorization: `Bearer ${token}` })
       .send(idRequest);
 
