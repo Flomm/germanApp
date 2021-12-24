@@ -1,5 +1,4 @@
 import { db } from '../../data/connection';
-import IAddTranslationDataModel from '../../models/models/dataModels/IAddTranslationDataModel';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
@@ -10,59 +9,9 @@ import {
   notFoundError,
   serverError,
 } from '../../services/errorCreatorService/errorCreator.service';
-import { generateMultipleInsertQueryQuestionMarks } from '../repository.helper';
+import { translationRepository } from '../translationRepository/translationRepository';
 
 export const wordRepository = {
-  modifyWordEntry(
-    lang: Language,
-    modifiedWord: IAddWordDataModel,
-    wordId: number,
-  ): Promise<IDbResultDataModel> {
-    return wordRepository
-      .getWordById(lang, wordId)
-      .then(res => {
-        if (res) {
-          return wordRepository
-            .modifyWord(lang, modifiedWord, wordId)
-            .then(res => {
-              if (res.affectedRows < 0) {
-                return Promise.reject(
-                  serverError('A módosítás sikertelen volt.'),
-                );
-              } else {
-                return wordRepository
-                  .removeTranslations(wordId, lang)
-                  .then(_ => {
-                    return wordRepository
-                      .addTranslations(lang, wordId, modifiedWord.translations)
-                      .catch(err => Promise.reject(err));
-                  })
-                  .catch(err => Promise.reject(err));
-              }
-            })
-            .catch(err => Promise.reject(err));
-        } else {
-          return Promise.reject(
-            notFoundError('A szó nem szerepel az adatbázisban.'),
-          );
-        }
-      })
-      .catch(err => Promise.reject(err));
-  },
-
-  modifyWord(
-    lang: Language,
-    modifiedWord: IAddWordDataModel,
-    wordId: number,
-  ): Promise<IDbResultDataModel> {
-    return db
-      .query<IDbResultDataModel>(
-        `UPDATE german_app.${lang} SET word = ?, gender = ?  WHERE id = ?`,
-        [modifiedWord.word, modifiedWord.gender!, `${wordId}`],
-      )
-      .catch(err => Promise.reject(err));
-  },
-
   getAllWords(lang: Language): Promise<IGetWordsDataModel[]> {
     return db
       .query<IGetWordsDataModel[]>(
@@ -149,41 +98,6 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
-  addTranslations(
-    lang: Language,
-    newWordId: number,
-    translations: IAddTranslationDataModel[],
-  ): Promise<IDbResultDataModel> {
-    return db
-      .query<IDbResultDataModel>(
-        `INSERT INTO german_app.translation (lang, wordId, translation, gender) VALUES ${generateMultipleInsertQueryQuestionMarks(
-          4,
-          translations.length,
-        )}`,
-        translations
-          .map(trans => [
-            `${lang}`,
-            `${newWordId}`,
-            `${trans.translation}`,
-            trans.gender!,
-          ])
-          .reduce((acc, val) => acc.concat(val), []),
-      )
-      .catch(err => Promise.reject(err));
-  },
-
-  removeTranslations(
-    wordId: number,
-    lang: Language,
-  ): Promise<IDbResultDataModel> {
-    return db
-      .query<IDbResultDataModel>(
-        `DELETE FROM german_app.translation WHERE wordId = ? AND lang = ?`,
-        [`${wordId}`, lang],
-      )
-      .catch(err => Promise.reject(err));
-  },
-
   addNewWordEntry(
     lang: Language,
     newWord: IAddWordDataModel,
@@ -194,7 +108,7 @@ export const wordRepository = {
         return wordRepository
           .getWordByWord(lang, newWord.word)
           .then(word => {
-            return wordRepository
+            return translationRepository
               .addTranslations(lang, word.id, newWord.translations)
               .catch(err => Promise.reject(err));
           })
@@ -210,9 +124,59 @@ export const wordRepository = {
         [`${wordId}`],
       )
       .then(_ => {
-        return wordRepository
+        return translationRepository
           .removeTranslations(wordId, lang)
           .catch(err => Promise.reject(err));
+      })
+      .catch(err => Promise.reject(err));
+  },
+
+  modifyWord(
+    lang: Language,
+    modifiedWord: IAddWordDataModel,
+    wordId: number,
+  ): Promise<IDbResultDataModel> {
+    return db
+      .query<IDbResultDataModel>(
+        `UPDATE german_app.${lang} SET word = ?, gender = ?  WHERE id = ?`,
+        [modifiedWord.word, modifiedWord.gender!, `${wordId}`],
+      )
+      .catch(err => Promise.reject(err));
+  },
+
+  modifyWordEntry(
+    lang: Language,
+    modifiedWord: IAddWordDataModel,
+    wordId: number,
+  ): Promise<IDbResultDataModel> {
+    return wordRepository
+      .getWordById(lang, wordId)
+      .then(res => {
+        if (res) {
+          return wordRepository
+            .modifyWord(lang, modifiedWord, wordId)
+            .then(res => {
+              if (res.affectedRows < 0) {
+                return Promise.reject(
+                  serverError('A módosítás sikertelen volt.'),
+                );
+              } else {
+                return translationRepository
+                  .removeTranslations(wordId, lang)
+                  .then(_ => {
+                    return translationRepository
+                      .addTranslations(lang, wordId, modifiedWord.translations)
+                      .catch(err => Promise.reject(err));
+                  })
+                  .catch(err => Promise.reject(err));
+              }
+            })
+            .catch(err => Promise.reject(err));
+        } else {
+          return Promise.reject(
+            notFoundError('A szó nem szerepel az adatbázisban.'),
+          );
+        }
       })
       .catch(err => Promise.reject(err));
   },
