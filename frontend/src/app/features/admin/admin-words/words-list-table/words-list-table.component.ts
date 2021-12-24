@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 
@@ -32,6 +33,8 @@ export class WordsListTableComponent implements OnInit {
   @Output() wordRequest: EventEmitter<Language> = new EventEmitter<Language>();
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
     new EventEmitter<IWordRemovalRequest>();
+  @Output() wordModify: EventEmitter<IInitModifyRequest> =
+    new EventEmitter<IInitModifyRequest>();
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
@@ -59,6 +62,14 @@ export class WordsListTableComponent implements OnInit {
   }
 
   submitRemoval(wordId: number): void {
-    this.wordRemoval.emit({ language: this.currentLanguage, wordId: wordId });
+    this.wordRemoval.emit({ language: this.currentLanguage, wordId });
+  }
+
+  submitModify(word: string, wordId: number) {
+    this.wordModify.emit({
+      word,
+      wordId,
+      language: this.currentLanguage,
+    });
   }
 }
