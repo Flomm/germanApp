@@ -44,7 +44,9 @@
       <ng-container matColumnDef="info">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let word">
-          <mat-icon (click)="submitModify(word.word, word.id)">edit</mat-icon>
+          <mat-icon (click)="submitModify(word.word, word.id, word.gender)"
+            >edit</mat-icon
+          >
         </td>
       </ng-container>
       <ng-container matColumnDef="delete">

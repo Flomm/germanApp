@@ -9,6 +9,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
@@ -65,10 +66,11 @@ export class WordsListTableComponent implements OnInit {
     this.wordRemoval.emit({ language: this.currentLanguage, wordId });
   }
 
-  submitModify(word: string, wordId: number) {
+  submitModify(word: string, wordId: number, gender?: Gender) {
     this.wordModify.emit({
       word,
       wordId,
+      gender,
       language: this.currentLanguage,
     });
   }
