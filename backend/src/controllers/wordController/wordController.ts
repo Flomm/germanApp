@@ -5,7 +5,7 @@ import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { wordService } from '../../services/wordService/wordService';
-import languageChecker from './languageChecker';
+import languageChecker from '../languageChecker';
 
 export const wordController = {
   getAllWords(
