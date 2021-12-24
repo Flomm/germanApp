@@ -1,4 +1,4 @@
-import { generateMultipleInsertQueryQuestionMarks } from './repository.helper';
+import { generateMultipleInsertQueryQuestionMarks } from './multipleInsertion.helper';
 
 describe('generateMultipleInsertQueryQuestionMarks', () => {
   test('with one question mark and one item', () => {

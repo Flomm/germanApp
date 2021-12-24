@@ -5,8 +5,8 @@ import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { wordService } from '../../services/wordService/wordService';
-import idChecker from '../idChecker';
-import languageChecker from '../languageChecker';
+import idChecker from '../helpers/idChecker/idChecker.helper';
+import languageChecker from '../helpers/languageChecker/languageChecker.helper';
 
 export const wordController = {
   getAllWords(
