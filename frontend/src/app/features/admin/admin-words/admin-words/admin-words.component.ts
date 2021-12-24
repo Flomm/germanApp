@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 
@@ -37,8 +38,12 @@ export class AdminWordsComponent implements OnInit {
     this.getWordData(lang);
   }
 
+  onModifyWord(getWordRequestForModify: IInitModifyRequest): void {
+    console.warn(getWordRequestForModify);
+  }
+
   onRemoveWord(removeRequest: IWordRemovalRequest): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    const removalDialogRef = this.dialog.open(DialogComponent, {
       data: {
         isCancelButtonVisible: true,
         cancelButtonText: 'Nem',
@@ -48,7 +53,7 @@ export class AdminWordsComponent implements OnInit {
       panelClass: 'default-dialog',
     });
 
-    dialogRef.afterClosed().subscribe((res) => {
+    removalDialogRef.afterClosed().subscribe((res) => {
       if (res) {
         this.wordService
           .removeWord(removeRequest.language, removeRequest.wordId)
