@@ -156,7 +156,7 @@ wordRouter
 /**
  * @swagger
  * paths:
- *  /api/ticket/{lang}/{id}:
+ *  /api/word/{lang}/{id}:
  *    put:
  *      tags:
  *        - WORD
