@@ -5,6 +5,7 @@ import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { wordService } from '../../services/wordService/wordService';
+import idChecker from '../idChecker';
 import languageChecker from '../languageChecker';
 
 export const wordController = {
@@ -51,7 +52,7 @@ export const wordController = {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
-    if (isNaN(wordId) || wordId < 1) {
+    if (!idChecker(wordId)) {
       return next(badRequestError('A szó id pozitív egész szám kell legyen.'));
     }
     const modifiedWord: IAddWordDataModel = req.body;
@@ -72,7 +73,7 @@ export const wordController = {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
-    if (isNaN(wordId) || wordId < 1) {
+    if (!idChecker(wordId)) {
       return next(badRequestError('A szó id pozitív egész szám kell legyen.'));
     }
     wordService
