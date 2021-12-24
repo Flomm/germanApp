@@ -13,7 +13,7 @@ export const translationController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!languageChecker(lang as Language)) {
+    if (!languageChecker(lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
