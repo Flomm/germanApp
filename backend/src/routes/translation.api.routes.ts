@@ -1,4 +1,5 @@
 import express from 'express';
+import { translationController } from '../controllers/translationController/translationController';
 import tokenAuthentication from '../middlewares/jwtAuthenticator/jwtAuthenticator';
 import permitChecker from '../middlewares/permitChecker/permitChecker';
 import { UserRole } from '../models/models/Enums/UserRole.enum';
@@ -8,7 +9,7 @@ export const translationRouter = express.Router();
 /**
  * @swagger
  * paths:
- *  /api/translation/{id}:
+ *  /api/translation/{lang}/{id}:
  *    get:
  *      tags:
  *        - TRANSLATION
@@ -20,6 +21,9 @@ export const translationRouter = express.Router();
  *      parameters:
  *      - in: path
  *        name: lang
+ *        required: true
+ *      - in: path
+ *        name: id
  *        required: true
  *      responses:
  *        '200':
@@ -48,6 +52,6 @@ export const translationRouter = express.Router();
  *                    type: string
  */
 translationRouter
-  .route('/:id')
+  .route('/:lang/:id')
   .all(tokenAuthentication(), permitChecker([UserRole.Admin]))
-  .get();
+  .get(translationController.getTranslationsByWordId);

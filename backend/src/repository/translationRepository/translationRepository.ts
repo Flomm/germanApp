@@ -2,9 +2,21 @@ import { db } from '../../data/connection';
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
-import { generateMultipleInsertQueryQuestionMarks } from '../repository.helper';
+import { generateMultipleInsertQueryQuestionMarks } from '../helpers/multipleInsertion/multipleInsertion.helper';
 
 export const translationRepository = {
+  getTranslationsByWordId(
+    lang: Language,
+    wordId: number,
+  ): Promise<ITranslationDataModel[]> {
+    return db
+      .query<ITranslationDataModel[]>(
+        'SELECT translation, gender FROM german_app.translation WHERE lang = ? AND wordId = ?',
+        [lang, `${wordId}`],
+      )
+      .catch(err => Promise.reject(err));
+  },
+
   addTranslations(
     lang: Language,
     newWordId: number,
