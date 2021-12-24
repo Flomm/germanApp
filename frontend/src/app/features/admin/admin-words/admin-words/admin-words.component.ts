@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslationService } from 'src/app/core/services/translationService/translation.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import IModifyWordDialogData from 'src/app/shared/models/models/viewModels/IModifyWordDialogData.viewModel';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
@@ -19,6 +21,7 @@ export class AdminWordsComponent implements OnInit {
 
   constructor(
     private wordService: WordService,
+    private translationService: TranslationService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
@@ -39,7 +42,34 @@ export class AdminWordsComponent implements OnInit {
   }
 
   onModifyWord(getWordRequestForModify: IInitModifyRequest): void {
-    console.warn(getWordRequestForModify);
+    this.translationService
+      .getTranslationsByWordId(
+        getWordRequestForModify.language,
+        getWordRequestForModify.wordId
+      )
+      .subscribe((res) => {
+        const modifyWordDialogData: IModifyWordDialogData = {
+          initRequest: getWordRequestForModify,
+          translationList: res.translationList,
+        };
+
+        const modifyDialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            isCancelButtonVisible: true,
+            cancelButtonText: 'Mégsem',
+            okButtonText: 'Mentés',
+            dialogText: 'MODIFY',
+            modifyWordData: modifyWordDialogData,
+          },
+          panelClass: 'default-dialog',
+        });
+
+        modifyDialogRef.afterClosed().subscribe((res) => {
+          if (res) {
+            console.warn('MODIFY');
+          }
+        });
+      });
   }
 
   onRemoveWord(removeRequest: IWordRemovalRequest): void {
