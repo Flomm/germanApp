@@ -21,16 +21,6 @@ mat-paginator {
   align-self: flex-end;
 }
 
-::ng-deep .mat-select-panel {
-  background-color: $mainPurple;
-}
-
-::ng-deep .mat-option {
-  &.mat-selected {
-    color: $black !important;
-  }
-}
-
 form {
   mat-select {
     ::ng-deep .mat-select-value,

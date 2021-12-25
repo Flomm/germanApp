@@ -7,7 +7,7 @@
         <mat-select
           formControlName="language"
           (selectionChange)="submitWordRequest()"
-          panelClass="black-select"
+          panelClass="default-select"
         >
           <mat-option
             *ngFor="let language of languageType | enumToView"

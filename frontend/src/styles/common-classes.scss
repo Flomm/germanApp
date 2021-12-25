@@ -82,8 +82,8 @@
         }
 
         mat-select {
-          ::ng-deep .mat-select-value,
-          ::ng-deep .mat-select-arrow {
+          .mat-select-value,
+          .mat-select-arrow {
             color: $mainPurple;
           }
         }
