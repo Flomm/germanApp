@@ -52,7 +52,7 @@ export class AdminAddWordComponent implements OnInit {
   }
 
   addTranslationGroup(): void {
-    let newTranslationGroup: FormGroup = new FormGroup({
+    const newTranslationGroup: FormGroup = new FormGroup({
       translation: new FormControl('', [Validators.required]),
     });
     if (!this.isMainGenderShown) {
