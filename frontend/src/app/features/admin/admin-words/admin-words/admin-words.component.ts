@@ -62,6 +62,7 @@ export class AdminWordsComponent implements OnInit {
             modifyWordData: modifyWordDialogData,
           },
           panelClass: 'default-dialog',
+          disableClose: true,
         });
 
         modifyDialogRef.afterClosed().subscribe((res) => {
@@ -81,6 +82,7 @@ export class AdminWordsComponent implements OnInit {
         dialogText: 'Biztosan ki szeretnéd törölni ezt a szót?',
       },
       panelClass: 'default-dialog',
+      disableClose: true,
     });
 
     removalDialogRef.afterClosed().subscribe((res) => {
