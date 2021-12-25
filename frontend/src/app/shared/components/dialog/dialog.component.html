@@ -72,6 +72,7 @@
           color="primary"
           (click)="addTranslationGroup()"
           type="button"
+          [disabled]="modifyWordForm.disabled"
         >
           Új jelentés
         </button>
@@ -135,7 +136,7 @@
       [disabled]="!modifyWordForm.valid"
       mat-raised-button
       color="primary"
-      [mat-dialog-close]="true"
+      [mat-dialog-close]="modifyWordForm.value"
     >
       Mentés
     </button>
