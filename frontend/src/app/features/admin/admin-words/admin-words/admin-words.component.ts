@@ -6,6 +6,7 @@ import { WordService } from 'src/app/core/services/wordService/word.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IModifyWordDialogData from 'src/app/shared/models/models/viewModels/IModifyWordDialogData.viewModel';
+import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
@@ -65,9 +66,24 @@ export class AdminWordsComponent implements OnInit {
           disableClose: true,
         });
 
-        modifyDialogRef.afterClosed().subscribe((res) => {
+        modifyDialogRef.afterClosed().subscribe((res: IAddWordRequest) => {
           if (res) {
-            console.warn('MODIFY');
+            this.wordService
+              .modifyWord(
+                getWordRequestForModify.language,
+                getWordRequestForModify.wordId,
+                res
+              )
+              .subscribe((response) => {
+                const panelClass: string = response.isError
+                  ? 'warn'
+                  : 'success';
+                this.snackBar.open(response.message, '', {
+                  panelClass: [panelClass],
+                  duration: 3000,
+                });
+                this.getWordData(getWordRequestForModify.language);
+              });
           }
         });
       });
