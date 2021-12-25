@@ -63,6 +63,31 @@
 
     mat-dialog-content {
       margin: 15px 0px;
+
+      form {
+        flex-direction: column;
+
+        .field-holder {
+          display: flex;
+          justify-content: space-evenly;
+          width: 100%;
+
+          .mat-form-field {
+            margin-bottom: 12px;
+          }
+        }
+
+        button {
+          margin-bottom: 30px;
+        }
+
+        mat-select {
+          ::ng-deep .mat-select-value,
+          ::ng-deep .mat-select-arrow {
+            color: $mainPurple;
+          }
+        }
+      }
     }
 
     .close-button {
@@ -117,6 +142,7 @@
     border-top: none;
   }
 }
+
 .default-select {
   color: $mainPurple;
   background-color: $black;

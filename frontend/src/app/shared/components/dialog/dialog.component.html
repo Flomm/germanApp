@@ -5,18 +5,142 @@
 >
   <mat-icon [mat-dialog-close]="false">close</mat-icon>
 </button>
-<mat-dialog-content align="center">{{ params.dialogText }}</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button
-    *ngIf="params.isCancelButtonVisible ? true : false"
-    mat-raised-button
-    class="cancel-button"
-    color="primary"
-    [mat-dialog-close]="false"
+<ng-container *ngIf="!params.modifyWordData">
+  <mat-dialog-content align="center">{{
+    params.dialogText
+  }}</mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button
+      *ngIf="params.isCancelButtonVisible ? true : false"
+      mat-raised-button
+      class="cancel-button"
+      color="primary"
+      [mat-dialog-close]="false"
+    >
+      {{ params.cancelButtonText ? params.cancelButtonText : "Mégsem" }}
+    </button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="true">
+      {{ params.okButtonText ? params.okButtonText : "Ok" }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>
+<!-- FORM -->
+<ng-container *ngIf="params.modifyWordData">
+  <mat-dialog-header *ngIf="currentLanguage === languageType.DE"
+    ><h3>Szó módosítása</h3></mat-dialog-header
   >
-    {{ params.cancelButtonText ? params.cancelButtonText : "Mégsem" }}
-  </button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="true">
-    {{ params.okButtonText ? params.okButtonText : "Ok" }}
-  </button>
-</mat-dialog-actions>
+  <mat-dialog-content align="center">
+    <form class="flex-center default-form" [formGroup]="modifyWordForm">
+      <div class="field-holder">
+        <mat-form-field appearance="outline">
+          <mat-label>Szó</mat-label>
+          <input
+            matInput
+            placeholder="Add meg egy új jelentést"
+            formControlName="word"
+          />
+          <mat-error *ngIf="modifyWordForm.controls.word.hasError('required')"
+            >Kötelező mező</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          *ngIf="currentLanguage === languageType.DE"
+        >
+          <mat-label>Nem</mat-label>
+          <mat-select formControlName="gender" panelClass="default-select">
+            <mat-option
+              *ngFor="let gender of genderType | enumToView"
+              [value]="gender.value"
+            >
+              {{ gender.name }}
+              <span
+                *ngIf="modifyWordForm.controls.gender.value === gender.value"
+              >
+                &#10004;</span
+              >
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <ng-container formArrayName="translations">
+        <h2>Jelentések:</h2>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="addTranslationGroup()"
+          type="button"
+        >
+          Új jelentés
+        </button>
+        <ng-container
+          *ngFor="
+            let translation of translationsFormArray.controls;
+            let i = index
+          "
+          [formGroupName]="i"
+        >
+          <div class="field-holder">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ i + 1 }}. jelentés</mat-label>
+              <input
+                formControlName="translation"
+                matInput
+                placeholder="Add meg egy másik jelentést"
+              />
+              <mat-error
+                *ngIf="
+                  translationsFormArray.controls[i][
+                    'controls'
+                  ].translation.hasError('required')
+                "
+                >Kötelező mező</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field
+              appearance="outline"
+              *ngIf="currentLanguage !== languageType.DE"
+            >
+              <mat-label>Nem</mat-label>
+              <mat-select formControlName="gender" panelClass="default-select">
+                <mat-option
+                  *ngFor="let gender of genderType | enumToView"
+                  [value]="gender.value"
+                >
+                  {{ gender.name }}
+                  <span
+                    *ngIf="
+                      translationsFormArray.controls[i]['controls'].gender
+                        .value === gender.value
+                    "
+                  >
+                    &#10004;</span
+                  >
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </ng-container>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button
+      mat-raised-button
+      class="cancel-button"
+      color="primary"
+      [mat-dialog-close]="false"
+    >
+      Mégsem
+    </button>
+    <button
+      type="button"
+      [disabled]="!modifyWordForm.valid"
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="true"
+    >
+      Mentés
+    </button>
+  </mat-dialog-actions>
+</ng-container>
