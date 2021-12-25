@@ -13,7 +13,7 @@ export const wordController = {
     req: Request,
     res: Response<IGetWordsResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     const lang: string = req.params.lang;
     if (!languageChecker(lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
@@ -28,7 +28,11 @@ export const wordController = {
       });
   },
 
-  addWord(req: Request, res: Response<ICustomResponse>, next: NextFunction) {
+  addWord(
+    req: Request,
+    res: Response<ICustomResponse>,
+    next: NextFunction,
+  ): void {
     const lang: string = req.params.lang;
     if (!languageChecker(lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
@@ -46,7 +50,11 @@ export const wordController = {
       });
   },
 
-  modifyWord(req: Request, res: Response<ICustomResponse>, next: NextFunction) {
+  modifyWord(
+    req: Request,
+    res: Response<ICustomResponse>,
+    next: NextFunction,
+  ): void {
     const lang: string = req.params.lang;
     if (!languageChecker(lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
@@ -67,7 +75,7 @@ export const wordController = {
       });
   },
 
-  removeWord(req: Request, res: Response, next: NextFunction) {
+  removeWord(req: Request, res: Response, next: NextFunction): void {
     const lang: string = req.params.lang;
     if (!languageChecker(lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));

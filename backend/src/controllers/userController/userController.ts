@@ -21,7 +21,7 @@ export const userController = {
     req: Request,
     res: Response<IGetUserResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     userService
       .getAllUsers()
       .then(users => {
@@ -36,7 +36,7 @@ export const userController = {
     req: Request<IUserRegistrationRequest>,
     res: Response<IUserRegistrationResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     const newRegistration: IRegisterUserDataModel = {
       name: req.body.name,
       email: req.body.email,
@@ -65,7 +65,7 @@ export const userController = {
     req: Request<IUserVerificationRequest>,
     res: Response<IUserVerificationResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     const { email, verificationCode } = req.body;
 
     userService
@@ -83,7 +83,7 @@ export const userController = {
     req: Request<IUserLoginRequest>,
     res: Response<IUserLoginResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     const { email, password } = req.body;
 
     userService
@@ -108,7 +108,7 @@ export const userController = {
     req: Request<IPasswordRecoveryRequest>,
     res: Response<ICustomResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     userService
       .recoverUserPasswordByEmail(req.body.email)
       .then(_ => {
@@ -125,7 +125,7 @@ export const userController = {
     req: Request<INewPasswordAddingRequest>,
     res: Response<ICustomResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     const { email, passwordRecoveryCode, password } = req.body;
 
     if (!userController.checkPassword(req.body.password)) {
@@ -154,7 +154,7 @@ export const userController = {
     req: Request,
     res: Response<IGetMyUserDataResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     const token: string = jwtService.getTokenFromRequest(req)!;
     const userId: string = jwtService.getUserIdFromToken(token).toString();
     userService
@@ -169,7 +169,7 @@ export const userController = {
     req: Request,
     res: Response<ICustomResponse>,
     next: NextFunction,
-  ) {
+  ): void {
     const token: string = jwtService.getTokenFromRequest(req)!;
     const userId: string = jwtService.getUserIdFromToken(token).toString();
     const modifiedUserName: IChangeUserNameDataModel = {
