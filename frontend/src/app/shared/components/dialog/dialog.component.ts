@@ -26,6 +26,7 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
     if (this.params.modifyWordData) {
       this.createForm();
+      this.modifyWordForm.disable();
     }
   }
 
@@ -74,5 +75,11 @@ export class DialogComponent implements OnInit {
       newTranslationGroup.addControl('gender', new FormControl(''));
     }
     this.translationsFormArray.push(newTranslationGroup);
+  }
+
+  toggleForm(): void {
+    this.modifyWordForm.disabled
+      ? this.modifyWordForm.enable()
+      : this.modifyWordForm.disable();
   }
 }

@@ -27,8 +27,10 @@
 <!-- FORM -->
 <ng-container *ngIf="params.modifyWordData">
   <mat-dialog-header *ngIf="currentLanguage === languageType.DE"
-    ><h3>Szó módosítása</h3></mat-dialog-header
-  >
+    ><h3 class="flex-center flex-between">
+      Szó módosítása <mat-icon (click)="toggleForm()">edit</mat-icon>
+    </h3>
+  </mat-dialog-header>
   <mat-dialog-content align="center">
     <form class="flex-center default-form" [formGroup]="modifyWordForm">
       <div class="field-holder">
@@ -125,12 +127,7 @@
     </form>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button
-      mat-raised-button
-      class="cancel-button"
-      color="primary"
-      [mat-dialog-close]="false"
-    >
+    <button mat-raised-button class="cancel-button" [mat-dialog-close]="false">
       Mégsem
     </button>
     <button

@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.flex-between {
+  justify-content: space-between;
+}
+
 .default-anchor {
   text-align: center;
   text-decoration: none;
@@ -74,6 +78,25 @@
 
           .mat-form-field {
             margin-bottom: 12px;
+
+            &.disabled-form-field {
+              .mat-input-element::placeholder,
+              mat-label,
+              .mat-input-element,
+              .mat-form-field-outline-thick {
+                color: $disabled !important;
+              }
+            }
+
+            &.mat-form-field-disabled {
+              .mat-input-element::placeholder,
+              mat-label,
+              .mat-input-element,
+              .mat-form-field-outline-thick,
+              .mat-select-value {
+                color: $disabled !important;
+              }
+            }
           }
         }
 
@@ -104,6 +127,13 @@
 
     .cancel-button {
       background-color: $warn;
+    }
+  }
+
+  mat-dialog-actions {
+    .mat-raised-button.mat-button-disabled {
+      background-color: $disabled;
+      color: $black;
     }
   }
 }
