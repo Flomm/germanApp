@@ -73,4 +73,30 @@ export class WordService {
         )
       );
   }
+
+  modifyWord(
+    lang: Language,
+    wordId: number,
+    modifyWordRequestData: IAddWordRequest
+  ): Observable<ICustomResponse> {
+    return this.httpClient
+      .put<ICustomResponse>(
+        `${environment.serverUrl}/word/${lang}/${wordId}`,
+        modifyWordRequestData
+      )
+      .pipe(
+        map((response) => {
+          return {
+            message: response.message,
+            isError: false,
+          };
+        }),
+        catchError((httpError) =>
+          of({
+            message: httpError.error.message ?? 'Connection failure',
+            isError: true,
+          })
+        )
+      );
+  }
 }
