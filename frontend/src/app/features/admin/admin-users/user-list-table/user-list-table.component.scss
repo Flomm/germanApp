@@ -16,3 +16,14 @@ mat-paginator {
   color: $black;
   align-self: flex-end;
 }
+
+::ng-deep .mat-select-panel {
+  background-color: $black;
+}
+
+::ng-deep .mat-option {
+  color: $mainPurple;
+  &.mat-selected {
+    color: $mainPurple;
+  }
+}

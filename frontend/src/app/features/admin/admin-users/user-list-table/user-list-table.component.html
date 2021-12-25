@@ -32,13 +32,18 @@
       [length]="dataSource.data.length"
       [pageSize]="10"
       [pageSizeOptions]="[5, 10, 20]"
-      aria-label="Select page"
     ></mat-paginator>
   </div>
   <div *ngIf="getUserResponse && getUserResponse.isError" class="warn">
     {{ getUserResponse.message }}
   </div>
-  <div *ngIf="getUserResponse && getUserResponse.userList.length < 1 && !getUserResponse.isError">
+  <div
+    *ngIf="
+      getUserResponse &&
+      getUserResponse.userList.length < 1 &&
+      !getUserResponse.isError
+    "
+  >
     Nincs megjeleníthető elem
   </div>
 </div>
