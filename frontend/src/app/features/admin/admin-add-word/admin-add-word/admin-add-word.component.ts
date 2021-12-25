@@ -3,7 +3,6 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
-import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 
 @Component({
