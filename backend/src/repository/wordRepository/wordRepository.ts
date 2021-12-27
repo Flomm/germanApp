@@ -132,11 +132,14 @@ export const wordRepository = {
     modifiedWord: IAddWordDataModel,
     wordId: number,
   ): Promise<IDbResultDataModel> {
+    let queryString: string = `UPDATE german_app.${lang} SET word = ? WHERE id = ?`;
+    let queryArray: string[] = [modifiedWord.word, `${wordId}`];
+    if (lang === Language.DE) {
+      queryArray.unshift(modifiedWord.gender!);
+      queryString = `UPDATE german_app.${lang} SET gender = ?, word = ? WHERE id = ?`;
+    }
     return db
-      .query<IDbResultDataModel>(
-        `UPDATE german_app.${lang} SET word = ?, gender = ?  WHERE id = ?`,
-        [modifiedWord.word, modifiedWord.gender!, `${wordId}`],
-      )
+      .query<IDbResultDataModel>(queryString, queryArray)
       .catch(err => Promise.reject(err));
   },
 
