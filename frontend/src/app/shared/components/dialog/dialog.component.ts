@@ -83,6 +83,10 @@ export class DialogComponent implements OnInit {
     });
   }
 
+  removeTranslationGroup(index: number): void {
+    this.translationsFormArray.removeAt(index);
+  }
+
   toggleForm(): void {
     this.modifyWordForm.disabled
       ? this.modifyWordForm.enable()

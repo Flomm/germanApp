@@ -77,6 +77,17 @@
         [formGroupName]="i"
       >
         <div class="field-holder" [attr.id]="'trans' + i">
+          <button
+            mat-icon-button
+            class="warn"
+            *ngIf="i !== 0"
+            (click)="removeTranslationGroup(i)"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <div class="home-button" *ngIf="i === 0">
+            <mat-icon>home</mat-icon>
+          </div>
           <mat-form-field appearance="outline">
             <mat-label>{{ i + 1 }}. jelentés</mat-label>
             <input

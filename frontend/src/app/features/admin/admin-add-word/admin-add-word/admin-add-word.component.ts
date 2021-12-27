@@ -90,6 +90,10 @@ export class AdminAddWordComponent implements OnInit {
     }
   }
 
+  removeTranslationGroup(index: number): void {
+    this.translationsFormArray.removeAt(index);
+  }
+
   scrollToElement(id: string): void {
     this.viewportScroller.scrollToAnchor(id);
   }

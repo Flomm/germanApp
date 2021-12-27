@@ -18,6 +18,17 @@
       .mat-form-field {
         margin-bottom: 12px;
       }
+
+      .home-button {
+        background-color: $black;
+        color: $mainPurple;
+        border: none;
+        cursor: default;
+
+        .mat-icon {
+          cursor: default;
+        }
+      }
     }
 
     button {

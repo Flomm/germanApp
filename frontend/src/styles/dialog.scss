@@ -16,6 +16,25 @@
           justify-content: space-evenly;
           width: 100%;
 
+          .mat-icon-button.mat-button-disabled.mat-button-disabled {
+            color: $disabled !important;
+
+            .mat-icon {
+              cursor: default;
+            }
+          }
+
+          .home-button {
+            background-color: $black;
+            color: $mainPurple;
+            border: none;
+            cursor: default;
+
+            .mat-icon {
+              cursor: default;
+            }
+          }
+
           .mat-form-field {
             margin-bottom: 12px;
 

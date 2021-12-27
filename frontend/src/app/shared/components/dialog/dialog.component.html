@@ -90,6 +90,22 @@
           [formGroupName]="i"
         >
           <div class="field-holder" [attr.id]="'trans' + i">
+            <button
+              mat-icon-button
+              class="warn"
+              [disabled]="modifyWordForm.disabled"
+              *ngIf="i !== 0"
+              (click)="removeTranslationGroup(i)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <div
+              class="home-button"
+              [disabled]="modifyWordForm.disabled"
+              *ngIf="i === 0"
+            >
+              <mat-icon>home</mat-icon>
+            </div>
             <mat-form-field appearance="outline">
               <mat-label>{{ i + 1 }}. jelentés</mat-label>
               <input
@@ -111,11 +127,7 @@
               *ngIf="currentLanguage !== languageType.DE"
             >
               <mat-label>Nem</mat-label>
-              <mat-select
-                formControlName="gender"
-                panelClass="default-select"
-                (selectionChange)="logg()"
-              >
+              <mat-select formControlName="gender" panelClass="default-select">
                 <mat-option [value]="null">
                   Nincs nem
                   <span
