@@ -10,7 +10,6 @@ import ITranslationDataModel from '../../models/requests/ITranslationDataModel';
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
   modifyWordForm: FormGroup;
