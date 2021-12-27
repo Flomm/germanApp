@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { TranslationService } from 'src/app/core/services/translationService/translation.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
@@ -61,9 +62,6 @@ export class AdminWordsComponent implements OnInit {
             this.dialog.open(DialogComponent, {
               data: {
                 isCancelButtonVisible: true,
-                cancelButtonText: 'Mégsem',
-                okButtonText: 'Mentés',
-                dialogText: '',
                 modifyWordData: modifyWordDialogData,
               },
               panelClass: 'default-dialog',
@@ -78,17 +76,20 @@ export class AdminWordsComponent implements OnInit {
                   res
                 );
               }
+              return of({ message: null, isError: null });
             })
           );
         })
       )
       .subscribe((res) => {
-        const panelClass: string = res.isError ? 'warn' : 'success';
-        this.snackBar.open(res.message, '', {
-          panelClass: [panelClass],
-          duration: 3000,
-        });
-        this.getWordData(getWordRequestForModify.language);
+        if (res.message !== null) {
+          const panelClass: string = res.isError ? 'warn' : 'success';
+          this.snackBar.open(res.message, '', {
+            panelClass: [panelClass],
+            duration: 3000,
+          });
+          this.getWordData(getWordRequestForModify.language);
+        }
       });
   }
 
