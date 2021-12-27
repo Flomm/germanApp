@@ -57,7 +57,6 @@ export class AdminWordsComponent implements OnInit {
             initRequest: getWordRequestForModify,
             translationList: res.translationList,
           };
-
           const modifyDialogRef: MatDialogRef<DialogComponent> =
             this.dialog.open(DialogComponent, {
               data: {

@@ -26,7 +26,7 @@
 </ng-container>
 <!-- FORM -->
 <ng-container *ngIf="params.modifyWordData">
-  <mat-dialog-header *ngIf="currentLanguage === languageType.DE"
+  <mat-dialog-header
     ><h3 class="flex-center flex-between">
       Szó módosítása <mat-icon (click)="toggleForm()">edit</mat-icon>
     </h3>
@@ -38,7 +38,7 @@
           <mat-label>Szó</mat-label>
           <input
             matInput
-            placeholder="Add meg egy új jelentést"
+            placeholder="Adj meg egy új jelentést"
             formControlName="word"
           />
           <mat-error *ngIf="modifyWordForm.controls.word.hasError('required')"
@@ -95,7 +95,7 @@
               <input
                 formControlName="translation"
                 matInput
-                placeholder="Add meg egy másik jelentést"
+                placeholder="Adj meg egy másik jelentést"
               />
               <mat-error
                 *ngIf="
@@ -111,7 +111,11 @@
               *ngIf="currentLanguage !== languageType.DE"
             >
               <mat-label>Nem</mat-label>
-              <mat-select formControlName="gender" panelClass="default-select">
+              <mat-select
+                formControlName="gender"
+                panelClass="default-select"
+                (selectionChange)="logg()"
+              >
                 <mat-option [value]="null">
                   Nincs nem
                   <span

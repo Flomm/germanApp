@@ -1,4 +1,3 @@
-import { ViewportScroller } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -50,22 +49,22 @@ export class DialogComponent implements OnInit {
         new FormControl(this.params.modifyWordData.initRequest.gender || '')
       );
     }
-    this.translationsFormArray.controls = this.createFormArrayFromTranslations(
+    this.createFormArrayFromTranslations(
       this.params.modifyWordData.translationList
     );
   }
 
   createFormArrayFromTranslations(
     translationData: ITranslationDataModel[]
-  ): FormGroup[] {
-    return translationData.map((val: ITranslationDataModel) => {
+  ): void {
+    return translationData.forEach((val: ITranslationDataModel) => {
       const newFormGroup: FormGroup = new FormGroup({
         translation: new FormControl(val.translation, [Validators.required]),
       });
       if (this.currentLanguage === Language.HU) {
         newFormGroup.addControl('gender', new FormControl(val.gender || ''));
       }
-      return newFormGroup;
+      this.translationsFormArray.push(newFormGroup);
     });
   }
 
