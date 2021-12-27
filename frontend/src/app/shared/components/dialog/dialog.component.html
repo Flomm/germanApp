@@ -89,7 +89,7 @@
           "
           [formGroupName]="i"
         >
-          <div class="field-holder">
+          <div class="field-holder" [attr.id]="'trans' + i">
             <mat-form-field appearance="outline">
               <mat-label>{{ i + 1 }}. jelentés</mat-label>
               <input

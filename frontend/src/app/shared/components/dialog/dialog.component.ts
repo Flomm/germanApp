@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -20,6 +21,7 @@ export class DialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public params: IDialogConfig,
+    private selfElement: ElementRef,
     public dialogRef: MatDialogRef<DialogComponent>
   ) {}
 
@@ -75,11 +77,22 @@ export class DialogComponent implements OnInit {
       newTranslationGroup.addControl('gender', new FormControl(''));
     }
     this.translationsFormArray.push(newTranslationGroup);
+    setTimeout(() => {
+      this.scrollToElement(
+        `trans${this.translationsFormArray.controls.length - 1}`
+      );
+    });
   }
 
   toggleForm(): void {
     this.modifyWordForm.disabled
       ? this.modifyWordForm.enable()
       : this.modifyWordForm.disable();
+  }
+
+  scrollToElement(id: string): void {
+    const newFromGroupDiv: HTMLDivElement =
+      this.selfElement.nativeElement.querySelector(`#${id}`);
+    newFromGroupDiv.scrollIntoView({ behavior: 'smooth' });
   }
 }
