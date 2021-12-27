@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { WordService } from 'src/app/core/services/wordService/word.service';
@@ -17,7 +18,10 @@ export class AdminAddWordComponent implements OnInit {
   languageType = Language;
   isMainGenderShown: boolean = true;
 
-  constructor(private wordService: WordService) {}
+  constructor(
+    private wordService: WordService,
+    private viewportScroller: ViewportScroller
+  ) {}
 
   ngOnInit(): void {
     this.addWordForm = new FormGroup({
@@ -58,6 +62,11 @@ export class AdminAddWordComponent implements OnInit {
       newTranslationGroup.addControl('gender', new FormControl(''));
     }
     this.translationsFormArray.push(newTranslationGroup);
+    setTimeout(() => {
+      this.scrollToElement(
+        `trans${this.translationsFormArray.controls.length - 1}`
+      );
+    });
   }
 
   toggleGender(): void {
@@ -79,5 +88,9 @@ export class AdminAddWordComponent implements OnInit {
         }
       });
     }
+  }
+
+  scrollToElement(id: string): void {
+    this.viewportScroller.scrollToAnchor(id);
   }
 }
