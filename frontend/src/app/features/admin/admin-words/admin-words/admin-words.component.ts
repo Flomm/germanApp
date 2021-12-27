@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { switchMap } from 'rxjs/operators';
 import { TranslationService } from 'src/app/core/services/translationService/translation.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
@@ -9,6 +10,7 @@ import IModifyWordDialogData from 'src/app/shared/models/models/viewModels/IModi
 import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
+import IGetTranslationsResponse from 'src/app/shared/models/responses/IGetTranslationsResponse';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 
 @Component({
@@ -48,44 +50,44 @@ export class AdminWordsComponent implements OnInit {
         getWordRequestForModify.language,
         getWordRequestForModify.wordId
       )
+      .pipe(
+        switchMap((res: IGetTranslationsResponse) => {
+          const modifyWordDialogData: IModifyWordDialogData = {
+            initRequest: getWordRequestForModify,
+            translationList: res.translationList,
+          };
+
+          const modifyDialogRef = this.dialog.open(DialogComponent, {
+            data: {
+              isCancelButtonVisible: true,
+              cancelButtonText: 'Mégsem',
+              okButtonText: 'Mentés',
+              dialogText: 'MODIFY',
+              modifyWordData: modifyWordDialogData,
+            },
+            panelClass: 'default-dialog',
+            disableClose: true,
+          });
+          return modifyDialogRef.afterClosed().pipe(
+            switchMap((res: IAddWordRequest) => {
+              if (res) {
+                return this.wordService.modifyWord(
+                  getWordRequestForModify.language,
+                  getWordRequestForModify.wordId,
+                  res
+                );
+              }
+            })
+          );
+        })
+      )
       .subscribe((res) => {
-        const modifyWordDialogData: IModifyWordDialogData = {
-          initRequest: getWordRequestForModify,
-          translationList: res.translationList,
-        };
-
-        const modifyDialogRef = this.dialog.open(DialogComponent, {
-          data: {
-            isCancelButtonVisible: true,
-            cancelButtonText: 'Mégsem',
-            okButtonText: 'Mentés',
-            dialogText: 'MODIFY',
-            modifyWordData: modifyWordDialogData,
-          },
-          panelClass: 'default-dialog',
-          disableClose: true,
+        const panelClass: string = res.isError ? 'warn' : 'success';
+        this.snackBar.open(res.message, '', {
+          panelClass: [panelClass],
+          duration: 3000,
         });
-
-        modifyDialogRef.afterClosed().subscribe((res: IAddWordRequest) => {
-          if (res) {
-            this.wordService
-              .modifyWord(
-                getWordRequestForModify.language,
-                getWordRequestForModify.wordId,
-                res
-              )
-              .subscribe((response) => {
-                const panelClass: string = response.isError
-                  ? 'warn'
-                  : 'success';
-                this.snackBar.open(response.message, '', {
-                  panelClass: [panelClass],
-                  duration: 3000,
-                });
-                this.getWordData(getWordRequestForModify.language);
-              });
-          }
-        });
+        this.getWordData(getWordRequestForModify.language);
       });
   }
 
