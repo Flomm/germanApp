@@ -51,6 +51,12 @@
         >
           <mat-label>Nem</mat-label>
           <mat-select formControlName="gender" panelClass="default-select">
+            <mat-option [value]="null">
+              Nincs nem
+              <span *ngIf="modifyWordForm.controls.gender.value === null">
+                &#10004;</span
+              >
+            </mat-option>
             <mat-option
               *ngFor="let gender of genderType | enumToView"
               [value]="gender.value"
@@ -106,6 +112,17 @@
             >
               <mat-label>Nem</mat-label>
               <mat-select formControlName="gender" panelClass="default-select">
+                <mat-option [value]="null">
+                  Nincs nem
+                  <span
+                    *ngIf="
+                      translationsFormArray.controls[i]['controls'].gender
+                        .value === null
+                    "
+                  >
+                    &#10004;</span
+                  >
+                </mat-option>
                 <mat-option
                   *ngFor="let gender of genderType | enumToView"
                   [value]="gender.value"
