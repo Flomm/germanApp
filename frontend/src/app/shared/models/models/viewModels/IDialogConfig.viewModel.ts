@@ -5,6 +5,6 @@ export default interface IDialogConfig {
   cancelButtonText?: string;
   okButtonText?: string;
   isClosable?: boolean;
-  dialogText: string;
-  modifyWordData: IModifyWordDialogData;
+  dialogText?: string;
+  modifyWordData?: IModifyWordDialogData;
 }

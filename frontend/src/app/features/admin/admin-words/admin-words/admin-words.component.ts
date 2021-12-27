@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap } from 'rxjs/operators';
 import { TranslationService } from 'src/app/core/services/translationService/translation.service';
@@ -57,17 +57,18 @@ export class AdminWordsComponent implements OnInit {
             translationList: res.translationList,
           };
 
-          const modifyDialogRef = this.dialog.open(DialogComponent, {
-            data: {
-              isCancelButtonVisible: true,
-              cancelButtonText: 'Mégsem',
-              okButtonText: 'Mentés',
-              dialogText: 'MODIFY',
-              modifyWordData: modifyWordDialogData,
-            },
-            panelClass: 'default-dialog',
-            disableClose: true,
-          });
+          const modifyDialogRef: MatDialogRef<DialogComponent> =
+            this.dialog.open(DialogComponent, {
+              data: {
+                isCancelButtonVisible: true,
+                cancelButtonText: 'Mégsem',
+                okButtonText: 'Mentés',
+                dialogText: '',
+                modifyWordData: modifyWordDialogData,
+              },
+              panelClass: 'default-dialog',
+              disableClose: true,
+            });
           return modifyDialogRef.afterClosed().pipe(
             switchMap((res: IAddWordRequest) => {
               if (res) {
@@ -92,16 +93,19 @@ export class AdminWordsComponent implements OnInit {
   }
 
   onRemoveWord(removeRequest: IWordRemovalRequest): void {
-    const removalDialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        isCancelButtonVisible: true,
-        cancelButtonText: 'Nem',
-        okButtonText: 'Igen',
-        dialogText: 'Biztosan ki szeretnéd törölni ezt a szót?',
-      },
-      panelClass: 'default-dialog',
-      disableClose: true,
-    });
+    const removalDialogRef: MatDialogRef<DialogComponent> = this.dialog.open(
+      DialogComponent,
+      {
+        data: {
+          isCancelButtonVisible: true,
+          cancelButtonText: 'Nem',
+          okButtonText: 'Igen',
+          dialogText: 'Biztosan ki szeretnéd törölni ezt a szót?',
+        },
+        panelClass: 'default-dialog',
+        disableClose: true,
+      }
+    );
 
     removalDialogRef.afterClosed().subscribe((res) => {
       if (res) {
