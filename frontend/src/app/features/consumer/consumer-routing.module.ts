@@ -9,8 +9,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'tickets',
+        redirectTo: 'welcome',
         pathMatch: 'full',
+      },
+      {
+        path: 'welcome',
+        loadChildren: () =>
+          import('./consumer-main/consumer-main.module').then(
+            (m) => m.ConsumerMainModule
+          ),
       },
     ],
   },
