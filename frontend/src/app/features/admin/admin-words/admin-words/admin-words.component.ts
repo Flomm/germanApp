@@ -17,7 +17,6 @@ import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse'
 @Component({
   selector: 'app-admin-words',
   templateUrl: './admin-words.component.html',
-  styleUrls: ['./admin-words.component.scss'],
 })
 export class AdminWordsComponent implements OnInit {
   getWordResponse: IGetWordResponse;
