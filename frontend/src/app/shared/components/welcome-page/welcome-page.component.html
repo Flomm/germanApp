@@ -1,0 +1,15 @@
+<ng-container *ngIf="userRole">
+  <main class="flex-center" *ngIf="userRole === userRolesList.Admin">
+    <h1>Üdv az adminisztrációs felületen!</h1>
+    <h2>A fenti menü segítségével végezheted a szókészlet karbantartását!</h2>
+    <img src="../../../../../../assets/logo.png" />
+  </main>
+  <main class="flex-center" *ngIf="userRole === userRolesList.Consumer">
+    <h1>Üdv a felhasználói felületen!</h1>
+    <h2>
+      A fenti menü segítségével belekezdhetsz a gyakorlásba, vagy metekinteheted
+      eredményeidet!
+    </h2>
+    <img src="../../../../../../assets/logo.png" />
+  </main>
+</ng-container>

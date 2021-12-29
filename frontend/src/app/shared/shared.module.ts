@@ -16,6 +16,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import EnumToViewPipe from '../shared/pipes/enumToView/enumToView.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     DialogComponent,
     EnumToViewPipe,
+    WelcomePageComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSnackBarModule,
     EnumToViewPipe,
     MatBadgeModule,
+    WelcomePageComponent,
   ],
 })
 export class SharedModule {}
