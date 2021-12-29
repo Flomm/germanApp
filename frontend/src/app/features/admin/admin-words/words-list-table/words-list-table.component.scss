@@ -30,33 +30,6 @@ form {
   }
 }
 
-.black-select {
-  color: $mainPurple;
-  background-color: $black;
-  border: 1px solid $mainPurple;
-
-  .mat-option {
-    .mat-option-text {
-      color: $mainPurple;
-    }
-
-    &.mat-selected {
-      color: $mainPurple;
-
-      &:hover {
-        background-color: $mainPurple;
-        color: $black;
-      }
-    }
-
-    &:hover {
-      background-color: $mainPurple;
-      .mat-option-text {
-        color: $black;
-      }
-    }
-  }
-}
 ::ng-deep .mat-icon {
   cursor: pointer;
 
