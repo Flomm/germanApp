@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
@@ -35,15 +34,16 @@ export class MyProfileComponent implements OnInit {
     });
   }
 
-  enableUsernameModification(): void {
-    this.myUserProfileForm.controls.name.enable();
+  toggleUsernameModification(): void {
+    this.myUserProfileForm.controls.name.disabled
+      ? this.myUserProfileForm.controls.name.enable()
+      : this.myUserProfileForm.controls.name.disable();
   }
 
   submitUsernameChange(): void {
-    const name: INewUsernameRequest = {
+    this.newUsernameRequest.emit({
       name: this.myUserProfileForm.controls.name.value,
-    };
-    this.newUsernameRequest.emit(name);
+    });
     this.myUserProfileForm.controls.name.disable();
   }
 }

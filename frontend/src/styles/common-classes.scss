@@ -8,6 +8,10 @@
   justify-content: space-between;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .default-anchor {
   text-align: center;
   text-decoration: none;
@@ -58,6 +62,48 @@
   }
 }
 
+.inverse-form {
+  background-color: $mainPurple;
+  color: $black;
+
+  .mat-form-field {
+    .mat-input-element::placeholder,
+    mat-label {
+      color: $black;
+    }
+
+    mat-error {
+      display: none;
+
+      &:first-child {
+        display: block;
+      }
+    }
+    ::-webkit-calendar-picker-indicator {
+      filter: black;
+      cursor: pointer;
+    }
+    .mat-form-field-outline-thick {
+      opacity: 1 !important;
+      color: $black;
+    }
+
+    &.disabled-form-field {
+      .mat-input-element::placeholder,
+      mat-label,
+      .mat-input-element,
+      .mat-form-field-outline-thick {
+        color: $disabledInverse !important;
+      }
+    }
+  }
+
+  .mat-raised-button.mat-button-disabled {
+    background-color: $disabledInverse;
+    color: $black;
+  }
+}
+
 .warn {
   color: $warn;
 }
@@ -68,6 +114,10 @@
 
 .primary {
   color: $mainPurple;
+}
+
+.black {
+  color: $black;
 }
 
 .default-table {

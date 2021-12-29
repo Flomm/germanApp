@@ -1,23 +1,26 @@
 <div class="flex-center form-holder">
   <h2>Saját profil</h2>
-  <form class="flex-center default-form" [formGroup]="myUserProfileForm">
-    <mat-form-field appearance="outline" class="disabled-form-field">
+  <form class="flex-center inverse-form" [formGroup]="myUserProfileForm">
+    <mat-form-field appearance="standard" class="disabled-form-field">
       <mat-label>E-mail</mat-label>
       <input matInput formControlName="email" />
     </mat-form-field>
     <mat-form-field
-      appearance="outline"
+      appearance="standard"
       [class.disabled-form-field]="!myUserProfileForm.controls.name.enabled"
     >
       <mat-label>Felhasználónév</mat-label>
       <input matInput formControlName="name" />
-      <mat-icon (click)="enableUsernameModification()" matSuffix
+      <mat-icon (click)="toggleUsernameModification()" matSuffix
         >create</mat-icon
       >
       <mat-error *ngIf="myUserProfileForm.controls.name.hasError('required')"
         >Kötelező mező</mat-error
       >
     </mat-form-field>
+    <a class="default-anchor black" routerLink="/new-password"
+      >Jelszó megváltoztatása</a
+    >
     <button
       mat-raised-button
       color="primary"
