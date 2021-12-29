@@ -55,7 +55,7 @@ export const userService = {
             userName: registration.name,
             instructions:
               'Köszönjük a regisztrációt! Kattints a lenti gombra a megerősítéshez!',
-            buttonText: 'Confirm registration',
+            buttonText: 'Regisztráció megerősítése',
             url: `http://localhost:4200/email/verify?code=${verificationCode}&email=${registration.email}`,
           };
           const email: IEmail = {

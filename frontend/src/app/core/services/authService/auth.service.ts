@@ -131,7 +131,7 @@ export default class AuthService {
           this.dialog.open(DialogComponent, {
             data: {
               dialogText:
-                'Thank you for your registration. Please verify your e-mail and continue with the login.',
+                'Köszönjük a regisztrációt. Bejelentkezés előtt kérlek erősítsd meg az e-mail címed a kiküldött e-mail segítségével.',
             },
             panelClass: 'default-dialog',
           });
