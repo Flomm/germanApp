@@ -21,3 +21,16 @@ body {
   color: $mainPurple;
   font-family: "Varela Round", sans-serif;
 }
+
+footer {
+  height: 50px;
+  background-color: $mainPurple;
+  width: 100%;
+
+  .footer-text {
+    font-size: $smallFontSize;
+    font-weight: bolder;
+    color: $black;
+    margin: 0px;
+  }
+}
