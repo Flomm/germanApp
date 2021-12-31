@@ -24,7 +24,7 @@ export class TranslationService {
         catchError((httpError) =>
           of({
             translationList: [],
-            message: httpError.error.message ?? 'Connection failure',
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
         )

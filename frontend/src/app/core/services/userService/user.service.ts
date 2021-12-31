@@ -18,7 +18,7 @@ export class UserService {
         catchError((httpError) =>
           of({
             userList: [],
-            message: httpError.error.message ?? 'Connection failure',
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
         )

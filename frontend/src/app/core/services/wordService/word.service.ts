@@ -21,7 +21,7 @@ export class WordService {
         catchError((httpError) =>
           of({
             wordList: [],
-            message: httpError.error.message ?? 'Connection failure',
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
         )
@@ -42,7 +42,7 @@ export class WordService {
         }),
         catchError((httpError) =>
           of({
-            message: httpError.error.message ?? 'Connection failure',
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
         )
@@ -67,7 +67,7 @@ export class WordService {
         }),
         catchError((httpError) =>
           of({
-            message: httpError.error.message ?? 'Connection failure',
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
         )
@@ -93,7 +93,7 @@ export class WordService {
         }),
         catchError((httpError) =>
           of({
-            message: httpError.error.message ?? 'Connection failure',
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
         )

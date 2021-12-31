@@ -17,7 +17,7 @@ export class StatisticsService {
       .pipe(
         catchError((httpError) =>
           of({
-            message: httpError.error.message ?? 'Connection failure',
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
         )
