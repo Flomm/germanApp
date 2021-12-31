@@ -1,17 +1,30 @@
 <main class="flex-center">
-  <div class="main-holder text-center">
-    <h2>Személyes statisztikák</h2>
+  <h2>Személyes statisztikák</h2>
+  <div
+    class="main-holder text-center"
+    *ngIf="getStatisticsResponse && getStatisticsResponse.statistics"
+  >
     <p class="flex-center flex-between">
-      Elkezedett játékok: <span>{{ 0 }}</span>
+      Elkezedett játékok:
+      <span>{{ getStatisticsResponse.statistics.numOfStartedGames }}</span>
     </p>
     <p class="flex-center flex-between">
-      Befejezett játékok: <span>{{ 0 }}</span>
+      Befejezett játékok:
+      <span>{{ getStatisticsResponse.statistics.numOfFinishedGames }}</span>
     </p>
     <p class="flex-center flex-between">
-      Összes helyes válasz: <span>{{ 0 }}</span>
+      Összes helyes válasz:
+      <span>{{ getStatisticsResponse.statistics.numOfCorrectAnswers }}</span>
     </p>
     <p class="flex-center flex-between">
-      Összes helytelen válasz: <span>{{ 0 }}</span>
+      Összes helytelen válasz:
+      <span>{{ getStatisticsResponse.statistics.numOfIncorrectAnswers }}</span>
     </p>
+  </div>
+  <div
+    *ngIf="getStatisticsResponse && getStatisticsResponse.isError"
+    class="warn"
+  >
+    {{ getStatisticsResponse.message }}
   </div>
 </main>
