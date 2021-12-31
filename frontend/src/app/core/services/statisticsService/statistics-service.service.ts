@@ -13,7 +13,9 @@ export class StatisticsService {
 
   getMyStatistics(): Observable<IGetStatisticsResponse> {
     return this.httpClient
-      .get<IGetStatisticsResponse>(`${environment.serverUrl}/my-statistics/`)
+      .get<IGetStatisticsResponse>(
+        `${environment.serverUrl}/statistics/my-statistics/`
+      )
       .pipe(
         catchError((httpError) =>
           of({
