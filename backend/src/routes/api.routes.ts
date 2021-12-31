@@ -3,6 +3,7 @@ import cors from 'cors';
 import { userRouter } from './user.api.routes';
 import { wordRouter } from './word.api.routes';
 import { translationRouter } from './translation.api.routes';
+import { statisticsRouter } from './statistics.api.routes';
 
 const apiRouter = express.Router();
 apiRouter.use(cors());
@@ -10,5 +11,6 @@ apiRouter.use(express.json());
 apiRouter.use('/user', userRouter);
 apiRouter.use('/word', wordRouter);
 apiRouter.use('/translation', translationRouter);
+apiRouter.use('/statistics', statisticsRouter);
 
 export default apiRouter;
