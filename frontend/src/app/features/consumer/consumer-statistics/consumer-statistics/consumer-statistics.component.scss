@@ -1,0 +1,14 @@
+@import "../../../../../styles/variables.scss";
+
+main {
+  flex-direction: column;
+  height: $heightForCentering;
+}
+
+.main-holder {
+  width: 50%;
+  background-color: $mainPurple;
+  color: $black;
+  padding: 2%;
+  border-radius: 10px;
+}
