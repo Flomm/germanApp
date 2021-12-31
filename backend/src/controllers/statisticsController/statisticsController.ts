@@ -1,6 +1,7 @@
 import { NextFunction, Response, Request } from 'express';
 import IGetStatisticsResponse from '../../models/responses/IGetStatisticsResponse';
 import { jwtService } from '../../services/jwtService/jwt.service';
+import { statisticsService } from '../../services/statisticsService/statisticsService';
 
 export const statisticsController = {
   getMyStatistics(
@@ -10,11 +11,11 @@ export const statisticsController = {
   ): void {
     const token: string = jwtService.getTokenFromRequest(req)!;
     const userId: string = jwtService.getUserIdFromToken(token).toString();
-    // userService
-    //   .getMyData(userId)
-    //   .then(userData => res.status(200).json({ userData: userData }))
-    //   .catch(err => {
-    //     return next(err);
-    //   });
+    statisticsService
+      .getMyStatistics(userId)
+      .then(statData => res.status(200).json({ statistics: statData }))
+      .catch(err => {
+        return next(err);
+      });
   },
 };
