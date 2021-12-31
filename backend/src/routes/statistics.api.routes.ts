@@ -1,4 +1,5 @@
 import express from 'express';
+import { statisticsController } from '../controllers/statisticsController/statisticsController';
 import tokenAuthentication from '../middlewares/jwtAuthenticator/jwtAuthenticator';
 import permitChecker from '../middlewares/permitChecker/permitChecker';
 import { UserRole } from '../models/models/Enums/UserRole.enum';
@@ -47,4 +48,4 @@ export const statisticsRouter = express.Router();
 statisticsRouter
   .route('/my-statistics')
   .all(tokenAuthentication(), permitChecker([UserRole.Consumer]))
-  .get();
+  .get(statisticsController.getMyStatistics);
