@@ -2,6 +2,7 @@ import express from 'express';
 import { statisticsController } from '../controllers/statisticsController/statisticsController';
 import tokenAuthentication from '../middlewares/jwtAuthenticator/jwtAuthenticator';
 import permitChecker from '../middlewares/permitChecker/permitChecker';
+import { bodyValidator } from '../middlewares/requestValidator/requestValidator';
 import { UserRole } from '../models/models/Enums/UserRole.enum';
 
 export const statisticsRouter = express.Router();
@@ -63,7 +64,7 @@ statisticsRouter
  *      produces:
  *      - application/json
  *      parameters:
- *      - in: path
+ *      - in: body
  *        name: dataType
  *        type: number
  *        required: true
@@ -78,6 +79,10 @@ statisticsRouter
  *          description: Internal Server Error.
  */
 statisticsRouter
-  .route('/increment/:dataType')
-  .all(tokenAuthentication(), permitChecker([UserRole.All]))
+  .route('/increment/')
+  .all(
+    tokenAuthentication(),
+    permitChecker([UserRole.All]),
+    bodyValidator(['dataType']),
+  )
   .put(statisticsController.incrementStatData);

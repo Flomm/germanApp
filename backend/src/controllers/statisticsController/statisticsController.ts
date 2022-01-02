@@ -29,7 +29,7 @@ export const statisticsController = {
   ): void {
     const token: string = jwtService.getTokenFromRequest(req)!;
     const userId: string = jwtService.getUserIdFromToken(token).toString();
-    const dataType: StatDataType = parseInt(req.params.dataType);
+    const dataType: StatDataType = parseInt(req.body.dataType);
     if (isNaN(dataType) || dataType < 1 || dataType > 4) {
       return next(badRequestError('Érvénytelen adattípus azonosító.'));
     }
