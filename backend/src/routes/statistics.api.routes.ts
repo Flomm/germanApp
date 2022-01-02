@@ -55,7 +55,7 @@ statisticsRouter
  * @swagger
  * paths:
  *  /api/statistics/increment/{dataType}:
- *    put:
+ *    patch:
  *      tags:
  *        - STATISTICS
  *      summary: Increment a statistic data as a user
@@ -85,4 +85,4 @@ statisticsRouter
     permitChecker([UserRole.All]),
     bodyValidator(['dataType']),
   )
-  .put(statisticsController.incrementStatData);
+  .patch(statisticsController.incrementStatData);

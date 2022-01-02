@@ -59,7 +59,7 @@ describe('GET /my-statistics', () => {
   });
 });
 
-describe('PUT /increment/:dataType', () => {
+describe('PATCH /increment/:dataType', () => {
   test('successfully updating SG stat data', async () => {
     //Arrange
     statisticsService.incrementStatData = jest
@@ -69,7 +69,7 @@ describe('PUT /increment/:dataType', () => {
 
     //Act
     const response = await request(app)
-      .put('/api/statistics/increment')
+      .patch('/api/statistics/increment')
       .set({ authorization: `Bearer ${token}` })
       .send(mockBody);
 
@@ -93,7 +93,7 @@ describe('PUT /increment/:dataType', () => {
 
     //Act
     const response = await request(app)
-      .put('/api/statistics/increment')
+      .patch('/api/statistics/increment')
       .set({ authorization: `Bearer ${token}` })
       .send(mockBody);
 
@@ -117,7 +117,7 @@ describe('PUT /increment/:dataType', () => {
 
     //Act
     const response = await request(app)
-      .put('/api/statistics/increment')
+      .patch('/api/statistics/increment')
       .set({ authorization: `Bearer ${token}` })
       .send(mockBody);
 
@@ -137,7 +137,7 @@ describe('PUT /increment/:dataType', () => {
 
     //Act
     const response = await request(app)
-      .put('/api/statistics/increment')
+      .patch('/api/statistics/increment')
       .set({ authorization: `Bearer ${token}` })
       .send(mockBody);
 
@@ -157,7 +157,7 @@ describe('PUT /increment/:dataType', () => {
 
     //Act
     const response = await request(app)
-      .put('/api/statistics/increment')
+      .patch('/api/statistics/increment')
       .set({ authorization: `Bearer ${token}` })
       .send(mockBody);
 
