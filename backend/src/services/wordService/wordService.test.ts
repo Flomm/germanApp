@@ -215,7 +215,7 @@ describe('modifyWord', () => {
     wordRepository.modifyWord = jest.fn().mockResolvedValue(mockDbResult);
 
     //Act
-    await wordRepository.modifyWord(Language.DE, mockDeWord, 1);
+    await wordService.modifyWord(Language.DE, mockDeWord, 1);
     //Assert
 
     expect(wordRepository.modifyWord).toHaveBeenCalledWith(
