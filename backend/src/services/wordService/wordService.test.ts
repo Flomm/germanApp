@@ -204,65 +204,65 @@ describe('addNewWord', () => {
       );
     }
   });
+});
 
-  describe('modifyWord', () => {
-    test('successfully updating word', async () => {
-      //Arrange
-      const mockDbResult: IDbResultDataModel = {
-        affectedRows: 1,
-      };
-      wordRepository.modifyWord = jest.fn().mockResolvedValue(mockDbResult);
+describe('modifyWord', () => {
+  test('successfully updating word', async () => {
+    //Arrange
+    const mockDbResult: IDbResultDataModel = {
+      affectedRows: 1,
+    };
+    wordRepository.modifyWord = jest.fn().mockResolvedValue(mockDbResult);
 
-      //Act
-      await wordRepository.modifyWord(Language.DE, mockDeWord, 1);
+    //Act
+    await wordRepository.modifyWord(Language.DE, mockDeWord, 1);
+    //Assert
+
+    expect(wordRepository.modifyWord).toHaveBeenCalledWith(
+      Language.DE,
+      mockDeWord,
+      1,
+    );
+  });
+  test('should create servererror if affectedrows is 0', async () => {
+    //Arrange
+    const mockDbResult: IDbResultDataModel = {
+      affectedRows: 0,
+    };
+
+    wordRepository.modifyWord = jest.fn().mockResolvedValue(mockDbResult);
+
+    //Act
+    try {
+      await wordService.modifyWord(Language.DE, mockDeWord, 1);
+    } catch (err) {
       //Assert
-
+      expect(err).toEqual(notFoundError('A módosítás nem sikerült.'));
       expect(wordRepository.modifyWord).toHaveBeenCalledWith(
         Language.DE,
         mockDeWord,
         1,
       );
-    });
-    test('should create servererror if affectedrows is 0', async () => {
-      //Arrange
-      const mockDbResult: IDbResultDataModel = {
-        affectedRows: 0,
-      };
+    }
+  });
 
-      wordRepository.modifyWord = jest.fn().mockResolvedValue(mockDbResult);
+  test('repository error', async () => {
+    //Arrange
+    wordRepository.modifyWord = jest
+      .fn()
+      .mockRejectedValue(serverError('test'));
 
-      //Act
-      try {
-        await wordService.modifyWord(Language.DE, mockDeWord, 1);
-      } catch (err) {
-        //Assert
-        expect(err).toEqual(notFoundError('A módosítás nem sikerült.'));
-        expect(wordRepository.modifyWord).toHaveBeenCalledWith(
-          Language.DE,
-          mockDeWord,
-          1,
-        );
-      }
-    });
-
-    test('repository error', async () => {
-      //Arrange
-      wordRepository.modifyWord = jest
-        .fn()
-        .mockRejectedValue(serverError('test'));
-
-      //Act
-      try {
-        await wordService.modifyWord(Language.DE, mockDeWord, 1);
-      } catch (err) {
-        //Assert
-        expect(err).toEqual(serverError('test'));
-        expect(wordRepository.modifyWord).toHaveBeenCalledWith(
-          Language.DE,
-          mockDeWord,
-          1,
-        );
-      }
-    });
+    //Act
+    try {
+      await wordService.modifyWord(Language.DE, mockDeWord, 1);
+    } catch (err) {
+      //Assert
+      expect(err).toEqual(serverError('test'));
+      expect(wordRepository.modifyWord).toHaveBeenCalledWith(
+        Language.DE,
+        mockDeWord,
+        1,
+      );
+    }
   });
 });
