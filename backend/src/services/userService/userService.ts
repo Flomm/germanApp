@@ -21,6 +21,7 @@ import IUpdatePasswordDataModel from '../../models/models/dataModels/IUpdatePass
 import IEmailReplacements from '../../models/IEmailReplacements';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
+import { statisticsRepository } from '../../repository/statisticsRepository/statisticsRepository';
 
 const templatePath: string = '../../models/templates/email-template.html';
 
@@ -73,6 +74,7 @@ export const userService = {
   },
 
   verifyUser(email: string, verificationCode: number): Promise<void> {
+    let userId: number;
     return userRepository
       .getUserByEmail(email)
       .then(async user => {
@@ -87,11 +89,17 @@ export const userService = {
             conflictError('A regisztráció már meg van erősítve.'),
           );
         }
+        userId = user.id;
         return await userRepository.verifyUser(email, verificationCode);
       })
       .then(result => {
         if (result && result.affectedRows > 0) {
-          return;
+          return statisticsRepository
+            .createNewStatistics(userId.toString())
+            .then(_ => {
+              return;
+            })
+            .catch(err => Promise.reject(err));
         }
         return Promise.reject(serverError('Sikertelen megerősítés.'));
       })

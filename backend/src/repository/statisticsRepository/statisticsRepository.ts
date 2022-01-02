@@ -3,6 +3,15 @@ import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataMode
 import IStatisticsDomainModel from '../../models/models/domainModels/IStatisticsDomainModel';
 
 export const statisticsRepository = {
+  createNewStatistics(userId: string): Promise<IDbResultDataModel> {
+    return db
+      .query<IDbResultDataModel>(
+        'INSERT INTO german_app.statistics (userId) VALUES (?)',
+        [userId],
+      )
+      .catch(err => Promise.reject(err));
+  },
+
   getStatisticsByUserId(userId: string): Promise<IStatisticsDomainModel> {
     return db
       .query<IStatisticsDomainModel[]>(
