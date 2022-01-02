@@ -30,11 +30,6 @@ const mockDeWord: IAddWordDataModel = {
   translations: [{ translation: 'tükör' }],
 };
 
-const mockHuWord: IAddWordDataModel = {
-  word: 'tükör',
-  translations: [{ translation: 'Spiegel', gender: Gender.DER }],
-};
-
 const mockLanguage: Language = Language.DE;
 
 describe('getAllWords', () => {
