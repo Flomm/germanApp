@@ -47,5 +47,5 @@ export const statisticsRouter = express.Router();
  */
 statisticsRouter
   .route('/my-statistics')
-  .all(tokenAuthentication(), permitChecker([UserRole.Consumer]))
+  .all(tokenAuthentication(), permitChecker([UserRole.All]))
   .get(statisticsController.getMyStatistics);
