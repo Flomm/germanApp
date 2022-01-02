@@ -6,6 +6,8 @@ import {
 } from '../errorCreatorService/errorCreator.service';
 import { statisticsService } from './statisticsService';
 
+const mockUserId: string = '1';
+
 describe('getMyStatistics', () => {
   const mockStatisticsData: IStatisticsDomainModel = {
     userId: 1,
@@ -14,7 +16,6 @@ describe('getMyStatistics', () => {
     numOfFinishedGames: 0,
     numOfStartedGames: 0,
   };
-  const mockUserId: string = '1';
 
   test('successfully retrieved statistics data', async () => {
     //Arrange
