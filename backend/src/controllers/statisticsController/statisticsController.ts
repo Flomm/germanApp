@@ -30,9 +30,9 @@ export const statisticsController = {
     const token: string = jwtService.getTokenFromRequest(req)!;
     const userId: string = jwtService.getUserIdFromToken(token).toString();
     const dataType: StatDataType = parseInt(req.params.dataType);
-    // if (isNaN(dataType) || dataType < 1 || dataType > 4) {
-    //   return next(badRequestError('Érvénytelen adattípus azonosító.'));
-    // }
+    if (isNaN(dataType) || dataType < 1 || dataType > 4) {
+      return next(badRequestError('Érvénytelen adattípus azonosító.'));
+    }
     statisticsService
       .incrementStatData(userId, dataType)
       .then(_ => {
