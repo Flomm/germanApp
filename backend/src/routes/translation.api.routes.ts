@@ -21,9 +21,11 @@ export const translationRouter = express.Router();
  *      parameters:
  *      - in: path
  *        name: lang
+ *        type: string
  *        required: true
  *      - in: path
  *        name: id
+ *        type: number
  *        required: true
  *      responses:
  *        '200':
