@@ -1,8 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import {
-  forbiddenError,
-  unauthorizedError,
-} from '../../services/errorCreatorService/errorCreator.service';
+import { unauthorizedError } from '../../services/errorCreatorService/errorCreator.service';
 import { jwtService } from '../../services/jwtService/jwt.service';
 import tokenAuthentication from './jwtAuthenticator';
 
