@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserRole } from '../../models/models/Enums/UserRole.enum';
-import { forbiddenError } from '../../services/errorCreatorService/errorCreator.service';
+import {
+  forbiddenError,
+  unauthorizedError,
+} from '../../services/errorCreatorService/errorCreator.service';
 import permitChecker from './permitChecker';
 
 describe('permitChecker', () => {
@@ -29,7 +32,7 @@ describe('permitChecker', () => {
     );
 
     //Assert
-    expect(next).toBeCalledWith(forbiddenError('Nincs autorizálva.'));
+    expect(next).toBeCalledWith(unauthorizedError('Nincs autorizálva.'));
   });
 
   test('it should call next without arguments if token is present and allowedRoles is All', () => {
