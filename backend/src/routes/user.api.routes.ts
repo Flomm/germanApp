@@ -286,7 +286,7 @@ userRouter
  */
 userRouter
   .route('/my-data')
-  .all(permitChecker([UserRole.All]))
+  .all(tokenAuthentication(), permitChecker([UserRole.All]))
   .get(userController.getMyData);
 
 /**
