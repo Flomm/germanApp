@@ -1,6 +1,8 @@
 import express from 'express';
+import { gameController } from '../controllers/gameController/gameController';
 import tokenAuthentication from '../middlewares/jwtAuthenticator/jwtAuthenticator';
 import permitChecker from '../middlewares/permitChecker/permitChecker';
+import { queryValidator } from '../middlewares/requestValidator/requestValidator';
 import { UserRole } from '../models/models/Enums/UserRole.enum';
 
 export const gameRouter = express.Router();
@@ -55,5 +57,9 @@ export const gameRouter = express.Router();
  */
 gameRouter
   .route('/random-words/:lang')
-  .all(tokenAuthentication(), permitChecker([UserRole.Consumer]))
-  .get();
+  .all(
+    tokenAuthentication(),
+    permitChecker([UserRole.Consumer]),
+    queryValidator(['quantity']),
+  )
+  .get(gameController.getRandomWords);

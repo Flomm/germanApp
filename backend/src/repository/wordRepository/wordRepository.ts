@@ -179,4 +179,16 @@ export const wordRepository = {
       })
       .catch(err => Promise.reject(err));
   },
+
+  getRandomWords(
+    lang: Language,
+    quantity: number,
+  ): Promise<IGetWordsDataModel[]> {
+    const queryString: string = `SELECT id, word${
+      lang === Language.DE ? ', gender' : ''
+    } FROM german_app.${lang} ORDER BY RAND() LIMIT ${quantity};`;
+    return db
+      .query<IGetWordsDataModel[]>(queryString, [])
+      .catch(err => Promise.reject(err));
+  },
 };
