@@ -26,6 +26,13 @@ const routes: Routes = [
             (m) => m.ConsumerStatisticsModule
           ),
       },
+      {
+        path: 'game',
+        loadChildren: () =>
+          import('./consumer-game/consumer-game.module').then(
+            (m) => m.ConsumerGameModule
+          ),
+      },
     ],
   },
 ];
