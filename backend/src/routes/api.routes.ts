@@ -4,6 +4,7 @@ import { userRouter } from './user.api.routes';
 import { wordRouter } from './word.api.routes';
 import { translationRouter } from './translation.api.routes';
 import { statisticsRouter } from './statistics.api.routes';
+import { gameRouter } from './game.api.routes';
 
 const apiRouter = express.Router();
 apiRouter.use(cors());
@@ -12,5 +13,6 @@ apiRouter.use('/user', userRouter);
 apiRouter.use('/word', wordRouter);
 apiRouter.use('/translation', translationRouter);
 apiRouter.use('/statistics', statisticsRouter);
+apiRouter.use('/game', gameRouter);
 
 export default apiRouter;
