@@ -48,6 +48,7 @@ export class AdminAddWordComponent implements OnInit {
       .subscribe((addWordResponse: ICustomResponse) => {
         if (!addWordResponse.isError) {
           this.addWordForm.reset();
+          this.translationsFormArray.controls.length = 1;
           this.addWordForm.get('language').setValue(Language.DE);
         }
         this.addWordResponse = addWordResponse;
