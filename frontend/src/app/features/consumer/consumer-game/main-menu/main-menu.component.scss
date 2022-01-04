@@ -1,0 +1,11 @@
+@import "../../../../../styles/variables.scss";
+
+form {
+  flex-direction: column;
+  mat-select {
+    ::ng-deep .mat-select-value,
+    ::ng-deep .mat-select-arrow {
+      color: $mainPurple;
+    }
+  }
+}

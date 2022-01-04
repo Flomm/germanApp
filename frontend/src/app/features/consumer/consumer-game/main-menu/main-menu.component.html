@@ -1,10 +1,43 @@
-<form class="flex-center inverse-form" [formGroup]="mainMenuForm">
-  <button
-    mat-raised-button
-    color="primary"
-    [disabled]="!myUserProfileForm.valid"
-    (click)="submitUsernameChange()"
-  >
-    Save
+<form class="flex-center default-form" [formGroup]="mainMenuForm">
+  <h1>Játék indítása</h1>
+  <h4>
+    Kérlek, válaszd ki a kívánt paramétereket, majd kattintsz a kezdjük gombra a
+    játék elindításához!
+  </h4>
+  <div class="field-holder flex-center flex-between">
+    <mat-form-field appearance="outline">
+      <mat-label>Nyelv</mat-label>
+      <mat-select formControlName="language" panelClass="default-select">
+        <mat-option
+          *ngFor="let language of languageType | enumToView"
+          [value]="language.value"
+        >
+          {{ language.name }}
+          <span *ngIf="mainMenuForm.controls.language.value === language.value">
+            &#10004;</span
+          >
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="mainMenuForm.controls.language.hasError('required')"
+        >Kötelező mező</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Szómennyiség</mat-label>
+      <mat-select formControlName="quantity" panelClass="default-select">
+        <mat-option *ngFor="let qty of quantityArray" [value]="qty">
+          {{ qty }}
+          <span *ngIf="mainMenuForm.controls.quantity.value === qty">
+            &#10004;</span
+          >
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="mainMenuForm.controls.quantity.hasError('required')"
+        >Kötelező mező</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <button mat-raised-button color="primary" [disabled]="!mainMenuForm.valid">
+    Kezdjük!
   </button>
 </form>

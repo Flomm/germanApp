@@ -9,13 +9,15 @@ import { Language } from 'src/app/shared/models/enums/Language.enum';
 })
 export class MainMenuComponent implements OnInit {
   mainMenuForm: FormGroup;
+  languageType = Language;
+  quantityArray: number[] = [10, 25, 50];
 
   constructor() {}
 
   ngOnInit(): void {
     this.mainMenuForm = new FormGroup({
       language: new FormControl(Language.DE, Validators.required),
-      email: new FormControl(10, Validators.required),
+      quantity: new FormControl(10, Validators.required),
     });
   }
 }
