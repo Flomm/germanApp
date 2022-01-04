@@ -9,6 +9,14 @@ export const gameService = {
   ): Promise<IGetWordsDataModel[]> {
     return wordRepository
       .getRandomWords(lang, quantity)
+      .then(res => {
+        return res.map(word => {
+          if (!word.gender) {
+            return { id: word.id, word: word.word };
+          }
+          return word;
+        });
+      })
       .catch(err => Promise.reject(err));
   },
 };
