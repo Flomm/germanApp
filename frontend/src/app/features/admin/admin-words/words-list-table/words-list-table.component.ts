@@ -51,9 +51,7 @@ export class WordsListTableComponent implements OnInit {
 
   ngOnChanges() {
     if (this.getWordResponse) {
-      this.dataSource = new MatTableDataSource<IGetWordData>(
-        this.getWordResponse.wordList
-      );
+      this.dataSource.data = this.getWordResponse.wordList;
     }
   }
 
