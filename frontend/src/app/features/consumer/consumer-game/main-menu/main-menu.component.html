@@ -1,0 +1,10 @@
+<form class="flex-center inverse-form" [formGroup]="mainMenuForm">
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!myUserProfileForm.valid"
+    (click)="submitUsernameChange()"
+  >
+    Save
+  </button>
+</form>
