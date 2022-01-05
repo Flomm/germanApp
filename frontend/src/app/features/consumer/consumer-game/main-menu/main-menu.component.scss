@@ -2,6 +2,14 @@
 
 form {
   flex-direction: column;
+  padding: 5%;
+  border: 1px solid $mainPurple;
+  border-radius: 10px;
+
+  .field-holder {
+    width: 100%;
+  }
+
   mat-select {
     ::ng-deep .mat-select-value,
     ::ng-deep .mat-select-arrow {
