@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import EnumToViewPipe from 'src/app/shared/pipes/enumToView/enumToView.pipe';
 
 import { MainMenuComponent } from './main-menu.component';
 
@@ -8,7 +9,7 @@ describe('MainMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainMenuComponent],
+      declarations: [MainMenuComponent, EnumToViewPipe],
     }).compileComponents();
   });
 
