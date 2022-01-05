@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Language } from 'src/app/shared/models/enums/Language.enum';
 import EnumToViewPipe from 'src/app/shared/pipes/enumToView/enumToView.pipe';
 
 import { MainMenuComponent } from './main-menu.component';
@@ -21,5 +22,21 @@ describe('MainMenuComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit the expected values and format when request is submitted', () => {
+    //Arrange
+
+    spyOn(component.randomWordRequest, 'emit');
+    component.mainMenuForm.setValue({ language: Language.DE, quantity: 10 });
+
+    //Act
+    component.submitMenuForm();
+
+    //Assert
+    expect(component.randomWordRequest.emit).toHaveBeenCalledWith({
+      language: Language.DE,
+      quantity: 10,
+    });
   });
 });
