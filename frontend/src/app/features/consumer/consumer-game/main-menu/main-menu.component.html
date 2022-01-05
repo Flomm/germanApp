@@ -37,7 +37,13 @@
       >
     </mat-form-field>
   </div>
-  <button mat-raised-button color="primary" [disabled]="!mainMenuForm.valid">
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!mainMenuForm.valid"
+    type="button"
+    (click)="submitMenuForm()"
+  >
     Kezdjük!
   </button>
 </form>
