@@ -64,7 +64,7 @@ export class WordsListTableComponent implements OnInit {
     this.wordRemoval.emit({ language: this.currentLanguage, wordId });
   }
 
-  submitModify(word: string, wordId: number, gender?: Gender) {
+  submitModify(word: string, wordId: number, gender?: Gender): void {
     this.wordModify.emit({
       word,
       wordId,
