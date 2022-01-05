@@ -1,3 +1,7 @@
 <main class="flex-center">
-  <app-main-menu (randomWordRequest)="onGetRandomWords($event)"></app-main-menu>
+  <app-main-menu
+    *ngIf="!isGameOn"
+    (randomWordRequest)="onGetRandomWords($event)"
+  ></app-main-menu>
+  <div class="error-holder warn">{{ errorMessage }}</div>
 </main>
