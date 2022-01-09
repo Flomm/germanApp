@@ -4,5 +4,9 @@
     *ngIf="!isGameOn"
     (randomWordRequest)="onGetRandomWords($event)"
   ></app-main-menu>
+  <app-play-card
+    *ngIf="isGameOn"
+    (randomWordRequest)="onGetRandomWords($event)"
+  ></app-play-card>
   <div class="error-holder warn">{{ errorMessage }}</div>
 </main>
