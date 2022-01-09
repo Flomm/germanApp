@@ -30,6 +30,7 @@ exports.up = function (db) {
       notNull: true,
       defaultValue: false,
     },
+    numOfTranslations: { type: 'int', notNull: true, defaultValue: 0 },
   });
 };
 
