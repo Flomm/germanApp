@@ -27,17 +27,6 @@
       </mat-form-field>
     </div>
     <div class="field-holder">
-      <mat-form-field appearance="outline">
-        <mat-label>Új szó</mat-label>
-        <input
-          matInput
-          placeholder="Add meg egy új szót"
-          formControlName="word"
-        />
-        <mat-error *ngIf="addWordForm.controls.word.hasError('required')"
-          >Kötelező mező</mat-error
-        >
-      </mat-form-field>
       <mat-form-field appearance="outline" *ngIf="isMainGenderShown">
         <mat-label>Nem</mat-label>
         <mat-select formControlName="gender" panelClass="default-select">
@@ -57,6 +46,17 @@
             >
           </mat-option>
         </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Új szó</mat-label>
+        <input
+          matInput
+          placeholder="Add meg egy új szót"
+          formControlName="word"
+        />
+        <mat-error *ngIf="addWordForm.controls.word.hasError('required')"
+          >Kötelező mező</mat-error
+        >
       </mat-form-field>
     </div>
     <ng-container formArrayName="translations">
@@ -88,22 +88,6 @@
           <div class="home-button" *ngIf="i === 0">
             <mat-icon>home</mat-icon>
           </div>
-          <mat-form-field appearance="outline">
-            <mat-label>{{ i + 1 }}. jelentés</mat-label>
-            <input
-              formControlName="translation"
-              matInput
-              placeholder="Add meg egy jelentést"
-            />
-            <mat-error
-              *ngIf="
-                translationsFormArray.controls[i][
-                  'controls'
-                ].translation.hasError('required')
-              "
-              >Kötelező mező</mat-error
-            >
-          </mat-form-field>
           <mat-form-field appearance="outline" *ngIf="!isMainGenderShown">
             <mat-label>Nem</mat-label>
             <mat-select formControlName="gender" panelClass="default-select">
@@ -133,6 +117,22 @@
                 >
               </mat-option>
             </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i + 1 }}. jelentés</mat-label>
+            <input
+              formControlName="translation"
+              matInput
+              placeholder="Add meg egy jelentést"
+            />
+            <mat-error
+              *ngIf="
+                translationsFormArray.controls[i][
+                  'controls'
+                ].translation.hasError('required')
+              "
+              >Kötelező mező</mat-error
+            >
           </mat-form-field>
         </div>
       </ng-container>
