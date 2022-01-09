@@ -71,12 +71,15 @@ export const wordRepository = {
           }
         } else {
           let queryString: string;
-          let queryArray: string[] = [newWord.word];
+          let queryArray: string[] = [
+            newWord.word,
+            `${newWord.translations.length}`,
+          ];
           if (lang === Language.DE && newWord.gender) {
-            queryString = `INSERT INTO german_app.${lang} (word, gender) VALUES (?, ?)`;
+            queryString = `INSERT INTO german_app.${lang} (word, numOfTranslations, gender) VALUES (?, ?, ?)`;
             queryArray.push(newWord.gender);
           } else {
-            queryString = `INSERT INTO german_app.${lang} (word) VALUES (?)`;
+            queryString = `INSERT INTO german_app.${lang} (word, numOfTranslations) VALUES (?, ?)`;
           }
           return db
             .query<IDbResultDataModel>(queryString, queryArray)
@@ -132,11 +135,15 @@ export const wordRepository = {
     modifiedWord: IAddWordDataModel,
     wordId: number,
   ): Promise<IDbResultDataModel> {
-    let queryString: string = `UPDATE german_app.${lang} SET word = ? WHERE id = ?`;
-    let queryArray: string[] = [modifiedWord.word, `${wordId}`];
+    let queryString: string = `UPDATE german_app.${lang} SET word = ?, numOfTranslations = ? WHERE id = ?`;
+    let queryArray: string[] = [
+      modifiedWord.word,
+      `${modifiedWord.translations.length}`,
+      `${wordId}`,
+    ];
     if (lang === Language.DE) {
       queryArray.unshift(modifiedWord.gender!);
-      queryString = `UPDATE german_app.${lang} SET gender = ?, word = ? WHERE id = ?`;
+      queryString = `UPDATE german_app.${lang} SET gender = ?, word = ?, numOfTranslations = ? WHERE id = ?`;
     }
     return db
       .query<IDbResultDataModel>(queryString, queryArray)
