@@ -1,12 +1,18 @@
 <main class="flex-center">
-  <app-info *ngIf="isGameOn" [numOfQuestions]="listOfWords.length"></app-info>
+  <app-info
+    *ngIf="isGameOn"
+    [numOfQuestions]="listOfWords.length"
+    [index]="actualIndex"
+  ></app-info>
   <app-main-menu
     *ngIf="!isGameOn"
     (randomWordRequest)="onGetRandomWords($event)"
   ></app-main-menu>
   <app-play-card
     *ngIf="isGameOn"
-    (randomWordRequest)="onGetRandomWords($event)"
+    [language]="language"
+    [actualWord]="listOfWords[actualIndex]"
+    (nextEmitter)="goToNextWord()"
   ></app-play-card>
   <div class="error-holder warn">{{ errorMessage }}</div>
 </main>
