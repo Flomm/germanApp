@@ -5,9 +5,11 @@ import { ConsumerGameRoutingModule } from './consumer-game-routing.module';
 import { ConsumerGameComponent } from './consumer-game/consumer-game.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InfoComponent } from './info/info.component';
+import { PlayCardComponent } from './play-card/play-card.component';
 
 @NgModule({
-  declarations: [ConsumerGameComponent, MainMenuComponent],
+  declarations: [ConsumerGameComponent, MainMenuComponent, InfoComponent, PlayCardComponent],
   imports: [
     CommonModule,
     ConsumerGameRoutingModule,

@@ -1,4 +1,5 @@
 <main class="flex-center">
+  <app-info *ngIf="isGameOn" [numOfQuestions]="listOfWords.length"></app-info>
   <app-main-menu
     *ngIf="!isGameOn"
     (randomWordRequest)="onGetRandomWords($event)"

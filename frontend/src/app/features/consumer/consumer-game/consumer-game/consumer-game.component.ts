@@ -21,6 +21,7 @@ export class ConsumerGameComponent implements OnInit {
     this.gameService.getRandomWords(randomWordRequestData).subscribe((res) => {
       if (!res.isError) {
         this.listOfWords = res.wordList;
+        this.isGameOn = true;
       } else {
         this.errorMessage = res.message;
       }

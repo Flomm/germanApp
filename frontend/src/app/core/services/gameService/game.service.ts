@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 import { environment } from 'src/environments/environment';
@@ -10,6 +10,12 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class GameService {
+  private actualIndex: BehaviorSubject<number> = new BehaviorSubject<number>(
+    undefined
+  );
+  public actualIndexObservable: Observable<number> =
+    this.actualIndex.asObservable();
+
   constructor(private httpClient: HttpClient) {}
   getRandomWords(
     randomWordReq: IGetRandomWordRequest
@@ -19,6 +25,9 @@ export class GameService {
         `${environment.serverUrl}/game/random-words/${randomWordReq.language}/?quantity=${randomWordReq.quantity}`
       )
       .pipe(
+        tap((res) => {
+          this.actualIndex.next(1);
+        }),
         catchError((httpError) =>
           of({
             wordList: [],
