@@ -142,4 +142,4 @@ gameRouter
     permitChecker([UserRole.Consumer]),
     bodyValidator(['wordId', 'answerList']),
   )
-  .post();
+  .post(gameController.checkAnswer);

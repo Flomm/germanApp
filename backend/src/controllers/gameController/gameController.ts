@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Language } from '../../models/models/Enums/Language.enum';
+import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
+import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { gameService } from '../../services/gameService/gameService';
@@ -25,6 +27,27 @@ export const gameController = {
       .getRandomWords(lang as Language, quantity)
       .then(words => {
         res.status(200).json({ wordList: words });
+      })
+      .catch(err => {
+        return next(err);
+      });
+  },
+
+  checkAnswer(
+    req: Request,
+    res: Response<ICheckAnswerResponse>,
+    next: NextFunction,
+  ): void {
+    const lang: Language = req.params.lang as Language;
+    if (!languageChecker(lang)) {
+      return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
+    }
+    const answers: ICheckAnswerRequest = req.body;
+
+    gameService
+      .checkAnswer(lang, answers)
+      .then(words => {
+        res.sendStatus(200);
       })
       .catch(err => {
         return next(err);
