@@ -54,7 +54,7 @@ statisticsRouter
 /**
  * @swagger
  * paths:
- *  /api/statistics/increment/{dataType}:
+ *  /api/statistics/increment:
  *    patch:
  *      tags:
  *        - STATISTICS
