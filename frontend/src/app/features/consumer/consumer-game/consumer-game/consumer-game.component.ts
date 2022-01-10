@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { concatMap } from 'rxjs/operators';
 import { GameService } from 'src/app/core/services/gameService/game.service';
+import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import { StatDataType } from 'src/app/shared/models/enums/StatDataType.enum';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
 
@@ -16,21 +19,35 @@ export class ConsumerGameComponent implements OnInit {
   errorMessage: string;
   language: Language;
 
-  constructor(private gameService: GameService) {}
+  constructor(
+    private gameService: GameService,
+    private statisticsService: StatisticsService
+  ) {}
 
   ngOnInit(): void {}
 
   onGetRandomWords(randomWordRequestData: IGetRandomWordRequest): void {
-    this.gameService.getRandomWords(randomWordRequestData).subscribe((res) => {
-      if (!res.isError) {
-        this.actualIndex = 0;
-        this.listOfWords = res.wordList;
-        this.language = randomWordRequestData.language;
-        this.isGameOn = true;
-      } else {
-        this.errorMessage = res.message;
-      }
-    });
+    this.gameService
+      .getRandomWords(randomWordRequestData)
+      .pipe(
+        concatMap((res) => {
+          if (!res.isError) {
+            this.actualIndex = 0;
+            this.listOfWords = res.wordList;
+            this.language = randomWordRequestData.language;
+            return this.statisticsService.incrementStatData(StatDataType.SG);
+          } else {
+            this.errorMessage = res.message;
+          }
+        })
+      )
+      .subscribe((res) => {
+        if (res.isError) {
+          this.errorMessage = res.message;
+        } else {
+          this.isGameOn = true;
+        }
+      });
   }
 
   goToNextWord(): void {
