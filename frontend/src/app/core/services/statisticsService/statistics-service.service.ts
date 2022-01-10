@@ -34,12 +34,6 @@ export class StatisticsService {
         dataType,
       })
       .pipe(
-        map((response) => {
-          return {
-            message: response.message,
-            isError: false,
-          };
-        }),
         catchError((httpError) =>
           of({
             message: httpError.error.message ?? 'Hálózati hiba történt.',
