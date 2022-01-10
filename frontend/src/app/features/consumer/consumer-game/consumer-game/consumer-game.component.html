@@ -13,6 +13,7 @@
     [language]="language"
     [actualWord]="listOfWords[actualIndex]"
     (nextEmitter)="goToNextWord()"
+    (answerEmitter)="onAnswerSubmit($event)"
   ></app-play-card>
   <div class="error-holder warn">{{ errorMessage }}</div>
 </main>

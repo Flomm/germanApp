@@ -4,6 +4,7 @@ import { GameService } from 'src/app/core/services/gameService/game.service';
 import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { StatDataType } from 'src/app/shared/models/enums/StatDataType.enum';
+import IAnswer from 'src/app/shared/models/models/viewModels/IAnswer.viewModel';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
 
@@ -48,6 +49,10 @@ export class ConsumerGameComponent implements OnInit {
           this.isGameOn = true;
         }
       });
+  }
+
+  onAnswerSubmit(answerList: IAnswer[]): void {
+    console.warn('LIST', answerList);
   }
 
   goToNextWord(): void {

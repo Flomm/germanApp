@@ -21,6 +21,9 @@ export class PlayCardComponent implements OnInit, OnChanges {
   @Input() language: Language;
 
   @Output() nextEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() answerEmitter: EventEmitter<string[]> = new EventEmitter<
+    string[]
+  >();
 
   wordForm: FormArray;
   languageType = Language;
@@ -55,7 +58,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
   }
 
   submitForm(): void {
-    console.warn('submit');
+    this.answerEmitter.emit(this.wordForm.value);
     this.isSubmitted = true;
   }
 }
