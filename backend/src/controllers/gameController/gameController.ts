@@ -46,8 +46,8 @@ export const gameController = {
 
     gameService
       .checkAnswer(lang, answers)
-      .then(words => {
-        res.sendStatus(200);
+      .then(answer => {
+        res.status(200).send(answer);
       })
       .catch(err => {
         return next(err);

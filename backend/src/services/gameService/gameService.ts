@@ -24,27 +24,45 @@ export const gameService = {
       .catch(err => Promise.reject(err));
   },
 
-  async checkAnswer(lang: Language, checkRequest: ICheckAnswerRequest) {
-    const translations: ITranslationDataModel[] =
-      await translationRepository.getTranslationsByWordId(
-        lang,
-        checkRequest.wordId,
+  async checkAnswer(
+    lang: Language,
+    checkRequest: ICheckAnswerRequest,
+  ): Promise<ICheckAnswerResponse> {
+    try {
+      const translationsWithNull: ITranslationDataModel[] =
+        await translationRepository.getTranslationsByWordId(
+          lang,
+          checkRequest.wordId,
+        );
+
+      const translations: ITranslationDataModel[] = translationsWithNull.map(
+        translationObject => {
+          if (!translationObject.gender) {
+            return { translation: translationObject.translation };
+          }
+          return translationObject;
+        },
       );
-    const translationsToWord: string[] = translations.map(
-      translation =>
-        `${translation.gender ? translation.gender + ' ' : ''}${
-          translation.translation
-        }`,
-    );
-    console.warn(translationsToWord);
-    const isCorrect: boolean = checkRequest.answerList.some(answer => {
-      console.warn(
-        `${answer.gender ? answer.gender + ' ' : ''}${answer.answer}`,
+
+      const translationsToWord: string[] = translations.map(
+        translation =>
+          `${translation.gender ? translation.gender + ' ' : ''}${
+            translation.translation
+          }`,
       );
-      return translationsToWord.includes(
-        `${answer.gender ? answer.gender + ' ' : ''}${answer.answer}`,
-      );
-    });
-    console.warn(isCorrect);
+
+      const isCorrect: boolean = checkRequest.answerList.some(answer => {
+        console.warn(
+          `${answer.gender ? answer.gender + ' ' : ''}${answer.answer}`,
+        );
+        return translationsToWord.includes(
+          `${answer.gender ? answer.gender + ' ' : ''}${answer.answer}`,
+        );
+      });
+
+      return { isCorrect, translations };
+    } catch (error) {
+      return Promise.reject(error);
+    }
   },
 };
