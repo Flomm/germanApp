@@ -6,7 +6,9 @@ import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { StatDataType } from 'src/app/shared/models/enums/StatDataType.enum';
 import IAnswer from 'src/app/shared/models/models/viewModels/IAnswer.viewModel';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import ICheckAnswerRequest from 'src/app/shared/models/requests/ICheckAnswerRequest';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
+import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerResponse';
 
 @Component({
   selector: 'app-consumer-game',
@@ -16,6 +18,7 @@ import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWord
 export class ConsumerGameComponent implements OnInit {
   isGameOn = false;
   listOfWords: IGetWordData[] = [];
+  checkResponse: ICheckAnswerResponse;
   actualIndex: number;
   errorMessage: string;
   language: Language;
@@ -52,7 +55,33 @@ export class ConsumerGameComponent implements OnInit {
   }
 
   onAnswerSubmit(answerList: IAnswer[]): void {
-    console.warn('LIST', answerList);
+    const checkRequest: ICheckAnswerRequest = {
+      wordId: this.listOfWords[this.actualIndex].id,
+      answerList,
+    };
+    console.warn(checkRequest);
+    this.gameService
+      .checkAnswer(this.language, checkRequest)
+      .pipe(
+        concatMap((res) => {
+          if (!res.isError) {
+            this.checkResponse = res;
+            if (res.isCorrect) {
+              return this.statisticsService.incrementStatData(StatDataType.CA);
+            } else {
+              return this.statisticsService.incrementStatData(StatDataType.IA);
+            }
+          } else {
+            this.errorMessage = res.message;
+          }
+        })
+      )
+      .subscribe((res) => {
+        if (res.isError) {
+          this.isGameOn = false;
+          this.errorMessage = res.message;
+        }
+      });
   }
 
   goToNextWord(): void {
