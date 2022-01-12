@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { Language } from 'src/app/shared/models/enums/Language.enum';
+import ICheckAnswerRequest from 'src/app/shared/models/requests/ICheckAnswerRequest';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
+import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerResponse';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 import { environment } from 'src/environments/environment';
 
@@ -17,6 +20,7 @@ export class GameService {
     this.actualIndex.asObservable();
 
   constructor(private httpClient: HttpClient) {}
+
   getRandomWords(
     randomWordReq: IGetRandomWordRequest
   ): Observable<IGetWordResponse> {
@@ -25,12 +29,30 @@ export class GameService {
         `${environment.serverUrl}/game/random-words/${randomWordReq.language}/?quantity=${randomWordReq.quantity}`
       )
       .pipe(
-        tap((res) => {
-          this.actualIndex.next(1);
-        }),
         catchError((httpError) =>
           of({
             wordList: [],
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
+            isError: true,
+          })
+        )
+      );
+  }
+
+  checkAnswer(
+    language: Language,
+    checkAnswerReq: ICheckAnswerRequest
+  ): Observable<ICheckAnswerResponse> {
+    return this.httpClient
+      .post<ICheckAnswerResponse>(
+        `${environment.serverUrl}/game/check-answer/${language}`,
+        checkAnswerReq
+      )
+      .pipe(
+        catchError((httpError) =>
+          of({
+            isCorrect: false,
+            translations: [],
             message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           })
