@@ -52,9 +52,6 @@ export const gameService = {
       );
 
       const isCorrect: boolean = checkRequest.answerList.some(answer => {
-        console.warn(
-          `${answer.gender ? answer.gender + ' ' : ''}${answer.answer}`,
-        );
         return translationsToWord.includes(
           `${answer.gender ? answer.gender + ' ' : ''}${answer.answer}`,
         );
