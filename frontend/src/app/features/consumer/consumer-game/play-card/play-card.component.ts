@@ -22,6 +22,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
   @Input() actualWord: IGetWordData;
   @Input() language: Language;
   @Input() checkResponse: ICheckAnswerResponse;
+  @Input() numOfCorrectAnswers: number;
 
   @Output() nextEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() answerEmitter: EventEmitter<string[]> = new EventEmitter<
@@ -32,7 +33,6 @@ export class PlayCardComponent implements OnInit, OnChanges {
   languageType = Language;
   genderType = Gender;
   isSubmitted: boolean;
-  numOfCorrectAnswers: number = 0;
 
   ngOnInit(): void {
     this.createForm();
@@ -41,9 +41,6 @@ export class PlayCardComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.actualWord && !changes.actualWord.firstChange) {
       this.createForm();
-    }
-    if (changes.checkResponse && this.checkResponse?.isCorrect) {
-      this.numOfCorrectAnswers++;
     }
   }
 

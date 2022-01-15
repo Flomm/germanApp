@@ -13,6 +13,7 @@
     [language]="language"
     [actualWord]="listOfWords[actualIndex]"
     [checkResponse]="checkResponse"
+    [numOfCorrectAnswers]="numOfCorrectAnswers"
     (nextEmitter)="goToNextWord()"
     (answerEmitter)="onAnswerSubmit($event)"
   ></app-play-card>
