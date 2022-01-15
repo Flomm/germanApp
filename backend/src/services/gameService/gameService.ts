@@ -16,7 +16,11 @@ export const gameService = {
       .then(res => {
         return res.map(word => {
           if (!word.gender) {
-            return { id: word.id, word: word.word };
+            return {
+              id: word.id,
+              word: word.word,
+              numOfTranslations: word.numOfTranslations,
+            };
           }
           return word;
         });
