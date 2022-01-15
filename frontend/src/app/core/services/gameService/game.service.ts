@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import ICheckAnswerRequest from 'src/app/shared/models/requests/ICheckAnswerRequest';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
