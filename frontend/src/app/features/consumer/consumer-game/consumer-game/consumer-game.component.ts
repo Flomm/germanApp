@@ -59,7 +59,6 @@ export class ConsumerGameComponent implements OnInit {
       wordId: this.listOfWords[this.actualIndex].id,
       answerList,
     };
-    console.warn(checkRequest);
     this.gameService
       .checkAnswer(this.language, checkRequest)
       .pipe(
