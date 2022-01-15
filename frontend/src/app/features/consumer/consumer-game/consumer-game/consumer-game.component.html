@@ -12,6 +12,7 @@
     *ngIf="isGameOn && !errorMessage"
     [language]="language"
     [actualWord]="listOfWords[actualIndex]"
+    [checkResponse]="checkResponse"
     (nextEmitter)="goToNextWord()"
     (answerEmitter)="onAnswerSubmit($event)"
   ></app-play-card>
