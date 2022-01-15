@@ -18,8 +18,10 @@ import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerRe
 export class ConsumerGameComponent implements OnInit {
   isGameOn = false;
   listOfWords: IGetWordData[] = [];
+  listOfIncorrectWords: IGetWordData[] = [];
   checkResponse: ICheckAnswerResponse;
   actualIndex: number;
+  numOfCorrectAnswers: number = 0;
   errorMessage: string;
   language: Language;
 
@@ -66,8 +68,12 @@ export class ConsumerGameComponent implements OnInit {
           if (!res.isError) {
             this.checkResponse = res;
             if (res.isCorrect) {
+              this.numOfCorrectAnswers++;
               return this.statisticsService.incrementStatData(StatDataType.CA);
             } else {
+              this.listOfIncorrectWords.push(
+                this.listOfWords[this.actualIndex]
+              );
               return this.statisticsService.incrementStatData(StatDataType.IA);
             }
           } else {
