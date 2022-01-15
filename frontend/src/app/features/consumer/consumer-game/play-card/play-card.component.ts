@@ -5,11 +5,13 @@ import {
   OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerResponse';
 
 @Component({
   selector: 'app-play-card',
@@ -19,6 +21,7 @@ import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.v
 export class PlayCardComponent implements OnInit, OnChanges {
   @Input() actualWord: IGetWordData;
   @Input() language: Language;
+  @Input() checkResponse: ICheckAnswerResponse;
 
   @Output() nextEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() answerEmitter: EventEmitter<string[]> = new EventEmitter<
@@ -29,14 +32,19 @@ export class PlayCardComponent implements OnInit, OnChanges {
   languageType = Language;
   genderType = Gender;
   isSubmitted: boolean;
+  numOfCorrectAnswers: number = 0;
 
   ngOnInit(): void {
     this.createForm();
   }
 
-  ngOnChanges(): void {
-    this.isSubmitted = false;
-    this.createForm();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.actualWord && !changes.actualWord.firstChange) {
+      this.createForm();
+    }
+    if (changes.checkResponse && this.checkResponse?.isCorrect) {
+      this.numOfCorrectAnswers++;
+    }
   }
 
   createForm(): void {
@@ -55,6 +63,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
   emitNext(): void {
     this.wordForm.reset();
     this.nextEmitter.emit(true);
+    this.isSubmitted = false;
   }
 
   submitForm(): void {

@@ -1,66 +1,96 @@
 <form class="flex-center default-form" [formGroup]="wordForm">
-  <h1>{{ actualWord?.word }}</h1>
-  <ng-container *ngFor="let word of wordForm.controls; let i = index">
-    <div div class="field-holder" [formGroupName]="i">
-      <mat-form-field appearance="outline" *ngIf="language === languageType.HU">
-        <mat-label>Nem</mat-label>
-        <mat-select formControlName="gender" panelClass="default-select">
-          <mat-option [value]="null">
-            Nincs nem
-            <span
-              *ngIf="wordForm.controls[i]['controls'].gender.value === null"
-            >
-              &#10004;</span
-            >
-          </mat-option>
-          <mat-option
-            *ngFor="let gender of genderType | enumToView"
-            [value]="gender.value"
-          >
-            {{ gender.name }}
-            <span
-              *ngIf="
-                wordForm.controls[i]['controls'].gender.value === gender.value
-              "
-            >
-              &#10004;</span
-            >
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>{{ i + 1 }}. jelentés</mat-label>
-        <input
-          matInput
-          placeholder="Add meg a jelentést"
-          formControlName="answer"
-        />
-        <mat-error
-          *ngIf="wordForm.controls[i]['controls'].answer.hasError('required')"
-          >Kötelező mező</mat-error
+  <h1>
+    {{
+      (actualWord?.gender ? actualWord?.gender : "") + " " + actualWord?.word
+    }}
+  </h1>
+  <h3>Pontszám: {{ numOfCorrectAnswers }}</h3>
+  <ng-container *ngIf="!isSubmitted">
+    <ng-container *ngFor="let word of wordForm.controls; let i = index">
+      <div div class="field-holder" [formGroupName]="i">
+        <mat-form-field
+          appearance="outline"
+          *ngIf="language === languageType.HU"
         >
-      </mat-form-field>
-    </div>
+          <mat-label>Nem</mat-label>
+          <mat-select formControlName="gender" panelClass="default-select">
+            <mat-option [value]="null">
+              Nincs nem
+              <span
+                *ngIf="wordForm.controls[i]['controls'].gender.value === null"
+              >
+                &#10004;</span
+              >
+            </mat-option>
+            <mat-option
+              *ngFor="let gender of genderType | enumToView"
+              [value]="gender.value"
+            >
+              {{ gender.name }}
+              <span
+                *ngIf="
+                  wordForm.controls[i]['controls'].gender.value === gender.value
+                "
+              >
+                &#10004;</span
+              >
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i + 1 }}. jelentés</mat-label>
+          <input
+            matInput
+            placeholder="Add meg a jelentést"
+            formControlName="answer"
+          />
+          <mat-error
+            *ngIf="wordForm.controls[i]['controls'].answer.hasError('required')"
+            >Kötelező mező</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      [disabled]="!wordForm.valid"
+      (click)="submitForm()"
+    >
+      Beküld
+    </button>
   </ng-container>
-  <button
-    mat-raised-button
-    color="primary"
-    type="button"
-    [disabled]="!wordForm.valid"
-    *ngIf="!isSubmitted"
-    (click)="submitForm()"
-  >
-    Beküld
-  </button>
+  <ng-container *ngIf="isSubmitted">
+    <ng-container *ngIf="checkResponse">
+      <h4 [ngClass]="checkResponse.isCorrect ? 'success' : 'warn'">
+        {{ checkResponse.isCorrect ? "Helyes válasz!" : "Helytelen válasz!" }}
+      </h4>
+      <div class="flex-center translation-holder">
+        Jelentések
+        <span
+          *ngFor="
+            let translation of checkResponse.translations;
+            let first = first
+          "
+        >
+          {{ first ? ": " : ", " }}
+          {{
+            (translation?.gender ? translation?.gender : "") +
+              " " +
+              translation?.translation
+          }}
+        </span>
+      </div>
+    </ng-container>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="emitNext()"
+      *ngIf="isSubmitted"
+    >
+      Következő
+    </button>
+  </ng-container>
 </form>
-<div div class="field-holder flex-center">
-  <button
-    mat-raised-button
-    color="primary"
-    type="button"
-    (click)="emitNext()"
-    *ngIf="isSubmitted"
-  >
-    Következő
-  </button>
-</div>
