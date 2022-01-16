@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { UserRole } from 'src/app/shared/models/enums/UserRole.enum';
 import ILoginRequest from 'src/app/shared/models/requests/ILoginRequest';
 import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
@@ -12,9 +11,9 @@ import IRegistrationRequest from 'src/app/shared/models/requests/IRegistrationRe
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 import { ILoginResponse } from 'src/app/shared/models/responses/ILoginResponse';
 import { environment } from 'src/environments/environment';
-import { MatDialog } from '@angular/material/dialog';
 import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
+import { MessageService } from '../messageService/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +36,7 @@ export default class AuthService {
   constructor(
     private router: Router,
     private httpClient: HttpClient,
-    private dialog: MatDialog
+    private messageService: MessageService
   ) {}
 
   getToken(): string {
@@ -128,7 +127,7 @@ export default class AuthService {
       .pipe(
         tap((_) => {
           this.router.navigate(['login']);
-          this.dialog.open(DialogComponent, {
+          this.messageService.openDialog({
             data: {
               dialogText:
                 'Köszönjük a regisztrációt. Bejelentkezés előtt kérlek erősítsd meg az e-mail címed a kiküldött e-mail segítségével.',
@@ -172,10 +171,10 @@ export default class AuthService {
       .pipe(
         tap((_) => {
           this.router.navigate(['login']);
-          this.dialog.open(DialogComponent, {
+          this.messageService.openDialog({
             data: {
               dialogText:
-                'Password reset e-mail has been sent out for the provided e-mail address.',
+                'A jelszó megváltoztató e-mailt kiküldtük a megadott e-mail címre.',
             },
             panelClass: 'default-dialog',
           });
@@ -206,9 +205,10 @@ export default class AuthService {
       .pipe(
         tap((_) => {
           this.router.navigate(['login']);
-          this.dialog.open(DialogComponent, {
+          this.messageService.openDialog({
             data: {
-              dialogText: 'Password has been changed. Please log in.',
+              dialogText:
+                'Jelszó sikeresen megváltoztatva. Kérlek jelentkezz be.',
             },
             panelClass: 'default-dialog',
           });

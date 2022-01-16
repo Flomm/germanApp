@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { TranslationService } from 'src/app/core/services/translationService/translation.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
@@ -26,7 +27,7 @@ export class AdminWordsComponent implements OnInit {
     private wordService: WordService,
     private translationService: TranslationService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +58,7 @@ export class AdminWordsComponent implements OnInit {
             translationList: res.translationList,
           };
           const modifyDialogRef: MatDialogRef<DialogComponent> =
-            this.dialog.open(DialogComponent, {
+            this.messageService.openDialog({
               data: {
                 isCancelButtonVisible: true,
                 modifyWordData: modifyWordDialogData,
@@ -92,9 +93,8 @@ export class AdminWordsComponent implements OnInit {
   }
 
   onRemoveWord(removeRequest: IWordRemovalRequest): void {
-    const removalDialogRef: MatDialogRef<DialogComponent> = this.dialog.open(
-      DialogComponent,
-      {
+    const removalDialogRef: MatDialogRef<DialogComponent> =
+      this.messageService.openDialog({
         data: {
           isCancelButtonVisible: true,
           cancelButtonText: 'Nem',
@@ -103,8 +103,7 @@ export class AdminWordsComponent implements OnInit {
         },
         panelClass: 'default-dialog',
         disableClose: true,
-      }
-    );
+      });
 
     removalDialogRef.afterClosed().subscribe((res) => {
       if (res) {
