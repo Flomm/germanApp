@@ -10,6 +10,7 @@ import {
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import IAnswer from 'src/app/shared/models/models/viewModels/IAnswer.viewModel';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
 import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerResponse';
 
@@ -25,8 +26,8 @@ export class PlayCardComponent implements OnInit, OnChanges {
   @Input() numOfCorrectAnswers: number;
 
   @Output() nextEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() answerEmitter: EventEmitter<string[]> = new EventEmitter<
-    string[]
+  @Output() answerEmitter: EventEmitter<IAnswer[]> = new EventEmitter<
+    IAnswer[]
   >();
 
   wordForm: FormArray;
