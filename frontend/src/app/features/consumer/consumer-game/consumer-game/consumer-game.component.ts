@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, delay } from 'rxjs/operators';
 import { GameService } from 'src/app/core/services/gameService/game.service';
+import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { StatDataType } from 'src/app/shared/models/enums/StatDataType.enum';
@@ -27,12 +28,14 @@ export class ConsumerGameComponent implements OnInit {
 
   constructor(
     private gameService: GameService,
-    private statisticsService: StatisticsService
+    private statisticsService: StatisticsService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {}
 
   onGetRandomWords(randomWordRequestData: IGetRandomWordRequest): void {
+    this.messageService.showSpinner();
     this.gameService
       .getRandomWords(randomWordRequestData)
       .pipe(
@@ -47,7 +50,9 @@ export class ConsumerGameComponent implements OnInit {
           }
         })
       )
+      .pipe(delay(1500))
       .subscribe((res) => {
+        this.messageService.hideSpinner();
         if (res.isError) {
           this.errorMessage = res.message;
         } else {
