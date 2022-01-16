@@ -30,7 +30,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
     IAnswer[]
   >();
 
-  wordForm: FormArray;
+  wordForm: FormGroup;
   languageType = Language;
   genderType = Gender;
   isSubmitted: boolean;
@@ -45,8 +45,16 @@ export class PlayCardComponent implements OnInit, OnChanges {
     }
   }
 
+  get answerList(): FormArray {
+    return this.wordForm.controls.answerList as FormArray;
+  }
+
   createForm(): void {
-    this.wordForm = new FormArray([]);
+    this.wordForm = new FormGroup({
+      answerList: new FormArray([]),
+    });
+
+    new FormArray([]);
     for (let i: number = 0; i <= this.actualWord?.numOfTranslations - 1; i++) {
       const fg: FormGroup = new FormGroup({
         answer: new FormControl('', i === 0 ? Validators.required : null),
@@ -54,7 +62,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
       if (this.language === Language.HU) {
         fg.addControl('gender', new FormControl(''));
       }
-      this.wordForm.push(fg);
+      this.answerList.push(fg);
     }
   }
 
@@ -65,7 +73,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
   }
 
   submitForm(): void {
-    this.answerEmitter.emit(this.wordForm.value);
+    this.answerEmitter.emit(this.wordForm.controls.answerList.value);
     this.isSubmitted = true;
   }
 }
