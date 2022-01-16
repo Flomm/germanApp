@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -26,7 +26,6 @@ export class AdminWordsComponent implements OnInit {
   constructor(
     private wordService: WordService,
     private translationService: TranslationService,
-    private snackBar: MatSnackBar,
     private messageService: MessageService
   ) {}
 
@@ -83,7 +82,7 @@ export class AdminWordsComponent implements OnInit {
       .subscribe((res) => {
         if (res.message !== null) {
           const panelClass: string = res.isError ? 'warn' : 'success';
-          this.snackBar.open(res.message, '', {
+          this.messageService.openSnackBar(res.message, '', {
             panelClass: [panelClass],
             duration: 3000,
           });
@@ -114,7 +113,7 @@ export class AdminWordsComponent implements OnInit {
               this.onLanguageChange(this.language);
             }
             const panelClass: string = response.isError ? 'warn' : 'success';
-            this.snackBar.open(response.message, '', {
+            this.messageService.openSnackBar(response.message, '', {
               panelClass: [panelClass],
               duration: 3000,
             });
