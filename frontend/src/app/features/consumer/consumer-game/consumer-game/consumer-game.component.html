@@ -1,15 +1,15 @@
 <main class="flex-center">
   <app-info
-    *ngIf="isGameOn && !errorMessage"
+    *ngIf="isGameOn && !errorMessage && !isGameFinished"
     [numOfQuestions]="listOfWords.length"
     [index]="actualIndex"
   ></app-info>
   <app-main-menu
-    *ngIf="!isGameOn && !errorMessage"
+    *ngIf="!isGameOn && !errorMessage && !isGameFinished"
     (randomWordRequest)="onGetRandomWords($event)"
   ></app-main-menu>
   <app-play-card
-    *ngIf="isGameOn && !errorMessage"
+    *ngIf="isGameOn && !errorMessage && !isGameFinished"
     [language]="language"
     [actualWord]="listOfWords[actualIndex]"
     [checkResponse]="checkResponse"
@@ -17,5 +17,6 @@
     (nextEmitter)="goToNextWord()"
     (answerEmitter)="onAnswerSubmit($event)"
   ></app-play-card>
+  <app-finish-screen *ngIf="isGameFinished"></app-finish-screen>
   <div class="error-holder warn">{{ errorMessage }}</div>
 </main>

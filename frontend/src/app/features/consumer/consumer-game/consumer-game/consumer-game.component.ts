@@ -18,6 +18,7 @@ import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerRe
 })
 export class ConsumerGameComponent implements OnInit {
   isGameOn = false;
+  isGameFinished: boolean;
   listOfWords: IGetWordData[] = [];
   listOfIncorrectWords: IGetWordData[] = [];
   checkResponse: ICheckAnswerResponse;
@@ -97,6 +98,8 @@ export class ConsumerGameComponent implements OnInit {
   goToNextWord(): void {
     if (this.actualIndex < this.listOfWords.length - 1) {
       this.actualIndex++;
+    } else if (this.actualIndex === this.listOfWords.length - 1) {
+      this.isGameFinished = true;
     }
   }
 }

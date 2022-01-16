@@ -7,9 +7,10 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InfoComponent } from './info/info.component';
 import { PlayCardComponent } from './play-card/play-card.component';
+import { FinishScreenComponent } from './finish-screen/finish-screen.component';
 
 @NgModule({
-  declarations: [ConsumerGameComponent, MainMenuComponent, InfoComponent, PlayCardComponent],
+  declarations: [ConsumerGameComponent, MainMenuComponent, InfoComponent, PlayCardComponent, FinishScreenComponent],
   imports: [
     CommonModule,
     ConsumerGameRoutingModule,
