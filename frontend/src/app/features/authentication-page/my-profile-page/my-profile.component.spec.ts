@@ -8,6 +8,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('MyProfileComponent', () => {
   let component: MyProfileComponent;
@@ -16,7 +17,12 @@ describe('MyProfileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MyProfileComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, MatDialogModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },

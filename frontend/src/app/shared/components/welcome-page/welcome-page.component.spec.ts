@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { WelcomePageComponent } from './welcome-page.component';
@@ -12,7 +13,12 @@ describe('WelcomePageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [WelcomePageComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, MatDialogModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
     }).compileComponents();
   });
 

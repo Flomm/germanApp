@@ -7,6 +7,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { HeaderComponent } from './header.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -15,7 +16,12 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, MatDialogModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },

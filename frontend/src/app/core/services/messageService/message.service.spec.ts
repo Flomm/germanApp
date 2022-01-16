@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessageService } from './message.service';
 
 describe('MessageService', () => {
@@ -7,7 +8,7 @@ describe('MessageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule],
+      imports: [MatDialogModule, MatSnackBarModule],
     });
     service = TestBed.inject(MessageService);
   });
