@@ -183,6 +183,11 @@
   background-color: $mainPurple;
 }
 
+.default-list {
+  columns: 5;
+  list-style: circle inside;
+}
+
 .text-right {
   text-align: right;
 }

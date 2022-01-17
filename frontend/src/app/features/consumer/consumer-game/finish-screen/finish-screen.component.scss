@@ -1,5 +1,23 @@
+@import "../../../../../styles/variables.scss";
+
 main {
   flex-direction: column;
-  height: $heightForCentering;
-  padding: 0px 0px 70px 0px;
+  padding-top: 70px;
+
+  & > div {
+    flex-direction: column;
+    width: 80vw;
+    min-height: 50vh;
+    background-color: $mainPurple;
+    color: $black;
+    border-radius: 15px;
+
+    .button-holder {
+      flex-direction: column;
+
+      button {
+        margin: 15px 0px 15px 0px;
+      }
+    }
+  }
 }
