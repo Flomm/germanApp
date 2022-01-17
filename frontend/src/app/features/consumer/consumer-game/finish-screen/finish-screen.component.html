@@ -12,6 +12,7 @@
         Vissza a főmenübe
       </button>
       <button
+        *ngIf="incorrectWords.length > 0"
         mat-raised-button
         color="primary"
         type="button"
@@ -20,7 +21,7 @@
         Újrajátszom a hibás szavakat
       </button>
     </div>
-    <mat-accordion>
+    <mat-accordion *ngIf="incorrectWords.length > 0">
       <mat-expansion-panel class="default-panel">
         <mat-expansion-panel-header>
           <mat-panel-title> Elhibázott szavak: </mat-panel-title>
