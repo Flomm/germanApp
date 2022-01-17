@@ -1,3 +1,36 @@
 <main class="flex-center">
-  <h3>Játék vége</h3>
+  <div class="flex-center">
+    <h2>Játék vége</h2>
+    <div>Elért pontszám: {{ resultString }}</div>
+    <div class="flex-center button-holder">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="emitDecisionSignal(true)"
+      >
+        Vissza a főmenübe
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="emitDecisionSignal(false)"
+      >
+        Újrajátszom a hibás szavakat
+      </button>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel class="default-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Elhibázott szavak: </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul class="two-columns default-list">
+          <li class="text-center" *ngFor="let word of incorrectWords">
+            {{ (word?.gender ? word?.gender : "") + " " + word?.word }}
+          </li>
+        </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </main>
