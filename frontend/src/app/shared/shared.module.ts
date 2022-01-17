@@ -14,6 +14,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatExpansionModule } from '@angular/material/expansion';
 import EnumToViewPipe from '../shared/pipes/enumToView/enumToView.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
@@ -40,6 +41,7 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
     RouterModule,
     MatBadgeModule,
     ReactiveFormsModule,
+    MatExpansionModule,
   ],
   exports: [
     MatButtonModule,
@@ -55,6 +57,7 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
     EnumToViewPipe,
     MatBadgeModule,
     WelcomePageComponent,
+    MatExpansionModule,
   ],
 })
 export class SharedModule {}
