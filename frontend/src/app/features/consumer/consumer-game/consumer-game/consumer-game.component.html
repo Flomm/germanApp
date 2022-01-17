@@ -17,6 +17,11 @@
     (nextEmitter)="goToNextWord()"
     (answerEmitter)="onAnswerSubmit($event)"
   ></app-play-card>
-  <app-finish-screen *ngIf="isGameFinished"></app-finish-screen>
+  <app-finish-screen
+    *ngIf="isGameFinished"
+    [incorrectWords]="listOfIncorrectWords"
+    [resultString]="numOfCorrectAnswers + '/' + listOfWords.length"
+    (decisionEmitter)="handleEndDecision($event)"
+  ></app-finish-screen>
   <div class="error-holder warn">{{ errorMessage }}</div>
 </main>

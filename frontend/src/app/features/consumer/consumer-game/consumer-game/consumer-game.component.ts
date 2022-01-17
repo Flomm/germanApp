@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { concatMap, delay } from 'rxjs/operators';
 import { GameService } from 'src/app/core/services/gameService/game.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
@@ -16,8 +16,8 @@ import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerRe
   templateUrl: './consumer-game.component.html',
   styleUrls: ['./consumer-game.component.scss'],
 })
-export class ConsumerGameComponent implements OnInit {
-  isGameOn = false;
+export class ConsumerGameComponent {
+  isGameOn: boolean = false;
   isGameFinished: boolean;
   listOfWords: IGetWordData[] = [];
   listOfIncorrectWords: IGetWordData[] = [];
@@ -32,8 +32,6 @@ export class ConsumerGameComponent implements OnInit {
     private statisticsService: StatisticsService,
     private messageService: MessageService
   ) {}
-
-  ngOnInit(): void {}
 
   onGetRandomWords(randomWordRequestData: IGetRandomWordRequest): void {
     this.messageService.showSpinner();
@@ -99,7 +97,30 @@ export class ConsumerGameComponent implements OnInit {
     if (this.actualIndex < this.listOfWords.length - 1) {
       this.actualIndex++;
     } else if (this.actualIndex === this.listOfWords.length - 1) {
-      this.isGameFinished = true;
+      this.statisticsService
+        .incrementStatData(StatDataType.FG)
+        .subscribe((_) => {
+          this.isGameFinished = true;
+        });
+    }
+  }
+
+  resetSelf(): void {
+    this.isGameOn = false;
+    this.isGameFinished = false;
+    this.listOfWords = [];
+    this.listOfIncorrectWords = [];
+    this.checkResponse = null;
+    this.actualIndex = null;
+    this.numOfCorrectAnswers = 0;
+  }
+
+  replayWithIncorrect(): void {}
+
+  handleEndDecision(isReset: boolean): void {
+    if (isReset) {
+      this.resetSelf();
+    } else {
     }
   }
 }
