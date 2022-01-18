@@ -71,14 +71,21 @@ export class ConsumerGameComponent {
       .pipe(
         concatMap((res) => {
           if (!res.isError) {
+            const actualWord: IGetWordData = this.listOfWords[this.actualIndex];
             this.checkResponse = res;
             if (res.isCorrect) {
+              if (
+                this.isInIncorrectList(actualWord) &&
+                this.listOfWords.length > 1
+              ) {
+                this.removeWordFromIncorrectList(actualWord);
+              }
               this.numOfCorrectAnswers++;
               return this.statisticsService.incrementStatData(StatDataType.CA);
             } else {
-              this.listOfIncorrectWords.push(
-                this.listOfWords[this.actualIndex]
-              );
+              if (!this.isInIncorrectList(actualWord)) {
+                this.listOfIncorrectWords.push(actualWord);
+              }
               return this.statisticsService.incrementStatData(StatDataType.IA);
             }
           } else {
@@ -98,12 +105,19 @@ export class ConsumerGameComponent {
     if (this.actualIndex < this.listOfWords.length - 1) {
       this.actualIndex++;
     } else if (this.actualIndex === this.listOfWords.length - 1) {
-      this.statisticsService
-        .incrementStatData(StatDataType.FG)
-        .subscribe((_) => {
-          this.isGameFinished = true;
-        });
+      this.isGameFinished = true;
     }
+  }
+
+  isInIncorrectList(word: IGetWordData): boolean {
+    return this.listOfIncorrectWords.includes(word);
+  }
+
+  removeWordFromIncorrectList(word: IGetWordData): void {
+    this.listOfIncorrectWords.splice(
+      this.listOfIncorrectWords.indexOf(word),
+      1
+    );
   }
 
   resetSelf(): void {
@@ -120,12 +134,18 @@ export class ConsumerGameComponent {
   replayWithIncorrect(): void {
     this.isGameFinished = false;
     this.listOfWords = this.listOfIncorrectWords;
+    this.listOfIncorrectWords = [];
     this.actualIndex = 0;
+    this.numOfCorrectAnswers = 0;
   }
 
   handleEndDecision(isReset: boolean): void {
     if (isReset) {
-      this.resetSelf();
+      this.statisticsService
+        .incrementStatData(StatDataType.FG)
+        .subscribe((_) => {
+          this.resetSelf();
+        });
     } else {
       this.replayWithIncorrect();
     }
