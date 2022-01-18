@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { of } from 'rxjs';
 import { concatMap, delay } from 'rxjs/operators';
 import { GameService } from 'src/app/core/services/gameService/game.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
@@ -33,7 +34,7 @@ export class ConsumerGameComponent {
     private messageService: MessageService
   ) {}
 
-  onGetRandomWords(randomWordRequestData: IGetRandomWordRequest): void {
+  onGameStart(randomWordRequestData: IGetRandomWordRequest): void {
     this.messageService.showSpinner();
     this.gameService
       .getRandomWords(randomWordRequestData)
@@ -45,18 +46,18 @@ export class ConsumerGameComponent {
             this.language = randomWordRequestData.language;
             return this.statisticsService.incrementStatData(StatDataType.SG);
           } else {
-            this.errorMessage = res.message;
+            return of(res);
           }
         })
       )
-      .pipe(delay(1500))
+      .pipe(delay(1200))
       .subscribe((res) => {
-        this.messageService.hideSpinner();
         if (res.isError) {
           this.errorMessage = res.message;
         } else {
           this.isGameOn = true;
         }
+        this.messageService.hideSpinner();
       });
   }
 
@@ -81,7 +82,7 @@ export class ConsumerGameComponent {
               return this.statisticsService.incrementStatData(StatDataType.IA);
             }
           } else {
-            this.errorMessage = res.message;
+            return of(res);
           }
         })
       )
@@ -113,14 +114,20 @@ export class ConsumerGameComponent {
     this.checkResponse = null;
     this.actualIndex = null;
     this.numOfCorrectAnswers = 0;
+    this.errorMessage = null;
   }
 
-  replayWithIncorrect(): void {}
+  replayWithIncorrect(): void {
+    this.isGameFinished = false;
+    this.listOfWords = this.listOfIncorrectWords;
+    this.actualIndex = 0;
+  }
 
   handleEndDecision(isReset: boolean): void {
     if (isReset) {
       this.resetSelf();
     } else {
+      this.replayWithIncorrect();
     }
   }
 }
