@@ -8,10 +8,14 @@ import {
 import AuthService from '../../services/authService/auth.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { MessageService } from '../../services/messageService/message.service';
 
 @Injectable({ providedIn: 'root' })
 export default class ExpiredTokenInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private messageService: MessageService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -24,6 +28,9 @@ export default class ExpiredTokenInterceptor implements HttpInterceptor {
           caughtError.error.message === 'Nincs érvényes token.'
         ) {
           this.authService.logout();
+          this.messageService.openSnackBar(caughtError.error.message, '', {
+            panelClass: ['warn'],
+          });
         }
         return throwError(caughtError);
       })
