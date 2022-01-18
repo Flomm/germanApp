@@ -20,7 +20,11 @@
   <app-finish-screen
     *ngIf="isGameFinished"
     [incorrectWords]="listOfIncorrectWords"
-    [resultString]="numOfCorrectAnswers + '/' + listOfWords.length"
+    [resultString]="
+      listOfWords.length === 0
+        ? null
+        : numOfCorrectAnswers + '/' + listOfWords.length
+    "
     (decisionEmitter)="handleEndDecision($event)"
   ></app-finish-screen>
   <div class="flex-center error-holder warn">
