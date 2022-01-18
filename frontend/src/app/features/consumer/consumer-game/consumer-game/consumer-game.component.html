@@ -6,7 +6,7 @@
   ></app-info>
   <app-main-menu
     *ngIf="!isGameOn && !errorMessage && !isGameFinished"
-    (randomWordRequest)="onGetRandomWords($event)"
+    (randomWordRequest)="onGameStart($event)"
   ></app-main-menu>
   <app-play-card
     *ngIf="isGameOn && !errorMessage && !isGameFinished"
@@ -23,5 +23,18 @@
     [resultString]="numOfCorrectAnswers + '/' + listOfWords.length"
     (decisionEmitter)="handleEndDecision($event)"
   ></app-finish-screen>
-  <div class="error-holder warn">{{ errorMessage }}</div>
+  <div class="flex-center error-holder warn">
+    <ng-container *ngIf="errorMessage">
+      <h2>Hiba</h2>
+      <h3>{{ errorMessage }}</h3>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="resetSelf()"
+      >
+        Vissza a főmenübe
+      </button>
+    </ng-container>
+  </div>
 </main>
