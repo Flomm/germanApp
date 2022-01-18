@@ -67,7 +67,7 @@ describe(`ExpiredTokenInterceptor`, () => {
     expect(messageServiceSpy.openSnackBar).toHaveBeenCalledOnceWith(
       'Nincs érvényes token.',
       '',
-      { panelClass: ['warn'] }
+      { panelClass: ['warn'], duration: 3000 }
     );
   });
 

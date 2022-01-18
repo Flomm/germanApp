@@ -30,6 +30,7 @@ export default class ExpiredTokenInterceptor implements HttpInterceptor {
           this.authService.logout();
           this.messageService.openSnackBar(caughtError.error.message, '', {
             panelClass: ['warn'],
+            duration: 3000,
           });
         }
         return throwError(caughtError);
