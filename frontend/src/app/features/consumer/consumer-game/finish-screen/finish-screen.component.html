@@ -1,8 +1,11 @@
 <main class="flex-center">
   <div class="flex-center">
-    <h2>Játék vége</h2>
+    <h1>Játék vége</h1>
     <div>Elért pontszám: {{ resultString }}</div>
     <div class="flex-center button-holder">
+      <h2 *ngIf="incorrectWords.length < 1" class="flex-center">
+        Gratulálunk! Minden szót eltaláltál!
+      </h2>
       <button
         mat-raised-button
         color="primary"
