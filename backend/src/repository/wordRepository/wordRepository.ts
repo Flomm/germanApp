@@ -143,7 +143,7 @@ export const wordRepository = {
     ];
     if (lang === Language.DE) {
       queryArray.unshift(modifiedWord.gender!);
-      queryString = `UPDATE german_app.${lang} SET gender = ?, word = ?, numOfTranslations = ? WHERE id = ?`;
+      queryString = `UPDATE german_app.?? SET gender = ?, word = ?, numOfTranslations = ? WHERE id = ?`;
     }
     return db
       .query<IDbResultDataModel>(queryString, queryArray)
@@ -193,9 +193,9 @@ export const wordRepository = {
   ): Promise<IGetWordsDataModel[]> {
     const queryString: string = `SELECT id, word${
       lang === Language.DE ? ', gender ' : ''
-    }, numOfTranslations FROM german_app.${lang} WHERE isDeleted = 0 ORDER BY RAND() LIMIT ${quantity};`;
+    }, numOfTranslations FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
     return db
-      .query<IGetWordsDataModel[]>(queryString, [])
+      .query<IGetWordsDataModel[]>(queryString, [`${lang}`, quantity])
       .catch(err => Promise.reject(err));
   },
 };
