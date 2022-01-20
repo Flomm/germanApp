@@ -31,7 +31,7 @@
         </mat-expansion-panel-header>
         <ul class="two-columns default-list">
           <li class="text-center" *ngFor="let word of incorrectWords">
-            {{ (word?.gender ? word?.gender : "") + " " + word?.word }}
+            {{ (word?.gender || "") + " " + word?.word }}
           </li>
         </ul>
       </mat-expansion-panel>

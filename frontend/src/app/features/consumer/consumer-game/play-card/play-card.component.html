@@ -1,8 +1,6 @@
 <form class="flex-center default-form" [formGroup]="wordForm">
   <h1>
-    {{
-      (actualWord?.gender ? actualWord?.gender : "") + " " + actualWord?.word
-    }}
+    {{ (actualWord?.gender || "") + " " + actualWord?.word }}
   </h1>
   <h3>Pontszám: {{ numOfCorrectAnswers }}</h3>
   <ng-container *ngIf="!isSubmitted">
@@ -90,11 +88,7 @@
           "
         >
           {{ first ? ": " : ", " }}
-          {{
-            (translation?.gender ? translation?.gender : "") +
-              " " +
-              translation?.translation
-          }}
+          {{ (translation?.gender || "") + " " + translation?.translation }}
         </span>
       </div>
     </ng-container>
