@@ -41,94 +41,89 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
-  addWord(
+  async addWord(
     lang: Language,
     newWord: IAddWordDataModel,
   ): Promise<IDbResultDataModel> {
-    return wordRepository
-      .getWordByWord(lang, newWord.word)
-      .then(res => {
-        if (res) {
-          if (res.isDeleted) {
-            return db
-              .query<IDbResultDataModel>(
-                `UPDATE german_app.?? SET isDeleted = 0 WHERE id = ?`,
-                [`${lang}`, `${res.id}`],
-              )
-              .then(res => {
-                if (res.affectedRows === 0) {
-                  return Promise.reject(
-                    serverError('Nem sikerült hozzáadni a szót.'),
-                  );
-                }
-                return res;
-              })
-              .catch(err => Promise.reject(err));
-          } else {
-            return Promise.reject(
-              badRequestError('A szó már szerepel az adatbázisban.'),
-            );
+    try {
+      let queryString: string = `UPDATE german_app.?? SET isDeleted = 0 WHERE id = ?`;
+      const existingWord: IGetWordsDomainModel =
+        await wordRepository.getWordByWord(lang, newWord.word);
+      if (existingWord) {
+        if (existingWord.isDeleted) {
+          const dbResult: IDbResultDataModel =
+            await db.query<IDbResultDataModel>(queryString, [
+              `${lang}`,
+              `${existingWord.id}`,
+            ]);
+          if (dbResult.affectedRows === 0) {
+            throw serverError('Nem sikerült hozzáadni a szót.');
           }
+          return Promise.resolve(dbResult);
         } else {
-          let queryString: string;
-          let queryArray: string[] = [
-            `${lang}`,
-            newWord.word,
-            `${newWord.translations.length}`,
-          ];
-          if (lang === Language.DE && newWord.gender) {
-            queryString = `INSERT INTO german_app.?? (word, numOfTranslations, gender) VALUES (?, ?, ?)`;
-            queryArray.push(newWord.gender);
-          } else {
-            queryString = `INSERT INTO german_app.?? (word, numOfTranslations) VALUES (?, ?)`;
-          }
-          return db
-            .query<IDbResultDataModel>(queryString, queryArray)
-            .then(res => {
-              if (res.affectedRows === 0) {
-                return Promise.reject(
-                  serverError('Nem sikerült hozzáadni a szót.'),
-                );
-              }
-              return res;
-            })
-            .catch(err => Promise.reject(err));
+          throw badRequestError('A szó már szerepel az adatbázisban.');
         }
-      })
-      .catch(err => Promise.reject(err));
+      } else {
+        let queryArray: string[] = [
+          `${lang}`,
+          newWord.word,
+          `${newWord.translations.length}`,
+        ];
+        if (lang === Language.DE && newWord.gender) {
+          queryString = `INSERT INTO german_app.?? (word, numOfTranslations, gender) VALUES (?, ?, ?)`;
+          queryArray.push(newWord.gender);
+        } else {
+          queryString = `INSERT INTO german_app.?? (word, numOfTranslations) VALUES (?, ?)`;
+        }
+        const dbResult: IDbResultDataModel = await db.query<IDbResultDataModel>(
+          queryString,
+          queryArray,
+        );
+        if (dbResult.affectedRows === 0) {
+          throw serverError('Nem sikerült hozzáadni a szót.');
+        }
+        return Promise.resolve(dbResult);
+      }
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
-  addNewWordEntry(
+  async addNewWordEntry(
     lang: Language,
     newWord: IAddWordDataModel,
   ): Promise<IDbResultDataModel> {
-    return wordRepository
-      .addWord(lang, newWord)
-      .then(_ => {
-        return wordRepository
-          .getWordByWord(lang, newWord.word)
-          .then(word => {
-            return translationRepository
-              .addTranslations(lang, word.id, newWord.translations)
-              .catch(err => Promise.reject(err));
-          })
-          .catch(err => Promise.reject(err));
-      })
-      .catch(err => Promise.reject(err));
+    try {
+      await wordRepository.addWord(lang, newWord);
+      const addedWord: IGetWordsDomainModel =
+        await wordRepository.getWordByWord(lang, newWord.word);
+      return Promise.resolve(
+        translationRepository.addTranslations(
+          lang,
+          addedWord.id,
+          newWord.translations,
+        ),
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
-  removeWord(wordId: number, lang: Language): Promise<IDbResultDataModel> {
-    return db
-      .query<IDbResultDataModel>(
+  async removeWord(
+    wordId: number,
+    lang: Language,
+  ): Promise<IDbResultDataModel> {
+    try {
+      await db.query<IDbResultDataModel>(
         `UPDATE german_app.?? SET isDeleted = 1 WHERE id = ?`,
         [`${lang}`, `${wordId}`],
-      )
-      .then(_ => {
-        return translationRepository
-          .removeTranslations(wordId, lang)
-          .catch(err => Promise.reject(err));
-      })
-      .catch(err => Promise.reject(err));
+      );
+      return Promise.resolve(
+        translationRepository.removeTranslations(wordId, lang),
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
   modifyWord(
@@ -144,7 +139,11 @@ export const wordRepository = {
       `${wordId}`,
     ];
     if (lang === Language.DE) {
-      queryArray.splice(queryArray.indexOf(modifiedWord.gender!), 1);
+      queryArray.splice(
+        queryArray.indexOf(modifiedWord.word),
+        0,
+        modifiedWord.gender!,
+      );
       queryString = `UPDATE german_app.?? SET gender = ?, word = ?, numOfTranslations = ? WHERE id = ?`;
     }
     return db
@@ -152,41 +151,40 @@ export const wordRepository = {
       .catch(err => Promise.reject(err));
   },
 
-  modifyWordEntry(
+  async modifyWordEntry(
     lang: Language,
     modifiedWord: IAddWordDataModel,
     wordId: number,
   ): Promise<IDbResultDataModel> {
-    return wordRepository
-      .getWordById(lang, wordId)
-      .then(res => {
-        if (res) {
-          return wordRepository
-            .modifyWord(lang, modifiedWord, wordId)
-            .then(res => {
-              if (res.affectedRows < 0) {
-                return Promise.reject(
-                  serverError('A módosítás sikertelen volt.'),
-                );
-              } else {
-                return translationRepository
-                  .removeTranslations(wordId, lang)
-                  .then(_ => {
-                    return translationRepository
-                      .addTranslations(lang, wordId, modifiedWord.translations)
-                      .catch(err => Promise.reject(err));
-                  })
-                  .catch(err => Promise.reject(err));
-              }
-            })
-            .catch(err => Promise.reject(err));
+    try {
+      const word: IGetWordsDomainModel = await wordRepository.getWordById(
+        lang,
+        wordId,
+      );
+      if (word) {
+        const dbResult: IDbResultDataModel = await wordRepository.modifyWord(
+          lang,
+          modifiedWord,
+          wordId,
+        );
+        if (dbResult.affectedRows < 0) {
+          throw serverError('A módosítás sikertelen volt.');
         } else {
-          return Promise.reject(
-            notFoundError('A szó nem szerepel az adatbázisban.'),
+          await translationRepository.removeTranslations(wordId, lang);
+          return Promise.resolve(
+            await translationRepository.addTranslations(
+              lang,
+              wordId,
+              modifiedWord.translations,
+            ),
           );
         }
-      })
-      .catch(err => Promise.reject(err));
+      } else {
+        throw notFoundError('A szó nem szerepel az adatbázisban.');
+      }
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
   getRandomWords(
