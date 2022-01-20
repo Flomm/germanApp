@@ -67,7 +67,7 @@
     <button
       mat-raised-button
       color="primary"
-      type="button"
+      type="submit"
       [disabled]="!wordForm.valid"
       (click)="submitForm()"
     >
@@ -95,7 +95,6 @@
     <button
       mat-raised-button
       color="primary"
-      type="button"
       (click)="emitNext()"
       *ngIf="isSubmitted"
     >
