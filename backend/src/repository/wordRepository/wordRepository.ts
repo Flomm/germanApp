@@ -15,8 +15,8 @@ export const wordRepository = {
   getAllWords(lang: Language): Promise<IGetWordsDataModel[]> {
     return db
       .query<IGetWordsDataModel[]>(
-        `SELECT * FROM german_app.${lang} WHERE isDeleted = 0 ORDER BY word`,
-        [],
+        `SELECT * FROM german_app.?? WHERE isDeleted = 0 ORDER BY word`,
+        [`${lang}`],
       )
       .catch(err => Promise.reject(err));
   },
@@ -24,8 +24,8 @@ export const wordRepository = {
   getWordByWord(lang: Language, word: string): Promise<IGetWordsDomainModel> {
     return db
       .query<IGetWordsDomainModel[]>(
-        `SELECT * FROM german_app.${lang} WHERE word = ?`,
-        [word],
+        `SELECT * FROM german_app.?? WHERE word = ?`,
+        [`${lang}`, word],
       )
       .then(res => res[0])
       .catch(err => Promise.reject(err));
@@ -34,8 +34,8 @@ export const wordRepository = {
   getWordById(lang: Language, wordId: number): Promise<IGetWordsDomainModel> {
     return db
       .query<IGetWordsDomainModel[]>(
-        `SELECT * FROM german_app.${lang} WHERE id = ? AND isDeleted = 0`,
-        [`${wordId}`],
+        `SELECT * FROM german_app.?? WHERE id = ? AND isDeleted = 0`,
+        [`${lang}`, `${wordId}`],
       )
       .then(res => res[0])
       .catch(err => Promise.reject(err));
@@ -52,8 +52,8 @@ export const wordRepository = {
           if (res.isDeleted) {
             return db
               .query<IDbResultDataModel>(
-                `UPDATE german_app.${lang} SET isDeleted = 0 WHERE id = ?`,
-                [`${res.id}`],
+                `UPDATE german_app.?? SET isDeleted = 0 WHERE id = ?`,
+                [`${lang}`, `${res.id}`],
               )
               .then(res => {
                 if (res.affectedRows === 0) {
@@ -72,14 +72,15 @@ export const wordRepository = {
         } else {
           let queryString: string;
           let queryArray: string[] = [
+            `${lang}`,
             newWord.word,
             `${newWord.translations.length}`,
           ];
           if (lang === Language.DE && newWord.gender) {
-            queryString = `INSERT INTO german_app.${lang} (word, numOfTranslations, gender) VALUES (?, ?, ?)`;
+            queryString = `INSERT INTO german_app.?? (word, numOfTranslations, gender) VALUES (?, ?, ?)`;
             queryArray.push(newWord.gender);
           } else {
-            queryString = `INSERT INTO german_app.${lang} (word, numOfTranslations) VALUES (?, ?)`;
+            queryString = `INSERT INTO german_app.?? (word, numOfTranslations) VALUES (?, ?)`;
           }
           return db
             .query<IDbResultDataModel>(queryString, queryArray)
@@ -119,8 +120,8 @@ export const wordRepository = {
   removeWord(wordId: number, lang: Language): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `UPDATE german_app.${lang} SET isDeleted = 1 WHERE id = ?`,
-        [`${wordId}`],
+        `UPDATE german_app.?? SET isDeleted = 1 WHERE id = ?`,
+        [`${lang}`, `${wordId}`],
       )
       .then(_ => {
         return translationRepository
@@ -135,14 +136,15 @@ export const wordRepository = {
     modifiedWord: IAddWordDataModel,
     wordId: number,
   ): Promise<IDbResultDataModel> {
-    let queryString: string = `UPDATE german_app.${lang} SET word = ?, numOfTranslations = ? WHERE id = ?`;
+    let queryString: string = `UPDATE german_app.?? SET word = ?, numOfTranslations = ? WHERE id = ?`;
     let queryArray: string[] = [
+      `${lang}`,
       modifiedWord.word,
       `${modifiedWord.translations.length}`,
       `${wordId}`,
     ];
     if (lang === Language.DE) {
-      queryArray.unshift(modifiedWord.gender!);
+      queryArray.splice(queryArray.indexOf(modifiedWord.gender!), 1);
       queryString = `UPDATE german_app.?? SET gender = ?, word = ?, numOfTranslations = ? WHERE id = ?`;
     }
     return db
