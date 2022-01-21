@@ -8,7 +8,8 @@
       <ng-container
         *ngFor="
           let word of wordForm.controls.answerList.controls;
-          let i = index
+          let i = index;
+          let first = first
         "
       >
         <div div class="field-holder" [formGroupName]="i">
@@ -47,11 +48,21 @@
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>{{ i + 1 }}. jelentés</mat-label>
-            <input
-              matInput
-              placeholder="Add meg a jelentést"
-              formControlName="answer"
-            />
+            <ng-container *ngIf="first; else withoutFocus">
+              <input
+                matInput
+                matInputAutofocus
+                placeholder="Add meg a jelentést"
+                formControlName="answer"
+              />
+            </ng-container>
+            <ng-template #withoutFocus>
+              <input
+                matInput
+                placeholder="Add meg a jelentést"
+                formControlName="answer"
+              />
+            </ng-template>
             <mat-error
               *ngIf="
                 wordForm.controls.answerList['controls'][i][

@@ -18,6 +18,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import EnumToViewPipe from '../shared/pipes/enumToView/enumToView.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
+import { MatInputAutofocusDirective } from './directives/autofocus-matinput.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
     DialogComponent,
     EnumToViewPipe,
     WelcomePageComponent,
+    MatInputAutofocusDirective,
   ],
   imports: [
     CommonModule,
@@ -58,6 +60,7 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
     MatBadgeModule,
     WelcomePageComponent,
     MatExpansionModule,
+    MatInputAutofocusDirective,
   ],
 })
 export class SharedModule {}
