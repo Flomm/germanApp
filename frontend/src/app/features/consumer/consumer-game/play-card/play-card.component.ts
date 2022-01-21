@@ -6,8 +6,10 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IAnswer from 'src/app/shared/models/models/viewModels/IAnswer.viewModel';
@@ -30,6 +32,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
     IAnswer[]
   >();
 
+  @ViewChild('nextButton') nextButtonElement: MatButton;
   wordForm: FormGroup;
   languageType = Language;
   genderType = Gender;
@@ -42,6 +45,9 @@ export class PlayCardComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.actualWord && !changes.actualWord.firstChange) {
       this.createForm();
+    }
+    if (changes.checkResponse && !changes.checkResponse.firstChange) {
+      this.nextButtonElement.focus();
     }
   }
 
