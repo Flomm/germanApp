@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import IGetWordData from 'src/app/shared/models/viewModels/IGetWordData.viewModel';
 
 @Component({
   selector: 'app-finish-screen',

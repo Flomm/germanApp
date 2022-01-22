@@ -1,5 +1,5 @@
-import { Gender } from '../../enums/Gender.enum';
-import { TopicType } from '../../enums/TopicType.enum';
+import { Gender } from '../enums/Gender.enum';
+import { TopicType } from '../enums/TopicType.enum';
 
 export default interface IGetWordData {
   id: number;

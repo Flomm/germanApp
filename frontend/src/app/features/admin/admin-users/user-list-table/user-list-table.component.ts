@@ -3,7 +3,7 @@ import { UserRole } from 'src/app/shared/models/enums/UserRole.enum';
 import IGetUserResponse from 'src/app/shared/models/responses/IGetUserResponse';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import IGetUserData from 'src/app/shared/models/models/viewModels/IGetUserData.viewModel';
+import IGetUserData from 'src/app/shared/models/viewModels/IGetUserData.viewModel';
 
 @Component({
   selector: 'app-user-list-table',

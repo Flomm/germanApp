@@ -7,7 +7,7 @@ import { TranslationService } from 'src/app/core/services/translationService/tra
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
-import IModifyWordDialogData from 'src/app/shared/models/models/viewModels/IModifyWordDialogData.viewModel';
+import IModifyWordDialogData from 'src/app/shared/models//viewModels/IModifyWordDialogData.viewModel';
 import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';

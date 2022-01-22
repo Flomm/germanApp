@@ -1,5 +1,5 @@
-import IInitModifyRequest from '../../requests/IInitModifyRequest';
-import ITranslationDataModel from '../../requests/ITranslationDataModel';
+import IInitModifyRequest from '../requests/IInitModifyRequest';
+import ITranslationDataModel from '../requests/ITranslationDataModel';
 
 export default interface IModifyWordDialogData {
   initRequest: IInitModifyRequest;

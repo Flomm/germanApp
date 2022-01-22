@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
-import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import IGetWordData from 'src/app/shared/models/viewModels/IGetWordData.viewModel';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
