@@ -20,6 +20,7 @@ export const gameService = {
               id: word.id,
               word: word.word,
               numOfTranslations: word.numOfTranslations,
+              topic: word.topic,
             };
           }
           return word;
