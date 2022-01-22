@@ -17,6 +17,7 @@ export enum TopicType {
   WEATHER,
   FASHION,
   LIVING_ENVIRONMENT,
+  ENVIRONMENT,
   GERMANY,
   HUNGARY,
 }
