@@ -195,7 +195,7 @@ export const wordRepository = {
   ): Promise<IGetWordsDataModel[]> {
     const queryString: string = `SELECT id, word${
       lang === Language.DE ? ', gender ' : ''
-    }, numOfTranslations FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
+    }, numOfTranslations, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
     return db
       .query<IGetWordsDataModel[]>(queryString, [`${lang}`, quantity])
       .catch(err => Promise.reject(err));
