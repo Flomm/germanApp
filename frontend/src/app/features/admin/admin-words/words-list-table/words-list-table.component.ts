@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
@@ -64,10 +65,16 @@ export class WordsListTableComponent implements OnInit {
     this.wordRemoval.emit({ language: this.currentLanguage, wordId });
   }
 
-  submitModify(word: string, wordId: number, gender?: Gender): void {
+  submitModify(
+    word: string,
+    wordId: number,
+    topic: TopicType,
+    gender?: Gender
+  ): void {
     this.wordModify.emit({
       word,
       wordId,
+      topic,
       gender,
       language: this.currentLanguage,
     });
