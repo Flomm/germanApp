@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 
 @Component({
@@ -16,6 +17,7 @@ export class AdminAddWordComponent implements OnInit {
   addWordResponse: ICustomResponse;
   genderType = Gender;
   languageType = Language;
+  topicType = TopicType;
   isMainGenderShown: boolean = true;
 
   constructor(
@@ -26,6 +28,7 @@ export class AdminAddWordComponent implements OnInit {
   ngOnInit(): void {
     this.addWordForm = new FormGroup({
       language: new FormControl(Language.DE, [Validators.required]),
+      topic: new FormControl(TopicType.FAMILY, [Validators.required]),
       word: new FormControl('', [Validators.required]),
       gender: new FormControl(''),
       translations: new FormArray([

@@ -25,6 +25,23 @@
           >Kötelező mező</mat-error
         >
       </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Téma</mat-label>
+        <mat-select formControlName="topic" panelClass="default-select">
+          <mat-option
+            *ngFor="let topic of topicType | enumToView"
+            [value]="topic.value"
+          >
+            {{ topic.name | translation: "TopicType" }}
+            <span *ngIf="addWordForm.controls.topic.value === topic.value">
+              &#10004;</span
+            >
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="addWordForm.controls.topic.hasError('required')"
+          >Kötelező mező</mat-error
+        >
+      </mat-form-field>
     </div>
     <div class="field-holder">
       <mat-form-field appearance="outline" *ngIf="isMainGenderShown">
