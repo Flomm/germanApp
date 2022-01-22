@@ -19,6 +19,7 @@ import EnumToViewPipe from '../shared/pipes/enumToView/enumToView.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { MatInputAutofocusDirective } from './directives/autofocus-matinput.directive';
+import TranslationPipe from './pipes/translationPipe/translation.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MatInputAutofocusDirective } from './directives/autofocus-matinput.dire
     FooterComponent,
     DialogComponent,
     EnumToViewPipe,
+    TranslationPipe,
     WelcomePageComponent,
     MatInputAutofocusDirective,
   ],
@@ -57,6 +59,7 @@ import { MatInputAutofocusDirective } from './directives/autofocus-matinput.dire
     MatSelectModule,
     MatSnackBarModule,
     EnumToViewPipe,
+    TranslationPipe,
     MatBadgeModule,
     WelcomePageComponent,
     MatExpansionModule,
