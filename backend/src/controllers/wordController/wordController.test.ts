@@ -7,11 +7,13 @@ import { serverError } from '../../services/errorCreatorService/errorCreator.ser
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 
 const mockDeWords: IGetWordsDataModel[] = [
   {
     id: 1,
     word: 'Wasser',
+    topic: TopicType.FAMILY,
   },
 ];
 
@@ -19,17 +21,20 @@ const mockHunWords: IGetWordsDataModel[] = [
   {
     id: 1,
     word: 'víz',
+    topic: TopicType.FAMILY,
   },
 ];
 
 const mockDeWord: IAddWordDataModel = {
   word: 'Spiegel',
   gender: Gender.DER,
+  topic: TopicType.FAMILY,
   translations: [{ translation: 'tükör' }],
 };
 
 const mockHuWord: IAddWordDataModel = {
   word: 'tükör',
+  topic: TopicType.FAMILY,
   translations: [{ translation: 'Spiegel', gender: Gender.DER }],
 };
 

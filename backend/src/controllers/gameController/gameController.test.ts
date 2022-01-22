@@ -6,11 +6,13 @@ import { jwtService } from '../../services/jwtService/jwt.service';
 import { serverError } from '../../services/errorCreatorService/errorCreator.service';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 
 const mockDeWords: IGetWordsDataModel[] = [
   {
     id: 1,
     word: 'Wasser',
+    topic: TopicType.FAMILY,
   },
 ];
 
@@ -18,6 +20,7 @@ const mockHunWords: IGetWordsDataModel[] = [
   {
     id: 1,
     word: 'víz',
+    topic: TopicType.FAMILY,
   },
 ];
 

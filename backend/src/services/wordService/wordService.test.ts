@@ -3,6 +3,7 @@ import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataMode
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
 import {
   notFoundError,
@@ -14,6 +15,7 @@ const mockDeWords: IGetWordsDataModel[] = [
   {
     id: 1,
     word: 'Wasser',
+    topic: TopicType.FAMILY,
   },
 ];
 
@@ -21,12 +23,14 @@ const mockHunWords: IGetWordsDataModel[] = [
   {
     id: 1,
     word: 'víz',
+    topic: TopicType.FAMILY,
   },
 ];
 
 const mockDeWord: IAddWordDataModel = {
   word: 'Spiegel',
   gender: Gender.DER,
+  topic: TopicType.FAMILY,
   translations: [{ translation: 'tükör' }],
 };
 

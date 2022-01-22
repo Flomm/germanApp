@@ -2,6 +2,7 @@ import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataMode
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import { translationRepository } from '../../repository/translationRepository/translationRepository';
@@ -14,6 +15,8 @@ const mockDeWords: IGetWordsDataModel[] = [
     id: 1,
     word: 'Wasser',
     gender: '' as Gender,
+    numOfTranslations: 1,
+    topic: TopicType.FAMILY,
   },
 ];
 
@@ -21,6 +24,8 @@ const mockHunWords: IGetWordsDataModel[] = [
   {
     id: 1,
     word: 'víz',
+    numOfTranslations: 1,
+    topic: TopicType.FAMILY,
   },
 ];
 
@@ -36,11 +41,6 @@ const mockCheckAnswerRequest: ICheckAnswerRequest = {
 const mockCheckAnswerRequestNew: ICheckAnswerRequest = {
   wordId: 1,
   answerList: [{ answer: 'test', gender: Gender.DAS }],
-};
-
-const mockCheckAnswerResponse: ICheckAnswerResponse = {
-  isCorrect: true,
-  translations: [{ translation: 'test' }],
 };
 
 const mockTranslationListForNullsTest: ITranslationDataModel[] = [
@@ -69,6 +69,8 @@ describe('getRandomWords', () => {
       {
         id: 1,
         word: 'Wasser',
+        topic: TopicType.FAMILY,
+        numOfTranslations: 1,
       },
     ]);
     expect(wordRepository.getRandomWords).toHaveBeenCalledTimes(1);
