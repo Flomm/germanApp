@@ -3,7 +3,7 @@ import IValueName from '../../models/viewModels/IValueName.viewModel';
 import EnumToViewPipe from './enumToView.pipe';
 
 describe('EnumToViewPipe', () => {
-  enum testTicketType {
+  enum testGenderType {
     DER = 'der',
     DIE = 'die',
     DAS = 'das',
@@ -27,7 +27,7 @@ describe('EnumToViewPipe', () => {
     ];
 
     //Act
-    const result: IValueName[] = testPipeClass.transform(testTicketType);
+    const result: IValueName[] = testPipeClass.transform(testGenderType);
 
     //Assert
     expect(result).toEqual(expectedObjectArray);
