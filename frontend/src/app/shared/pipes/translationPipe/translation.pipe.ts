@@ -6,6 +6,9 @@ export default class TranslationPipe implements PipeTransform {
   constructor(private enumService: EnumService) {}
 
   transform(value: string, type: string): string {
-    return this.enumService[`translate${type}`](value) || 'N/A';
+    if (!this.enumService[`translate${type}`]) {
+      return 'N/A';
+    }
+    return this.enumService[`translate${type}`](value);
   }
 }
