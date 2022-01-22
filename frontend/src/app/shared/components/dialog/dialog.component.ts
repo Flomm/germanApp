@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Gender } from '../../models/enums/Gender.enum';
 import { Language } from '../../models/enums/Language.enum';
-import IDialogConfig from '../../models/models/viewModels/IDialogConfig.viewModel';
+import IDialogConfig from '../../models/viewModels/IDialogConfig.viewModel';
 import ITranslationDataModel from '../../models/requests/ITranslationDataModel';
 
 @Component({

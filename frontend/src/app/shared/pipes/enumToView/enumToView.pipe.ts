@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import IValueName from '../../models/models/viewModels/IValueName.viewModel';
+import IValueName from '../../models/viewModels/IValueName.viewModel';
 
 @Pipe({ name: 'enumToView' })
 export default class EnumToViewPipe implements PipeTransform {

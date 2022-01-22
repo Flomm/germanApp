@@ -1,4 +1,4 @@
-import IGetWordData from '../models/viewModels/IGetWordData.viewModel';
+import IGetWordData from '../viewModels/IGetWordData.viewModel';
 
 export default interface IGetWordResponse {
   wordList: IGetWordData[];

@@ -1,4 +1,4 @@
-import IGetUserData from '../models/viewModels/IGetUserData.viewModel';
+import IGetUserData from '../viewModels/IGetUserData.viewModel';
 
 export default interface IGetUserResponse {
   userList: IGetUserData[];

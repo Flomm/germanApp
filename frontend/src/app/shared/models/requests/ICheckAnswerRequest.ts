@@ -1,4 +1,4 @@
-import IAnswer from '../models/viewModels/IAnswer.viewModel';
+import IAnswer from '../viewModels/IAnswer.viewModel';
 
 export default interface ICheckAnswerRequest {
   wordId: number;

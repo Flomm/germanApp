@@ -6,8 +6,8 @@ import { MessageService } from 'src/app/core/services/messageService/message.ser
 import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { StatDataType } from 'src/app/shared/models/enums/StatDataType.enum';
-import IAnswer from 'src/app/shared/models/models/viewModels/IAnswer.viewModel';
-import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import IAnswer from 'src/app/shared/models/viewModels/IAnswer.viewModel';
+import IGetWordData from 'src/app/shared/models/viewModels/IGetWordData.viewModel';
 import ICheckAnswerRequest from 'src/app/shared/models/requests/ICheckAnswerRequest';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
 import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerResponse';

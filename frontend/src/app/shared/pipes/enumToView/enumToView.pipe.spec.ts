@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import IValueName from '../../models/models/viewModels/IValueName.viewModel';
+import IValueName from '../../models/viewModels/IValueName.viewModel';
 import EnumToViewPipe from './enumToView.pipe';
 
 describe('EnumToViewPipe', () => {

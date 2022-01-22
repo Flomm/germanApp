@@ -12,8 +12,8 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
-import IAnswer from 'src/app/shared/models/models/viewModels/IAnswer.viewModel';
-import IGetWordData from 'src/app/shared/models/models/viewModels/IGetWordData.viewModel';
+import IAnswer from 'src/app/shared/models/viewModels/IAnswer.viewModel';
+import IGetWordData from 'src/app/shared/models/viewModels/IGetWordData.viewModel';
 import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerResponse';
 
 @Component({

@@ -1,4 +1,4 @@
-import IStatisticsData from '../models/viewModels/IStatisticsData.viewModel';
+import IStatisticsData from '../viewModels/IStatisticsData.viewModel';
 
 export default interface IGetStatisticsResponse {
   statistics?: IStatisticsData;
