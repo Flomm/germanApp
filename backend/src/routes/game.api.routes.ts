@@ -59,6 +59,10 @@ export const gameRouter = express.Router();
  *              type: string
  *          gender:
  *              type: string
+ *          numOfTranslations:
+ *              type: number
+ *          topic:
+ *              type: number
  */
 gameRouter
   .route('/random-words/:lang')

@@ -44,8 +44,10 @@ export const wordRouter = express.Router();
  *              type: string
  *          id:
  *              type: integer
- *          transition:
+ *          translations:
  *              type: array
+ *          topic:
+ *              type: number
  */
 wordRouter
   .route('/:lang')
@@ -94,6 +96,8 @@ wordRouter
  *              type: string
  *          gender:
  *              type: string
+ *          topic:
+ *              type: number
  *          translations:
  *              type: array
  *              items:
@@ -109,7 +113,7 @@ wordRouter
   .all(
     tokenAuthentication(),
     permitChecker([UserRole.Admin]),
-    bodyValidator(['word', 'translations']),
+    bodyValidator(['word', 'translations', 'topic']),
   )
   .post(wordController.addWord);
 
@@ -201,6 +205,6 @@ wordRouter
   .all(
     tokenAuthentication(),
     permitChecker([UserRole.Admin]),
-    bodyValidator(['word', 'translations']),
+    bodyValidator(['word', 'translations', 'topic']),
   )
   .put(wordController.modifyWord);
