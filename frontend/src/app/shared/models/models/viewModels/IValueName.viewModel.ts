@@ -1,4 +1,4 @@
 export default interface IValueName {
-  value: string;
+  value: number | string;
   name: string;
 }
