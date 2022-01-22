@@ -4,8 +4,10 @@ import { of } from 'rxjs';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import EnumToViewPipe from 'src/app/shared/pipes/enumToView/enumToView.pipe';
+import TranslationPipe from 'src/app/shared/pipes/translationPipe/translation.pipe';
 import { AdminAddWordComponent } from './admin-add-word.component';
 
 describe('AdminAddWordComponent', () => {
@@ -18,7 +20,7 @@ describe('AdminAddWordComponent', () => {
       'addNewWord',
     ]);
     await TestBed.configureTestingModule({
-      declarations: [AdminAddWordComponent, EnumToViewPipe],
+      declarations: [AdminAddWordComponent, EnumToViewPipe, TranslationPipe],
       providers: [{ provide: WordService, useValue: wordServiceSpy }],
       imports: [HttpClientTestingModule],
     }).compileComponents();
@@ -40,12 +42,14 @@ describe('AdminAddWordComponent', () => {
       language: Language.DE,
       word: 'Spiegel',
       gender: Gender.DER,
+      topic: TopicType.FAMILY,
       translations: [{ translation: 'tükör' }],
     };
 
     const mockRequest: IAddWordRequest = {
       word: 'Spiegel',
       gender: Gender.DER,
+      topic: TopicType.FAMILY,
       translations: [{ translation: 'tükör' }],
     };
 

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import EnumToViewPipe from 'src/app/shared/pipes/enumToView/enumToView.pipe';
 import { WordsListTableComponent } from './words-list-table.component';
 
@@ -57,13 +58,14 @@ describe('WordsListTableComponent', () => {
     component.chooseLanguageForm.setValue({ language: Language.DE });
 
     //Act
-    component.submitModify('testWord', 1);
+    component.submitModify('testWord', 1, TopicType.FAMILY);
 
     //Assert
     expect(component.wordModify.emit).toHaveBeenCalledWith({
       word: 'testWord',
       wordId: 1,
       language: Language.DE,
+      topic: TopicType.FAMILY,
       gender: undefined,
     });
   });

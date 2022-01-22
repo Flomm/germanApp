@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray } from '@angular/forms';
+import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import { PlayCardComponent } from './play-card.component';
 
 describe('PlayCardComponent', () => {
@@ -15,7 +16,12 @@ describe('PlayCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PlayCardComponent);
     component = fixture.componentInstance;
-    component.actualWord = { id: 1, word: 'test', numOfTranslations: 1 };
+    component.actualWord = {
+      id: 1,
+      word: 'test',
+      numOfTranslations: 1,
+      topic: TopicType.FAMILY,
+    };
     fixture.detectChanges();
   });
 
