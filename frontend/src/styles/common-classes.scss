@@ -168,6 +168,10 @@
     border: 3px $black;
   }
 
+  .mat-pseudo-checkbox {
+    color: $mainPurple;
+  }
+
   .mat-option {
     .mat-option-text {
       color: $mainPurple;
@@ -185,6 +189,9 @@
     &:hover {
       background-color: $mainPurple;
       .mat-option-text {
+        color: $black;
+      }
+      .mat-pseudo-checkbox {
         color: $black;
       }
     }
