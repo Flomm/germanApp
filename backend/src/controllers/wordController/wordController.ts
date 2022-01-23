@@ -5,8 +5,8 @@ import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { wordService } from '../../services/wordService/wordService';
+import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';
 import idChecker from '../helpers/idChecker/idChecker.helper';
-import languageChecker from '../helpers/languageChecker/languageChecker.helper';
 
 export const wordController = {
   getAllWords(
@@ -15,7 +15,7 @@ export const wordController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!languageChecker(lang)) {
+    if (!enumValueChecker(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     wordService
@@ -34,7 +34,7 @@ export const wordController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!languageChecker(lang)) {
+    if (!enumValueChecker(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
 
@@ -56,7 +56,7 @@ export const wordController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!languageChecker(lang)) {
+    if (!enumValueChecker(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
@@ -77,7 +77,7 @@ export const wordController = {
 
   removeWord(req: Request, res: Response, next: NextFunction): void {
     const lang: string = req.params.lang;
-    if (!languageChecker(lang)) {
+    if (!enumValueChecker(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);

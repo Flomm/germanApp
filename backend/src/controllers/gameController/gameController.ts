@@ -5,7 +5,7 @@ import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { gameService } from '../../services/gameService/gameService';
-import languageChecker from '../helpers/languageChecker/languageChecker.helper';
+import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';
 
 export const gameController = {
   getRandomWords(
@@ -14,7 +14,7 @@ export const gameController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!languageChecker(lang)) {
+    if (!enumValueChecker(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
 
@@ -39,7 +39,7 @@ export const gameController = {
     next: NextFunction,
   ): void {
     const lang: Language = req.params.lang as Language;
-    if (!languageChecker(lang)) {
+    if (!enumValueChecker(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const answers: ICheckAnswerRequest = req.body;

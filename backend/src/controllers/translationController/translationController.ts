@@ -3,8 +3,8 @@ import { Language } from '../../models/models/Enums/Language.enum';
 import IGetTranslationsResponse from '../../models/responses/IGetTranslationsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { translationService } from '../../services/translationService/translationService';
+import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';
 import idChecker from '../helpers/idChecker/idChecker.helper';
-import languageChecker from '../helpers/languageChecker/languageChecker.helper';
 
 export const translationController = {
   getTranslationsByWordId(
@@ -13,7 +13,7 @@ export const translationController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!languageChecker(lang)) {
+    if (!enumValueChecker(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
