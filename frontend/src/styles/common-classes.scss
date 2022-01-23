@@ -207,3 +207,13 @@
 .text-right {
   text-align: right;
 }
+
+.triple-field-holder {
+  width: 100%;
+}
+
+@media only screen and (max-width: 750px) {
+  .triple-field-holder {
+    flex-direction: column;
+  }
+}

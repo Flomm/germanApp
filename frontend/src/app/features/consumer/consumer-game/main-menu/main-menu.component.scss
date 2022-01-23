@@ -7,10 +7,6 @@ form {
   border-radius: 5px;
   width: 90vw;
 
-  .field-holder {
-    width: 100%;
-  }
-
   mat-select {
     ::ng-deep .mat-select-value,
     ::ng-deep .mat-select-arrow {
