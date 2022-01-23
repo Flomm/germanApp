@@ -4,7 +4,7 @@
     Kérlek, válaszd ki a kívánt paramétereket, majd kattints a kezdjük gombra a
     játék elindításához!
   </h4>
-  <div class="field-holder flex-center flex-between">
+  <div class="triple-field-holder flex-center flex-between">
     <mat-form-field appearance="outline">
       <mat-label>Nyelv</mat-label>
       <mat-select formControlName="language" panelClass="default-select">
@@ -19,6 +19,20 @@
         </mat-option>
       </mat-select>
       <mat-error *ngIf="mainMenuForm.controls.language.hasError('required')"
+        >Kötelező mező</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Téma</mat-label>
+      <mat-select multiple formControlName="topic" panelClass="default-select">
+        <mat-option
+          *ngFor="let topic of topicType | enumToView"
+          [value]="topic.value"
+        >
+          {{ topic.name | translation: "TopicType" }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="mainMenuForm.controls.topic.hasError('required')"
         >Kötelező mező</mat-error
       >
     </mat-form-field>
