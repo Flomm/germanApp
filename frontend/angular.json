@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "fox-ticket:build"
+            "browserTarget": "german-learning-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "fox-ticket:build:production"
+              "browserTarget": "german-learning-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "fox-ticket:build"
+            "browserTarget": "german-learning-app:build"
           }
         },
         "test": {
@@ -113,16 +113,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "fox-ticket:serve"
+            "devServerTarget": "german-learning-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "fox-ticket:serve:production"
+              "devServerTarget": "german-learning-app:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "fox-ticket"
+  "defaultProject": "german-learning-app"
 }
