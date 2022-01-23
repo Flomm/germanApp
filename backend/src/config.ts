@@ -31,9 +31,9 @@ export default {
     apis: ['./src/routes/*.routes.ts'],
     swaggerDefinition: {
       info: {
-        title: 'Fox-ticket API',
+        title: 'German learning app API',
         version: '1.0.0',
-        description: 'Fox-ticket API information',
+        description: 'German learning app API information',
         contact: {
           name: 'Best Team ever',
         },
