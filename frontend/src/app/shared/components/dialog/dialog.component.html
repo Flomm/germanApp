@@ -71,6 +71,25 @@
           >
         </mat-form-field>
       </div>
+      <div class="field-holder">
+        <mat-form-field appearance="outline">
+          <mat-label>Téma</mat-label>
+          <mat-select formControlName="topic" panelClass="default-select">
+            <mat-option
+              *ngFor="let topic of topicType | enumToView"
+              [value]="topic.value"
+            >
+              {{ topic.name | translation: "TopicType" }}
+              <span *ngIf="modifyWordForm.controls.topic.value === topic.value">
+                &#10004;</span
+              >
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="modifyWordForm.controls.topic.hasError('required')"
+            >Kötelező mező</mat-error
+          >
+        </mat-form-field>
+      </div>
       <ng-container formArrayName="translations">
         <h2>Jelentések:</h2>
         <button

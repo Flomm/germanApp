@@ -6,6 +6,7 @@ import { Gender } from '../../models/enums/Gender.enum';
 import { Language } from '../../models/enums/Language.enum';
 import IDialogConfig from '../../models/viewModels/IDialogConfig.viewModel';
 import ITranslationDataModel from '../../models/requests/ITranslationDataModel';
+import { TopicType } from '../../models/enums/TopicType.enum';
 
 @Component({
   selector: 'app-dialog',
@@ -16,6 +17,7 @@ export class DialogComponent implements OnInit {
   currentLanguage: Language;
   languageType: object = Language;
   genderType: object = Gender;
+  topicType: object = TopicType;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public params: IDialogConfig,
@@ -37,6 +39,9 @@ export class DialogComponent implements OnInit {
   createForm(): void {
     this.currentLanguage = this.params.modifyWordData.initRequest.language;
     this.modifyWordForm = new FormGroup({
+      topic: new FormControl(this.params.modifyWordData.initRequest.topic, [
+        Validators.required,
+      ]),
       word: new FormControl(this.params.modifyWordData.initRequest.word, [
         Validators.required,
       ]),
