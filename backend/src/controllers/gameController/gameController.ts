@@ -14,7 +14,7 @@ export const gameController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!enumValueChecker(Language, lang)) {
+    if (!enumValueChecker<string>(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
 
@@ -39,7 +39,7 @@ export const gameController = {
     next: NextFunction,
   ): void {
     const lang: Language = req.params.lang as Language;
-    if (!enumValueChecker(Language, lang)) {
+    if (!enumValueChecker<string>(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const answers: ICheckAnswerRequest = req.body;

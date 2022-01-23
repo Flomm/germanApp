@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
+import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
@@ -15,7 +17,7 @@ export const wordController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!enumValueChecker(Language, lang)) {
+    if (!enumValueChecker<string>(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     wordService
@@ -34,11 +36,19 @@ export const wordController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!enumValueChecker(Language, lang)) {
+    if (!enumValueChecker<string>(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
 
     const newWord: IAddWordDataModel = req.body;
+    if (newWord.gender) {
+      if (!enumValueChecker<string>(Gender, newWord.gender)) {
+        return next(badRequestError('Nincs ilyen nem.'));
+      }
+    }
+    if (!enumValueChecker<number>(TopicType, newWord.topic)) {
+      return next(badRequestError('Nincs ilyen téma a szótárban.'));
+    }
 
     wordService
       .addNewWord(lang as Language, newWord)
@@ -56,14 +66,24 @@ export const wordController = {
     next: NextFunction,
   ): void {
     const lang: string = req.params.lang;
-    if (!enumValueChecker(Language, lang)) {
+    if (!enumValueChecker<string>(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
+
     const wordId: number = parseInt(req.params.id);
     if (!idChecker(wordId)) {
       return next(badRequestError('A szó id pozitív egész szám kell legyen.'));
     }
+
     const modifiedWord: IAddWordDataModel = req.body;
+    if (modifiedWord.gender) {
+      if (!enumValueChecker<string>(Gender, modifiedWord.gender)) {
+        return next(badRequestError('Nincs ilyen nem.'));
+      }
+    }
+    if (!enumValueChecker<number>(TopicType, modifiedWord.topic)) {
+      return next(badRequestError('Nincs ilyen téma a szótárban.'));
+    }
 
     wordService
       .modifyWord(lang as Language, modifiedWord, wordId)
@@ -77,7 +97,7 @@ export const wordController = {
 
   removeWord(req: Request, res: Response, next: NextFunction): void {
     const lang: string = req.params.lang;
-    if (!enumValueChecker(Language, lang)) {
+    if (!enumValueChecker<string>(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
     const wordId: number = parseInt(req.params.id);
