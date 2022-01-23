@@ -326,5 +326,5 @@ userRouter
  */
 userRouter
   .route('/change-name')
-  .all(bodyValidator(['name']))
+  .all(tokenAuthentication(), bodyValidator(['name']))
   .put(userController.changeUserName);
