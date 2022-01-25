@@ -15,6 +15,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import EnumToViewPipe from '../shared/pipes/enumToView/enumToView.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
@@ -46,6 +47,7 @@ import TranslationPipe from './pipes/translationPipe/translation.pipe';
     MatBadgeModule,
     ReactiveFormsModule,
     MatExpansionModule,
+    MatCheckboxModule,
   ],
   exports: [
     MatButtonModule,
@@ -64,6 +66,7 @@ import TranslationPipe from './pipes/translationPipe/translation.pipe';
     WelcomePageComponent,
     MatExpansionModule,
     MatInputAutofocusDirective,
+    MatCheckboxModule,
   ],
 })
 export class SharedModule {}
