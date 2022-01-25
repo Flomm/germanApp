@@ -4,6 +4,14 @@
   align-items: center;
 }
 
+.flex-column {
+  flex-direction: column;
+}
+
+.align-left-column {
+  align-self: flex-start;
+}
+
 .flex-between {
   justify-content: space-between;
 }
@@ -204,6 +212,12 @@
 
 .default-panel {
   background-color: $mainPurple;
+}
+
+.default-checkbox {
+  .mat-checkbox-frame {
+    border-color: $mainPurple;
+  }
 }
 
 .default-list {
