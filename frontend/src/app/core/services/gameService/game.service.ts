@@ -38,7 +38,7 @@ export class GameService {
           this.messageService.hideSpinner();
           return of({
             wordList: [],
-            message: httpError.error.message ?? 'Hálózati hiba történt.',
+            message: httpError.error.message || 'Hálózati hiba történt.',
             isError: true,
           });
         })
