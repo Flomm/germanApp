@@ -35,7 +35,6 @@ export class MainMenuComponent implements OnInit {
   }
 
   submitMenuForm(): void {
-    console.warn(this.mainMenuForm.value);
     this.randomWordRequest.emit(this.mainMenuForm.value);
   }
 }
