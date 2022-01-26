@@ -16,7 +16,7 @@ describe('CheckboxSelectAllComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckboxSelectAllComponent);
     component = fixture.componentInstance;
-    component.control = new FormControl();
+    component.control = new FormControl([]);
     fixture.detectChanges();
   });
 
