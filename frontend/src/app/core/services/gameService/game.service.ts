@@ -29,8 +29,9 @@ export class GameService {
     randomWordReq: IGetRandomWordRequest
   ): Observable<IGetWordResponse> {
     return this.httpClient
-      .get<IGetWordResponse>(
-        `${environment.serverUrl}/game/random-words/${randomWordReq.language}/?quantity=${randomWordReq.quantity}`
+      .post<IGetWordResponse>(
+        `${environment.serverUrl}/game/random-words/${randomWordReq.language}/?quantity=${randomWordReq.quantity}`,
+        { topics: randomWordReq.topic }
       )
       .pipe(
         catchError((httpError) => {
