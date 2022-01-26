@@ -62,6 +62,7 @@ describe('getRandomWords', () => {
     const words: IGetWordsDataModel[] = await gameService.getRandomWords(
       mockLanguage,
       mockQuantity,
+      [],
     );
 
     //Assert
@@ -84,6 +85,7 @@ describe('getRandomWords', () => {
     const words: IGetWordsDataModel[] = await gameService.getRandomWords(
       Language.HU,
       mockQuantity,
+      [],
     );
 
     //Assert
@@ -99,7 +101,7 @@ describe('getRandomWords', () => {
 
     //Act
     try {
-      await gameService.getRandomWords(mockLanguage, mockQuantity);
+      await gameService.getRandomWords(mockLanguage, mockQuantity, []);
     } catch (err) {
       //Assert
       expect(err).toEqual(serverError('test'));

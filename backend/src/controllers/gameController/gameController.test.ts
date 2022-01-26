@@ -37,7 +37,7 @@ const mockCheckAnswerResponse: ICheckAnswerResponse = {
 const token: string =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoiZmJnZXJhem9sQGdtYWlsLmNvbSIsInJvbGVJZCI6MiwiaWF0IjoxNjQxMzE1NDM5LCJleHAiOjE2NDEzMTkwMzl9.c2w8OdrzlLLJ5cS54dbL9fyM_Kf56s2AZGvX2O_xt94';
 
-describe('GET /random-words', () => {
+describe('POST /random-words', () => {
   test('succesfully retrieved random german words', async () => {
     //Arrange
     gameService.getRandomWords = jest.fn().mockResolvedValue(mockDeWords);
@@ -45,7 +45,7 @@ describe('GET /random-words', () => {
 
     //Act
     const response = await request(app)
-      .get('/api/game/random-words/de/?quantity=10')
+      .post('/api/game/random-words/de/?quantity=10')
       .set({ authorization: `Bearer ${token}` });
 
     //Assert
@@ -61,7 +61,7 @@ describe('GET /random-words', () => {
 
     //Act
     const response = await request(app)
-      .get('/api/game/random-words/de/?quantity=10')
+      .post('/api/game/random-words/de/?quantity=10')
       .set({ authorization: `Bearer ${token}` });
 
     //Assert
@@ -76,7 +76,7 @@ describe('GET /random-words', () => {
 
     //Act
     const response = await request(app)
-      .get('/api/game/random-words/test/?quantity=10')
+      .post('/api/game/random-words/test/?quantity=10')
       .set({ authorization: `Bearer ${token}` });
 
     //Assert
@@ -92,13 +92,30 @@ describe('GET /random-words', () => {
 
     //Act
     const response = await request(app)
-      .get('/api/game/random-words/de/?quantity=test')
+      .post('/api/game/random-words/de/?quantity=test')
       .set({ authorization: `Bearer ${token}` });
 
     //Assert
     expect(response.statusCode).toEqual(400);
     expect(response.body).toEqual({
       message: 'Érvénytelen szómennyiség.',
+    });
+  });
+
+  test('invalid topic', async () => {
+    //Arrange
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .post('/api/game/random-words/de/?quantity=10')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1, 122] });
+
+    //Assert
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      message: 'Érvénytelen téma azonosító.',
     });
   });
 
@@ -111,7 +128,7 @@ describe('GET /random-words', () => {
 
     //Act
     const response = await request(app)
-      .get('/api/game/random-words/de/?quantity=10')
+      .post('/api/game/random-words/de/?quantity=10')
       .set({ authorization: `Bearer ${token}` });
 
     //Assert
