@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { MatInputAutofocusDirective } from './directives/autofocus-matinput.directive';
 import TranslationPipe from './pipes/translationPipe/translation.pipe';
+import { CheckboxSelectAllComponent } from './components/checkbox-select-all/checkbox-select-all.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import TranslationPipe from './pipes/translationPipe/translation.pipe';
     TranslationPipe,
     WelcomePageComponent,
     MatInputAutofocusDirective,
+    CheckboxSelectAllComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +69,7 @@ import TranslationPipe from './pipes/translationPipe/translation.pipe';
     MatExpansionModule,
     MatInputAutofocusDirective,
     MatCheckboxModule,
+    CheckboxSelectAllComponent,
   ],
 })
 export class SharedModule {}

@@ -25,6 +25,10 @@
     <mat-form-field appearance="outline">
       <mat-label>Téma</mat-label>
       <mat-select multiple formControlName="topic" panelClass="default-select">
+        <app-checkbox-select-all
+          [control]="mainMenuForm.get('topic')"
+          [values]="topicValues"
+        ></app-checkbox-select-all>
         <mat-option
           *ngFor="let topic of topicType | enumToView"
           [value]="topic.value"
