@@ -233,6 +233,16 @@
   width: 100%;
 }
 
+app-checkbox-select-all {
+  .mat-checkbox {
+    width: 100% !important;
+    color: $mainPurple;
+    &:hover {
+      color: $black;
+    }
+  }
+}
+
 @media only screen and (max-width: 750px) {
   .triple-field-holder {
     flex-direction: column;
