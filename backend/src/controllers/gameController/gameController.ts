@@ -6,6 +6,7 @@ import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { gameService } from '../../services/gameService/gameService';
+import enumArrayValueChecker from '../helpers/enumArrayValueChecker/enumArrayValueChecker.helper';
 import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';
 
 export const gameController = {
@@ -25,6 +26,11 @@ export const gameController = {
     }
 
     const topics: TopicType[] = req.body.topics;
+    if (topics?.length > 0) {
+      if (!enumArrayValueChecker<number>(TopicType, topics)) {
+        return next(badRequestError('Érvénytelen téma azonosító.'));
+      }
+    }
 
     gameService
       .getRandomWords(lang as Language, quantity, topics)
