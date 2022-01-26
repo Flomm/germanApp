@@ -22,6 +22,8 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
 import { MatInputAutofocusDirective } from './directives/autofocus-matinput.directive';
 import TranslationPipe from './pipes/translationPipe/translation.pipe';
 import { CheckboxSelectAllComponent } from './components/checkbox-select-all/checkbox-select-all.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { CheckboxSelectAllComponent } from './components/checkbox-select-all/che
     WelcomePageComponent,
     MatInputAutofocusDirective,
     CheckboxSelectAllComponent,
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +53,7 @@ import { CheckboxSelectAllComponent } from './components/checkbox-select-all/che
     ReactiveFormsModule,
     MatExpansionModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     MatButtonModule,
@@ -70,6 +74,7 @@ import { CheckboxSelectAllComponent } from './components/checkbox-select-all/che
     MatInputAutofocusDirective,
     MatCheckboxModule,
     CheckboxSelectAllComponent,
+    MatProgressSpinnerModule,
   ],
 })
 export class SharedModule {}
