@@ -8,7 +8,6 @@ import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWord
 import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerResponse';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 import { environment } from 'src/environments/environment';
-import { MessageService } from '../messageService/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,10 +19,7 @@ export class GameService {
   public actualIndexObservable: Observable<number> =
     this.actualIndex.asObservable();
 
-  constructor(
-    private httpClient: HttpClient,
-    private messageService: MessageService
-  ) {}
+  constructor(private httpClient: HttpClient) {}
 
   getRandomWords(
     randomWordReq: IGetRandomWordRequest
@@ -35,7 +31,6 @@ export class GameService {
       )
       .pipe(
         catchError((httpError) => {
-          this.messageService.hideSpinner();
           return of({
             wordList: [],
             message: httpError.error.message || 'Hálózati hiba történt.',
