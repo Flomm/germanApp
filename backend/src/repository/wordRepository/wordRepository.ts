@@ -202,7 +202,7 @@ export const wordRepository = {
       }, numOfTranslations, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
       let queryArray: (string | number)[] = [`${lang}`];
 
-      if (topics.length > 0) {
+      if (topics?.length > 0) {
         let topicQuery: string = ' AND';
         topics.forEach((topic, i) => {
           i === topics.length - 1
