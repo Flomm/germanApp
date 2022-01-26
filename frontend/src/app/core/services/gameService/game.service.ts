@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ConsumerModule } from 'src/app/features/consumer/consumer.module';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import ICheckAnswerRequest from 'src/app/shared/models/requests/ICheckAnswerRequest';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';
@@ -10,7 +11,7 @@ import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse'
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: ConsumerModule,
 })
 export class GameService {
   private actualIndex: BehaviorSubject<number> = new BehaviorSubject<number>(

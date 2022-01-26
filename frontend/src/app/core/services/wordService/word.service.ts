@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { AdminModule } from 'src/app/features/admin/admin.module';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
@@ -9,7 +10,7 @@ import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse'
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: AdminModule,
 })
 export class WordService {
   constructor(private httpClient: HttpClient) {}

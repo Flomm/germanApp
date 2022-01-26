@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { ConsumerModule } from 'src/app/features/consumer/consumer.module';
 import { StatDataType } from 'src/app/shared/models/enums/StatDataType.enum';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 import IGetStatisticsResponse from 'src/app/shared/models/responses/IGetStatisticsResponse';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: ConsumerModule,
 })
 export class StatisticsService {
   constructor(private httpClient: HttpClient) {}
