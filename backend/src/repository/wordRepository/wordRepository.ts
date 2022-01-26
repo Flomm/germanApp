@@ -8,6 +8,7 @@ import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import {
   badRequestError,
   notFoundError,
+  notSatisfiableError,
   serverError,
 } from '../../services/errorCreatorService/errorCreator.service';
 import { translationRepository } from '../translationRepository/translationRepository';
@@ -222,9 +223,9 @@ export const wordRepository = {
       const randomWords: IGetWordsDataModel[] = await db.query<
         IGetWordsDataModel[]
       >(queryString, queryArray);
-      console.warn(randomWords);
+
       if (randomWords.length < quantity) {
-        throw notFoundError('Nincs elég szó az adatbázisban a játékhoz.');
+        throw notSatisfiableError('Nincs elég szó az adatbázisban a játékhoz.');
       }
 
       return Promise.resolve(randomWords);

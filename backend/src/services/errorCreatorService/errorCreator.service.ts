@@ -14,3 +14,4 @@ export const unauthorizedError = generalError(401);
 export const conflictError = generalError(409);
 export const notAcceptableError = generalError(406);
 export const forbiddenError = generalError(403);
+export const notSatisfiableError = generalError(416);
