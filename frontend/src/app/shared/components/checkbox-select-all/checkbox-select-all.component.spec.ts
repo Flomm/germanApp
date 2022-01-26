@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 
 import { CheckboxSelectAllComponent } from './checkbox-select-all.component';
 
@@ -15,6 +16,7 @@ describe('CheckboxSelectAllComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckboxSelectAllComponent);
     component = fixture.componentInstance;
+    component.control = new FormControl();
     fixture.detectChanges();
   });
 

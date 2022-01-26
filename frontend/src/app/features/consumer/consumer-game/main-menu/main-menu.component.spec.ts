@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import EnumToViewPipe from 'src/app/shared/pipes/enumToView/enumToView.pipe';
+import TranslationPipe from 'src/app/shared/pipes/translationPipe/translation.pipe';
 
 import { MainMenuComponent } from './main-menu.component';
 
@@ -10,7 +12,7 @@ describe('MainMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainMenuComponent, EnumToViewPipe],
+      declarations: [MainMenuComponent, EnumToViewPipe, TranslationPipe],
     }).compileComponents();
   });
 
@@ -28,7 +30,11 @@ describe('MainMenuComponent', () => {
     //Arrange
 
     spyOn(component.randomWordRequest, 'emit');
-    component.mainMenuForm.setValue({ language: Language.DE, quantity: 10 });
+    component.mainMenuForm.setValue({
+      language: Language.DE,
+      quantity: 10,
+      topic: TopicType.FAMILY,
+    });
 
     //Act
     component.submitMenuForm();
@@ -37,6 +43,7 @@ describe('MainMenuComponent', () => {
     expect(component.randomWordRequest.emit).toHaveBeenCalledWith({
       language: Language.DE,
       quantity: 10,
+      topic: TopicType.FAMILY,
     });
   });
 });
