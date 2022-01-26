@@ -6,7 +6,10 @@ describe('StatisticsServiceService', () => {
   let service: StatisticsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [StatisticsService],
+    });
     service = TestBed.inject(StatisticsService);
   });
 

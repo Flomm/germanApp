@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GameService } from 'src/app/core/services/gameService/game.service';
+import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
 
 import { ConsumerGameComponent } from './consumer-game.component';
 
@@ -13,7 +14,7 @@ describe('ConsumerGameComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ConsumerGameComponent],
-      providers: [{ provide: GameService }],
+      providers: [GameService, StatisticsService],
       imports: [HttpClientTestingModule, MatDialogModule, MatSnackBarModule],
     }).compileComponents();
   });

@@ -7,7 +7,10 @@ describe('TranslationService', () => {
   let service: TranslationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [TranslationService],
+    });
     service = TestBed.inject(TranslationService);
   });
 

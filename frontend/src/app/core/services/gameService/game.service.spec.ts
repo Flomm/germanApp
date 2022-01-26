@@ -11,6 +11,7 @@ describe('GameService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, MatDialogModule, MatSnackBarModule],
+      providers: [GameService],
     });
     service = TestBed.inject(GameService);
   });

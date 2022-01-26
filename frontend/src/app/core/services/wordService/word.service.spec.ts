@@ -6,7 +6,10 @@ describe('WordService', () => {
   let service: WordService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [WordService],
+    });
     service = TestBed.inject(WordService);
   });
 
