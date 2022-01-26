@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
@@ -23,8 +24,10 @@ export const gameController = {
       return next(badRequestError('Érvénytelen szómennyiség.'));
     }
 
+    const topics: TopicType[] = req.body.topics;
+
     gameService
-      .getRandomWords(lang as Language, quantity)
+      .getRandomWords(lang as Language, quantity, topics)
       .then(words => {
         res.status(200).json({ wordList: words });
       })

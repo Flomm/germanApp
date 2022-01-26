@@ -14,7 +14,7 @@ export const gameRouter = express.Router();
  * @swagger
  * paths:
  *  /api/random-words/{lang}:
- *    get:
+ *    post:
  *      tags:
  *        - GAME
  *      summary: Get random words for the game as consumer
@@ -35,6 +35,12 @@ export const gameRouter = express.Router();
  *        required: true
  *        schema:
  *          type: number
+ *      - in: body
+ *        name: body
+ *        description: Required topics
+ *        required: false
+ *        schema:
+ *          type: object
  *      responses:
  *        '200':
  *          description: Successfully retrieved words
@@ -71,7 +77,7 @@ gameRouter
     permitChecker([UserRole.Consumer]),
     queryValidator(['quantity']),
   )
-  .get(gameController.getRandomWords);
+  .post(gameController.getRandomWords);
 
 /**
  * @swagger

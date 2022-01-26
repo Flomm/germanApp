@@ -4,6 +4,7 @@ import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataMode
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import IGetWordsDomainModel from '../../models/models/domainModels/IWordDomainModel';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import {
   badRequestError,
   notFoundError,
@@ -189,15 +190,46 @@ export const wordRepository = {
     }
   },
 
-  getRandomWords(
+  async getRandomWords(
     lang: Language,
     quantity: number,
+    topics: TopicType[],
   ): Promise<IGetWordsDataModel[]> {
-    const queryString: string = `SELECT id, word${
-      lang === Language.DE ? ', gender ' : ''
-    }, numOfTranslations, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
-    return db
-      .query<IGetWordsDataModel[]>(queryString, [`${lang}`, quantity])
-      .catch(err => Promise.reject(err));
+    try {
+      let queryString: string = `SELECT id, word${
+        lang === Language.DE ? ', gender ' : ''
+      }, numOfTranslations, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
+      let queryArray: (string | number)[] = [`${lang}`];
+
+      if (topics.length > 0) {
+        let topicQuery: string = ' AND';
+        topics.forEach((topic, i) => {
+          i === topics.length - 1
+            ? (topicQuery = `${topicQuery} (topic = ?) `)
+            : (topicQuery = `${topicQuery} (topic = ?) OR`);
+          queryArray.push(topic);
+        });
+        queryString = `${queryString.substring(
+          0,
+          queryString.indexOf('0') + 1,
+        )}${topicQuery}${queryString.substring(
+          queryString.indexOf('0') + 1,
+          queryString.length,
+        )}`;
+      }
+      queryArray.push(quantity);
+
+      const randomWords: IGetWordsDataModel[] = await db.query<
+        IGetWordsDataModel[]
+      >(queryString, queryArray);
+      console.warn(randomWords);
+      if (randomWords.length < quantity) {
+        throw notFoundError('Nincs elég szó az adatbázisban a játékhoz.');
+      }
+
+      return Promise.resolve(randomWords);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   },
 };

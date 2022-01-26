@@ -1,6 +1,7 @@
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import { translationRepository } from '../../repository/translationRepository/translationRepository';
@@ -10,9 +11,10 @@ export const gameService = {
   getRandomWords(
     lang: Language,
     quantity: number,
+    topics: TopicType[],
   ): Promise<IGetWordsDataModel[]> {
     return wordRepository
-      .getRandomWords(lang, quantity)
+      .getRandomWords(lang, quantity, topics)
       .then(res => {
         return res.map(word => {
           if (!word.gender) {
