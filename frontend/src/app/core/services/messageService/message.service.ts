@@ -4,8 +4,8 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-import { MatSpinner } from '@angular/material/progress-spinner';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +44,7 @@ export class MessageService {
   }
 
   showSpinner() {
-    this.spinnerRef.attach(new ComponentPortal(MatSpinner));
+    this.spinnerRef.attach(new ComponentPortal(SpinnerComponent));
   }
   hideSpinner() {
     this.spinnerRef.detach();
