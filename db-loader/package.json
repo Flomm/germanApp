@@ -2,21 +2,16 @@
   "name": "db-loader",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dbLoader.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "load": "node db-loader.ts"
+    "load": "node dbLoader.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-xlsx": "^0.21.0",
-    "typescript": "^4.5.5"
-  },
-  "devDependencies": {
-    "@types/node": "^17.0.12",
-    "ts-node": "^10.4.0",
-    "tslib": "^2.3.1"
+    "node-xlsx": "^0.21.0"
   }
 }
