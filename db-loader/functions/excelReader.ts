@@ -1,6 +1,6 @@
 import xlsx from "node-xlsx";
 import * as fs from "fs";
-import IExcelObjectModel from "../models/IexcelObjectModel";
+import IExcelObjectModel from "../models/IExcelObjectModel";
 
 export const excelReader = (fileName: string): IExcelObjectModel[] => {
   try {
