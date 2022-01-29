@@ -5,7 +5,7 @@ import { TopicTypeTranslation } from 'src/app/shared/models/enums/TopicTypeTrans
   providedIn: 'root',
 })
 export class EnumService {
-  translateTopicType(value: string): string {
+  translateTopicType(value: number | string): string {
     return TopicTypeTranslation[value] || 'N/A';
   }
 }
