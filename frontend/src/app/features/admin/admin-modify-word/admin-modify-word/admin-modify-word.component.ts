@@ -9,7 +9,6 @@ import IModifyWordDialogData from 'src/app/shared/models/viewModels/IModifyWordD
 @Component({
   selector: 'app-admin-modify-word',
   templateUrl: './admin-modify-word.component.html',
-  styleUrls: ['./admin-modify-word.component.scss'],
 })
 export class AdminModifyWordComponent implements OnInit {
   @Input() modifyWordData: IModifyWordDialogData;
