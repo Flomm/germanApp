@@ -1,105 +1,63 @@
-import { Component, ElementRef, Inject, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  ComponentRef,
+  Inject,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Gender } from '../../models/enums/Gender.enum';
-import { Language } from '../../models/enums/Language.enum';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { AdminModifyWordComponent } from 'src/app/features/admin/admin-modify-word/admin-modify-word/admin-modify-word.component';
 import IDialogConfig from '../../models/viewModels/IDialogConfig.viewModel';
-import ITranslationDataModel from '../../models/requests/ITranslationDataModel';
-import { TopicType } from '../../models/enums/TopicType.enum';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
 })
-export class DialogComponent implements OnInit {
-  modifyWordForm: FormGroup;
-  currentLanguage: Language;
-  languageType: object = Language;
-  genderType: object = Gender;
-  topicType: object = TopicType;
+export class DialogComponent
+  implements AfterViewInit, AfterViewChecked, OnDestroy
+{
+  @ViewChild('modifyWordElem', { read: ViewContainerRef })
+  vcRef: ViewContainerRef;
+
+  componentRef: ComponentRef<AdminModifyWordComponent>;
 
   constructor(
+    private resolver: ComponentFactoryResolver,
     @Inject(MAT_DIALOG_DATA) public params: IDialogConfig,
-    private selfElement: ElementRef,
-    public dialogRef: MatDialogRef<DialogComponent>
+    public dialogRef: MatDialogRef<DialogComponent>,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (this.params.modifyWordData) {
-      this.createForm();
-      this.modifyWordForm.disable();
+      of(this.resolver.resolveComponentFactory(AdminModifyWordComponent))
+        .pipe(delay(0))
+        .subscribe((res: ComponentFactory<AdminModifyWordComponent>) => {
+          this.componentRef = this.vcRef.createComponent(res);
+          this.componentRef.instance.modifyWordData =
+            this.params.modifyWordData;
+        });
     }
   }
 
-  get translationsFormArray(): FormArray {
-    return this.modifyWordForm.get('translations') as FormArray;
-  }
-
-  createForm(): void {
-    this.currentLanguage = this.params.modifyWordData.initRequest.language;
-    this.modifyWordForm = new FormGroup({
-      topic: new FormControl(this.params.modifyWordData.initRequest.topic, [
-        Validators.required,
-      ]),
-      word: new FormControl(this.params.modifyWordData.initRequest.word, [
-        Validators.required,
-      ]),
-      translations: new FormArray([]),
-    });
-    if (this.currentLanguage === Language.DE) {
-      this.modifyWordForm.addControl(
-        'gender',
-        new FormControl(this.params.modifyWordData.initRequest.gender || '')
-      );
+  ngAfterViewChecked(): void {
+    if (this.params.modifyWordData) {
+      this.changeDetector.detectChanges();
     }
-    this.createFormArrayFromTranslations(
-      this.params.modifyWordData.translationList
-    );
   }
 
-  createFormArrayFromTranslations(
-    translationData: ITranslationDataModel[]
-  ): void {
-    return translationData.forEach((val: ITranslationDataModel) => {
-      const newFormGroup: FormGroup = new FormGroup({
-        translation: new FormControl(val.translation, [Validators.required]),
-      });
-      if (this.currentLanguage === Language.HU) {
-        newFormGroup.addControl('gender', new FormControl(val.gender || ''));
-      }
-      this.translationsFormArray.push(newFormGroup);
-    });
-  }
-
-  addTranslationGroup(): void {
-    const newTranslationGroup: FormGroup = new FormGroup({
-      translation: new FormControl('', [Validators.required]),
-    });
-    if (this.currentLanguage === Language.HU) {
-      newTranslationGroup.addControl('gender', new FormControl(''));
+  ngOnDestroy(): void {
+    if (this.componentRef) {
+      this.componentRef.destroy();
     }
-    this.translationsFormArray.push(newTranslationGroup);
-    setTimeout(() => {
-      this.scrollToElement(
-        `trans${this.translationsFormArray.controls.length - 1}`
-      );
-    });
-  }
-
-  removeTranslationGroup(index: number): void {
-    this.translationsFormArray.removeAt(index);
-  }
-
-  toggleForm(): void {
-    this.modifyWordForm.disabled
-      ? this.modifyWordForm.enable()
-      : this.modifyWordForm.disable();
-  }
-
-  scrollToElement(id: string): void {
-    const newFromGroupDiv: HTMLDivElement =
-      this.selfElement.nativeElement.querySelector(`#${id}`);
-    newFromGroupDiv.scrollIntoView({ behavior: 'smooth' });
   }
 }
