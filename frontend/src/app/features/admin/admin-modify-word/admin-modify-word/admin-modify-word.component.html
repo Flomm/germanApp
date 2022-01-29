@@ -1,0 +1,141 @@
+<form class="flex-center default-form" [formGroup]="modifyWordForm">
+  <div class="field-holder">
+    <mat-form-field
+      appearance="outline"
+      *ngIf="currentLanguage === languageType.DE"
+    >
+      <mat-label>Nem</mat-label>
+      <mat-select formControlName="gender" panelClass="default-select">
+        <mat-option [value]="null">
+          Nincs nem
+          <span *ngIf="modifyWordForm.controls.gender.value === null">
+            &#10004;</span
+          >
+        </mat-option>
+        <mat-option
+          *ngFor="let gender of genderType | enumToView"
+          [value]="gender.value"
+        >
+          {{ gender.name }}
+          <span *ngIf="modifyWordForm.controls.gender.value === gender.value">
+            &#10004;</span
+          >
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Szó</mat-label>
+      <input
+        matInput
+        placeholder="Adj meg egy új jelentést"
+        formControlName="word"
+      />
+      <mat-error *ngIf="modifyWordForm.controls.word.hasError('required')"
+        >Kötelező mező</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="field-holder">
+    <mat-form-field appearance="outline">
+      <mat-label>Téma</mat-label>
+      <mat-select formControlName="topic" panelClass="default-select">
+        <mat-option
+          *ngFor="let topic of topicType | enumToView"
+          [value]="topic.value"
+        >
+          {{ topic.name | translation: "TopicType" }}
+          <span *ngIf="modifyWordForm.controls.topic.value === topic.value">
+            &#10004;</span
+          >
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="modifyWordForm.controls.topic.hasError('required')"
+        >Kötelező mező</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <ng-container formArrayName="translations">
+    <h2>Jelentések:</h2>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="addTranslationGroup()"
+      type="button"
+      [disabled]="modifyWordForm.disabled"
+    >
+      Új jelentés
+    </button>
+    <ng-container
+      *ngFor="let translation of translationsFormArray.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <div class="field-holder" [attr.id]="'trans' + i">
+        <button
+          mat-icon-button
+          class="warn"
+          [disabled]="modifyWordForm.disabled"
+          *ngIf="i !== 0"
+          (click)="removeTranslationGroup(i)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <div
+          class="home-button"
+          [disabled]="modifyWordForm.disabled"
+          *ngIf="i === 0"
+        >
+          <mat-icon>home</mat-icon>
+        </div>
+        <mat-form-field
+          appearance="outline"
+          *ngIf="currentLanguage !== languageType.DE"
+        >
+          <mat-label>Nem</mat-label>
+          <mat-select formControlName="gender" panelClass="default-select">
+            <mat-option [value]="null">
+              Nincs nem
+              <span
+                *ngIf="
+                  translationsFormArray.controls[i]['controls'].gender.value ===
+                  null
+                "
+              >
+                &#10004;</span
+              >
+            </mat-option>
+            <mat-option
+              *ngFor="let gender of genderType | enumToView"
+              [value]="gender.value"
+            >
+              {{ gender.name }}
+              <span
+                *ngIf="
+                  translationsFormArray.controls[i]['controls'].gender.value ===
+                  gender.value
+                "
+              >
+                &#10004;</span
+              >
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i + 1 }}. jelentés</mat-label>
+          <input
+            formControlName="translation"
+            matInput
+            placeholder="Adj meg egy másik jelentést"
+          />
+          <mat-error
+            *ngIf="
+              translationsFormArray.controls[i][
+                'controls'
+              ].translation.hasError('required')
+            "
+            >Kötelező mező</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </ng-container>
+</form>

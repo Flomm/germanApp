@@ -1,0 +1,64 @@
+@import "../../../../../styles/variables.scss";
+
+form {
+  flex-direction: column;
+
+  .field-holder {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+
+    .mat-icon-button.mat-button-disabled.mat-button-disabled {
+      color: $disabled !important;
+
+      .mat-icon {
+        cursor: default;
+      }
+    }
+
+    .home-button {
+      background-color: $black;
+      color: $mainPurple;
+      border: none;
+      cursor: default;
+
+      .mat-icon {
+        cursor: default;
+      }
+    }
+
+    .mat-form-field {
+      margin-bottom: 12px;
+
+      &.disabled-form-field {
+        .mat-input-element::placeholder,
+        mat-label,
+        .mat-input-element,
+        .mat-form-field-outline-thick {
+          color: $disabled !important;
+        }
+      }
+
+      &.mat-form-field-disabled {
+        .mat-input-element::placeholder,
+        mat-label,
+        .mat-input-element,
+        .mat-form-field-outline-thick,
+        .mat-select-value {
+          color: $disabled !important;
+        }
+      }
+    }
+  }
+
+  button {
+    margin-bottom: 30px;
+  }
+
+  mat-select {
+    .mat-select-value,
+    .mat-select-arrow {
+      color: $mainPurple;
+    }
+  }
+}
