@@ -4,11 +4,13 @@ import IExcelObjectModel from "../models/IExcelObjectModel";
 
 export const excelReader = (fileName: string): IExcelObjectModel[] => {
   try {
+    console.log(`Reading ${fileName}.xlsx...`);
     const excelObject: IExcelObjectModel[] = xlsx.parse(
       fs.readFileSync(`./testFiles/${fileName}.xlsx`)
     );
+    console.log(`Reading ${fileName}.xlsx is finished.`);
     return excelObject;
   } catch (error) {
-    console.log(`An error occured: ${error.message}`);
+    throw new Error(`An error occured during file reading: ${error.message}`);
   }
 };
