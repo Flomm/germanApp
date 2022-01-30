@@ -11,10 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^14.3.2",
     "mysql": "^2.18.1",
     "node-xlsx": "^0.21.0"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/mysql": "^2.15.20",
     "@types/node": "^17.0.12",
     "@types/node-xlsx": "^0.15.3",
