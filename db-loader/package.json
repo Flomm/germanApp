@@ -2,10 +2,10 @@
   "name": "db-loader",
   "version": "1.0.0",
   "description": "",
-  "main": "dbLoader.ts",
+  "main": "exer.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "load": "ts-node dbLoader.ts"
+    "load": "ts-node exe.ts"
   },
   "keywords": [],
   "author": "",
