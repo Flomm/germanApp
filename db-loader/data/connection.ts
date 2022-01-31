@@ -34,4 +34,7 @@ export const db = {
       });
     });
   },
+  disconnect(): void {
+    databaseConnection.end();
+  },
 };
