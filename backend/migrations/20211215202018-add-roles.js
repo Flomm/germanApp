@@ -22,9 +22,6 @@ exports.up = function (db) {
   return Promise.all(promises);
 };
 
-exports.down = function (db) {
-  return db.truncateTable('user');
-};
 exports._meta = {
   version: 1,
 };
