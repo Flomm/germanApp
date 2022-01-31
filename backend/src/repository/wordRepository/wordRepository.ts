@@ -76,7 +76,7 @@ export const wordRepository = {
           queryString = `INSERT INTO german_app.?? (word, numOfTranslations, topic, gender) VALUES (?, ?, ?, ?)`;
           queryArray.push(newWord.gender);
         } else {
-          queryString = `INSERT INTO german_app.?? (word, numOfTranslations, topic) VALUES (?, ?)`;
+          queryString = `INSERT INTO german_app.?? (word, numOfTranslations, topic) VALUES (?, ?, ?)`;
         }
         const dbResult: IDbResultDataModel = await db.query<IDbResultDataModel>(
           queryString,
