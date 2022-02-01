@@ -22,6 +22,10 @@ exports.up = function (db) {
   return Promise.all(promises);
 };
 
+exports.down = function (db) {
+  return null;
+};
+
 exports._meta = {
   version: 1,
 };

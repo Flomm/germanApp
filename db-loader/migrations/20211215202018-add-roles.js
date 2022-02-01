@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var dbm;
 var type;
@@ -16,10 +16,14 @@ exports.setup = function (options, seedLink) {
 
 exports.up = function (db) {
   const promises = [];
-  promises.push(db.insert('role', { roleId: 1, name: 'Admin' }));
-  promises.push(db.insert('role', { roleId: 2, name: 'Consumer' }));
+  promises.push(db.insert("role", { roleId: 1, name: "Admin" }));
+  promises.push(db.insert("role", { roleId: 2, name: "Consumer" }));
 
   return Promise.all(promises);
+};
+
+exports.down = function (db) {
+  return null;
 };
 
 exports._meta = {
