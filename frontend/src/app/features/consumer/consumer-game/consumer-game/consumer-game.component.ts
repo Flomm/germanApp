@@ -152,4 +152,8 @@ export class ConsumerGameComponent {
       this.replayWithIncorrect();
     }
   }
+
+  backToMenu(): void {
+    this.resetSelf();
+  }
 }

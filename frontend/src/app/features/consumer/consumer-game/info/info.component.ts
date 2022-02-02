@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-info',
@@ -7,4 +7,10 @@ import { Component, Input } from '@angular/core';
 export class InfoComponent {
   @Input() numOfQuestions: number;
   @Input() index: number;
+
+  @Output() backToMenuEmitter: EventEmitter<void> = new EventEmitter<void>();
+
+  emitBack(): void {
+    this.backToMenuEmitter.emit();
+  }
 }
