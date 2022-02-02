@@ -1,27 +1,35 @@
+import { resolve } from "path/posix";
 import IAddWordDataModel from "../models/IAddWordDataModel";
 import IExcelObjectModel from "../models/IExcelObjectModel";
 import { wordRepository } from "./addWordRepo";
 import { excelReader } from "./excelReader";
 import { rowToObjectTransformer } from "./rowToObjectTransformer";
 
-export const dbLoader = (fileName: string, language: string): void => {
+export const dbLoader = async (
+  fileName: string,
+  language: string
+): Promise<void> => {
   try {
     console.log(`Start loading ${language} words...`);
-    const excelFileData: IExcelObjectModel[] = excelReader(fileName);
-    const wordObjectList: IAddWordDataModel[][] = rowToObjectTransformer(
+    const excelFileData: IExcelObjectModel[] = await excelReader(fileName);
+    const wordObjectList: IAddWordDataModel[][] = await rowToObjectTransformer(
       excelFileData,
       language
     );
+    const wordAddPromises: Promise<any>[] = [];
     wordObjectList.forEach((wordArray) => {
       if (wordArray.length > 0) {
         wordArray.forEach((wordObj) => {
-          wordRepository
-            .addNewWordEntry(language, wordObj)
-            .catch((err) => Promise.reject(err));
+          wordAddPromises.push(
+            wordRepository.addNewWordEntry(language, wordObj)
+          );
         });
       }
     });
+    await Promise.all(wordAddPromises);
+    resolve();
   } catch (error) {
+    console.warn("dbloader");
     throw error;
   }
 };
