@@ -6,7 +6,7 @@ export const rowToObjectTransformer = (
   excelObjectArray: IExcelObjectModel[],
   language: string
 ): Promise<IAddWordDataModel[][]> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     console.log("Transforming rows to objects...");
     try {
       const wordObjectsListByTopic: IAddWordDataModel[][] = [];

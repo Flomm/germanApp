@@ -3,7 +3,7 @@ import * as fs from "fs";
 import IExcelObjectModel from "../models/IExcelObjectModel";
 
 export const excelReader = (fileName: string): Promise<IExcelObjectModel[]> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     try {
       console.log(`Reading ${fileName}.xlsx...`);
       const excelObject: IExcelObjectModel[] = xlsx.parse(
