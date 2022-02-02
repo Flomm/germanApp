@@ -57,6 +57,61 @@ wordRouter
 /**
  * @swagger
  * paths:
+ *  /api/word/filter/{lang}:
+ *    get:
+ *      tags:
+ *        - WORD
+ *      summary: List words as Admin
+ *      security:
+ *        - Bearer: []
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *      - in: path
+ *        name: lang
+ *        required: true
+ *        schema:
+ *          type: string
+ *        description: Language
+ *      - in: query
+ *        name: limit
+ *        schema:
+ *          type: number
+ *      - in: query
+ *        name: offset
+ *        schema:
+ *          type: number
+ *      responses:
+ *        '200':
+ *          description: The resource has been fetched and is transmitted in the message body.
+ *          content:
+ *              schema:
+ *               $ref: "#/definitions/GetWord"
+ *        '403':
+ *          description: User is not an admin
+ *        '500':
+ *          description: Internal Server Error.
+ * definitions:
+ *  GetWord:
+ *      type: object
+ *      properties:
+ *          word:
+ *              type: string
+ *          id:
+ *              type: integer
+ *          translations:
+ *              type: array
+ *          topic:
+ *              type: number
+ */
+wordRouter
+  .route('/filter/:lang/')
+  .all(tokenAuthentication())
+  .get(wordController.getFilteredWords);
+
+/**
+ * @swagger
+ * paths:
  *  /api/word/{lang}:
  *    post:
  *      tags:

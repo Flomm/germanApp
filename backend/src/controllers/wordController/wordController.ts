@@ -7,6 +7,7 @@ import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { wordService } from '../../services/wordService/wordService';
+import enumArrayValueChecker from '../helpers/enumArrayValueChecker/enumArrayValueChecker.helper';
 import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';
 import idChecker from '../helpers/idChecker/idChecker.helper';
 
@@ -28,6 +29,36 @@ export const wordController = {
       .catch(err => {
         return next(err);
       });
+  },
+
+  getFilteredWords(
+    req: Request,
+    res: Response<IGetWordsResponse>,
+    next: NextFunction,
+  ): void {
+    const lang: string = req.params.lang;
+    if (!enumValueChecker<string>(Language, lang)) {
+      return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
+    }
+
+    const topics: TopicType[] = req.body.topics;
+    if (topics?.length > 0) {
+      if (!enumArrayValueChecker<number>(TopicType, topics)) {
+        return next(badRequestError('Érvénytelen téma azonosító.'));
+      }
+    }
+
+    const limit: number = parseInt(req.query.limit as string);
+    if (isNaN(limit)) {
+      return next(badRequestError('Érvénytelen limit.'));
+    }
+
+    const offset: number = parseInt(req.query.offset as string);
+    if (isNaN(offset)) {
+      return next(badRequestError('Érvénytelen offset.'));
+    }
+
+    res.sendStatus(200);
   },
 
   addWord(
