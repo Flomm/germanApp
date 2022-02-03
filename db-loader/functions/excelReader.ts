@@ -10,8 +10,8 @@ export const excelReader = (fileName: string): Promise<IExcelObjectModel[]> => {
         fs.readFileSync(`./testFiles/${fileName}.xlsx`)
       );
       resolve(excelObject);
-    } catch (error) {
-      throw new Error(`An error occured during file reading: ${error.message}`);
+    } catch (err) {
+      throw new Error(`An error occured during file reading: ${err.message}`);
     }
   });
 };

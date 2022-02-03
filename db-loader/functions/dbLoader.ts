@@ -28,8 +28,8 @@ export const dbLoader = async (
     });
     await Promise.all(wordAddPromises);
     resolve();
-  } catch (error) {
+  } catch (err) {
     console.warn("dbloader");
-    throw error;
+    throw err;
   }
 };
