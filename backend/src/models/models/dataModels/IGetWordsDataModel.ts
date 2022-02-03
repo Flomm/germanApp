@@ -1,5 +1,6 @@
 import { Gender } from '../Enums/Gender.enum';
 import { TopicType } from '../Enums/TopicType.enum';
+import ITranslationDataModel from './ITranslationDataModel';
 
 export default interface IGetWordsDataModel {
   id: number;
@@ -7,4 +8,5 @@ export default interface IGetWordsDataModel {
   gender?: Gender;
   topic: TopicType;
   numOfTranslations?: number;
+  translations?: ITranslationDataModel[];
 }
