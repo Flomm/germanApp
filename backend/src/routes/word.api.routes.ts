@@ -74,13 +74,9 @@ wordRouter
  *          type: string
  *        description: Language
  *      - in: query
- *        name: limit
+ *        name: pageNumber
  *        schema:
- *          type: number
- *      - in: query
- *        name: offset
- *        schema:
- *          type: number
+ *          type: pageNumber
  *      responses:
  *        '200':
  *          description: The resource has been fetched and is transmitted in the message body.

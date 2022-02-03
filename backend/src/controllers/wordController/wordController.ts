@@ -36,7 +36,7 @@ export const wordController = {
     res: Response<IGetWordsResponse>,
     next: NextFunction,
   ): void {
-    const lang: string = req.params.lang;
+    const lang: Language = req.params.lang as Language;
     if (!enumValueChecker<string>(Language, lang)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
@@ -48,17 +48,19 @@ export const wordController = {
       }
     }
 
-    const limit: number = parseInt(req.query.limit as string);
-    if (isNaN(limit)) {
-      return next(badRequestError('Érvénytelen limit.'));
+    const pageNumber: number = parseInt(req.query.pageNumber as string);
+    if (isNaN(pageNumber) || pageNumber < 1) {
+      return next(badRequestError('Érvénytelen oldalszám.'));
     }
 
-    const offset: number = parseInt(req.query.offset as string);
-    if (isNaN(offset)) {
-      return next(badRequestError('Érvénytelen offset.'));
-    }
-
-    res.sendStatus(200);
+    wordService
+      .getFilteredWords(lang, pageNumber, topics)
+      .then(words => {
+        res.status(200).json({ wordList: words });
+      })
+      .catch(err => {
+        return next(err);
+      });
   },
 
   addWord(
