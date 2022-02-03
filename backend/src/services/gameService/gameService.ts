@@ -65,8 +65,8 @@ export const gameService = {
       });
 
       return { isCorrect, translations };
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (err) {
+      return Promise.reject(err);
     }
   },
 };
