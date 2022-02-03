@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class WordService {
     return this.httpClient
       .get<IGetWordResponse>(`${environment.serverUrl}/word/${lang}`)
       .pipe(
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             wordList: [],
             message: httpError.error.message ?? 'Hálózati hiba történt.',
@@ -41,7 +41,7 @@ export class WordService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
@@ -66,7 +66,7 @@ export class WordService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
@@ -92,7 +92,7 @@ export class WordService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,

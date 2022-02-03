@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class TranslationService {
         `${environment.serverUrl}/translation/${lang}/${wordId}`
       )
       .pipe(
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             translationList: [],
             message: httpError.error.message ?? 'Hálózati hiba történt.',

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class StatisticsService {
         `${environment.serverUrl}/statistics/my-statistics/`
       )
       .pipe(
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
@@ -35,7 +35,7 @@ export class StatisticsService {
         dataType,
       })
       .pipe(
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
