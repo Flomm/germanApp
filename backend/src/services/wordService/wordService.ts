@@ -1,12 +1,42 @@
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
+import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
+import { translationRepository } from '../../repository/translationRepository/translationRepository';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
 import { notFoundError } from '../errorCreatorService/errorCreator.service';
 
 export const wordService = {
   getAllWords(lang: Language): Promise<IGetWordsDataModel[]> {
     return wordRepository.getAllWords(lang).catch(err => Promise.reject(err));
+  },
+
+  async getFilteredWords(
+    lang: Language,
+    pageNumber: number,
+    topics: TopicType[],
+  ): Promise<IGetWordsDataModel[]> {
+    try {
+      const filteredWords: IGetWordsDataModel[] =
+        await wordRepository.getFilteredWords(lang, pageNumber, topics);
+      const filteredWithTranslations: IGetWordsDataModel[] = await Promise.all(
+        filteredWords.map(async word => {
+          let translations: ITranslationDataModel[] =
+            await translationRepository.getTranslationsByWordId(lang, word.id);
+          translations = translations.map(translationObject => {
+            if (!translationObject.gender) {
+              return { translation: translationObject.translation };
+            }
+            return translationObject;
+          });
+          return { ...word, translations };
+        }),
+      );
+      return filteredWithTranslations;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
   addNewWord(lang: Language, newWord: IAddWordDataModel): Promise<void> {

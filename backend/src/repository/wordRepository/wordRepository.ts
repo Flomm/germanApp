@@ -191,6 +191,51 @@ export const wordRepository = {
     }
   },
 
+  async getFilteredWords(
+    lang: Language,
+    pageNumber: number,
+    topics: TopicType[],
+  ): Promise<IGetWordsDataModel[]> {
+    try {
+      const pageSize: number = 20;
+      const offSet: number = (pageNumber - 1) * pageSize;
+      let queryString: string = `SELECT id, word${
+        lang === Language.DE ? ', gender ' : ''
+      }, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY word LIMIT ?, ?;`;
+      let queryArray: (string | number)[] = [`${lang}`];
+
+      if (topics?.length > 0) {
+        let topicQuery: string = ' AND';
+        topics.forEach((topic, i) => {
+          i === topics.length - 1
+            ? (topicQuery = `${topicQuery} (topic = ?) `)
+            : (topicQuery = `${topicQuery} (topic = ?) OR`);
+          queryArray.push(topic);
+        });
+        queryString = `${queryString.substring(
+          0,
+          queryString.indexOf('0') + 1,
+        )}${topicQuery}${queryString.substring(
+          queryString.indexOf('0') + 1,
+          queryString.length,
+        )}`;
+      }
+      queryArray.push(offSet);
+      queryArray.push(pageSize);
+
+      const filteredWords: IGetWordsDataModel[] = await db.query<
+        IGetWordsDataModel[]
+      >(queryString, queryArray);
+
+      if (filteredWords.length < pageSize) {
+        throw notSatisfiableError('Nincs elég szó az adatbázisban a játékhoz.');
+      }
+      return Promise.resolve(filteredWords);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+
   async getRandomWords(
     lang: Language,
     quantity: number,
@@ -229,8 +274,8 @@ export const wordRepository = {
       }
 
       return Promise.resolve(randomWords);
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (err) {
+      return Promise.reject(err);
     }
   },
 };
