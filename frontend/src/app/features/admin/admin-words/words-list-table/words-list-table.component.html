@@ -1,12 +1,12 @@
 <div class="table-holder flex-center">
   <div>
     <h1>Szavak listája</h1>
-    <form class="default-form" [formGroup]="chooseLanguageForm">
+    <form class="default-form" [formGroup]="filteringForm">
       <mat-form-field appearance="outline">
         <mat-label>Nyelv</mat-label>
         <mat-select
           formControlName="language"
-          (selectionChange)="submitWordRequest()"
+          (selectionChange)="onLanguageChange()"
           panelClass="default-select"
         >
           <mat-option
@@ -15,17 +15,36 @@
           >
             {{ language.name }}
             <span
-              *ngIf="
-                chooseLanguageForm.controls.language.value === language.value
-              "
+              *ngIf="filteringForm.controls.language.value === language.value"
             >
               &#10004;</span
             >
           </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="chooseLanguageForm.controls.language.hasError('required')"
+        <mat-error *ngIf="filteringForm.controls.language.hasError('required')"
           >Válassz nyelvet!</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Téma</mat-label>
+        <mat-select
+          multiple
+          formControlName="topic"
+          panelClass="default-select"
+        >
+          <app-checkbox-select-all
+            [control]="filteringForm.get('topic')"
+            [values]="topicValues"
+          ></app-checkbox-select-all>
+          <mat-option
+            *ngFor="let topic of topicType | enumToView"
+            [value]="topic.value"
+          >
+            {{ topic.name | translation: "TopicType" }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="filteringForm.controls.topic.hasError('required')"
+          >Kötelező mező</mat-error
         >
       </mat-form-field>
     </form>
@@ -34,7 +53,7 @@
     class="table-paginator-container flex-center"
     *ngIf="getWordResponse && getWordResponse.wordList.length"
   >
-    <table mat-table class="default-table" [dataSource]="dataSource">
+    <table mat-table class="default-table" [dataSource]="dataSourceHandler">
       <ng-container matColumnDef="word">
         <th mat-header-cell *matHeaderCellDef>Szó</th>
         <td mat-cell *matCellDef="let word">

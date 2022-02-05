@@ -16,6 +16,8 @@ import IGetWordData from 'src/app/shared/models/viewModels/IGetWordData.viewMode
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
+import { SourceHandler } from 'src/app/shared/components/data-table/source-handler';
+import { WordService } from 'src/app/core/services/wordService/word.service';
 
 @Component({
   selector: 'app-words-list-table',
@@ -25,10 +27,13 @@ import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse'
 export class WordsListTableComponent implements OnInit {
   private paginator: MatPaginator;
   displayedColumns: string[] = ['word', 'info', 'delete'];
+  dataSourceHandler: SourceHandler;
   dataSource: MatTableDataSource<IGetWordData>;
-  chooseLanguageForm: FormGroup;
+  filteringForm: FormGroup;
   languageType = Language;
   currentLanguage: Language = Language.DE;
+  topicType = TopicType;
+  topicValues: TopicType[];
 
   @Input() getWordResponse: IGetWordResponse;
 
@@ -43,10 +48,22 @@ export class WordsListTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  constructor(private wordService: WordService) {}
+
   ngOnInit(): void {
+    this.dataSourceHandler = new SourceHandler(this.wordService);
+    this.dataSourceHandler.loadWordList(this.currentLanguage, 1, []);
     this.dataSource = new MatTableDataSource<IGetWordData>([]);
-    this.chooseLanguageForm = new FormGroup({
+    this.topicValues = Object.keys(TopicType)
+      .filter((key) => {
+        if (!isNaN(parseInt(key))) {
+          return key;
+        }
+      })
+      .map((key) => parseInt(key));
+    this.filteringForm = new FormGroup({
       language: new FormControl(Language.DE, []),
+      topic: new FormControl([]),
     });
   }
 
@@ -56,9 +73,11 @@ export class WordsListTableComponent implements OnInit {
     }
   }
 
-  submitWordRequest(): void {
-    this.currentLanguage = this.chooseLanguageForm.value.language;
-    this.wordRequest.emit(this.currentLanguage);
+  createForm(): void {}
+
+  onLanguageChange(): void {
+    this.currentLanguage = this.filteringForm.value.language;
+    this.dataSourceHandler.loadWordList(this.currentLanguage, 1, []);
   }
 
   submitRemoval(wordId: number): void {
