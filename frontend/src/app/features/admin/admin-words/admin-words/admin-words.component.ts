@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -12,14 +12,12 @@ import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import IGetTranslationsResponse from 'src/app/shared/models/responses/IGetTranslationsResponse';
-import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 
 @Component({
   selector: 'app-admin-words',
   templateUrl: './admin-words.component.html',
 })
-export class AdminWordsComponent implements OnInit {
-  getWordResponse: IGetWordResponse;
+export class AdminWordsComponent {
   language: Language = Language.DE;
 
   constructor(
@@ -28,19 +26,8 @@ export class AdminWordsComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  ngOnInit(): void {
-    this.getWordData(Language.DE);
-  }
-
-  getWordData(lang: Language): void {
-    this.wordService
-      .getAllWords(lang)
-      .subscribe((response) => (this.getWordResponse = response));
-  }
-
   onLanguageChange(lang: Language): void {
     this.language = lang;
-    this.getWordData(lang);
   }
 
   onModifyWord(getWordRequestForModify: IInitModifyRequest): void {
@@ -85,7 +72,8 @@ export class AdminWordsComponent implements OnInit {
             panelClass: [panelClass],
             duration: 3000,
           });
-          this.getWordData(getWordRequestForModify.language);
+          //pass data to table
+          // this.getWordData(getWordRequestForModify.language);
         }
       });
   }
