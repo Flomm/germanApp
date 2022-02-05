@@ -4,13 +4,14 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AdminModule } from 'src/app/features/admin/admin.module';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
+import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: AdminModule,
+  providedIn: 'root',
 })
 export class WordService {
   constructor(private httpClient: HttpClient) {}
@@ -18,6 +19,27 @@ export class WordService {
   getAllWords(lang: Language): Observable<IGetWordResponse> {
     return this.httpClient
       .get<IGetWordResponse>(`${environment.serverUrl}/word/${lang}`)
+      .pipe(
+        catchError((httpError: HttpErrorResponse) =>
+          of({
+            wordList: [],
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
+            isError: true,
+          })
+        )
+      );
+  }
+
+  getFilteredWords(
+    lang: Language,
+    pageNumber: number,
+    topicTypes: TopicType[]
+  ): Observable<IGetWordResponse> {
+    return this.httpClient
+      .post<IGetWordResponse>(
+        `${environment.serverUrl}/word/filter/${lang}?pageNumber=${pageNumber}`,
+        { topics: topicTypes }
+      )
       .pipe(
         catchError((httpError: HttpErrorResponse) =>
           of({
