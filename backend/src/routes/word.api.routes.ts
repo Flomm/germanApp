@@ -103,7 +103,7 @@ wordRouter
 wordRouter
   .route('/filter/:lang/')
   .all(tokenAuthentication())
-  .get(wordController.getFilteredWords);
+  .post(wordController.getFilteredWords);
 
 /**
  * @swagger
