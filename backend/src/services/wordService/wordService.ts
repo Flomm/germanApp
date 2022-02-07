@@ -15,11 +15,17 @@ export const wordService = {
   async getFilteredWords(
     lang: Language,
     pageNumber: number,
+    pageSize: number,
     topics: TopicType[],
   ): Promise<IGetWordsDataModel[]> {
     try {
       const filteredWords: IGetWordsDataModel[] =
-        await wordRepository.getFilteredWords(lang, pageNumber, topics);
+        await wordRepository.getFilteredWords(
+          lang,
+          pageNumber,
+          pageSize,
+          topics,
+        );
       const filteredWithTranslations: IGetWordsDataModel[] = await Promise.all(
         filteredWords.map(async word => {
           let translations: ITranslationDataModel[] =

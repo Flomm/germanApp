@@ -77,6 +77,10 @@ wordRouter
  *        name: pageNumber
  *        schema:
  *          type: pageNumber
+ *      - in: query
+ *        name: pageSize
+ *        schema:
+ *          type: pageSize
  *      responses:
  *        '200':
  *          description: The resource has been fetched and is transmitted in the message body.

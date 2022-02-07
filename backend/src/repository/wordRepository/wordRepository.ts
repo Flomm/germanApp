@@ -194,10 +194,10 @@ export const wordRepository = {
   async getFilteredWords(
     lang: Language,
     pageNumber: number,
+    pageSize: number,
     topics: TopicType[],
   ): Promise<IGetWordsDataModel[]> {
     try {
-      const pageSize: number = 20;
       const offSet: number = (pageNumber - 1) * pageSize;
       let queryString: string = `SELECT id, word${
         lang === Language.DE ? ', gender ' : ''

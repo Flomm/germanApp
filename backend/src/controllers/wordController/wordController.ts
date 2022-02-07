@@ -53,8 +53,13 @@ export const wordController = {
       return next(badRequestError('Érvénytelen oldalszám.'));
     }
 
+    const pageSize: number = parseInt(req.query.pageSize as string);
+    if (isNaN(pageSize) || pageSize < 1 || pageSize > 50) {
+      return next(badRequestError('Érvénytelen oldalszám.'));
+    }
+
     wordService
-      .getFilteredWords(lang, pageNumber, topics)
+      .getFilteredWords(lang, pageNumber, pageSize, topics)
       .then(words => {
         res.status(200).json({ wordList: words });
       })
