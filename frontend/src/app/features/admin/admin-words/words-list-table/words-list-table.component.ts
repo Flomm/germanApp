@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   ViewChild,
@@ -15,9 +14,9 @@ import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import IGetWordData from 'src/app/shared/models/viewModels/IGetWordData.viewModel';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
-import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
 import { SourceHandler } from 'src/app/shared/components/data-table/source-handler';
 import { WordService } from 'src/app/core/services/wordService/word.service';
+import { MessageService } from 'src/app/core/services/messageService/message.service';
 
 @Component({
   selector: 'app-words-list-table',
@@ -35,8 +34,6 @@ export class WordsListTableComponent implements OnInit {
   topicType = TopicType;
   topicValues: TopicType[];
 
-  @Input() getWordResponse: IGetWordResponse;
-
   @Output() wordRequest: EventEmitter<Language> = new EventEmitter<Language>();
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
     new EventEmitter<IWordRemovalRequest>();
@@ -48,10 +45,16 @@ export class WordsListTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  constructor(private wordService: WordService) {}
+  constructor(
+    private wordService: WordService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
-    this.dataSourceHandler = new SourceHandler(this.wordService);
+    this.dataSourceHandler = new SourceHandler(
+      this.wordService,
+      this.messageService
+    );
     this.dataSourceHandler.loadWordList(this.currentLanguage, 1, []);
     this.dataSource = new MatTableDataSource<IGetWordData>([]);
     this.topicValues = Object.keys(TopicType)
@@ -68,9 +71,9 @@ export class WordsListTableComponent implements OnInit {
   }
 
   ngOnChanges() {
-    if (this.getWordResponse) {
-      this.dataSource.data = this.getWordResponse.wordList;
-    }
+    // if (this.getWordResponse) {
+    //   this.dataSource.data = this.getWordResponse.wordList;
+    // }
   }
 
   createForm(): void {}

@@ -1,5 +1,7 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Language } from '../../models/enums/Language.enum';
 import { TopicType } from '../../models/enums/TopicType.enum';
@@ -8,13 +10,11 @@ import IGetWordData from '../../models/viewModels/IGetWordData.viewModel';
 export class SourceHandler implements DataSource<IGetWordData> {
   private wordListSubject: BehaviorSubject<IGetWordData[]> =
     new BehaviorSubject<IGetWordData[]>([]);
-  private isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
 
-  public isLoading$ = this.isLoading.asObservable();
-
-  constructor(private wordService: WordService) {}
+  constructor(
+    private wordService: WordService,
+    private messageService: MessageService
+  ) {}
 
   connect(collectionViewer: CollectionViewer): Observable<IGetWordData[]> {
     return this.wordListSubject.asObservable();
@@ -22,7 +22,6 @@ export class SourceHandler implements DataSource<IGetWordData> {
 
   disconnect(collectionViewer: CollectionViewer): void {
     this.wordListSubject.complete();
-    this.isLoading.complete();
   }
 
   loadWordList(
@@ -30,13 +29,20 @@ export class SourceHandler implements DataSource<IGetWordData> {
     pageNumber: number,
     topicTypes: TopicType[]
   ): void {
-    this.isLoading.next(true);
-
+    this.messageService.showSpinner();
     this.wordService
       .getFilteredWords(lang, pageNumber, topicTypes)
+      .pipe(delay(200))
       .subscribe((wordResponse) => {
-        this.wordListSubject.next(wordResponse.wordList);
-        this.isLoading.next(false);
+        this.messageService.hideSpinner();
+        if (wordResponse.isError) {
+          this.messageService.openSnackBar(wordResponse.message, '', {
+            panelClass: ['warn'],
+            duration: 3000,
+          });
+        } else {
+          this.wordListSubject.next(wordResponse.wordList);
+        }
       });
   }
 }

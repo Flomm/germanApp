@@ -49,10 +49,7 @@
       </mat-form-field>
     </form>
   </div>
-  <div
-    class="table-paginator-container flex-center"
-    *ngIf="getWordResponse && getWordResponse.wordList.length"
-  >
+  <div class="table-paginator-container flex-center">
     <table mat-table class="default-table" [dataSource]="dataSourceHandler">
       <ng-container matColumnDef="word">
         <th mat-header-cell *matHeaderCellDef>Szó</th>
@@ -85,17 +82,5 @@
       [pageSize]="10"
       [pageSizeOptions]="[5, 10, 20]"
     ></mat-paginator>
-  </div>
-  <div *ngIf="getWordResponse && getWordResponse.isError" class="warn">
-    {{ getWordResponse.message }}
-  </div>
-  <div
-    *ngIf="
-      getWordResponse &&
-      getWordResponse.wordList.length < 1 &&
-      !getWordResponse.isError
-    "
-  >
-    Nincs megjeleníthető elem
   </div>
 </div>
