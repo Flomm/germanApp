@@ -1,49 +1,59 @@
 <div class="table-holder flex-center">
   <div>
     <h1>Szavak listája</h1>
-    <form class="default-form" [formGroup]="filteringForm">
-      <mat-form-field appearance="outline">
-        <mat-label>Nyelv</mat-label>
-        <mat-select formControlName="language" panelClass="default-select">
-          <mat-option
-            *ngFor="let language of languageType | enumToView"
-            [value]="language.value"
-          >
-            {{ language.name }}
-            <span
-              *ngIf="filteringForm.controls.language.value === language.value"
+    <mat-accordion>
+      <mat-expansion-panel class="black-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Szavak keresése </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form class="default-form" [formGroup]="filteringForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Nyelv</mat-label>
+            <mat-select formControlName="language" panelClass="default-select">
+              <mat-option
+                *ngFor="let language of languageType | enumToView"
+                [value]="language.value"
+              >
+                {{ language.name }}
+                <span
+                  *ngIf="
+                    filteringForm.controls.language.value === language.value
+                  "
+                >
+                  &#10004;</span
+                >
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="filteringForm.controls.language.hasError('required')"
+              >Válassz nyelvet!</mat-error
             >
-              &#10004;</span
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Téma</mat-label>
+            <mat-select
+              multiple
+              formControlName="topic"
+              panelClass="default-select"
             >
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="filteringForm.controls.language.hasError('required')"
-          >Válassz nyelvet!</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Téma</mat-label>
-        <mat-select
-          multiple
-          formControlName="topic"
-          panelClass="default-select"
-        >
-          <app-checkbox-select-all
-            [control]="filteringForm.get('topic')"
-            [values]="topicValues"
-          ></app-checkbox-select-all>
-          <mat-option
-            *ngFor="let topic of topicType | enumToView"
-            [value]="topic.value"
-          >
-            {{ topic.name | translation: "TopicType" }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="filteringForm.controls.topic.hasError('required')"
-          >Kötelező mező</mat-error
-        >
-      </mat-form-field>
-    </form>
+              <app-checkbox-select-all
+                [control]="filteringForm.get('topic')"
+                [values]="topicValues"
+              ></app-checkbox-select-all>
+              <mat-option
+                *ngFor="let topic of topicType | enumToView"
+                [value]="topic.value"
+              >
+                {{ topic.name | translation: "TopicType" }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="filteringForm.controls.topic.hasError('required')"
+              >Kötelező mező</mat-error
+            >
+          </mat-form-field>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
   <div class="table-paginator-container flex-center">
     <table mat-table class="default-table" [dataSource]="dataSourceHandler">

@@ -136,7 +136,7 @@
   color: $materialPrimary;
 }
 
-.padding-top-small {
+.margin-top-small {
   margin-top: 2vh;
 }
 
@@ -224,6 +224,19 @@
 
 .default-panel {
   background-color: $mainPurple;
+}
+
+.black-panel {
+  background-color: $black;
+  border: 1px solid $mainPurple;
+
+  .mat-expansion-panel-header-title {
+    color: $mainPurple;
+  }
+
+  .mat-expansion-indicator::after {
+    color: $mainPurple;
+  }
 }
 
 .default-checkbox {
