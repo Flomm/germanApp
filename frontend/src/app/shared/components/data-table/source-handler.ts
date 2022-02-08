@@ -11,6 +11,11 @@ export class SourceHandler implements DataSource<IGetWordData> {
   private wordListSubject: BehaviorSubject<IGetWordData[]> =
     new BehaviorSubject<IGetWordData[]>([]);
 
+  private totalElements: BehaviorSubject<number> = new BehaviorSubject<number>(
+    0
+  );
+  totalElements$: Observable<number> = this.totalElements.asObservable();
+
   constructor(
     private wordService: WordService,
     private messageService: MessageService
@@ -27,20 +32,19 @@ export class SourceHandler implements DataSource<IGetWordData> {
   loadWordList(
     lang: Language,
     pageNumber: number,
+    pageSize: number,
     topicTypes: TopicType[]
   ): void {
-    this.messageService.showSpinner();
     this.wordService
-      .getFilteredWords(lang, pageNumber, topicTypes)
-      .pipe(delay(200))
+      .getFilteredWords(lang, pageNumber, pageSize, topicTypes)
       .subscribe((wordResponse) => {
-        this.messageService.hideSpinner();
         if (wordResponse.isError) {
           this.messageService.openSnackBar(wordResponse.message, '', {
             panelClass: ['warn'],
             duration: 3000,
           });
         } else {
+          this.totalElements.next(wordResponse.totalElements);
           this.wordListSubject.next(wordResponse.wordList);
         }
       });
