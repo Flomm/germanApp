@@ -33,11 +33,12 @@ export class WordService {
   getFilteredWords(
     lang: Language,
     pageNumber: number,
+    pageSize: number,
     topicTypes: TopicType[]
   ): Observable<IGetWordResponse> {
     return this.httpClient
       .post<IGetWordResponse>(
-        `${environment.serverUrl}/word/filter/${lang}?pageNumber=${pageNumber}`,
+        `${environment.serverUrl}/word/filter/${lang}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
         { topics: topicTypes }
       )
       .pipe(
