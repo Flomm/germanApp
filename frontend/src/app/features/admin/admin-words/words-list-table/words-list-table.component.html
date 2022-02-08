@@ -2,55 +2,76 @@
   <div>
     <h1>Szavak listája</h1>
     <mat-accordion>
-      <mat-expansion-panel class="black-panel margin-bottom-small">
+      <mat-expansion-panel
+        class="black-panel margin-bottom-small panel-with-form"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title> Szavak keresése </mat-panel-title>
         </mat-expansion-panel-header>
         <form class="default-form" [formGroup]="filteringForm">
-          <mat-form-field appearance="outline">
-            <mat-label>Nyelv</mat-label>
-            <mat-select formControlName="language" panelClass="default-select">
-              <mat-option
-                *ngFor="let language of languageType | enumToView"
-                [value]="language.value"
+          <div class="flex-center flex-between">
+            <mat-form-field appearance="outline">
+              <mat-label>Nyelv</mat-label>
+              <mat-select
+                formControlName="language"
+                panelClass="default-select"
               >
-                {{ language.name }}
-                <span
-                  *ngIf="
-                    filteringForm.controls.language.value === language.value
-                  "
+                <mat-option
+                  *ngFor="let language of languageType | enumToView"
+                  [value]="language.value"
                 >
-                  &#10004;</span
-                >
-              </mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="filteringForm.controls.language.hasError('required')"
-              >Válassz nyelvet!</mat-error
-            >
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Téma</mat-label>
-            <mat-select
-              multiple
-              formControlName="topic"
-              panelClass="default-select"
-            >
-              <app-checkbox-select-all
-                [control]="filteringForm.get('topic')"
-                [values]="topicValues"
-              ></app-checkbox-select-all>
-              <mat-option
-                *ngFor="let topic of topicType | enumToView"
-                [value]="topic.value"
+                  {{ language.name }}
+                  <span
+                    *ngIf="
+                      filteringForm.controls.language.value === language.value
+                    "
+                  >
+                    &#10004;</span
+                  >
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="filteringForm.controls.language.hasError('required')"
+                >Válassz nyelvet!</mat-error
               >
-                {{ topic.name | translation: "TopicType" }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="filteringForm.controls.topic.hasError('required')"
-              >Kötelező mező</mat-error
-            >
-          </mat-form-field>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Téma</mat-label>
+              <mat-select
+                multiple
+                formControlName="topic"
+                panelClass="default-select"
+              >
+                <app-checkbox-select-all
+                  [control]="filteringForm.get('topic')"
+                  [values]="topicValues"
+                ></app-checkbox-select-all>
+                <mat-option
+                  *ngFor="let topic of topicType | enumToView"
+                  [value]="topic.value"
+                >
+                  {{ topic.name | translation: "TopicType" }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="filteringForm.controls.topic.hasError('required')"
+                >Kötelező mező</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Szűrési szöveg</mat-label>
+              <input
+                matInput
+                placeholder="Keresett kifejezés"
+                formControlName="filterText"
+              />
+            </mat-form-field>
+          </div>
+          <div class="flex-center">
+            <button mat-raised-button color="primary" type="button">
+              Keresés
+            </button>
+          </div>
         </form>
       </mat-expansion-panel>
     </mat-accordion>

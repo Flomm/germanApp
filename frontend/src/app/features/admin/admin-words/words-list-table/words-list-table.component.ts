@@ -31,7 +31,7 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
   currentLanguage: Language = Language.DE;
   topicType = TopicType;
   topicValues: TopicType[];
-  totalElements: number = 0;
+  totalElements: number;
 
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
     new EventEmitter<IWordRemovalRequest>();
@@ -75,6 +75,7 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
     this.filteringForm = new FormGroup({
       language: new FormControl(Language.DE, []),
       topic: new FormControl([]),
+      filterText: new FormControl(''),
     });
   }
 
@@ -97,13 +98,22 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  submitSearch(): void {
+    this.currentLanguage = this.filteringForm.get('language').value;
+    this.dataSourceHandler.loadWordList(
+      this.currentLanguage,
+      1,
+      10,
+      this.filteringForm.get('topic').value
+    );
+  }
+
   loadOnPaging(): void {
-    console.warn(this.paginator.pageIndex);
     this.dataSourceHandler.loadWordList(
       this.currentLanguage,
       this.paginator.pageIndex + 1,
       this.paginator.pageSize,
-      this.filteringForm.get('topic').value
+      []
     );
   }
 }
