@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   OnInit,
@@ -7,11 +8,9 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
-import IGetWordData from 'src/app/shared/models/viewModels/IGetWordData.viewModel';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
 import { SourceHandler } from 'src/app/shared/components/data-table/source-handler';
@@ -23,18 +22,17 @@ import { MessageService } from 'src/app/core/services/messageService/message.ser
   templateUrl: './words-list-table.component.html',
   styleUrls: ['./words-list-table.component.scss'],
 })
-export class WordsListTableComponent implements OnInit {
+export class WordsListTableComponent implements OnInit, AfterViewInit {
   private paginator: MatPaginator;
   displayedColumns: string[] = ['word', 'info', 'delete'];
   dataSourceHandler: SourceHandler;
-  dataSource: MatTableDataSource<IGetWordData>;
   filteringForm: FormGroup;
   languageType = Language;
   currentLanguage: Language = Language.DE;
   topicType = TopicType;
   topicValues: TopicType[];
+  totalElements: number = 0;
 
-  @Output() wordRequest: EventEmitter<Language> = new EventEmitter<Language>();
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
     new EventEmitter<IWordRemovalRequest>();
   @Output() wordModify: EventEmitter<IInitModifyRequest> =
@@ -42,7 +40,6 @@ export class WordsListTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
-    this.dataSource.paginator = this.paginator;
   }
 
   constructor(
@@ -55,8 +52,6 @@ export class WordsListTableComponent implements OnInit {
       this.wordService,
       this.messageService
     );
-    this.dataSourceHandler.loadWordList(this.currentLanguage, 1, []);
-    this.dataSource = new MatTableDataSource<IGetWordData>([]);
     this.topicValues = Object.keys(TopicType)
       .filter((key) => {
         if (!isNaN(parseInt(key))) {
@@ -64,23 +59,23 @@ export class WordsListTableComponent implements OnInit {
         }
       })
       .map((key) => parseInt(key));
+    this.createForm();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSourceHandler.loadWordList(this.currentLanguage, 1, 10, []);
+    this.paginator.page.subscribe({
+      next: () => {
+        this.loadOnPaging();
+      },
+    });
+  }
+
+  createForm(): void {
     this.filteringForm = new FormGroup({
       language: new FormControl(Language.DE, []),
       topic: new FormControl([]),
     });
-  }
-
-  ngOnChanges() {
-    // if (this.getWordResponse) {
-    //   this.dataSource.data = this.getWordResponse.wordList;
-    // }
-  }
-
-  createForm(): void {}
-
-  onLanguageChange(): void {
-    this.currentLanguage = this.filteringForm.value.language;
-    this.dataSourceHandler.loadWordList(this.currentLanguage, 1, []);
   }
 
   submitRemoval(wordId: number): void {
@@ -100,5 +95,15 @@ export class WordsListTableComponent implements OnInit {
       gender,
       language: this.currentLanguage,
     });
+  }
+
+  loadOnPaging(): void {
+    console.warn(this.paginator.pageIndex);
+    this.dataSourceHandler.loadWordList(
+      this.currentLanguage,
+      this.paginator.pageIndex + 1,
+      this.paginator.pageSize,
+      this.filteringForm.get('topic').value
+    );
   }
 }
