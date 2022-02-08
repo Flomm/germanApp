@@ -228,9 +228,6 @@ export const wordRepository = {
         IGetWordsDataModel[]
       >(queryString, queryArray);
 
-      if (filteredWords.length < pageSize) {
-        throw notSatisfiableError('Nincs elég szó az adatbázisban a játékhoz.');
-      }
       return Promise.resolve(filteredWords);
     } catch (err) {
       return Promise.reject(err);
