@@ -3,6 +3,7 @@ import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataMode
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
 import { TopicType } from '../../models/models/Enums/TopicType.enum';
+import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { translationRepository } from '../../repository/translationRepository/translationRepository';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
 import { notFoundError } from '../errorCreatorService/errorCreator.service';
@@ -17,7 +18,7 @@ export const wordService = {
     pageNumber: number,
     pageSize: number,
     topics: TopicType[],
-  ): Promise<IGetWordsDataModel[]> {
+  ): Promise<IGetWordsResponse> {
     try {
       const filteredWords: IGetWordsDataModel[] =
         await wordRepository.getFilteredWords(
@@ -39,7 +40,11 @@ export const wordService = {
           return { ...word, translations };
         }),
       );
-      return filteredWithTranslations;
+      const totalElements = (
+        await wordRepository.getTotalElementsForFilter(lang, topics)
+      )['COUNT(*)'];
+
+      return { wordList: filteredWithTranslations, totalElements };
     } catch (err) {
       return Promise.reject(err);
     }

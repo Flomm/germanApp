@@ -60,8 +60,8 @@ export const wordController = {
 
     wordService
       .getFilteredWords(lang, pageNumber, pageSize, topics)
-      .then(words => {
-        res.status(200).json({ wordList: words });
+      .then(wordResponse => {
+        res.status(200).json(wordResponse);
       })
       .catch(err => {
         return next(err);

@@ -1,5 +1,6 @@
 import { db } from '../../data/connection';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
+import IDBCountResultDataModel from '../../models/models/dataModels/IDBCountResultDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import IGetWordsDomainModel from '../../models/models/domainModels/IWordDomainModel';
@@ -234,6 +235,35 @@ export const wordRepository = {
     } catch (err) {
       return Promise.reject(err);
     }
+  },
+
+  async getTotalElementsForFilter(
+    lang: Language,
+    topics: TopicType[],
+  ): Promise<IDBCountResultDataModel> {
+    let queryString: string = `SELECT COUNT(*) FROM german_app.?? WHERE isDeleted = 0 ORDER BY word`;
+    let queryArray: (string | number)[] = [`${lang}`];
+
+    if (topics?.length > 0) {
+      let topicQuery: string = ' AND';
+      topics.forEach((topic, i) => {
+        i === topics.length - 1
+          ? (topicQuery = `${topicQuery} (topic = ?) `)
+          : (topicQuery = `${topicQuery} (topic = ?) OR`);
+        queryArray.push(topic);
+      });
+      queryString = `${queryString.substring(
+        0,
+        queryString.indexOf('0') + 1,
+      )}${topicQuery}${queryString.substring(
+        queryString.indexOf('0') + 1,
+        queryString.length,
+      )}`;
+    }
+    const result: IDBCountResultDataModel[] = await db.query<
+      IDBCountResultDataModel[]
+    >(queryString, queryArray);
+    return result[0];
   },
 
   async getRandomWords(
