@@ -84,6 +84,19 @@
           {{ (word.gender || "") + " " + word.word }}
         </td>
       </ng-container>
+      <ng-container matColumnDef="translations">
+        <th mat-header-cell *matHeaderCellDef>Jelentések</th>
+        <td mat-cell *matCellDef="let word">
+          <span *ngFor="let translation of word.translations; let last = last">
+            {{
+              (translation.gender || "") +
+                " " +
+                translation.translation +
+                (last ? "" : ",")
+            }}
+          </span>
+        </td>
+      </ng-container>
       <ng-container matColumnDef="info">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let word">

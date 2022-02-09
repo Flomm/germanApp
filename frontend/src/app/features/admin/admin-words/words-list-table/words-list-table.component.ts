@@ -24,7 +24,7 @@ import { MessageService } from 'src/app/core/services/messageService/message.ser
 })
 export class WordsListTableComponent implements OnInit, AfterViewInit {
   private paginator: MatPaginator;
-  displayedColumns: string[] = ['word', 'info', 'delete'];
+  displayedColumns: string[] = ['word', 'translations', 'info', 'delete'];
   dataSourceHandler: SourceHandler;
   filteringForm: FormGroup;
   languageType = Language;
