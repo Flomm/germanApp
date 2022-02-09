@@ -16,6 +16,7 @@ import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequ
 import { SourceHandler } from 'src/app/shared/components/data-table/source-handler';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-words-list-table',
@@ -41,6 +42,7 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
   }
+  @ViewChild('menuPanel') panel: MatExpansionPanel;
 
   constructor(
     private wordService: WordService,
@@ -106,6 +108,7 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
       10,
       this.filteringForm.get('topic').value
     );
+    this.panel.close();
   }
 
   loadOnPaging(): void {

@@ -4,6 +4,8 @@
     <mat-accordion>
       <mat-expansion-panel
         class="black-panel margin-bottom-small panel-with-form"
+        [expanded]="true"
+        #menuPanel
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Szavak keresése </mat-panel-title>
@@ -68,7 +70,12 @@
             </mat-form-field>
           </div>
           <div class="flex-center">
-            <button mat-raised-button color="primary" type="button">
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="submitSearch()"
+            >
               Keresés
             </button>
           </div>
