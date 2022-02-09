@@ -124,10 +124,17 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <div
+      *ngIf="(dataSourceHandler.totalElements$ | async) < 1"
+      class="margin-top-small margin-bottom-small"
+    >
+      Nincs megjeleníthető elem...
+    </div>
     <mat-paginator
       [length]="dataSourceHandler.totalElements$ | async"
       [pageSize]="10"
       [pageSizeOptions]="[5, 10, 20]"
+      [disabled]="(dataSourceHandler.totalElements$ | async) < 1"
     ></mat-paginator>
   </div>
 </div>
