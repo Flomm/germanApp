@@ -241,6 +241,10 @@
   .mat-expansion-indicator::after {
     color: $mainPurple;
   }
+
+  input {
+    color: $mainPurple;
+  }
 }
 
 .panel-with-form {
