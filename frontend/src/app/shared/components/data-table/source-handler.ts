@@ -1,10 +1,8 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
-import { Language } from '../../models/enums/Language.enum';
-import { TopicType } from '../../models/enums/TopicType.enum';
+import IFilterFormData from '../../models/viewModels/IFilterFormData.viewModel';
 import IGetWordData from '../../models/viewModels/IGetWordData.viewModel';
 
 export class SourceHandler implements DataSource<IGetWordData> {
@@ -29,24 +27,17 @@ export class SourceHandler implements DataSource<IGetWordData> {
     this.wordListSubject.complete();
   }
 
-  loadWordList(
-    lang: Language,
-    pageNumber: number,
-    pageSize: number,
-    topicTypes: TopicType[]
-  ): void {
-    this.wordService
-      .getFilteredWords(lang, pageNumber, pageSize, topicTypes)
-      .subscribe((wordResponse) => {
-        if (wordResponse.isError) {
-          this.messageService.openSnackBar(wordResponse.message, '', {
-            panelClass: ['warn'],
-            duration: 3000,
-          });
-        } else {
-          this.totalElements.next(wordResponse.totalElements);
-          this.wordListSubject.next(wordResponse.wordList);
-        }
-      });
+  loadWordList(filterData: IFilterFormData): void {
+    this.wordService.getFilteredWords(filterData).subscribe((wordResponse) => {
+      if (wordResponse.isError) {
+        this.messageService.openSnackBar(wordResponse.message, '', {
+          panelClass: ['warn'],
+          duration: 3000,
+        });
+      } else {
+        this.totalElements.next(wordResponse.totalElements);
+        this.wordListSubject.next(wordResponse.wordList);
+      }
+    });
   }
 }

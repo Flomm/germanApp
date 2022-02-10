@@ -16,7 +16,7 @@ import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequ
 import { SourceHandler } from 'src/app/shared/components/data-table/source-handler';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import IFilterFormData from 'src/app/shared/models/viewModels/IFilterFormData.viewModel';
 
 @Component({
   selector: 'app-words-list-table',
@@ -33,6 +33,7 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
   topicType = TopicType;
   topicValues: TopicType[];
   totalElements: number;
+  currentFilter: IFilterFormData;
 
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
     new EventEmitter<IWordRemovalRequest>();
@@ -42,7 +43,6 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
   }
-  @ViewChild('menuPanel') panel: MatExpansionPanel;
 
   constructor(
     private wordService: WordService,
@@ -62,10 +62,17 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
       })
       .map((key) => parseInt(key));
     this.createForm();
+    this.currentFilter = {
+      language: this.currentLanguage,
+      pageNumber: 1,
+      pageSize: 10,
+      searchString: '',
+      topics: [],
+    };
   }
 
   ngAfterViewInit(): void {
-    this.dataSourceHandler.loadWordList(this.currentLanguage, 1, 10, []);
+    this.dataSourceHandler.loadWordList(this.currentFilter);
     this.paginator.page.subscribe({
       next: () => {
         this.loadOnPaging();
@@ -102,21 +109,17 @@ export class WordsListTableComponent implements OnInit, AfterViewInit {
 
   submitSearch(): void {
     this.currentLanguage = this.filteringForm.get('language').value;
-    this.dataSourceHandler.loadWordList(
-      this.currentLanguage,
-      1,
-      10,
-      this.filteringForm.get('topic').value
-    );
-    this.panel.close();
+    this.currentFilter = {
+      language: this.currentLanguage,
+      pageNumber: 1,
+      pageSize: 10,
+      searchString: this.filteringForm.get('filterText').value,
+      topics: this.filteringForm.get('topic').value,
+    };
+    this.dataSourceHandler.loadWordList(this.currentFilter);
   }
 
   loadOnPaging(): void {
-    this.dataSourceHandler.loadWordList(
-      this.currentLanguage,
-      this.paginator.pageIndex + 1,
-      this.paginator.pageSize,
-      []
-    );
+    this.dataSourceHandler.loadWordList(this.currentFilter);
   }
 }

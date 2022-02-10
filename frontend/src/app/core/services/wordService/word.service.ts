@@ -2,12 +2,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { AdminModule } from 'src/app/features/admin/admin.module';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
-import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import IAddWordRequest from 'src/app/shared/models/requests/IAddWordRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 import IGetWordResponse from 'src/app/shared/models/responses/IGetWordsResponse';
+import IFilterFormData from 'src/app/shared/models/viewModels/IFilterFormData.viewModel';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -30,16 +29,11 @@ export class WordService {
       );
   }
 
-  getFilteredWords(
-    lang: Language,
-    pageNumber: number,
-    pageSize: number,
-    topicTypes: TopicType[]
-  ): Observable<IGetWordResponse> {
+  getFilteredWords(filterData: IFilterFormData): Observable<IGetWordResponse> {
     return this.httpClient
       .post<IGetWordResponse>(
-        `${environment.serverUrl}/word/filter/${lang}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-        { topics: topicTypes }
+        `${environment.serverUrl}/word/filter/${filterData.language}?pageNumber=${filterData.pageNumber}&pageSize=${filterData.pageSize}`,
+        { topics: filterData.topics, searchString: filterData.searchString }
       )
       .pipe(
         catchError((httpError: HttpErrorResponse) =>
