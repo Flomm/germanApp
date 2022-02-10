@@ -1,4 +1,5 @@
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
+import IFilterFormDataModel from '../../models/models/dataModels/IFilterFormDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
@@ -14,23 +15,18 @@ export const wordService = {
   },
 
   async getFilteredWords(
-    lang: Language,
-    pageNumber: number,
-    pageSize: number,
-    topics: TopicType[],
+    filterData: IFilterFormDataModel,
   ): Promise<IGetWordsResponse> {
     try {
       const filteredWords: IGetWordsDataModel[] =
-        await wordRepository.getFilteredWords(
-          lang,
-          pageNumber,
-          pageSize,
-          topics,
-        );
+        await wordRepository.getFilteredWords(filterData);
       const filteredWithTranslations: IGetWordsDataModel[] = await Promise.all(
         filteredWords.map(async word => {
           let translations: ITranslationDataModel[] =
-            await translationRepository.getTranslationsByWordId(lang, word.id);
+            await translationRepository.getTranslationsByWordId(
+              filterData.language,
+              word.id,
+            );
           translations = translations.map(translationObject => {
             if (!translationObject.gender) {
               return { translation: translationObject.translation };
@@ -41,9 +37,8 @@ export const wordService = {
         }),
       );
       const totalElements = (
-        await wordRepository.getTotalElementsForFilter(lang, topics)
+        await wordRepository.getTotalElementsForFilter(filterData)
       )['COUNT(*)'];
-
       return { wordList: filteredWithTranslations, totalElements };
     } catch (err) {
       return Promise.reject(err);

@@ -2,6 +2,7 @@ import { db } from '../../data/connection';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import IDBCountResultDataModel from '../../models/models/dataModels/IDBCountResultDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
+import IFilterFormDataModel from '../../models/models/dataModels/IFilterFormDataModel';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import IGetWordsDomainModel from '../../models/models/domainModels/IWordDomainModel';
 import { Language } from '../../models/models/Enums/Language.enum';
@@ -193,36 +194,51 @@ export const wordRepository = {
   },
 
   async getFilteredWords(
-    lang: Language,
-    pageNumber: number,
-    pageSize: number,
-    topics: TopicType[],
+    filterData: IFilterFormDataModel,
   ): Promise<IGetWordsDataModel[]> {
     try {
-      const offSet: number = (pageNumber - 1) * pageSize;
+      const offSet: number = (filterData.pageNumber - 1) * filterData.pageSize;
       let queryString: string = `SELECT id, word${
-        lang === Language.DE ? ', gender ' : ''
+        filterData.language === Language.DE ? ', gender ' : ''
       }, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY word LIMIT ?, ?;`;
-      let queryArray: (string | number)[] = [`${lang}`];
+      let queryArray: (string | number)[] = [`${filterData.language}`];
 
-      if (topics?.length > 0) {
-        let topicQuery: string = ' AND';
-        topics.forEach((topic, i) => {
-          i === topics.length - 1
-            ? (topicQuery = `${topicQuery} (topic = ?) `)
-            : (topicQuery = `${topicQuery} (topic = ?) OR`);
+      if (filterData.topics?.length! > 0) {
+        let topicAndSearchQuery: string = ' AND';
+        filterData.topics!.forEach((topic, i) => {
+          i === filterData.topics!.length - 1
+            ? (topicAndSearchQuery = `${topicAndSearchQuery} (topic = ?) `)
+            : (topicAndSearchQuery = `${topicAndSearchQuery} (topic = ?) OR`);
           queryArray.push(topic);
         });
+
+        if (filterData.searchString) {
+          topicAndSearchQuery =
+            topicAndSearchQuery = `${topicAndSearchQuery} AND (word LIKE CONCAT("%", ? , "%")) `;
+          queryArray.push(filterData.searchString);
+        }
+
         queryString = `${queryString.substring(
           0,
           queryString.indexOf('0') + 1,
-        )}${topicQuery}${queryString.substring(
+        )}${topicAndSearchQuery}${queryString.substring(
           queryString.indexOf('0') + 1,
           queryString.length,
         )}`;
+      } else {
+        if (filterData.searchString) {
+          queryString = `${queryString.substring(
+            0,
+            queryString.indexOf('0') + 1,
+          )} AND (word LIKE CONCAT("%", ? , "%"))${queryString.substring(
+            queryString.indexOf('0') + 1,
+            queryString.length,
+          )}`;
+          queryArray.push(filterData.searchString);
+        }
       }
       queryArray.push(offSet);
-      queryArray.push(pageSize);
+      queryArray.push(filterData.pageSize);
 
       const filteredWords: IGetWordsDataModel[] = await db.query<
         IGetWordsDataModel[]
@@ -235,28 +251,46 @@ export const wordRepository = {
   },
 
   async getTotalElementsForFilter(
-    lang: Language,
-    topics: TopicType[],
+    filterData: IFilterFormDataModel,
   ): Promise<IDBCountResultDataModel> {
     let queryString: string = `SELECT COUNT(*) FROM german_app.?? WHERE isDeleted = 0 ORDER BY word`;
-    let queryArray: (string | number)[] = [`${lang}`];
+    let queryArray: (string | number)[] = [`${filterData.language}`];
 
-    if (topics?.length > 0) {
-      let topicQuery: string = ' AND';
-      topics.forEach((topic, i) => {
-        i === topics.length - 1
-          ? (topicQuery = `${topicQuery} (topic = ?) `)
-          : (topicQuery = `${topicQuery} (topic = ?) OR`);
+    if (filterData.topics?.length! > 0) {
+      let topicAndSearchQuery: string = ' AND';
+      filterData.topics!.forEach((topic, i) => {
+        i === filterData.topics!.length - 1
+          ? (topicAndSearchQuery = `${topicAndSearchQuery} (topic = ?) `)
+          : (topicAndSearchQuery = `${topicAndSearchQuery} (topic = ?) OR`);
         queryArray.push(topic);
       });
+
+      if (filterData.searchString) {
+        topicAndSearchQuery =
+          topicAndSearchQuery = `${topicAndSearchQuery} AND (word LIKE CONCAT("%", ? , "%")) `;
+        queryArray.push(filterData.searchString);
+      }
+
       queryString = `${queryString.substring(
         0,
         queryString.indexOf('0') + 1,
-      )}${topicQuery}${queryString.substring(
+      )}${topicAndSearchQuery}${queryString.substring(
         queryString.indexOf('0') + 1,
         queryString.length,
       )}`;
+    } else {
+      if (filterData.searchString) {
+        queryString = `${queryString.substring(
+          0,
+          queryString.indexOf('0') + 1,
+        )} AND (word LIKE CONCAT("%", ? , "%"))${queryString.substring(
+          queryString.indexOf('0') + 1,
+          queryString.length,
+        )}`;
+        queryArray.push(filterData.searchString);
+      }
     }
+
     const result: IDBCountResultDataModel[] = await db.query<
       IDBCountResultDataModel[]
     >(queryString, queryArray);

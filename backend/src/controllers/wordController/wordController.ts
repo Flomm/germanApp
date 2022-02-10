@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
+import IFilterFormDataModel from '../../models/models/dataModels/IFilterFormDataModel';
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
 import { TopicType } from '../../models/models/Enums/TopicType.enum';
@@ -36,8 +37,8 @@ export const wordController = {
     res: Response<IGetWordsResponse>,
     next: NextFunction,
   ): void {
-    const lang: Language = req.params.lang as Language;
-    if (!enumValueChecker<string>(Language, lang)) {
+    const language: Language = req.params.lang as Language;
+    if (!enumValueChecker<string>(Language, language)) {
       return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
     }
 
@@ -57,9 +58,18 @@ export const wordController = {
     if (isNaN(pageSize) || pageSize < 1 || pageSize > 50) {
       return next(badRequestError('Érvénytelen oldalszám.'));
     }
+    const filterData: IFilterFormDataModel = {
+      language,
+      pageNumber,
+      pageSize,
+      topics,
+    };
 
+    if (req.body.searchString) {
+      filterData.searchString = req.body.searchString;
+    }
     wordService
-      .getFilteredWords(lang, pageNumber, pageSize, topics)
+      .getFilteredWords(filterData)
       .then(wordResponse => {
         res.status(200).json(wordResponse);
       })
