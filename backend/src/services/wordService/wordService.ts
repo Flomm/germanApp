@@ -3,7 +3,6 @@ import IFilterFormDataModel from '../../models/models/dataModels/IFilterFormData
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
-import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { translationRepository } from '../../repository/translationRepository/translationRepository';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
