@@ -77,6 +77,7 @@ import { WordTableComponent } from './components/word-table/word-table.component
     MatCheckboxModule,
     CheckboxSelectAllComponent,
     MatProgressSpinnerModule,
+    WordTableComponent,
   ],
 })
 export class SharedModule {}
