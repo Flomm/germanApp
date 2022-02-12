@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { TranslationService } from 'src/app/core/services/translationService/translation.service';
@@ -18,17 +18,15 @@ import IGetTranslationsResponse from 'src/app/shared/models/responses/IGetTransl
   templateUrl: './admin-words.component.html',
 })
 export class AdminWordsComponent {
-  language: Language = Language.DE;
+  private reloadEmitter: Subject<void> = new Subject<void>();
+
+  reloadEmitter$: Observable<void> = this.reloadEmitter.asObservable();
 
   constructor(
     private wordService: WordService,
     private translationService: TranslationService,
     private messageService: MessageService
   ) {}
-
-  onLanguageChange(lang: Language): void {
-    this.language = lang;
-  }
 
   onModifyWord(getWordRequestForModify: IInitModifyRequest): void {
     this.translationService
@@ -72,8 +70,9 @@ export class AdminWordsComponent {
             panelClass: [panelClass],
             duration: 3000,
           });
-          //pass data to table
-          // this.getWordData(getWordRequestForModify.language);
+          if (!res.isError) {
+            this.reloadEmitter.next();
+          }
         }
       });
   }
@@ -97,7 +96,7 @@ export class AdminWordsComponent {
           .removeWord(removeRequest.language, removeRequest.wordId)
           .subscribe((response) => {
             if (!response.isError) {
-              this.onLanguageChange(this.language);
+              this.reloadEmitter.next();
             }
             const panelClass: string = response.isError ? 'warn' : 'success';
             this.messageService.openSnackBar(response.message, '', {

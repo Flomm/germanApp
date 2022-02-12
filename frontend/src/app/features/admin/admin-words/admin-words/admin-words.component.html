@@ -1,5 +1,6 @@
 <app-word-table
   (wordModify)="onModifyWord($event)"
   (wordRemoval)="onRemoveWord($event)"
+  [reloadTrigger]="reloadEmitter$"
 >
 </app-word-table>

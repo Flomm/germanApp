@@ -2,12 +2,15 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
+import { Observable, Subscription } from 'rxjs';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from '../../models/enums/Gender.enum';
@@ -23,17 +26,8 @@ import { SourceHandler } from './source-handler';
   templateUrl: './word-table.component.html',
   styleUrls: ['./word-table.component.scss'],
 })
-export class WordTableComponent implements OnInit, AfterViewInit {
-  private paginator: MatPaginator;
-  displayedColumns: string[] = ['word', 'translations', 'info', 'delete'];
-  dataSourceHandler: SourceHandler;
-  filteringForm: FormGroup;
-  languageType = Language;
-  currentLanguage: Language = Language.DE;
-  topicType = TopicType;
-  topicValues: TopicType[];
-  totalElements: number;
-  currentFilter: IFilterFormData;
+export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() reloadTrigger: Observable<void>;
 
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
     new EventEmitter<IWordRemovalRequest>();
@@ -43,6 +37,18 @@ export class WordTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
   }
+
+  private paginator: MatPaginator;
+  private currentFilter: IFilterFormData;
+  displayedColumns: string[] = ['word', 'translations', 'info', 'delete'];
+  dataSourceHandler: SourceHandler;
+  filteringForm: FormGroup;
+  languageType = Language;
+  currentLanguage: Language = Language.DE;
+  topicType = TopicType;
+  topicValues: TopicType[];
+  totalElements: number;
+  reloadSub: Subscription;
 
   constructor(
     private wordService: WordService,
@@ -54,6 +60,7 @@ export class WordTableComponent implements OnInit, AfterViewInit {
       this.wordService,
       this.messageService
     );
+
     this.topicValues = Object.keys(TopicType)
       .filter((key) => {
         if (!isNaN(parseInt(key))) {
@@ -61,6 +68,7 @@ export class WordTableComponent implements OnInit, AfterViewInit {
         }
       })
       .map((key) => parseInt(key));
+
     this.createForm();
     this.currentFilter = {
       language: this.currentLanguage,
@@ -69,6 +77,12 @@ export class WordTableComponent implements OnInit, AfterViewInit {
       searchString: '',
       topics: [],
     };
+
+    if (this.reloadTrigger) {
+      this.reloadSub = this.reloadTrigger.subscribe(() => {
+        this.loadOnPaging();
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -78,6 +92,10 @@ export class WordTableComponent implements OnInit, AfterViewInit {
         this.loadOnPaging();
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.reloadSub.unsubscribe();
   }
 
   createForm(): void {
@@ -120,6 +138,12 @@ export class WordTableComponent implements OnInit, AfterViewInit {
   }
 
   loadOnPaging(): void {
-    this.dataSourceHandler.loadWordList(this.currentFilter);
+    this.dataSourceHandler.loadWordList({
+      language: this.currentLanguage,
+      pageSize: this.paginator.pageSize,
+      pageNumber: this.paginator.pageIndex + 1,
+      searchString: this.currentFilter.searchString,
+      topics: this.currentFilter.topics,
+    });
   }
 }
