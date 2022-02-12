@@ -48,3 +48,9 @@ form {
     color: $mainPurple;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .foldable {
+    flex-direction: column;
+  }
+}
