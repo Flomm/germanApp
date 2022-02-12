@@ -29,7 +29,6 @@ export const dbLoader = async (
     await Promise.all(wordAddPromises);
     resolve();
   } catch (err) {
-    console.warn("dbloader");
     throw err;
   }
 };
