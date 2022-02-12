@@ -33,6 +33,13 @@ const routes: Routes = [
             (m) => m.ConsumerGameModule
           ),
       },
+      {
+        path: 'words',
+        loadChildren: () =>
+          import('./consumer-words/consumer-words.module').then(
+            (m) => m.ConsumerWordsModule
+          ),
+      },
     ],
   },
 ];
