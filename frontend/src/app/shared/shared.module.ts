@@ -24,6 +24,7 @@ import TranslationPipe from './pipes/translationPipe/translation.pipe';
 import { CheckboxSelectAllComponent } from './components/checkbox-select-all/checkbox-select-all.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { WordTableComponent } from './components/word-table/word-table.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatInputAutofocusDirective,
     CheckboxSelectAllComponent,
     SpinnerComponent,
+    WordTableComponent,
   ],
   imports: [
     CommonModule,
