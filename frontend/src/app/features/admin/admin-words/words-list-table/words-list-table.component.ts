@@ -13,7 +13,7 @@ import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import IInitModifyRequest from 'src/app/shared/models/requests/IInitModifyRequest';
 import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequest';
-import { SourceHandler } from 'src/app/shared/components/data-table/source-handler';
+import { SourceHandler } from 'src/app/shared/components/word-table/source-handler';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import IFilterFormData from 'src/app/shared/models/viewModels/IFilterFormData.viewModel';
