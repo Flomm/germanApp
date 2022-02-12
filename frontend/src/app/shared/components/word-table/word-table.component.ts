@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   OnInit,
@@ -22,7 +23,7 @@ import { SourceHandler } from './source-handler';
   templateUrl: './word-table.component.html',
   styleUrls: ['./word-table.component.scss'],
 })
-export class WordTableComponent implements OnInit {
+export class WordTableComponent implements OnInit, AfterViewInit {
   private paginator: MatPaginator;
   displayedColumns: string[] = ['word', 'translations', 'info', 'delete'];
   dataSourceHandler: SourceHandler;
