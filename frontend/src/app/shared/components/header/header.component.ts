@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import { UserRole } from '../../models/enums/UserRole.enum';
 
@@ -8,38 +8,21 @@ import { UserRole } from '../../models/enums/UserRole.enum';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
   @Input()
   hasAuthorizationButtons: boolean = true;
 
   userRolesList: object = UserRole;
 
-  userName: string;
+  userNameObs: Observable<string>;
 
-  userNameSubscription: Subscription;
-
-  userRole: number;
-
-  userRoleSubscription: Subscription;
+  userRoleObs: Observable<string>;
 
   constructor(private authService: AuthService) {}
 
-  ngOnDestroy(): void {
-    this.userNameSubscription.unsubscribe();
-    this.userRoleSubscription.unsubscribe();
-  }
-
   ngOnInit() {
-    this.userNameSubscription = this.authService.userNameObservable.subscribe(
-      (x) => {
-        this.userName = x;
-      }
-    );
-    this.userRoleSubscription = this.authService.userRoleObservable.subscribe(
-      (z) => {
-        this.userRole = parseInt(z);
-      }
-    );
+    this.userNameObs = this.authService.userNameObservable;
+    this.userRoleObs = this.authService.userRoleObservable;
   }
 
   logOut(): void {

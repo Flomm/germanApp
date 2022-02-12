@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import { UserRole } from '../../models/enums/UserRole.enum';
 
@@ -8,22 +8,13 @@ import { UserRole } from '../../models/enums/UserRole.enum';
   templateUrl: './welcome-page.component.html',
   styleUrls: ['./welcome-page.component.scss'],
 })
-export class WelcomePageComponent implements OnInit, OnDestroy {
+export class WelcomePageComponent implements OnInit {
   userRolesList: object = UserRole;
-  userRole: number;
-  userRoleSubscription: Subscription;
+  userRoleObs: Observable<string>;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.userRoleSubscription = this.authService.userRoleObservable.subscribe(
-      (z) => {
-        this.userRole = parseInt(z);
-      }
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.userRoleSubscription.unsubscribe();
+    this.userRoleObs = this.authService.userRoleObservable;
   }
 }

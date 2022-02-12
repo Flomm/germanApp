@@ -5,7 +5,10 @@
   <div class="title-holder">
     <h1>Tanulj németül</h1>
   </div>
-  <div *ngIf="hasAuthorizationButtons && !userName" class="button-holder">
+  <div
+    *ngIf="hasAuthorizationButtons && !(userNameObs | async)"
+    class="button-holder"
+  >
     <button
       mat-raised-button
       class="registration-button"
@@ -17,9 +20,9 @@
       Belépés
     </button>
   </div>
-  <div *ngIf="userName" class="user-holder flex-center">
+  <div *ngIf="userNameObs | async" class="user-holder flex-center">
     <div class="username-holder">
-      <h2>Szia, {{ userName }}</h2>
+      <h2>Szia, {{ userNameObs | async }}</h2>
     </div>
     <div class="profile-button-holder">
       <img
@@ -32,13 +35,19 @@
     </div>
   </div>
 </header>
-<nav *ngIf="userRole">
-  <div class="flex-center nav" *ngIf="userRole === userRolesList.Admin">
+<nav *ngIf="userRoleObs | async">
+  <div
+    class="flex-center nav"
+    *ngIf="(userRoleObs | async) === userRolesList.Admin.toString()"
+  >
     <a routerLink="/admin/add-word">Szó hozzáadása</a>
     <a routerLink="/admin/words">Szólista és módosítás</a>
     <a routerLink="/admin/users">Felhasználók</a>
   </div>
-  <div class="flex-center nav" *ngIf="userRole === userRolesList.Consumer">
+  <div
+    class="flex-center nav"
+    *ngIf="(userRoleObs | async) === userRolesList.Consumer.toString()"
+  >
     <a routerLink="/consumer/statistics">Statisztikák</a>
     <a routerLink="/consumer/words">Szólista</a>
     <a routerLink="/consumer/game">Játék</a>
