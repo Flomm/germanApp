@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class UserService {
     return this.httpClient
       .get<IGetUserResponse>(`${environment.serverUrl}/user/`)
       .pipe(
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             userList: [],
             message: httpError.error.message ?? 'Hálózati hiba történt.',

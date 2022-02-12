@@ -8,6 +8,10 @@
   flex-direction: column;
 }
 
+.align-left-row {
+  justify-self: start;
+}
+
 .align-left-column {
   align-self: flex-start;
 }
@@ -132,8 +136,12 @@
   color: $materialPrimary;
 }
 
-.padding-top-small {
+.margin-top-small {
   margin-top: 2vh;
+}
+
+.margin-bottom-small {
+  margin-bottom: 2vh !important;
 }
 
 .black {
@@ -222,6 +230,27 @@
   background-color: $mainPurple;
 }
 
+.black-panel {
+  background-color: $black;
+  border: 1px solid $mainPurple;
+
+  .mat-expansion-panel-header-title {
+    color: $mainPurple;
+  }
+
+  .mat-expansion-indicator::after {
+    color: $mainPurple;
+  }
+
+  input {
+    color: $mainPurple;
+  }
+}
+
+.panel-with-form {
+  width: 80vw;
+}
+
 .default-checkbox {
   .mat-checkbox-frame {
     border-color: $mainPurple;
@@ -249,6 +278,22 @@ app-checkbox-select-all {
       color: $black;
     }
   }
+}
+
+.info-div {
+  width: 50vw;
+
+  .mat-icon {
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(110%);
+    }
+  }
+}
+
+.no-margin-bottom {
+  margin-bottom: 0 !important;
 }
 
 @media only screen and (max-width: 750px) {

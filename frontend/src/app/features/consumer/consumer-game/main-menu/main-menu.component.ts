@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
 import { TopicType } from 'src/app/shared/models/enums/TopicType.enum';
 import IGetRandomWordRequest from 'src/app/shared/models/requests/IGetRandomWordRequest';

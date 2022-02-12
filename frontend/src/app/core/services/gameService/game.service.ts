@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class GameService {
         { topics: randomWordReq.topic }
       )
       .pipe(
-        catchError((httpError) => {
+        catchError((httpError: HttpErrorResponse) => {
           return of({
             wordList: [],
             message: httpError.error.message || 'Hálózati hiba történt.',
@@ -51,7 +51,7 @@ export class GameService {
         checkAnswerReq
       )
       .pipe(
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             isCorrect: false,
             translations: [],

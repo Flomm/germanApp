@@ -71,10 +71,8 @@ export const rowToObjectTransformer = (
       });
       console.log("Transformation is finished.");
       resolve(wordObjectsListByTopic);
-    } catch (error) {
-      throw new Error(
-        `An error occured during transformation: ${error.message}`
-      );
+    } catch (err) {
+      throw new Error(`An error occured during transformation: ${err.message}`);
     }
   });
 };

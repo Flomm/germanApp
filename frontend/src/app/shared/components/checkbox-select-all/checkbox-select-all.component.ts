@@ -12,11 +12,15 @@ export class CheckboxSelectAllComponent {
   @Input() label: string = 'Összes';
 
   isChecked(): boolean {
-    return this.control?.value.length === this.values.length;
+    if (this?.control.value) {
+      return this.control?.value.length === this.values.length;
+    }
   }
 
   isIndeterminate(): boolean {
-    return this.control?.value.length < this.values.length;
+    if (this?.control.value) {
+      return this.control?.value.length < this.values.length;
+    }
   }
 
   toggleSelection(change: MatCheckboxChange): void {

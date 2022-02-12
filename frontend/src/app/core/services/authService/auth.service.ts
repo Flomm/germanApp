@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -107,7 +107,7 @@ export default class AuthService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message,
             isError: true,
@@ -141,7 +141,7 @@ export default class AuthService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message,
             isError: true,
@@ -185,7 +185,7 @@ export default class AuthService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message,
             isError: true,
@@ -219,7 +219,7 @@ export default class AuthService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message,
             isError: true,
@@ -247,7 +247,7 @@ export default class AuthService {
             message: response.message,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message,
             isError: true,
@@ -271,7 +271,7 @@ export default class AuthService {
             isError: false,
           };
         }),
-        catchError((httpError) =>
+        catchError((httpError: HttpErrorResponse) =>
           of({
             message: httpError.error.message,
             isError: true,

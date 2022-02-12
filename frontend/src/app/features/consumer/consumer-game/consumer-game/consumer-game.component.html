@@ -3,6 +3,7 @@
     *ngIf="isGameOn && !errorMessage && !isGameFinished"
     [numOfQuestions]="listOfWords.length"
     [index]="actualIndex"
+    (backToMenuEmitter)="backToMenu()"
   ></app-info>
   <app-main-menu
     *ngIf="!isGameOn && !errorMessage && !isGameFinished"

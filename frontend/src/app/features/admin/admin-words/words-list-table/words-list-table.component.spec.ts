@@ -24,23 +24,10 @@ describe('WordsListTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit the expected values and format when word request is submitted', () => {
-    //Arrange
-
-    spyOn(component.wordRequest, 'emit');
-    component.chooseLanguageForm.setValue({ language: Language.DE });
-
-    //Act
-    component.submitWordRequest();
-
-    //Assert
-    expect(component.wordRequest.emit).toHaveBeenCalledWith(Language.DE);
-  });
-
   it('should emit the expected values and format when removal request is submitted', () => {
     //Arrange
     spyOn(component.wordRemoval, 'emit');
-    component.chooseLanguageForm.setValue({ language: Language.DE });
+    component.filteringForm.setValue({ language: Language.DE });
 
     //Act
     component.submitRemoval(1);
@@ -55,7 +42,7 @@ describe('WordsListTableComponent', () => {
   it('should emit the expected values and format when modify request is submitted', () => {
     //Arrange
     spyOn(component.wordModify, 'emit');
-    component.chooseLanguageForm.setValue({ language: Language.DE });
+    component.filteringForm.setValue({ language: Language.DE });
 
     //Act
     component.submitModify('testWord', 1, TopicType.FAMILY);

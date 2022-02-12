@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
+import IFilterFormDataModel from '../../models/models/dataModels/IFilterFormDataModel';
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
 import { TopicType } from '../../models/models/Enums/TopicType.enum';
@@ -7,6 +8,7 @@ import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
 import { wordService } from '../../services/wordService/wordService';
+import enumArrayValueChecker from '../helpers/enumArrayValueChecker/enumArrayValueChecker.helper';
 import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';
 import idChecker from '../helpers/idChecker/idChecker.helper';
 
@@ -24,6 +26,52 @@ export const wordController = {
       .getAllWords(lang as Language)
       .then(words => {
         res.status(200).json({ wordList: words });
+      })
+      .catch(err => {
+        return next(err);
+      });
+  },
+
+  getFilteredWords(
+    req: Request,
+    res: Response<IGetWordsResponse>,
+    next: NextFunction,
+  ): void {
+    const language: Language = req.params.lang as Language;
+    if (!enumValueChecker<string>(Language, language)) {
+      return next(badRequestError('Nincs ilyen nyelv a szótárban.'));
+    }
+
+    const topics: TopicType[] = req.body.topics;
+    if (topics?.length > 0) {
+      if (!enumArrayValueChecker<number>(TopicType, topics)) {
+        return next(badRequestError('Érvénytelen téma azonosító.'));
+      }
+    }
+
+    const pageNumber: number = parseInt(req.query.pageNumber as string);
+    if (isNaN(pageNumber) || pageNumber < 1) {
+      return next(badRequestError('Érvénytelen oldalszám.'));
+    }
+
+    const pageSize: number = parseInt(req.query.pageSize as string);
+    if (isNaN(pageSize) || pageSize < 1 || pageSize > 50) {
+      return next(badRequestError('Érvénytelen oldalszám.'));
+    }
+    const filterData: IFilterFormDataModel = {
+      language,
+      pageNumber,
+      pageSize,
+      topics,
+    };
+
+    if (req.body.searchString) {
+      filterData.searchString = req.body.searchString;
+    }
+    wordService
+      .getFilteredWords(filterData)
+      .then(wordResponse => {
+        res.status(200).json(wordResponse);
       })
       .catch(err => {
         return next(err);

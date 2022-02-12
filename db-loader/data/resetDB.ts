@@ -4,6 +4,6 @@ export const resetDB = (): Promise<void> => {
   const dbm = dBM.getInstance(true);
   return dbm
     .reset()
-    .then(() => dbm.up().catch((error: unknown) => Promise.reject(error)))
-    .catch((error: unknown) => Promise.reject(error));
+    .then(() => dbm.up().catch((err: unknown) => Promise.reject(err)))
+    .catch((err: unknown) => Promise.reject(err));
 };
