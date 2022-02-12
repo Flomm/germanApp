@@ -35,17 +35,4 @@ describe('AdminWordsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call getAllWords on initialization and make the getWordResponse equal to the response', () => {
-    //Arrange
-    const mockResponse: IGetWordResponse = { wordList: [] };
-    wordServiceSpy.getAllWords.and.returnValue(of(mockResponse));
-
-    //Act
-    fixture.detectChanges();
-
-    //Assert
-    expect(wordServiceSpy.getAllWords).toHaveBeenCalledTimes(1);
-    expect(component.getWordResponse).toEqual(mockResponse);
-  });
 });
