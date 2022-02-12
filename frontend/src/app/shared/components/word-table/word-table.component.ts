@@ -11,11 +11,13 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { Observable, Subscription } from 'rxjs';
+import AuthService from 'src/app/core/services/authService/auth.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from '../../models/enums/Gender.enum';
 import { Language } from '../../models/enums/Language.enum';
 import { TopicType } from '../../models/enums/TopicType.enum';
+import { UserRole } from '../../models/enums/UserRole.enum';
 import IInitModifyRequest from '../../models/requests/IInitModifyRequest';
 import IWordRemovalRequest from '../../models/requests/IWordRemovalRequest';
 import IFilterFormData from '../../models/viewModels/IFilterFormData.viewModel';
@@ -40,7 +42,7 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private paginator: MatPaginator;
   private currentFilter: IFilterFormData;
-  displayedColumns: string[] = ['word', 'translations', 'info', 'delete'];
+  displayedColumns: string[] = ['word', 'translations'];
   dataSourceHandler: SourceHandler;
   filteringForm: FormGroup;
   languageType = Language;
@@ -49,8 +51,11 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
   topicValues: TopicType[];
   totalElements: number;
   reloadSub: Subscription;
+  userRoleSub: Subscription;
+  userRole: UserRole;
 
   constructor(
+    private authService: AuthService,
     private wordService: WordService,
     private messageService: MessageService
   ) {}
@@ -83,6 +88,14 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadOnPaging();
       });
     }
+
+    this.userRoleSub = this.authService.userRoleObservable.subscribe((role) => {
+      this.userRole = parseInt(role);
+      if (this.userRole === UserRole.Admin) {
+        this.displayedColumns.push('info');
+        this.displayedColumns.push('delete');
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -95,7 +108,10 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.reloadSub.unsubscribe();
+    if (this.reloadSub) {
+      this.reloadSub.unsubscribe();
+    }
+    this.userRoleSub.unsubscribe();
   }
 
   createForm(): void {
