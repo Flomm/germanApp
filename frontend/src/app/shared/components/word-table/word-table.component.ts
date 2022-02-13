@@ -17,7 +17,9 @@ import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Language } from '../../models/enums/Language.enum';
 import { TopicType } from '../../models/enums/TopicType.enum';
 import { UserRole } from '../../models/enums/UserRole.enum';
+import IHasTranslatedPaginator from '../../models/interfaces/IHasTranslatedPaginator';
 import IWordRemovalRequest from '../../models/requests/IWordRemovalRequest';
+import { paginationTranslation } from '../../models/translate/paginationTranslation';
 import IFilterFormData from '../../models/viewModels/IFilterFormData.viewModel';
 import IGetWordData from '../../models/viewModels/IGetWordData.viewModel';
 import IModifyWordDialogData from '../../models/viewModels/IModifyWordDialogData.viewModel';
@@ -28,7 +30,9 @@ import { SourceHandler } from './source-handler';
   templateUrl: './word-table.component.html',
   styleUrls: ['./word-table.component.scss'],
 })
-export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WordTableComponent
+  implements OnInit, AfterViewInit, OnDestroy, IHasTranslatedPaginator
+{
   @Input() reloadTrigger: Observable<void>;
 
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
@@ -38,6 +42,7 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
+    this.translatePaginator();
   }
 
   private paginator: MatPaginator;
@@ -82,20 +87,7 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
       searchString: '',
       topics: [],
     };
-
-    if (this.reloadTrigger) {
-      this.reloadSub = this.reloadTrigger.subscribe(() => {
-        this.loadOnPaging();
-      });
-    }
-
-    this.userRoleSub = this.authService.userRoleObservable.subscribe((role) => {
-      this.userRole = parseInt(role);
-      if (this.userRole === UserRole.Admin) {
-        this.displayedColumns.push('info');
-        this.displayedColumns.push('delete');
-      }
-    });
+    this.createSubscriptions();
   }
 
   ngAfterViewInit(): void {
@@ -119,6 +111,22 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
       language: new FormControl(Language.DE, []),
       topic: new FormControl([]),
       filterText: new FormControl(''),
+    });
+  }
+
+  createSubscriptions(): void {
+    if (this.reloadTrigger) {
+      this.reloadSub = this.reloadTrigger.subscribe(() => {
+        this.loadOnPaging();
+      });
+    }
+
+    this.userRoleSub = this.authService.userRoleObservable.subscribe((role) => {
+      this.userRole = parseInt(role);
+      if (this.userRole === UserRole.Admin) {
+        this.displayedColumns.push('info');
+        this.displayedColumns.push('delete');
+      }
     });
   }
 
@@ -153,5 +161,15 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
       searchString: this.currentFilter.searchString,
       topics: this.currentFilter.topics,
     });
+  }
+
+  translatePaginator(): void {
+    if (this.paginator) {
+      this.paginator._intl.itemsPerPageLabel =
+        paginationTranslation.itemsPerPageLabel;
+      this.paginator._intl.nextPageLabel = paginationTranslation.nextPageLabel;
+      this.paginator._intl.previousPageLabel =
+        paginationTranslation.previousPageLabel;
+    }
   }
 }
