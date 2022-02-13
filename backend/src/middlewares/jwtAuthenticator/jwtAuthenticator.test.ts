@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { unauthorizedError } from '../../services/errorCreatorService/errorCreator.service';
+import { unauthorizedError } from '../../services/errorCreatorService/errorCreatorService';
 import { jwtService } from '../../services/jwtService/jwtService';
 import tokenAuthentication from './jwtAuthenticator';
 

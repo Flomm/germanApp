@@ -3,7 +3,7 @@ import { UserRole } from '../../models/models/Enums/UserRole.enum';
 import {
   forbiddenError,
   unauthorizedError,
-} from '../../services/errorCreatorService/errorCreator.service';
+} from '../../services/errorCreatorService/errorCreatorService';
 import { jwtService } from '../../services/jwtService/jwtService';
 
 export default function permitChecker(allowedRoles: UserRole[]) {

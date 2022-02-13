@@ -8,7 +8,7 @@ import { wordRepository } from '../../repository/wordRepository/wordRepository';
 import {
   notFoundError,
   serverError,
-} from '../errorCreatorService/errorCreator.service';
+} from '../errorCreatorService/errorCreatorService';
 import { wordService } from './wordService';
 
 const mockDeWords: IGetWordsDataModel[] = [

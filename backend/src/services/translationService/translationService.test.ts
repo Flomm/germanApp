@@ -2,7 +2,7 @@ import ITranslationDataModel from '../../models/models/dataModels/ITranslationDa
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
 import { translationRepository } from '../../repository/translationRepository/translationRepository';
-import { serverError } from '../errorCreatorService/errorCreator.service';
+import { serverError } from '../errorCreatorService/errorCreatorService';
 import { translationService } from './translationService';
 
 const mockTranslationList: ITranslationDataModel[] = [

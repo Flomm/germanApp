@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
+import { badRequestError } from '../../services/errorCreatorService/errorCreatorService';
 
 export const bodyValidator = (values: string[]) =>
   requestValidator(values, 'body');

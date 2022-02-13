@@ -6,7 +6,7 @@ import { Language } from '../../models/models/Enums/Language.enum';
 import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
-import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
+import { badRequestError } from '../../services/errorCreatorService/errorCreatorService';
 import { wordService } from '../../services/wordService/wordService';
 import enumArrayValueChecker from '../helpers/enumArrayValueChecker/enumArrayValueChecker.helper';
 import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';

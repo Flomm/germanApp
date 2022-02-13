@@ -5,7 +5,7 @@ import { statisticsRepository } from '../../repository/statisticsRepository/stat
 import {
   badRequestError,
   notFoundError,
-} from '../errorCreatorService/errorCreator.service';
+} from '../errorCreatorService/errorCreatorService';
 
 export const statisticsService = {
   getMyStatistics(id: string): Promise<IStatisticsDomainModel> {

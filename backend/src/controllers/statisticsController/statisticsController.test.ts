@@ -1,7 +1,7 @@
 import app from '../../app';
 import request from 'supertest';
 import IStatisticsDomainModel from '../../models/models/domainModels/IStatisticsDomainModel';
-import { serverError } from '../../services/errorCreatorService/errorCreator.service';
+import { serverError } from '../../services/errorCreatorService/errorCreatorService';
 import { statisticsService } from '../../services/statisticsService/statisticsService';
 import { jwtService } from '../../services/jwtService/jwtService';
 import { StatDataType } from '../../models/models/Enums/StatDataType.enum';

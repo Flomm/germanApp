@@ -16,7 +16,7 @@ import {
   notFoundError,
   serverError,
   unauthorizedError,
-} from '../errorCreatorService/errorCreator.service';
+} from '../errorCreatorService/errorCreatorService';
 import { hashPasswordService } from '../hashPasswordService/hashPasswordService';
 import { userService } from './userService';
 import IEmailReplacements from '../../models/IEmailReplacements';

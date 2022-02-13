@@ -3,7 +3,7 @@ import request from 'supertest';
 import { jwtService } from '../../services/jwtService/jwtService';
 import { wordService } from '../../services/wordService/wordService';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
-import { serverError } from '../../services/errorCreatorService/errorCreator.service';
+import { serverError } from '../../services/errorCreatorService/errorCreatorService';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';

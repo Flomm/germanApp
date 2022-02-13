@@ -6,7 +6,7 @@ import { Language } from '../../models/models/Enums/Language.enum';
 import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
-import { notFoundError } from '../errorCreatorService/errorCreator.service';
+import { notFoundError } from '../errorCreatorService/errorCreatorService';
 import { translationService } from '../translationService/translationService';
 
 export const wordService = {

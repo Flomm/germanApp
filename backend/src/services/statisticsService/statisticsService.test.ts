@@ -6,7 +6,7 @@ import {
   badRequestError,
   notFoundError,
   serverError,
-} from '../errorCreatorService/errorCreator.service';
+} from '../errorCreatorService/errorCreatorService';
 import { statisticsService } from './statisticsService';
 
 const mockUserId: string = '1';

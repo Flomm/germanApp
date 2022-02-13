@@ -12,7 +12,7 @@ import {
   notFoundError,
   notSatisfiableError,
   serverError,
-} from '../../services/errorCreatorService/errorCreator.service';
+} from '../../services/errorCreatorService/errorCreatorService';
 import { translationRepository } from '../translationRepository/translationRepository';
 
 export const wordRepository = {

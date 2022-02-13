@@ -7,7 +7,7 @@ import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import { translationRepository } from '../../repository/translationRepository/translationRepository';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
-import { serverError } from '../errorCreatorService/errorCreator.service';
+import { serverError } from '../errorCreatorService/errorCreatorService';
 import { gameService } from './gameService';
 
 const mockDeWords: IGetWordsDataModel[] = [

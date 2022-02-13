@@ -12,7 +12,7 @@ import ICustomResponse from '../../models/responses/ICustomResponse';
 import IPasswordRecoveryRequest from '../../models/requests/IPasswordRecoveryRequest';
 import IGetUserResponse from '../../models/responses/IGetUserResponse';
 import INewPasswordAddingRequest from '../../models/requests/INewPasswordAddingRequest';
-import { notAcceptableError } from '../../services/errorCreatorService/errorCreator.service';
+import { notAcceptableError } from '../../services/errorCreatorService/errorCreatorService';
 import IGetMyUserDataResponse from '../../models/responses/IGetMyUserDataResponse';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
 

@@ -4,7 +4,7 @@ import {
   serverError,
   unauthorizedError,
   conflictError,
-} from './errorCreator.service';
+} from './errorCreatorService';
 import IApiError from '../../models/IApiError';
 
 describe('errorCreatorService', () => {

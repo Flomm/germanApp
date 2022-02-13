@@ -5,7 +5,7 @@ import { userService } from '../../services/userService/userService';
 import { jwtService } from '../../services/jwtService/jwtService';
 import { UserRole } from '../../models/models/Enums/UserRole.enum';
 import IGetUserDataModel from '../../models/models/dataModels/IGetUserDataModel';
-import { serverError } from '../../services/errorCreatorService/errorCreator.service';
+import { serverError } from '../../services/errorCreatorService/errorCreatorService';
 import IPasswordRecoveryRequest from '../../models/requests/IPasswordRecoveryRequest';
 import IUserDomainModel from '../../models/models/domainModels/IUserDomainModel';
 import INewPasswordAddingRequest from '../../models/requests/INewPasswordAddingRequest';

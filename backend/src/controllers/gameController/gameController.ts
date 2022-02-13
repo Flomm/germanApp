@@ -4,7 +4,7 @@ import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
-import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
+import { badRequestError } from '../../services/errorCreatorService/errorCreatorService';
 import { gameService } from '../../services/gameService/gameService';
 import enumArrayValueChecker from '../helpers/enumArrayValueChecker/enumArrayValueChecker.helper';
 import enumValueChecker from '../helpers/enumValueChecker/enumValueChecker.helper';
