@@ -332,3 +332,136 @@ describe('PUT /word', () => {
     );
   });
 });
+
+describe('POST /filter', () => {
+  test('succesfully retrieved filtered german words', async () => {
+    //Arrange
+    wordService.getFilteredWords = jest
+      .fn()
+      .mockResolvedValue({ wordList: mockHunWords, totalElements: 10 });
+    jwtService.verifyToken = jest.fn().mockResolvedValue(true);
+
+    //Act
+    const response = await request(app)
+      .post('/api/word/filter/de?pageNumber=1&pageSize=10')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1] });
+
+    //Assert
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({
+      wordList: mockHunWords,
+      totalElements: 10,
+    });
+    expect(wordService.getFilteredWords).toHaveBeenCalledTimes(1);
+  });
+
+  test('succesfully retrieved filtered hungarian words', async () => {
+    //Arrange
+    wordService.getFilteredWords = jest
+      .fn()
+      .mockResolvedValue({ wordList: mockHunWords, totalElements: 10 });
+    jwtService.verifyToken = jest.fn().mockResolvedValue(true);
+
+    //Act
+    const response = await request(app)
+      .post('/api/word/filter/hu?pageNumber=1&pageSize=10')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1] });
+
+    //Assert
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({
+      wordList: mockHunWords,
+      totalElements: 10,
+    });
+    expect(wordService.getFilteredWords).toHaveBeenCalledTimes(1);
+  });
+
+  test('invalid language', async () => {
+    //Arrange
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .post('/api/word/filter/test?pageNumber=1&pageSize=10')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1] });
+
+    //Assert
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      message: 'Nincs ilyen nyelv a szótárban.',
+    });
+  });
+
+  test('invalid pageNumber', async () => {
+    //Arrange
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .post('/api/word/filter/de?pageNumber=0&pageSize=10')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1] });
+
+    //Assert
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      message: 'Érvénytelen oldalszám.',
+    });
+  });
+
+  test('invalid pageSize', async () => {
+    //Arrange
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .post('/api/word/filter/de/?pageNumber=10&pageSize=test')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1] });
+
+    //Assert
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      message: 'Érvénytelen oldalhossz.',
+    });
+  });
+
+  test('invalid topic', async () => {
+    //Arrange
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .post('/api/word/filter/de/?pageNumber=10&pageSize=test')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1, 122] });
+
+    //Assert
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      message: 'Érvénytelen téma azonosító.',
+    });
+  });
+
+  test('error in the service', async () => {
+    //Arrange
+    wordService.getFilteredWords = jest
+      .fn()
+      .mockRejectedValue(serverError('test'));
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .post('/api/word/filter/de/?pageNumber=10&pageSize=1')
+      .set({ authorization: `Bearer ${token}` })
+      .send({ topics: [1] });
+
+    //Assert
+    expect(response.statusCode).toEqual(500);
+    expect(response.body).toEqual({ message: 'test' });
+    expect(wordService.getFilteredWords).toHaveBeenCalledTimes(1);
+  });
+});
