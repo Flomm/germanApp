@@ -22,6 +22,8 @@ import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerRe
   styleUrls: ['./play-card.component.scss'],
 })
 export class PlayCardComponent implements OnInit, OnChanges {
+  @ViewChild('nextButton') nextButtonElement: MatButton;
+
   @Input() actualWord: IGetWordData;
   @Input() language: Language;
   @Input() checkResponse: ICheckAnswerResponse;
@@ -32,7 +34,6 @@ export class PlayCardComponent implements OnInit, OnChanges {
     IAnswer[]
   >();
 
-  @ViewChild('nextButton') nextButtonElement: MatButton;
   wordForm: FormGroup;
   languageType = Language;
   genderType = Gender;
