@@ -6,20 +6,17 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
 import { Observable, Subscription } from 'rxjs';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
+import { AbstractComponentWithPaginator } from '../../directives/abstract-component-with-paginator.directive';
 import { Language } from '../../models/enums/Language.enum';
 import { TopicType } from '../../models/enums/TopicType.enum';
 import { UserRole } from '../../models/enums/UserRole.enum';
-import IHasTranslatedPaginator from '../../models/interfaces/IHasTranslatedPaginator';
 import IWordRemovalRequest from '../../models/requests/IWordRemovalRequest';
-import { paginationTranslation } from '../../models/translate/paginationTranslation';
 import IFilterFormData from '../../models/viewModels/IFilterFormData.viewModel';
 import IGetWordData from '../../models/viewModels/IGetWordData.viewModel';
 import IModifyWordDialogData from '../../models/viewModels/IModifyWordDialogData.viewModel';
@@ -31,7 +28,8 @@ import { SourceHandler } from './source-handler';
   styleUrls: ['./word-table.component.scss'],
 })
 export class WordTableComponent
-  implements OnInit, AfterViewInit, OnDestroy, IHasTranslatedPaginator
+  extends AbstractComponentWithPaginator
+  implements OnInit, AfterViewInit, OnDestroy
 {
   @Input() reloadTrigger: Observable<void>;
 
@@ -40,12 +38,6 @@ export class WordTableComponent
   @Output() wordModify: EventEmitter<IModifyWordDialogData> =
     new EventEmitter<IModifyWordDialogData>();
 
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.translatePaginator();
-  }
-
-  private paginator: MatPaginator;
   private currentFilter: IFilterFormData;
   displayedColumns: string[] = ['word', 'translations'];
   dataSourceHandler: SourceHandler;
@@ -63,7 +55,9 @@ export class WordTableComponent
     private authService: AuthService,
     private wordService: WordService,
     private messageService: MessageService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.dataSourceHandler = new SourceHandler(
@@ -161,15 +155,5 @@ export class WordTableComponent
       searchString: this.currentFilter.searchString,
       topics: this.currentFilter.topics,
     });
-  }
-
-  translatePaginator(): void {
-    if (this.paginator) {
-      this.paginator._intl.itemsPerPageLabel =
-        paginationTranslation.itemsPerPageLabel;
-      this.paginator._intl.nextPageLabel = paginationTranslation.nextPageLabel;
-      this.paginator._intl.previousPageLabel =
-        paginationTranslation.previousPageLabel;
-    }
   }
 }
