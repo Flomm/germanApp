@@ -14,13 +14,13 @@ import { Observable, Subscription } from 'rxjs';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
-import { Gender } from '../../models/enums/Gender.enum';
 import { Language } from '../../models/enums/Language.enum';
 import { TopicType } from '../../models/enums/TopicType.enum';
 import { UserRole } from '../../models/enums/UserRole.enum';
-import IInitModifyRequest from '../../models/requests/IInitModifyRequest';
 import IWordRemovalRequest from '../../models/requests/IWordRemovalRequest';
 import IFilterFormData from '../../models/viewModels/IFilterFormData.viewModel';
+import IGetWordData from '../../models/viewModels/IGetWordData.viewModel';
+import IModifyWordDialogData from '../../models/viewModels/IModifyWordDialogData.viewModel';
 import { SourceHandler } from './source-handler';
 
 @Component({
@@ -33,8 +33,8 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Output() wordRemoval: EventEmitter<IWordRemovalRequest> =
     new EventEmitter<IWordRemovalRequest>();
-  @Output() wordModify: EventEmitter<IInitModifyRequest> =
-    new EventEmitter<IInitModifyRequest>();
+  @Output() wordModify: EventEmitter<IModifyWordDialogData> =
+    new EventEmitter<IModifyWordDialogData>();
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
@@ -126,17 +126,9 @@ export class WordTableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.wordRemoval.emit({ language: this.currentLanguage, wordId });
   }
 
-  submitModify(
-    word: string,
-    wordId: number,
-    topic: TopicType,
-    gender?: Gender
-  ): void {
+  submitModify(wordData: IGetWordData): void {
     this.wordModify.emit({
-      word,
-      wordId,
-      topic,
-      gender,
+      wordData,
       language: this.currentLanguage,
     });
   }

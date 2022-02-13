@@ -31,12 +31,12 @@ export class AdminModifyWordComponent implements OnInit {
   }
 
   createForm(): void {
-    this.currentLanguage = this.modifyWordData.initRequest.language;
+    this.currentLanguage = this.modifyWordData.language;
     this.modifyWordForm = new FormGroup({
-      topic: new FormControl(this.modifyWordData.initRequest.topic, [
+      topic: new FormControl(this.modifyWordData.wordData.topic, [
         Validators.required,
       ]),
-      word: new FormControl(this.modifyWordData.initRequest.word, [
+      word: new FormControl(this.modifyWordData.wordData.word, [
         Validators.required,
       ]),
       translations: new FormArray([]),
@@ -44,10 +44,12 @@ export class AdminModifyWordComponent implements OnInit {
     if (this.currentLanguage === Language.DE) {
       this.modifyWordForm.addControl(
         'gender',
-        new FormControl(this.modifyWordData.initRequest.gender || '')
+        new FormControl(this.modifyWordData.wordData.gender || '')
       );
     }
-    this.createFormArrayFromTranslations(this.modifyWordData.translationList);
+    this.createFormArrayFromTranslations(
+      this.modifyWordData.wordData.translations
+    );
   }
 
   createFormArrayFromTranslations(

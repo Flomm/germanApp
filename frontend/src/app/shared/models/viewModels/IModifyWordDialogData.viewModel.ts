@@ -1,7 +1,7 @@
-import IInitModifyRequest from '../requests/IInitModifyRequest';
-import ITranslationDataModel from '../requests/ITranslationDataModel';
+import { Language } from '../enums/Language.enum';
+import IGetWordData from './IGetWordData.viewModel';
 
 export default interface IModifyWordDialogData {
-  initRequest: IInitModifyRequest;
-  translationList: ITranslationDataModel[];
+  language: Language;
+  wordData: IGetWordData;
 }
