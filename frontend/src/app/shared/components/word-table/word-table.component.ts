@@ -91,8 +91,8 @@ export class WordTableComponent
   }
 
   ngAfterViewInit(): void {
-    this.dataSourceHandler.loadWordList(this.currentFilter);
-    this.paginator.page.subscribe({
+    this.dataSourceHandler?.loadWordList(this.currentFilter);
+    this.paginator?.page.subscribe({
       next: () => {
         this.loadOnPaging();
       },
