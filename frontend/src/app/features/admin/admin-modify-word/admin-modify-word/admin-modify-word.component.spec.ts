@@ -19,13 +19,12 @@ describe('AdminModifyWordComponent', () => {
     fixture = TestBed.createComponent(AdminModifyWordComponent);
     component = fixture.componentInstance;
     component.modifyWordData = {
-      initRequest: {
+      wordData: {
         word: 'test',
-        wordId: 1,
-        language: Language.DE,
+        id: 1,
         topic: TopicType.FAMILY,
       },
-      translationList: [],
+      language: Language.DE,
     };
     fixture.detectChanges();
   });

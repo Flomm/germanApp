@@ -11,7 +11,6 @@ export class EnumService {
   }
 
   translateUserType(value: number | string): string {
-    console.warn(value);
     return UserRoleTranslation[value] || 'N/A';
   }
 }
