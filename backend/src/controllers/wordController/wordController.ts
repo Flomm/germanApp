@@ -56,7 +56,7 @@ export const wordController = {
 
     const pageSize: number = parseInt(req.query.pageSize as string);
     if (isNaN(pageSize) || pageSize < 1 || pageSize > 50) {
-      return next(badRequestError('Érvénytelen oldalszám.'));
+      return next(badRequestError('Érvénytelen oldalhossz.'));
     }
     const filterData: IFilterFormDataModel = {
       language,
