@@ -4,11 +4,13 @@ import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataMode
 import { Gender } from '../../models/models/Enums/Gender.enum';
 import { Language } from '../../models/models/Enums/Language.enum';
 import { TopicType } from '../../models/models/Enums/TopicType.enum';
+import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
 import {
   notFoundError,
   serverError,
 } from '../errorCreatorService/errorCreatorService';
+import { translationService } from '../translationService/translationService';
 import { wordService } from './wordService';
 
 const mockDeWords: IGetWordsDataModel[] = [
@@ -267,6 +269,95 @@ describe('modifyWord', () => {
         mockDeWord,
         1,
       );
+    }
+  });
+});
+
+describe('getFilteredWords', () => {
+  test('successfully retrieved german words', async () => {
+    //Arrange
+    wordRepository.getFilteredWords = jest.fn().mockResolvedValue(mockDeWords);
+    wordRepository.getTotalElementsForFilter = jest
+      .fn()
+      .mockResolvedValue({ 'COUNT(*)': 10 });
+    translationService.getTranslationsByWordId = jest
+      .fn()
+      .mockResolvedValue([{ translation: 'test' }]);
+
+    //Act
+    const filterResponse: IGetWordsResponse =
+      await wordService.getFilteredWords({
+        language: mockLanguage,
+        pageSize: 10,
+        pageNumber: 1,
+      });
+
+    //Assert
+    expect(filterResponse).toStrictEqual({
+      totalElements: 10,
+      wordList: [
+        { ...mockDeWords[0], translations: [{ translation: 'test' }] },
+      ],
+    });
+    expect(wordRepository.getFilteredWords).toHaveBeenCalledTimes(1);
+    expect(wordRepository.getTotalElementsForFilter).toHaveBeenCalledTimes(1);
+    expect(translationService.getTranslationsByWordId).toHaveBeenCalledTimes(
+      mockDeWords.length,
+    );
+  });
+
+  test('successfully retrieved hungarian words', async () => {
+    //Arrange
+    wordRepository.getFilteredWords = jest.fn().mockResolvedValue(mockHunWords);
+    wordRepository.getTotalElementsForFilter = jest
+      .fn()
+      .mockResolvedValue({ 'COUNT(*)': 10 });
+    translationService.getTranslationsByWordId = jest
+      .fn()
+      .mockResolvedValue([{ translation: 'test' }]);
+
+    //Act
+    const filterResponse: IGetWordsResponse =
+      await wordService.getFilteredWords({
+        language: Language.HU,
+        pageSize: 10,
+        pageNumber: 1,
+      });
+
+    //Assert
+    expect(filterResponse).toStrictEqual({
+      totalElements: 10,
+      wordList: [
+        {
+          ...mockHunWords[0],
+          translations: [{ translation: 'test' }],
+        },
+      ],
+    });
+    expect(wordRepository.getFilteredWords).toHaveBeenCalledTimes(1);
+    expect(wordRepository.getTotalElementsForFilter).toHaveBeenCalledTimes(1);
+    expect(translationService.getTranslationsByWordId).toHaveBeenCalledTimes(
+      mockHunWords.length,
+    );
+  });
+
+  test('repository error', async () => {
+    //Arrange
+    wordRepository.getFilteredWords = jest
+      .fn()
+      .mockRejectedValue(serverError('test'));
+
+    //Act
+    try {
+      await wordRepository.getFilteredWords({
+        language: Language.HU,
+        pageSize: 10,
+        pageNumber: 1,
+      });
+    } catch (err) {
+      //Assert
+      expect(err).toEqual(serverError('test'));
+      expect(wordRepository.getFilteredWords).toHaveBeenCalledTimes(1);
     }
   });
 });
