@@ -4,8 +4,8 @@ import { Language } from '../../models/models/Enums/Language.enum';
 import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
-import { translationRepository } from '../../repository/translationRepository/translationRepository';
-import { wordRepository } from '../../repository/wordRepository/wordRepository';
+import { translationService } from '../translationService/translationService';
+import { wordService } from '../wordService/wordService';
 
 export const gameService = {
   getRandomWords(
@@ -13,7 +13,7 @@ export const gameService = {
     quantity: number,
     topics: TopicType[],
   ): Promise<IGetWordsDataModel[]> {
-    return wordRepository
+    return wordService
       .getRandomWords(lang, quantity, topics)
       .then(res => {
         return res.map(word => {
@@ -37,7 +37,7 @@ export const gameService = {
   ): Promise<ICheckAnswerResponse> {
     try {
       const translationsWithNull: ITranslationDataModel[] =
-        await translationRepository.getTranslationsByWordId(
+        await translationService.getTranslationsByWordId(
           lang,
           checkRequest.wordId,
         );

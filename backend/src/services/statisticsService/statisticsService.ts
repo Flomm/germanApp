@@ -1,3 +1,4 @@
+import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import IStatisticsDomainModel from '../../models/models/domainModels/IStatisticsDomainModel';
 import { StatDataType } from '../../models/models/Enums/StatDataType.enum';
 import { statisticsRepository } from '../../repository/statisticsRepository/statisticsRepository';
@@ -16,6 +17,12 @@ export const statisticsService = {
         }
         return statData;
       })
+      .catch(err => Promise.reject(err));
+  },
+
+  createNewStatistics(userId: string): Promise<IDbResultDataModel> {
+    return statisticsRepository
+      .createNewStatistics(userId)
       .catch(err => Promise.reject(err));
   },
 

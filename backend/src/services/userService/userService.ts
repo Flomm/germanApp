@@ -21,7 +21,7 @@ import IUpdatePasswordDataModel from '../../models/models/dataModels/IUpdatePass
 import IEmailReplacements from '../../models/IEmailReplacements';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
-import { statisticsRepository } from '../../repository/statisticsRepository/statisticsRepository';
+import { statisticsService } from '../statisticsService/statisticsService';
 
 const templatePath: string = '../../models/templates/email-template.html';
 
@@ -94,7 +94,7 @@ export const userService = {
       })
       .then(result => {
         if (result && result.affectedRows > 0) {
-          return statisticsRepository
+          return statisticsService
             .createNewStatistics(userId.toString())
             .then(_ => {
               return;

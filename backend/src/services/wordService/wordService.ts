@@ -3,14 +3,25 @@ import IFilterFormDataModel from '../../models/models/dataModels/IFilterFormData
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
+import { TopicType } from '../../models/models/Enums/TopicType.enum';
 import IGetWordsResponse from '../../models/responses/IGetWordsResponse';
-import { translationRepository } from '../../repository/translationRepository/translationRepository';
 import { wordRepository } from '../../repository/wordRepository/wordRepository';
 import { notFoundError } from '../errorCreatorService/errorCreator.service';
+import { translationService } from '../translationService/translationService';
 
 export const wordService = {
   getAllWords(lang: Language): Promise<IGetWordsDataModel[]> {
     return wordRepository.getAllWords(lang).catch(err => Promise.reject(err));
+  },
+
+  getRandomWords(
+    lang: Language,
+    quantity: number,
+    topics: TopicType[],
+  ): Promise<IGetWordsDataModel[]> {
+    return wordRepository
+      .getRandomWords(lang, quantity, topics)
+      .catch(err => Promise.reject(err));
   },
 
   async getFilteredWords(
@@ -22,7 +33,7 @@ export const wordService = {
       const filteredWithTranslations: IGetWordsDataModel[] = await Promise.all(
         filteredWords.map(async word => {
           let translations: ITranslationDataModel[] =
-            await translationRepository.getTranslationsByWordId(
+            await translationService.getTranslationsByWordId(
               filterData.language,
               word.id,
             );
