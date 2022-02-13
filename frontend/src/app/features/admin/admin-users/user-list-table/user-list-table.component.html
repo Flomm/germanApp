@@ -22,7 +22,7 @@
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef>Típus</th>
         <td mat-cell *matCellDef="let user">
-          {{ userRoleEnum[user.roleId] }}
+          {{ userRoleEnum[user.roleId] | translation: "UserType" }}
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
