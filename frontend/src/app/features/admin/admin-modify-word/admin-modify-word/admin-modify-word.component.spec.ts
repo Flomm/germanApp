@@ -23,6 +23,7 @@ describe('AdminModifyWordComponent', () => {
         word: 'test',
         id: 1,
         topic: TopicType.FAMILY,
+        translations: [],
       },
       language: Language.DE,
     };
