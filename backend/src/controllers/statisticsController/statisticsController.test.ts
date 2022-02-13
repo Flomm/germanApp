@@ -3,7 +3,7 @@ import request from 'supertest';
 import IStatisticsDomainModel from '../../models/models/domainModels/IStatisticsDomainModel';
 import { serverError } from '../../services/errorCreatorService/errorCreator.service';
 import { statisticsService } from '../../services/statisticsService/statisticsService';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 import { StatDataType } from '../../models/models/Enums/StatDataType.enum';
 import IIncrementStatDataRequest from '../../models/requests/IIncrementStatDataRequest';
 

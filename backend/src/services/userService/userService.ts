@@ -6,8 +6,8 @@ import IPasswordRecoveryDataModel from '../../models/models/dataModels/IPassword
 import IRegisterUserDataModel from '../../models/models/dataModels/IRegisterUserDataModel';
 import IUserDomainModel from '../../models/models/domainModels/IUserDomainModel';
 import { userRepository } from '../../repository/userRepository/userRepository';
-import { codeGeneratorService } from '../codeGeneratorService/codeGenerator.service';
-import { emailService } from '../emailService/email.service';
+import { codeGeneratorService } from '../codeGeneratorService/codeGeneratorService';
+import { emailService } from '../emailService/emailService';
 import {
   badRequestError,
   conflictError,
@@ -16,7 +16,7 @@ import {
   serverError,
   unauthorizedError,
 } from '../errorCreatorService/errorCreator.service';
-import { hashPasswordService } from '../hashPasswordService/hashPassword.service';
+import { hashPasswordService } from '../hashPasswordService/hashPasswordService';
 import IUpdatePasswordDataModel from '../../models/models/dataModels/IUpdatePasswordDataModel';
 import IEmailReplacements from '../../models/IEmailReplacements';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';

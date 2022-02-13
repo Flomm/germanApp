@@ -5,7 +5,7 @@ import IUserRegistrationResponse from '../../models/responses/IUserRegistrationR
 import IUserLoginRequest from '../../models/requests/IUserLoginRequest';
 import IUserLoginResponse from '../../models/responses/IUserLoginResponse';
 import IUserVerificationResponse from '../../models/responses/IUserVerificationResponse';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 import { userService } from '../../services/userService/userService';
 import IRegisterUserDataModel from '../../models/models/dataModels/IRegisterUserDataModel';
 import ICustomResponse from '../../models/responses/ICustomResponse';

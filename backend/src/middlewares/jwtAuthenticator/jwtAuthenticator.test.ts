@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { unauthorizedError } from '../../services/errorCreatorService/errorCreator.service';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 import tokenAuthentication from './jwtAuthenticator';
 
 describe('tokenAuthentication', () => {

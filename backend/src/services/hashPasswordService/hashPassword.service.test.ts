@@ -1,4 +1,4 @@
-import { hashPasswordService } from './hashPassword.service';
+import { hashPasswordService } from './hashPasswordService';
 
 const exampleHash: string =
   '$2a$08$BCCUs4xjZTZFPwb8HCRmn.wYhbLldLqVQV/ZBVkJkRGg7xlPZEtoa';

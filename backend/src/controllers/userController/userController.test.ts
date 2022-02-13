@@ -2,7 +2,7 @@ import app from '../../app';
 import request from 'supertest';
 import IUserLoginRequest from '../../models/requests/IUserLoginRequest';
 import { userService } from '../../services/userService/userService';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 import { UserRole } from '../../models/models/Enums/UserRole.enum';
 import IGetUserDataModel from '../../models/models/dataModels/IGetUserDataModel';
 import { serverError } from '../../services/errorCreatorService/errorCreator.service';

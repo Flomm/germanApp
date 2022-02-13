@@ -1,6 +1,6 @@
 import app from './app';
 import { db } from './data/connection';
-import { emailService } from './services/emailService/email.service';
+import { emailService } from './services/emailService/emailService';
 
 const PORT = process.env.PORT || 3000;
 

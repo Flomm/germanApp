@@ -1,4 +1,4 @@
-import { jwtService } from './jwt.service';
+import { jwtService } from './jwtService';
 import { Request } from 'express';
 import { UserRole } from '../../models/models/Enums/UserRole.enum';
 

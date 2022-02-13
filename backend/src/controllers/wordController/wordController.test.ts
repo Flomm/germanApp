@@ -1,6 +1,6 @@
 import app from '../../app';
 import request from 'supertest';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 import { wordService } from '../../services/wordService/wordService';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import { serverError } from '../../services/errorCreatorService/errorCreator.service';

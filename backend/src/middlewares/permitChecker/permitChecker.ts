@@ -4,7 +4,7 @@ import {
   forbiddenError,
   unauthorizedError,
 } from '../../services/errorCreatorService/errorCreator.service';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 
 export default function permitChecker(allowedRoles: UserRole[]) {
   return (req: Request, res: Response, next: NextFunction) => {

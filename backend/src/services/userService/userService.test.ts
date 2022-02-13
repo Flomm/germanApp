@@ -9,15 +9,15 @@ import { UserRole } from '../../models/models/Enums/UserRole.enum';
 import INewPasswordAddingRequest from '../../models/requests/INewPasswordAddingRequest';
 import IPasswordRecoveryRequest from '../../models/requests/IPasswordRecoveryRequest';
 import { userRepository } from '../../repository/userRepository/userRepository';
-import { codeGeneratorService } from '../codeGeneratorService/codeGenerator.service';
-import { emailService } from '../emailService/email.service';
+import { codeGeneratorService } from '../codeGeneratorService/codeGeneratorService';
+import { emailService } from '../emailService/emailService';
 import {
   forbiddenError,
   notFoundError,
   serverError,
   unauthorizedError,
 } from '../errorCreatorService/errorCreator.service';
-import { hashPasswordService } from '../hashPasswordService/hashPassword.service';
+import { hashPasswordService } from '../hashPasswordService/hashPasswordService';
 import { userService } from './userService';
 import IEmailReplacements from '../../models/IEmailReplacements';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';

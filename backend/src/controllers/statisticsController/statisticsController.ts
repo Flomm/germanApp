@@ -3,7 +3,7 @@ import { StatDataType } from '../../models/models/Enums/StatDataType.enum';
 import ICustomResponse from '../../models/responses/ICustomResponse';
 import IGetStatisticsResponse from '../../models/responses/IGetStatisticsResponse';
 import { badRequestError } from '../../services/errorCreatorService/errorCreator.service';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 import { statisticsService } from '../../services/statisticsService/statisticsService';
 
 export const statisticsController = {

@@ -2,7 +2,7 @@ import app from '../../app';
 import request from 'supertest';
 import IGetWordsDataModel from '../../models/models/dataModels/IGetWordsDataModel';
 import { gameService } from '../../services/gameService/gameService';
-import { jwtService } from '../../services/jwtService/jwt.service';
+import { jwtService } from '../../services/jwtService/jwtService';
 import { serverError } from '../../services/errorCreatorService/errorCreator.service';
 import ICheckAnswerResponse from '../../models/responses/ICheckAnswerResponse';
 import ICheckAnswerRequest from '../../models/requests/ICheckAnswerRequest';
