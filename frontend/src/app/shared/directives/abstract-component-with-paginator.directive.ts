@@ -1,6 +1,5 @@
 import { Directive, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { paginationTranslation } from '../models/translate/paginationTranslation';
 
 @Directive()
 export class AbstractComponentWithPaginator {
@@ -13,11 +12,9 @@ export class AbstractComponentWithPaginator {
 
   translatePaginator(): void {
     if (this.paginator) {
-      this.paginator._intl.itemsPerPageLabel =
-        paginationTranslation.itemsPerPageLabel;
-      this.paginator._intl.nextPageLabel = paginationTranslation.nextPageLabel;
-      this.paginator._intl.previousPageLabel =
-        paginationTranslation.previousPageLabel;
+      this.paginator._intl.itemsPerPageLabel = 'Darabszám';
+      this.paginator._intl.nextPageLabel = 'Következő';
+      this.paginator._intl.previousPageLabel = 'Előző';
     }
   }
 }

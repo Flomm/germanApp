@@ -137,6 +137,7 @@ export class WordTableComponent
 
   submitSearch(): void {
     this.currentLanguage = this.filteringForm.get('language').value;
+    this.paginator.pageIndex = 0;
     this.currentFilter = {
       language: this.currentLanguage,
       pageNumber: 1,

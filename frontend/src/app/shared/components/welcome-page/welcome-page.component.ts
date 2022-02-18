@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import { UserRole } from '../../models/enums/UserRole.enum';
 
