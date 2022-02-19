@@ -1,25 +1,3 @@
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.align-left-row {
-  justify-self: start;
-}
-
-.align-left-column {
-  align-self: flex-start;
-}
-
-.flex-between {
-  justify-content: space-between;
-}
-
 .text-center {
   text-align: center;
 }
@@ -28,96 +6,8 @@
   text-align: left;
 }
 
-.default-anchor {
-  text-align: center;
-  text-decoration: none;
-  color: $mainPurple;
-  font-weight: bold;
-
-  &:hover {
-    filter: brightness(80%);
-  }
-}
-
-.default-form {
-  .mat-form-field {
-    .mat-input-element::placeholder,
-    mat-label {
-      color: $mainPurple;
-    }
-
-    mat-error {
-      display: none;
-
-      &:first-child {
-        display: block;
-      }
-    }
-    ::-webkit-calendar-picker-indicator {
-      filter: $purpleIconFilter;
-      cursor: pointer;
-    }
-    .mat-form-field-outline-thick {
-      opacity: 1 !important;
-      color: $mainPurple;
-    }
-
-    &.disabled-form-field {
-      .mat-input-element::placeholder,
-      mat-label,
-      .mat-input-element,
-      .mat-form-field-outline-thick {
-        color: $disabled !important;
-      }
-    }
-  }
-
-  .mat-raised-button.mat-button-disabled {
-    background-color: $disabled;
-    color: $black;
-  }
-}
-
-.inverse-form {
-  background-color: $mainPurple;
-  color: $black;
-
-  .mat-form-field {
-    .mat-input-element::placeholder,
-    mat-label {
-      color: $black;
-    }
-
-    mat-error {
-      display: none;
-
-      &:first-child {
-        display: block;
-      }
-    }
-    ::-webkit-calendar-picker-indicator {
-      filter: black;
-      cursor: pointer;
-    }
-    .mat-form-field-outline-thick {
-      opacity: 1 !important;
-      color: $black;
-    }
-
-    &.disabled-form-field {
-      .mat-input-element::placeholder,
-      mat-label,
-      .mat-input-element,
-      .mat-form-field-outline-thick {
-        color: $disabledInverse !important;
-      }
-    }
-  }
-
-  .mat-raised-button.mat-button-disabled {
-    background-color: $disabledInverse;
-    color: $black;
-  }
+.text-right {
+  text-align: right;
 }
 
 .warn {
@@ -129,7 +19,7 @@
 }
 
 .primary {
-  color: $mainPurple;
+  color: $mainPurple !important;
 }
 
 .mat-primary-color {
@@ -145,125 +35,7 @@
 }
 
 .black {
-  color: $black;
-}
-
-.default-table {
-  width: 100%;
-  border: 1px solid $mainPurple;
-  * {
-    color: $mainPurple;
-    background-color: $black;
-    text-align: center;
-  }
-
-  .mat-header-cell {
-    font-weight: bolder;
-    font-size: larger;
-    text-align: center;
-    color: $black;
-    background-color: $mainPurple;
-  }
-
-  .mat-cell {
-    border: 1px solid $mainPurple;
-    border-top: none;
-  }
-}
-
-.default-select {
-  color: $mainPurple;
-  background-color: $black;
-  border: 1px solid $mainPurple;
-
-  scrollbar-color: $black $mainPurple;
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $black;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: $mainPurple;
-    border: 3px $black;
-  }
-
-  .mat-pseudo-checkbox {
-    color: $mainPurple;
-  }
-
-  .mat-option {
-    .mat-option-text {
-      color: $mainPurple;
-    }
-
-    &.mat-selected {
-      color: $mainPurple;
-
-      &:hover {
-        background-color: $mainPurple;
-        color: $black;
-      }
-    }
-
-    &:hover {
-      background-color: $mainPurple;
-      .mat-option-text {
-        color: $black;
-      }
-      .mat-pseudo-checkbox {
-        color: $black;
-      }
-    }
-  }
-}
-
-.default-backdrop {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.default-panel {
-  background-color: $mainPurple;
-}
-
-.black-panel {
-  background-color: $black;
-  border: 1px solid $mainPurple;
-
-  .mat-expansion-panel-header-title {
-    color: $mainPurple;
-  }
-
-  .mat-expansion-indicator::after {
-    color: $mainPurple;
-  }
-
-  input {
-    color: $mainPurple;
-  }
-}
-
-.panel-with-form {
-  width: 80vw;
-}
-
-.default-checkbox {
-  .mat-checkbox-frame {
-    border-color: $mainPurple;
-  }
-}
-
-.default-list {
-  columns: 5;
-  list-style: circle inside;
-}
-
-.text-right {
-  text-align: right;
+  color: $black !important;
 }
 
 .triple-field-holder {
