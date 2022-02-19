@@ -92,3 +92,9 @@ app-checkbox-select-all {
     flex-direction: column;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .foldable {
+    flex-direction: column;
+  }
+}
