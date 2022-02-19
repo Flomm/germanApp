@@ -52,6 +52,21 @@ app-checkbox-select-all {
   }
 }
 
+.main-with-img {
+  flex-direction: column;
+  height: $heightForCentering;
+
+  * {
+    margin-bottom: $smallGap;
+    user-select: none;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 40vh;
+  }
+}
+
 .info-div {
   width: 50vw;
 
@@ -66,6 +81,10 @@ app-checkbox-select-all {
 
 .no-margin-bottom {
   margin-bottom: 0 !important;
+}
+
+.filtered-img {
+  filter: $purpleIconFilter;
 }
 
 @media only screen and (max-width: 750px) {
