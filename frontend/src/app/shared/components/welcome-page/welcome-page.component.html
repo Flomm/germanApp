@@ -1,18 +1,20 @@
 <ng-container *ngIf="userRoleObs | async">
   <main
-    class="flex-center"
+    class="flex-center main-with-img"
     *ngIf="(userRoleObs | async) === userRolesList.Admin.toString()"
   >
     <h1>Üdv az adminisztrációs felületen!</h1>
-    <h2>A fenti menü segítségével végezheted a szókészlet karbantartását!</h2>
+    <h2 class="text-center">
+      A fenti menü segítségével végezheted a szókészlet karbantartását!
+    </h2>
     <img src="../../../../../../assets/logo.png" />
   </main>
   <main
-    class="flex-center"
+    class="flex-center main-with-img"
     *ngIf="(userRoleObs | async) === userRolesList.Consumer.toString()"
   >
     <h1>Üdv a felhasználói felületen!</h1>
-    <h2>
+    <h2 class="text-center">
       A fenti menü segítségével belekezdhetsz a gyakorlásba, vagy metekinteheted
       eredményeidet!
     </h2>

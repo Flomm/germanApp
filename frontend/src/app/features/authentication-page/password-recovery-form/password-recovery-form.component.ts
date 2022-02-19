@@ -6,7 +6,6 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
 @Component({
   selector: 'app-password-recovery-form',
   templateUrl: './password-recovery-form.component.html',
-  styleUrls: ['./password-recovery-form.component.scss'],
 })
 export class PasswordRecoveryFormComponent implements OnInit {
   passwordRecoveryForm: FormGroup;

@@ -14,7 +14,6 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
 @Component({
   selector: 'app-new-password-form',
   templateUrl: './new-password-form.component.html',
-  styleUrls: ['./new-password-form.component.scss'],
 })
 export class NewPasswordFormComponent implements OnInit {
   newPasswordForm: FormGroup;

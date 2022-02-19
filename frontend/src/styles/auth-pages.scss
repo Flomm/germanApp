@@ -1,6 +1,6 @@
-@import "../../../../styles/variables.scss";
+@import "./variables.scss";
 
-.form-holder {
+.auth-form-holder {
   border-radius: 5px;
   width: 80%;
   flex-direction: column;
@@ -23,7 +23,7 @@
     }
 
     button {
-      margin: 15px 0px 30px 0px;
+      margin: 5px 0px 5px 0px;
     }
   }
 
@@ -38,13 +38,19 @@
       }
 
       button {
-        margin: 5px 0px 15px 0px;
+        margin: 5px 0px 5px 0px;
       }
     }
   }
 
   .response-holder {
-    margin-bottom: 80px;
+    margin-bottom: 40px;
     height: 75px;
   }
+}
+
+.email-main {
+  flex-direction: column;
+  height: $heightForCentering;
+  padding: 0px 0px 70px 0px;
 }
