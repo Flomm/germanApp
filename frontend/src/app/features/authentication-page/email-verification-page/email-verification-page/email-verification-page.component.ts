@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
@@ -7,7 +7,6 @@ import { ICustomResponse } from '../../../../shared/models/responses/ICustomResp
 @Component({
   selector: 'app-email-verification-page',
   templateUrl: './email-verification-page.component.html',
-  styleUrls: ['./email-verification-page.component.scss'],
 })
 export class EmailVerificationPageComponent implements OnInit {
   verificationResponse: ICustomResponse;
