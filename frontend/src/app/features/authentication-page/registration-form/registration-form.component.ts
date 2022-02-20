@@ -17,16 +17,14 @@ import { Input } from '@angular/core';
   styleUrls: ['./registration-form.component.scss'],
 })
 export class RegistrationFormComponent implements OnInit {
-  registrationForm: FormGroup;
-  isPasswordVisible: boolean = false;
-
-  constructor() {}
-
   @Input()
   registrationResponse: ICustomResponse;
 
   @Output()
   registrationRequest: EventEmitter<IRegistrationRequest> = new EventEmitter<IRegistrationRequest>();
+
+  registrationForm: FormGroup;
+  isPasswordVisible = false;
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup(
@@ -69,7 +67,7 @@ export class RegistrationFormComponent implements OnInit {
         };
       } else if (
         confirmedPassword.errors &&
-        !confirmedPassword.errors['mismatch']
+        !confirmedPassword.errors.mismatch
       ) {
         validationErrors = confirmedPassword.errors;
       } else {

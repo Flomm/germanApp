@@ -14,14 +14,16 @@ import IWordRemovalRequest from 'src/app/shared/models/requests/IWordRemovalRequ
   templateUrl: './admin-words.component.html',
 })
 export class AdminWordsComponent {
-  private reloadEmitter: Subject<void> = new Subject<void>();
+  reloadEmitter$: Observable<void>;
 
-  reloadEmitter$: Observable<void> = this.reloadEmitter.asObservable();
+  private reloadEmitter: Subject<void> = new Subject<void>();
 
   constructor(
     private wordService: WordService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.reloadEmitter$ = this.reloadEmitter.asObservable();
+  }
 
   onModifyWord(modifyData: IModifyWordDialogData): void {
     const modifyDialogRef: MatDialogRef<DialogComponent> =

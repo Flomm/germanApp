@@ -10,15 +10,15 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
   styleUrls: ['./my-profile.component.scss'],
 })
 export class MyProfileComponent implements OnInit {
-  myUserProfileForm: FormGroup;
-  userName: string;
-  email: string;
-
   @Input()
   newUsernameResponse: ICustomResponse;
 
   @Output()
   newUsernameRequest: EventEmitter<INewUsernameRequest> = new EventEmitter<INewUsernameRequest>();
+
+  myUserProfileForm: FormGroup;
+  userName: string;
+  email: string;
 
   constructor(private authService: AuthService) {}
 
@@ -28,16 +28,18 @@ export class MyProfileComponent implements OnInit {
     this.myUserProfileForm = new FormGroup({
       name: new FormControl(
         { value: this.userName, disabled: true },
-        Validators.required
+        Validators.required,
       ),
       email: new FormControl({ value: this.email, disabled: true }),
     });
   }
 
   toggleUsernameModification(): void {
-    this.myUserProfileForm.controls.name.disabled
-      ? this.myUserProfileForm.controls.name.enable()
-      : this.myUserProfileForm.controls.name.disable();
+    if (this.myUserProfileForm.controls.name.disabled) {
+      this.myUserProfileForm.controls.name.enable();
+    } else {
+      this.myUserProfileForm.controls.name.disable();
+    }
   }
 
   submitUsernameChange(): void {

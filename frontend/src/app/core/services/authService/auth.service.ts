@@ -19,6 +19,10 @@ import { MessageService } from '../messageService/message.service';
   providedIn: 'root',
 })
 export default class AuthService {
+  public userNameObservable: Observable<string>;
+
+  public userRoleObservable: Observable<string>;
+
   private userSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
     this.getUserName()
   );
@@ -27,17 +31,14 @@ export default class AuthService {
     localStorage.getItem('role')
   );
 
-  public userNameObservable: Observable<string> =
-    this.userSubject.asObservable();
-
-  public userRoleObservable: Observable<string> =
-    this.roleSubject.asObservable();
-
   constructor(
     private router: Router,
     private httpClient: HttpClient,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.userNameObservable = this.userSubject.asObservable();
+    this.userRoleObservable = this.roleSubject.asObservable();
+  }
 
   getToken(): string {
     return localStorage.getItem('token');
@@ -69,22 +70,6 @@ export default class AuthService {
 
   setEmail(email: string): void {
     return localStorage.setItem('email', `${email}`);
-  }
-
-  private saveDataToLocalStorage(data: ILoginResponse): void {
-    this.setUserName(data.name);
-    this.setUserRole(data.roleId);
-    this.setToken(data.token);
-  }
-
-  private navigateAfterSuccessfulLogin(roleId: number): void {
-    if (roleId === UserRole.Admin) {
-      this.router.navigate(['admin']);
-    }
-
-    if (roleId === UserRole.Consumer) {
-      this.router.navigate(['consumer']);
-    }
   }
 
   login(loginRequestData: ILoginRequest): Observable<ICustomResponse> {
@@ -278,5 +263,21 @@ export default class AuthService {
           })
         )
       );
+  }
+
+  private saveDataToLocalStorage(data: ILoginResponse): void {
+    this.setUserName(data.name);
+    this.setUserRole(data.roleId);
+    this.setToken(data.token);
+  }
+
+  private navigateAfterSuccessfulLogin(roleId: number): void {
+    if (roleId === UserRole.Admin) {
+      this.router.navigate(['admin']);
+    }
+
+    if (roleId === UserRole.Consumer) {
+      this.router.navigate(['consumer']);
+    }
   }
 }

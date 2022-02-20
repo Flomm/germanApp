@@ -62,7 +62,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
     });
 
     new FormArray([]);
-    for (let i: number = 0; i <= this.actualWord?.numOfTranslations - 1; i++) {
+    for (let i = 0; i <= this.actualWord?.numOfTranslations - 1; i++) {
       const fg: FormGroup = new FormGroup({
         answer: new FormControl('', i === 0 ? Validators.required : null),
       });

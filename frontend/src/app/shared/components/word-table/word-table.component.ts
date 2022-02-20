@@ -38,7 +38,6 @@ export class WordTableComponent
   @Output() wordModify: EventEmitter<IModifyWordDialogData> =
     new EventEmitter<IModifyWordDialogData>();
 
-  private currentFilter: IFilterFormData;
   displayedColumns: string[] = ['word', 'translations'];
   dataSourceHandler: SourceHandler;
   filteringForm: FormGroup;
@@ -50,6 +49,8 @@ export class WordTableComponent
   reloadSub: Subscription;
   userRoleSub: Subscription;
   userRole: UserRole;
+
+  private currentFilter: IFilterFormData;
 
   constructor(
     private authService: AuthService,
@@ -67,11 +68,11 @@ export class WordTableComponent
 
     this.topicValues = Object.keys(TopicType)
       .filter((key) => {
-        if (!isNaN(parseInt(key))) {
+        if (!isNaN(parseInt(key, 10))) {
           return key;
         }
       })
-      .map((key) => parseInt(key));
+      .map((key) => parseInt(key, 10));
 
     this.createForm();
     this.currentFilter = {
@@ -116,7 +117,7 @@ export class WordTableComponent
     }
 
     this.userRoleSub = this.authService.userRoleObservable.subscribe((role) => {
-      this.userRole = parseInt(role);
+      this.userRole = parseInt(role, 10);
       if (this.userRole === UserRole.Admin) {
         this.displayedColumns.push('info');
         this.displayedColumns.push('delete');

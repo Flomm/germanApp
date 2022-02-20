@@ -20,7 +20,7 @@ export class EmailVerificationPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const verificationRequest: IVerificationRequest = {
-        verificationCode: parseInt(params.code),
+        verificationCode: parseInt(params.code, 10),
         email: params.email,
       };
       this.authService

@@ -11,7 +11,7 @@ describe('NewPasswordFormComponent', () => {
   let component: NewPasswordFormComponent;
   let fixture: ComponentFixture<NewPasswordFormComponent>;
 
-  const mockActivatedRoute: object[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {

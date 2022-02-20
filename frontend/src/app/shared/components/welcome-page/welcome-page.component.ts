@@ -9,7 +9,7 @@ import { UserRole } from '../../models/enums/UserRole.enum';
   styleUrls: ['./welcome-page.component.scss'],
 })
 export class WelcomePageComponent implements OnInit {
-  userRolesList: object = UserRole;
+  userRolesList = UserRole;
   userRoleObs: Observable<string>;
 
   constructor(private authService: AuthService) {}

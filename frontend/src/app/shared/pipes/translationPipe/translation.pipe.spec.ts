@@ -20,7 +20,7 @@ describe('TranslationPipe', () => {
 
   it(`'s transform method should call the right method of the service if it exists`, () => {
     //Arrange
-    const mockServiceMethodName: string = 'TopicType';
+    const mockServiceMethodName = 'TopicType';
 
     //Act
     testPipeClass.transform('test', mockServiceMethodName);
@@ -31,7 +31,7 @@ describe('TranslationPipe', () => {
 
   it(`'s transform method should not call the method of the service if it doesn't exist ans should return N/A`, () => {
     //Arrange
-    const mockServiceMethodName: string = 'test';
+    const mockServiceMethodName = 'test';
 
     //Act
     const result: string = testPipeClass.transform(

@@ -14,13 +14,15 @@ import { environment } from 'src/environments/environment';
   providedIn: ConsumerModule,
 })
 export class GameService {
+  public actualIndexObservable: Observable<number>;
+
   private actualIndex: BehaviorSubject<number> = new BehaviorSubject<number>(
     undefined
   );
-  public actualIndexObservable: Observable<number> =
-    this.actualIndex.asObservable();
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+    this.actualIndexObservable = this.actualIndex.asObservable();
+  }
 
   getRandomWords(
     randomWordReq: IGetRandomWordRequest

@@ -44,7 +44,7 @@ describe(`ExpiredTokenInterceptor`, () => {
     httpHandlerSpy = jasmine.createSpyObj('HttpHandler', ['handle']);
     expiredTokenInterceptor = new ExpiredTokenInterceptor(
       authServiceSpy,
-      messageServiceSpy
+      messageServiceSpy,
     );
   });
 
@@ -58,8 +58,8 @@ describe(`ExpiredTokenInterceptor`, () => {
 
     //Act
     expiredTokenInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      (result) => expect(result).toBeTruthy(),
-      (err) => expect(err).toEqual(mockHttpError)
+      result => expect(result).toBeTruthy(),
+      err => expect(err).toEqual(mockHttpError),
     );
 
     //Assert
@@ -67,11 +67,11 @@ describe(`ExpiredTokenInterceptor`, () => {
     expect(messageServiceSpy.openSnackBar).toHaveBeenCalledOnceWith(
       'Nincs érvényes token.',
       '',
-      { panelClass: ['warn'], duration: 3000 }
+      { panelClass: ['warn'], duration: 3000 },
     );
   });
 
-  it('should not call the logout method of the AuthService and should not open snackbar when response is with not a triggering error', () => {
+  it('should not call the logout method of AuthService and should not open snackbar when response is with not a triggering error', () => {
     // Arrange
     const mockHttpError: Partial<HttpErrorResponse> = {
       status: 404,
@@ -81,8 +81,8 @@ describe(`ExpiredTokenInterceptor`, () => {
 
     //Act
     expiredTokenInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      (result) => expect(result).toBeTruthy(),
-      (err) => expect(err).toEqual(mockHttpError)
+      result => expect(result).toBeTruthy(),
+      err => expect(err).toEqual(mockHttpError),
     );
 
     //Assert
@@ -102,7 +102,7 @@ describe(`ExpiredTokenInterceptor`, () => {
     //Act
     expiredTokenInterceptor
       .intercept(httpRequestSpy, httpHandlerSpy)
-      .subscribe((result) => expect(result).toBeTruthy());
+      .subscribe(result => expect(result).toBeTruthy());
 
     //Assert
     expect(authServiceSpy.logout).not.toHaveBeenCalled();

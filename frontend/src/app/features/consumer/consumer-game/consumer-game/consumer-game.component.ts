@@ -18,13 +18,13 @@ import ICheckAnswerResponse from 'src/app/shared/models/responses/ICheckAnswerRe
   styleUrls: ['./consumer-game.component.scss'],
 })
 export class ConsumerGameComponent {
-  isGameOn: boolean = false;
+  isGameOn = false;
   isGameFinished: boolean;
   listOfWords: IGetWordData[] = [];
   listOfIncorrectWords: IGetWordData[] = [];
   checkResponse: ICheckAnswerResponse;
   actualIndex: number;
-  numOfCorrectAnswers: number = 0;
+  numOfCorrectAnswers = 0;
   errorMessage: string;
   language: Language;
 

@@ -6,18 +6,21 @@ import IFilterFormData from '../../models/viewModels/IFilterFormData.viewModel';
 import IGetWordData from '../../models/viewModels/IGetWordData.viewModel';
 
 export class SourceHandler implements DataSource<IGetWordData> {
+  totalElements$: Observable<number>;
+
   private wordListSubject: BehaviorSubject<IGetWordData[]> =
     new BehaviorSubject<IGetWordData[]>([]);
 
   private totalElements: BehaviorSubject<number> = new BehaviorSubject<number>(
     0
   );
-  totalElements$: Observable<number> = this.totalElements.asObservable();
 
   constructor(
     private wordService: WordService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.totalElements$ = this.totalElements.asObservable();
+  }
 
   connect(collectionViewer: CollectionViewer): Observable<IGetWordData[]> {
     return this.wordListSubject.asObservable();

@@ -17,22 +17,22 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
   styleUrls: ['./new-password-form.component.scss'],
 })
 export class NewPasswordFormComponent implements OnInit {
-  newPasswordForm: FormGroup;
-  isPasswordVisible: boolean = false;
-  paramsEmail: string;
-  paramsPasswordRecoveryCode: number;
-
   @Input()
   newPasswordChangeResponse: ICustomResponse;
 
   @Output()
-  newPasswordChangeRequest: EventEmitter<INewPasswordRequest> = new EventEmitter<INewPasswordRequest>();
+  newPasswordChangeRequest = new EventEmitter<INewPasswordRequest>();
+
+  newPasswordForm: FormGroup;
+  isPasswordVisible = false;
+  paramsEmail: string;
+  paramsPasswordRecoveryCode: number;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.paramsPasswordRecoveryCode = parseInt(params.code);
+      this.paramsPasswordRecoveryCode = parseInt(params.code, 10);
       this.paramsEmail = params.email;
     });
     this.newPasswordForm = new FormGroup(
@@ -73,7 +73,7 @@ export class NewPasswordFormComponent implements OnInit {
         };
       } else if (
         confirmedPassword.errors &&
-        !confirmedPassword.errors['mismatch']
+        !confirmedPassword.errors.mismatch
       ) {
         validationErrors = confirmedPassword.errors;
       } else {

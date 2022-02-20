@@ -18,7 +18,7 @@ export class AdminAddWordComponent implements OnInit {
   genderType = Gender;
   languageType = Language;
   topicType = TopicType;
-  isMainGenderShown: boolean = true;
+  isMainGenderShown = true;
 
   constructor(
     private wordService: WordService,

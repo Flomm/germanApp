@@ -3,10 +3,10 @@ import IValueName from '../../models/viewModels/IValueName.viewModel';
 
 @Pipe({ name: 'enumToView' })
 export default class EnumToViewPipe implements PipeTransform {
-  transform(enumType: Object): IValueName[] {
-    let enumTypeList: IValueName[] = [];
-    for (let [type, value] of Object.entries(enumType)) {
-      if (isNaN(parseInt(type))) {
+  transform(enumType: Record<string, unknown>): IValueName[] {
+    const enumTypeList: IValueName[] = [];
+    for (const [type, value] of Object.entries(enumType)) {
+      if (isNaN(parseInt(type, 10))) {
         const newType: IValueName = {
           name: type,
           value: value as number,
