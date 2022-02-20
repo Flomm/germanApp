@@ -8,6 +8,7 @@
       "files": [
         "*.ts"
       ],
+      "plugins": ["deprecation"],
       "parserOptions": {
         "project": [
           "tsconfig.json",
@@ -33,10 +34,34 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
             "style": "camelCase"
           }
-        ]
+        ],
+        "arrow-body-style": ["off"],
+        "no-underscore-dangle": ["off"],
+        "max-len": [2, { "code": 140, "ignorePattern": "^import .*" }],
+        "@typescript-eslint/naming-convention": [
+          "warn",
+          {
+            "selector": "variable",
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "enumMember",
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"]
+          },
+          {
+            "selector": "enum",
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"]
+          }
+        ],
+        "deprecation/deprecation": ["warn"]
       }
     },
     {
