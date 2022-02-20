@@ -6,7 +6,12 @@
     <h1>Tanulj németül</h1>
   </div>
   <div
-    *ngIf="hasAuthorizationButtons && ((userNameObs | async === false) || (userNameObs | async === null) || (userNameObs | async === undefined))"
+    *ngIf="
+      hasAuthorizationButtons &&
+      ((userNameObs | async) === false ||
+        (userNameObs | async) === null ||
+        (userNameObs | async) === undefined)
+    "
     class="button-holder"
   >
     <button
