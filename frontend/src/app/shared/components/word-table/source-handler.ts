@@ -12,12 +12,12 @@ export class SourceHandler implements DataSource<IGetWordData> {
     new BehaviorSubject<IGetWordData[]>([]);
 
   private totalElements: BehaviorSubject<number> = new BehaviorSubject<number>(
-    0
+    0,
   );
 
   constructor(
     private wordService: WordService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     this.totalElements$ = this.totalElements.asObservable();
   }
@@ -31,7 +31,7 @@ export class SourceHandler implements DataSource<IGetWordData> {
   }
 
   loadWordList(filterData: IFilterFormData): void {
-    this.wordService.getFilteredWords(filterData).subscribe((wordResponse) => {
+    this.wordService.getFilteredWords(filterData).subscribe(wordResponse => {
       if (wordResponse.isError) {
         this.messageService.openSnackBar(wordResponse.message, '', {
           panelClass: ['warn'],

@@ -31,7 +31,7 @@ export class ConsumerGameComponent {
   constructor(
     private gameService: GameService,
     private statisticsService: StatisticsService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   onGameStart(randomWordRequestData: IGetRandomWordRequest): void {
@@ -40,7 +40,7 @@ export class ConsumerGameComponent {
       .getRandomWords(randomWordRequestData)
       .pipe(
         delay(1200),
-        concatMap((res) => {
+        concatMap(res => {
           if (!res.isError) {
             this.actualIndex = 0;
             this.listOfWords = res.wordList;
@@ -52,9 +52,9 @@ export class ConsumerGameComponent {
         }),
         finalize(() => {
           this.messageService.hideSpinner();
-        })
+        }),
       )
-      .subscribe((res) => {
+      .subscribe(res => {
         if (res.isError) {
           this.errorMessage = res.message;
         } else {
@@ -71,7 +71,7 @@ export class ConsumerGameComponent {
     this.gameService
       .checkAnswer(this.language, checkRequest)
       .pipe(
-        concatMap((res) => {
+        concatMap(res => {
           if (!res.isError) {
             const actualWord: IGetWordData = this.listOfWords[this.actualIndex];
             this.checkResponse = res;
@@ -93,9 +93,9 @@ export class ConsumerGameComponent {
           } else {
             return of(res);
           }
-        })
+        }),
       )
-      .subscribe((res) => {
+      .subscribe(res => {
         if (res.isError) {
           this.isGameOn = false;
           this.errorMessage = res.message;
@@ -118,7 +118,7 @@ export class ConsumerGameComponent {
   removeWordFromIncorrectList(word: IGetWordData): void {
     this.listOfIncorrectWords.splice(
       this.listOfIncorrectWords.indexOf(word),
-      1
+      1,
     );
   }
 
@@ -143,11 +143,9 @@ export class ConsumerGameComponent {
 
   handleEndDecision(isReset: boolean): void {
     if (isReset) {
-      this.statisticsService
-        .incrementStatData(StatDataType.FG)
-        .subscribe((_) => {
-          this.resetSelf();
-        });
+      this.statisticsService.incrementStatData(StatDataType.FG).subscribe(_ => {
+        this.resetSelf();
+      });
     } else {
       this.replayWithIncorrect();
     }

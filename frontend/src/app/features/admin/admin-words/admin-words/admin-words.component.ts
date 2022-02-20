@@ -20,7 +20,7 @@ export class AdminWordsComponent {
 
   constructor(
     private wordService: WordService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     this.reloadEmitter$ = this.reloadEmitter.asObservable();
   }
@@ -43,13 +43,13 @@ export class AdminWordsComponent {
             return this.wordService.modifyWord(
               modifyData.language,
               modifyData.wordData.id,
-              res
+              res,
             );
           }
           return of({ message: null, isError: null });
-        })
+        }),
       )
-      .subscribe((res) => {
+      .subscribe(res => {
         if (res.message !== null) {
           const panelClass: string = res.isError ? 'warn' : 'success';
           this.messageService.openSnackBar(res.message, '', {
@@ -76,11 +76,11 @@ export class AdminWordsComponent {
         disableClose: true,
       });
 
-    removalDialogRef.afterClosed().subscribe((res) => {
+    removalDialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.wordService
           .removeWord(removeRequest.language, removeRequest.wordId)
-          .subscribe((response) => {
+          .subscribe(response => {
             if (!response.isError) {
               this.reloadEmitter.next();
             }

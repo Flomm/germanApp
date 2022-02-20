@@ -14,11 +14,11 @@ export class EmailVerificationPageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(params => {
       const verificationRequest: IVerificationRequest = {
         verificationCode: parseInt(params.code, 10),
         email: params.email,

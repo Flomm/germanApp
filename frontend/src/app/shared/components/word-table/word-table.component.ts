@@ -55,7 +55,7 @@ export class WordTableComponent
   constructor(
     private authService: AuthService,
     private wordService: WordService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     super();
   }
@@ -63,16 +63,16 @@ export class WordTableComponent
   ngOnInit(): void {
     this.dataSourceHandler = new SourceHandler(
       this.wordService,
-      this.messageService
+      this.messageService,
     );
 
     this.topicValues = Object.keys(TopicType)
-      .filter((key) => {
+      .filter(key => {
         if (!isNaN(parseInt(key, 10))) {
           return key;
         }
       })
-      .map((key) => parseInt(key, 10));
+      .map(key => parseInt(key, 10));
 
     this.createForm();
     this.currentFilter = {
@@ -116,7 +116,7 @@ export class WordTableComponent
       });
     }
 
-    this.userRoleSub = this.authService.userRoleObservable.subscribe((role) => {
+    this.userRoleSub = this.authService.userRoleObservable.subscribe(role => {
       this.userRole = parseInt(role, 10);
       if (this.userRole === UserRole.Admin) {
         this.displayedColumns.push('info');

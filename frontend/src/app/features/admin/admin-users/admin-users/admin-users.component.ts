@@ -18,6 +18,6 @@ export class AdminUsersComponent implements OnInit {
   getUserData(): void {
     this.userService
       .getAllUsers()
-      .subscribe((response) => (this.getUserResponse = response));
+      .subscribe(response => (this.getUserResponse = response));
   }
 }
