@@ -54,13 +54,15 @@ describe(`ExpiredTokenInterceptor`, () => {
       status: 401,
       error: { message: 'Nincs érvényes token.' },
     };
-    httpHandlerSpy.handle.and.returnValue(throwError(mockHttpError));
+    httpHandlerSpy.handle.and.returnValue(throwError(() => mockHttpError));
 
     //Act
-    expiredTokenInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      result => expect(result).toBeTruthy(),
-      err => expect(err).toEqual(mockHttpError),
-    );
+    expiredTokenInterceptor
+      .intercept(httpRequestSpy, httpHandlerSpy)
+      .subscribe({
+        next: result => expect(result).toBeTruthy(),
+        error: err => expect(err).toEqual(mockHttpError),
+      });
 
     //Assert
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
@@ -77,13 +79,15 @@ describe(`ExpiredTokenInterceptor`, () => {
       status: 404,
       error: { message: 'Not found' },
     };
-    httpHandlerSpy.handle.and.returnValue(throwError(mockHttpError));
+    httpHandlerSpy.handle.and.returnValue(throwError(() => mockHttpError));
 
     //Act
-    expiredTokenInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      result => expect(result).toBeTruthy(),
-      err => expect(err).toEqual(mockHttpError),
-    );
+    expiredTokenInterceptor
+      .intercept(httpRequestSpy, httpHandlerSpy)
+      .subscribe({
+        next: result => expect(result).toBeTruthy(),
+        error: err => expect(err).toEqual(mockHttpError),
+      });
 
     //Assert
     expect(authServiceSpy.logout).not.toHaveBeenCalled();
