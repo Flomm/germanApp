@@ -1,4 +1,4 @@
 export interface IRegistrationResponse {
-    message: string;
-    isError?: boolean;
-  }
+  message: string;
+  isError?: boolean;
+}

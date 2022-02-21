@@ -34,7 +34,7 @@ describe(`TokenInterceptor`, () => {
 
   it('should add an Authorization header and getToken if token in not null', () => {
     //Arrange
-    const testToken: string = 'testToken';
+    const testToken = 'testToken';
     authServiceSpy.getToken.and.returnValue(testToken);
 
     //Act
@@ -53,7 +53,7 @@ describe(`TokenInterceptor`, () => {
 
   it('should not add an Authorization header if token is null', () => {
     //Arrange
-    const testToken: null = null;
+    const testToken = null;
     authServiceSpy.getToken.and.returnValue(testToken);
 
     //Act

@@ -44,7 +44,7 @@ describe(`ExpiredTokenInterceptor`, () => {
     httpHandlerSpy = jasmine.createSpyObj('HttpHandler', ['handle']);
     expiredTokenInterceptor = new ExpiredTokenInterceptor(
       authServiceSpy,
-      messageServiceSpy
+      messageServiceSpy,
     );
   });
 
@@ -54,36 +54,40 @@ describe(`ExpiredTokenInterceptor`, () => {
       status: 401,
       error: { message: 'Nincs érvényes token.' },
     };
-    httpHandlerSpy.handle.and.returnValue(throwError(mockHttpError));
+    httpHandlerSpy.handle.and.returnValue(throwError(() => mockHttpError));
 
     //Act
-    expiredTokenInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      (result) => expect(result).toBeTruthy(),
-      (err) => expect(err).toEqual(mockHttpError)
-    );
+    expiredTokenInterceptor
+      .intercept(httpRequestSpy, httpHandlerSpy)
+      .subscribe({
+        next: result => expect(result).toBeTruthy(),
+        error: err => expect(err).toEqual(mockHttpError),
+      });
 
     //Assert
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
     expect(messageServiceSpy.openSnackBar).toHaveBeenCalledOnceWith(
       'Nincs érvényes token.',
       '',
-      { panelClass: ['warn'], duration: 3000 }
+      { panelClass: ['warn'], duration: 3000 },
     );
   });
 
-  it('should not call the logout method of the AuthService and should not open snackbar when response is with not a triggering error', () => {
+  it('should not call the logout method of AuthService and should not open snackbar when response is with not a triggering error', () => {
     // Arrange
     const mockHttpError: Partial<HttpErrorResponse> = {
       status: 404,
       error: { message: 'Not found' },
     };
-    httpHandlerSpy.handle.and.returnValue(throwError(mockHttpError));
+    httpHandlerSpy.handle.and.returnValue(throwError(() => mockHttpError));
 
     //Act
-    expiredTokenInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe(
-      (result) => expect(result).toBeTruthy(),
-      (err) => expect(err).toEqual(mockHttpError)
-    );
+    expiredTokenInterceptor
+      .intercept(httpRequestSpy, httpHandlerSpy)
+      .subscribe({
+        next: result => expect(result).toBeTruthy(),
+        error: err => expect(err).toEqual(mockHttpError),
+      });
 
     //Assert
     expect(authServiceSpy.logout).not.toHaveBeenCalled();
@@ -102,7 +106,7 @@ describe(`ExpiredTokenInterceptor`, () => {
     //Act
     expiredTokenInterceptor
       .intercept(httpRequestSpy, httpHandlerSpy)
-      .subscribe((result) => expect(result).toBeTruthy());
+      .subscribe(result => expect(result).toBeTruthy());
 
     //Assert
     expect(authServiceSpy.logout).not.toHaveBeenCalled();

@@ -96,7 +96,7 @@ export const userService = {
         if (result && result.affectedRows > 0) {
           return statisticsService
             .createNewStatistics(userId.toString())
-            .then(_ => {
+            .then(() => {
               return;
             })
             .catch(err => Promise.reject(err));

@@ -9,9 +9,9 @@ import { UserRole } from '../../models/enums/UserRole.enum';
 })
 export class HeaderComponent implements OnInit {
   @Input()
-  hasAuthorizationButtons: boolean = true;
+  hasAuthorizationButtons = true;
 
-  userRolesList: object = UserRole;
+  userRolesList = UserRole;
 
   userNameObs: Observable<string>;
 

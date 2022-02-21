@@ -8,13 +8,13 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
   templateUrl: './password-recovery-form.component.html',
 })
 export class PasswordRecoveryFormComponent implements OnInit {
-  passwordRecoveryForm: FormGroup;
-
   @Input()
   passwordRecoveryResponse: ICustomResponse;
 
   @Output()
   passwordRecoveryRequest: EventEmitter<IPasswordRecoveryRequest> = new EventEmitter<IPasswordRecoveryRequest>();
+
+  passwordRecoveryForm: FormGroup;
 
   ngOnInit(): void {
     this.passwordRecoveryForm = new FormGroup({

@@ -19,25 +19,26 @@ import { MessageService } from '../messageService/message.service';
   providedIn: 'root',
 })
 export default class AuthService {
+  public userNameObservable: Observable<string>;
+
+  public userRoleObservable: Observable<string>;
+
   private userSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
-    this.getUserName()
+    this.getUserName(),
   );
 
   private roleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
-    localStorage.getItem('role')
+    localStorage.getItem('role'),
   );
-
-  public userNameObservable: Observable<string> =
-    this.userSubject.asObservable();
-
-  public userRoleObservable: Observable<string> =
-    this.roleSubject.asObservable();
 
   constructor(
     private router: Router,
     private httpClient: HttpClient,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+  ) {
+    this.userNameObservable = this.userSubject.asObservable();
+    this.userRoleObservable = this.roleSubject.asObservable();
+  }
 
   getToken(): string {
     return localStorage.getItem('token');
@@ -71,37 +72,21 @@ export default class AuthService {
     return localStorage.setItem('email', `${email}`);
   }
 
-  private saveDataToLocalStorage(data: ILoginResponse): void {
-    this.setUserName(data.name);
-    this.setUserRole(data.roleId);
-    this.setToken(data.token);
-  }
-
-  private navigateAfterSuccessfulLogin(roleId: number): void {
-    if (roleId === UserRole.Admin) {
-      this.router.navigate(['admin']);
-    }
-
-    if (roleId === UserRole.Consumer) {
-      this.router.navigate(['consumer']);
-    }
-  }
-
   login(loginRequestData: ILoginRequest): Observable<ICustomResponse> {
     return this.httpClient
       .post<ILoginResponse>(
         `${environment.serverUrl}/user/login`,
-        loginRequestData
+        loginRequestData,
       )
       .pipe(
-        tap((response) => {
+        tap(response => {
           this.saveDataToLocalStorage(response);
           this.setEmail(loginRequestData.email);
           this.navigateAfterSuccessfulLogin(response.roleId);
           this.userSubject.next(response.name);
           this.roleSubject.next(`${response.roleId}`);
         }),
-        map((_) => {
+        map(() => {
           return {
             message: null,
             isError: false,
@@ -111,21 +96,21 @@ export default class AuthService {
           of({
             message: httpError.error.message,
             isError: true,
-          })
-        )
+          }),
+        ),
       );
   }
 
   register(
-    registrationRequestData: IRegistrationRequest
+    registrationRequestData: IRegistrationRequest,
   ): Observable<ICustomResponse> {
     return this.httpClient
       .post<ICustomResponse>(
         `${environment.serverUrl}/user/register`,
-        registrationRequestData
+        registrationRequestData,
       )
       .pipe(
-        tap((_) => {
+        tap(() => {
           this.router.navigate(['login']);
           this.messageService.openDialog({
             data: {
@@ -135,7 +120,7 @@ export default class AuthService {
             panelClass: 'default-dialog',
           });
         }),
-        map((response) => {
+        map(response => {
           return {
             message: response.message,
             isError: false,
@@ -145,8 +130,8 @@ export default class AuthService {
           of({
             message: httpError.error.message,
             isError: true,
-          })
-        )
+          }),
+        ),
       );
   }
 
@@ -161,15 +146,15 @@ export default class AuthService {
   }
 
   recoverPassword(
-    passwordRecoveryRequestData: IPasswordRecoveryRequest
+    passwordRecoveryRequestData: IPasswordRecoveryRequest,
   ): Observable<ICustomResponse> {
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/password-recovery`,
-        passwordRecoveryRequestData
+        passwordRecoveryRequestData,
       )
       .pipe(
-        tap((_) => {
+        tap(() => {
           this.router.navigate(['login']);
           this.messageService.openDialog({
             data: {
@@ -179,7 +164,7 @@ export default class AuthService {
             panelClass: 'default-dialog',
           });
         }),
-        map((response) => {
+        map(response => {
           return {
             message: response.message,
             isError: false,
@@ -189,21 +174,21 @@ export default class AuthService {
           of({
             message: httpError.error.message,
             isError: true,
-          })
-        )
+          }),
+        ),
       );
   }
 
   updatePassword(
-    newPasswordRequestData: INewPasswordRequest
+    newPasswordRequestData: INewPasswordRequest,
   ): Observable<ICustomResponse> {
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/new-password`,
-        newPasswordRequestData
+        newPasswordRequestData,
       )
       .pipe(
-        tap((_) => {
+        tap(() => {
           this.router.navigate(['login']);
           this.messageService.openDialog({
             data: {
@@ -213,7 +198,7 @@ export default class AuthService {
             panelClass: 'default-dialog',
           });
         }),
-        map((response) => {
+        map(response => {
           return {
             message: response.message,
             isError: false,
@@ -223,26 +208,26 @@ export default class AuthService {
           of({
             message: httpError.error.message,
             isError: true,
-          })
-        )
+          }),
+        ),
       );
   }
 
   changeUsername(
-    newUsernameRequestData: INewUsernameRequest
+    newUsernameRequestData: INewUsernameRequest,
   ): Observable<ICustomResponse> {
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/change-name`,
-        newUsernameRequestData
+        newUsernameRequestData,
       )
       .pipe(
-        tap((_) => {
+        tap(() => {
           this.router.navigate(['myprofile']);
           this.userSubject.next(newUsernameRequestData.name);
           this.setUserName(newUsernameRequestData.name);
         }),
-        map((response) => {
+        map(response => {
           return {
             message: response.message,
           };
@@ -251,21 +236,21 @@ export default class AuthService {
           of({
             message: httpError.error.message,
             isError: true,
-          })
-        )
+          }),
+        ),
       );
   }
 
   verify(
-    verificationRequest: IVerificationRequest
+    verificationRequest: IVerificationRequest,
   ): Observable<ICustomResponse> {
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/verify`,
-        verificationRequest
+        verificationRequest,
       )
       .pipe(
-        map((response) => {
+        map(response => {
           return {
             message: response.message,
             isError: false,
@@ -275,8 +260,24 @@ export default class AuthService {
           of({
             message: httpError.error.message,
             isError: true,
-          })
-        )
+          }),
+        ),
       );
+  }
+
+  private saveDataToLocalStorage(data: ILoginResponse): void {
+    this.setUserName(data.name);
+    this.setUserRole(data.roleId);
+    this.setToken(data.token);
+  }
+
+  private navigateAfterSuccessfulLogin(roleId: number): void {
+    if (roleId === UserRole.Admin) {
+      this.router.navigate(['admin']);
+    }
+
+    if (roleId === UserRole.Consumer) {
+      this.router.navigate(['consumer']);
+    }
   }
 }

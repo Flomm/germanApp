@@ -35,7 +35,7 @@ export const statisticsController = {
     }
     statisticsService
       .incrementStatData(userId, dataType)
-      .then(_ => {
+      .then(() => {
         res.status(200).json({ message: 'Adat sikeresen módosítva.' });
       })
       .catch(err => {

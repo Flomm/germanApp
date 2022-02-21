@@ -18,7 +18,7 @@ export class UserListTableComponent
 
   displayedColumns: string[] = ['name', 'email', 'isVerified', 'role'];
   dataSource: MatTableDataSource<IGetUserData>;
-  userRoleEnum: object = UserRole;
+  userRoleEnum = UserRole;
 
   constructor() {
     super();

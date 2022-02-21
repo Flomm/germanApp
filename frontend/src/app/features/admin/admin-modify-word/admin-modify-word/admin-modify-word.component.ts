@@ -44,16 +44,16 @@ export class AdminModifyWordComponent implements OnInit {
     if (this.currentLanguage === Language.DE) {
       this.modifyWordForm.addControl(
         'gender',
-        new FormControl(this.modifyWordData.wordData.gender || '')
+        new FormControl(this.modifyWordData.wordData.gender || ''),
       );
     }
     this.createFormArrayFromTranslations(
-      this.modifyWordData.wordData.translations
+      this.modifyWordData.wordData.translations,
     );
   }
 
   createFormArrayFromTranslations(
-    translationData: ITranslationDataModel[]
+    translationData: ITranslationDataModel[],
   ): void {
     return translationData.forEach((val: ITranslationDataModel) => {
       const newFormGroup: FormGroup = new FormGroup({
@@ -76,7 +76,7 @@ export class AdminModifyWordComponent implements OnInit {
     this.translationsFormArray.push(newTranslationGroup);
     setTimeout(() => {
       this.scrollToElement(
-        `trans${this.translationsFormArray.controls.length - 1}`
+        `trans${this.translationsFormArray.controls.length - 1}`,
       );
     });
   }
@@ -86,9 +86,11 @@ export class AdminModifyWordComponent implements OnInit {
   }
 
   toggleForm(): void {
-    this.modifyWordForm.disabled
-      ? this.modifyWordForm.enable()
-      : this.modifyWordForm.disable();
+    if (this.modifyWordForm.disabled) {
+      this.modifyWordForm.enable();
+    } else {
+      this.modifyWordForm.disable();
+    }
   }
 
   scrollToElement(id: string): void {

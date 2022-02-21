@@ -10,7 +10,7 @@ export class AuthGuard implements CanLoad {
   constructor(private authService: AuthService, private router: Router) {}
 
   canLoad(route: Route): boolean {
-    const userRole = parseInt(this.authService.getUserRole());
+    const userRole = parseInt(this.authService.getUserRole(), 10);
     const permittedRoles = route.data.roles as UserRole[];
 
     if (userRole) {

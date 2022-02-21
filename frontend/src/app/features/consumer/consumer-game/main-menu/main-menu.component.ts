@@ -21,11 +21,11 @@ export class MainMenuComponent implements OnInit {
   ngOnInit(): void {
     this.topicValues = Object.keys(TopicType)
       .filter((key) => {
-        if (!isNaN(parseInt(key))) {
+        if (!isNaN(parseInt(key, 10))) {
           return key;
         }
       })
-      .map((key) => parseInt(key));
+      .map((key) => parseInt(key, 10));
     this.mainMenuForm = new FormGroup({
       language: new FormControl(Language.DE, Validators.required),
       topic: new FormControl([]),

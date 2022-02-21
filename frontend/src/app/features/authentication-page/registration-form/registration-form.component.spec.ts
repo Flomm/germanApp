@@ -24,7 +24,7 @@ describe('RegistrationFormComponent', () => {
 
   it('should emit the expected values and format when request is submitted', () => {
     //Arrange
-    const mockData: object = {
+    const mockData: Record<string, unknown> = {
       name: 'flomm',
       email: 'flomm@gmail.com',
       password: 'flomm123',

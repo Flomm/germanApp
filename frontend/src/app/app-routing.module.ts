@@ -10,7 +10,7 @@ const routes: Routes = [
     path: 'landing',
     loadChildren: () =>
       import('./features/landing-page/landing-page.module').then(
-        (m) => m.LandingPageModule
+        m => m.LandingPageModule,
       ),
   },
   {
@@ -21,35 +21,35 @@ const routes: Routes = [
     path: 'registration',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(
-        (m) => m.AuthenticationPageModule
+        m => m.AuthenticationPageModule,
       ),
   },
   {
     path: 'login',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(
-        (m) => m.AuthenticationPageModule
+        m => m.AuthenticationPageModule,
       ),
   },
   {
     path: 'password-recovery',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(
-        (m) => m.AuthenticationPageModule
+        m => m.AuthenticationPageModule,
       ),
   },
   {
     path: 'new-password',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(
-        (m) => m.AuthenticationPageModule
+        m => m.AuthenticationPageModule,
       ),
   },
   {
     path: 'myprofile',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(
-        (m) => m.AuthenticationPageModule
+        m => m.AuthenticationPageModule,
       ),
   },
   {
@@ -57,22 +57,20 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     data: { roles: [UserRole.Admin] },
     loadChildren: () =>
-      import('./features/admin/admin.module').then((m) => m.AdminModule),
+      import('./features/admin/admin.module').then(m => m.AdminModule),
   },
   {
     path: 'consumer',
     canLoad: [AuthGuard],
     data: { roles: [UserRole.All] },
     loadChildren: () =>
-      import('./features/consumer/consumer.module').then(
-        (m) => m.ConsumerModule
-      ),
+      import('./features/consumer/consumer.module').then(m => m.ConsumerModule),
   },
   {
     path: '**',
     loadChildren: () =>
       import('./features/not-found-page/not-found-page.module').then(
-        (m) => m.NotFoundPageModule
+        m => m.NotFoundPageModule,
       ),
   },
 ];
