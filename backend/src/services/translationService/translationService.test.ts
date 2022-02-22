@@ -20,7 +20,7 @@ const mockCleanedTranslationListForNullsTest: ITranslationDataModel[] = [
   { translation: 'test2' },
 ];
 
-const mockId: number = 1;
+const mockId = 1;
 
 describe('getTranslationsByWordId', () => {
   test('successfully retrieved translations for german word', async () => {

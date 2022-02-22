@@ -1,6 +1,6 @@
 import { hashPasswordService } from './hashPasswordService';
 
-const exampleHash: string =
+const exampleHash =
   '$2a$08$BCCUs4xjZTZFPwb8HCRmn.wYhbLldLqVQV/ZBVkJkRGg7xlPZEtoa';
 
 describe('generateHash', () => {
@@ -16,7 +16,7 @@ describe('generateHash', () => {
 describe('comparePasswords', () => {
   test('it should be return true with the correct password', () => {
     //Arrange
-    const passwordToHash: string = 'flomm123';
+    const passwordToHash = 'flomm123';
 
     //Act
     const compareResult: boolean = hashPasswordService.comparePasswords(
@@ -30,7 +30,7 @@ describe('comparePasswords', () => {
 
   test('it should be return false with incorrect password', () => {
     //Arrange
-    const passwordToHash: string = 'Flomm123';
+    const passwordToHash = 'Flomm123';
 
     //Act
     const compareResult: boolean = hashPasswordService.comparePasswords(

@@ -146,7 +146,7 @@ export const userController = {
   },
 
   checkPassword(password: string): boolean {
-    const passwordPattern: RegExp = /^(?=.*\d)(?=.*[a-z]).{6,}$/;
+    const passwordPattern = /^(?=.*\d)(?=.*[a-z]).{6,}$/;
     return passwordPattern.test(password);
   },
 

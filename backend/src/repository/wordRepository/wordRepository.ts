@@ -50,7 +50,7 @@ export const wordRepository = {
     newWord: IAddWordDataModel,
   ): Promise<IDbResultDataModel> {
     try {
-      let queryString: string = `UPDATE german_app.?? SET isDeleted = 0 WHERE id = ?`;
+      let queryString = `UPDATE german_app.?? SET isDeleted = 0 WHERE id = ?`;
       const existingWord: IGetWordsDomainModel =
         await wordRepository.getWordByWord(lang, newWord.word);
       if (existingWord) {
@@ -68,7 +68,7 @@ export const wordRepository = {
           throw badRequestError('A szó már szerepel az adatbázisban.');
         }
       } else {
-        let queryArray: string[] = [
+        const queryArray: string[] = [
           `${lang}`,
           newWord.word,
           `${newWord.translations.length}`,
@@ -136,8 +136,8 @@ export const wordRepository = {
     modifiedWord: IAddWordDataModel,
     wordId: number,
   ): Promise<IDbResultDataModel> {
-    let queryString: string = `UPDATE german_app.?? SET word = ?, numOfTranslations = ?, topic = ? WHERE id = ?`;
-    let queryArray: string[] = [
+    let queryString = `UPDATE german_app.?? SET word = ?, numOfTranslations = ?, topic = ? WHERE id = ?`;
+    const queryArray: string[] = [
       `${lang}`,
       modifiedWord.word,
       `${modifiedWord.translations.length}`,
@@ -198,13 +198,13 @@ export const wordRepository = {
   ): Promise<IGetWordsDataModel[]> {
     try {
       const offSet: number = (filterData.pageNumber - 1) * filterData.pageSize;
-      let queryString: string = `SELECT id, word${
+      let queryString = `SELECT id, word${
         filterData.language === Language.DE ? ', gender ' : ''
       }, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY word LIMIT ?, ?;`;
-      let queryArray: (string | number)[] = [`${filterData.language}`];
+      const queryArray: (string | number)[] = [`${filterData.language}`];
 
-      if (filterData.topics?.length! > 0) {
-        let topicAndSearchQuery: string = ' AND';
+      if (filterData.topics?.length && filterData.topics.length > 0) {
+        let topicAndSearchQuery = ' AND';
         filterData.topics!.forEach((topic, i) => {
           i === filterData.topics!.length - 1
             ? (topicAndSearchQuery = `${topicAndSearchQuery} (topic = ?) `)
@@ -253,11 +253,11 @@ export const wordRepository = {
   async getTotalElementsForFilter(
     filterData: IFilterFormDataModel,
   ): Promise<IDBCountResultDataModel> {
-    let queryString: string = `SELECT COUNT(*) FROM german_app.?? WHERE isDeleted = 0 ORDER BY word`;
-    let queryArray: (string | number)[] = [`${filterData.language}`];
+    let queryString = `SELECT COUNT(*) FROM german_app.?? WHERE isDeleted = 0 ORDER BY word`;
+    const queryArray: (string | number)[] = [`${filterData.language}`];
 
-    if (filterData.topics?.length! > 0) {
-      let topicAndSearchQuery: string = ' AND';
+    if (filterData.topics?.length && filterData.topics.length > 0) {
+      let topicAndSearchQuery = ' AND';
       filterData.topics!.forEach((topic, i) => {
         i === filterData.topics!.length - 1
           ? (topicAndSearchQuery = `${topicAndSearchQuery} (topic = ?) `)
@@ -303,13 +303,13 @@ export const wordRepository = {
     topics: TopicType[],
   ): Promise<IGetWordsDataModel[]> {
     try {
-      let queryString: string = `SELECT id, word${
+      let queryString = `SELECT id, word${
         lang === Language.DE ? ', gender ' : ''
       }, numOfTranslations, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
-      let queryArray: (string | number)[] = [`${lang}`];
+      const queryArray: (string | number)[] = [`${lang}`];
 
       if (topics?.length > 0) {
-        let topicQuery: string = ' AND';
+        let topicQuery = ' AND';
         topics.forEach((topic, i) => {
           i === topics.length - 1
             ? (topicQuery = `${topicQuery} (topic = ?) `)

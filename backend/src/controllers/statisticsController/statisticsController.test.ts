@@ -7,10 +7,10 @@ import { jwtService } from '../../services/jwtService/jwtService';
 import { StatDataType } from '../../models/models/Enums/StatDataType.enum';
 import IIncrementStatDataRequest from '../../models/requests/IIncrementStatDataRequest';
 
-const token: string =
+const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbGVJZCI6MSwiaWF0IjoxNjI1ODU2Mzc5LCJleHAiOjE2MjU4NTk5Nzl9.q1O5nZgju0sO-ORTxiO745KkofE7nnFr0YsMML6Uuas';
 
-const mockUserId: string = '1';
+const mockUserId = '1';
 
 describe('GET /my-statistics', () => {
   const mockStatisticsData: IStatisticsDomainModel = {

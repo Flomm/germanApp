@@ -12,8 +12,8 @@ export default function requestValidator(
 ) {
   return (req: Request, res: Response, next: NextFunction) => {
     const needToValidate = req[examinedPart];
-    let errors: string[] = [];
-    for (let value of values) {
+    const errors: string[] = [];
+    for (const value of values) {
       const key = needToValidate[value];
       if (!key) {
         errors.push(value);

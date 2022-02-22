@@ -23,7 +23,7 @@ import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataMo
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
 import { statisticsService } from '../statisticsService/statisticsService';
 
-const templatePath: string = '../../models/templates/email-template.html';
+const templatePath = '../../models/templates/email-template.html';
 
 export const userService = {
   getAllUsers(): Promise<IGetUserDataModel[]> {

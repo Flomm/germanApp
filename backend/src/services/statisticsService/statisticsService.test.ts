@@ -9,7 +9,7 @@ import {
 } from '../errorCreatorService/errorCreatorService';
 import { statisticsService } from './statisticsService';
 
-const mockUserId: string = '1';
+const mockUserId = '1';
 
 const mockDbResult: IDbResultDataModel = {
   affectedRows: 1,

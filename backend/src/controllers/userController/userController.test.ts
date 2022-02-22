@@ -33,7 +33,7 @@ const mockUsers: IGetUserDataModel[] = [
   },
 ];
 
-const token: string =
+const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbGVJZCI6MSwiaWF0IjoxNjI1ODU2Mzc5LCJleHAiOjE2MjU4NTk5Nzl9.q1O5nZgju0sO-ORTxiO745KkofE7nnFr0YsMML6Uuas';
 
 describe('POST /login', () => {
@@ -299,7 +299,7 @@ describe('GET /my-data', () => {
     name: 'test',
     email: 'test@test.com',
   };
-  const mockUserId: string = '1';
+  const mockUserId = '1';
 
   test('succesfully retrieved user data', async () => {
     //Arrange
@@ -338,7 +338,7 @@ describe('PUT /change-name', () => {
     id: '19',
   };
 
-  const token: string =
+  const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE5LCJlbWFpbCI6ImZtaXJrYS5mbUBnbWFpbC5jb20iLCJyb2xlSWQiOjIsImlhdCI6MTYyOTcwNDQ2NSwiZXhwIjoxNjI5NzA4MDY1fQ.Wguv0VPU4fLNvYajkE1Wa5IzopLLM8Ssoy-NyGSa4r0';
 
   test('succesfully changed username', async () => {
