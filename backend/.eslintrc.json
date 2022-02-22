@@ -18,6 +18,7 @@
         "deprecation"
     ],
     "rules": {
-        "deprecation/deprecation": "warn"
+        "deprecation/deprecation": "warn",
+        "@typescript-eslint/no-non-null-assertion": ["off"]
     }
 }
