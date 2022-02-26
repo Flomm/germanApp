@@ -29,7 +29,7 @@ const mockHunWords: IGetWordsDataModel[] = [
   },
 ];
 
-const mockQuantity: number = 10;
+const mockQuantity = 10;
 
 const mockLanguage: Language = Language.DE;
 

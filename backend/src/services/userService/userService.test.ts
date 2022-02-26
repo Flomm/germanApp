@@ -199,7 +199,7 @@ describe('recoverPasswordByEmail', () => {
     const mockDbResult: IDbResultDataModel = {
       affectedRows: 1,
     };
-    const mockSixDigitCode: number = 123456;
+    const mockSixDigitCode = 123456;
 
     const mockEmailReplacements: IEmailReplacements = {
       userName: 'test',
@@ -208,8 +208,7 @@ describe('recoverPasswordByEmail', () => {
       url: `http://localhost:4200/new-password?email=${passwordRecoveryRequest.email}&code=${mockSixDigitCode}`,
     };
 
-    const mockTemplatePath: string =
-      '../../models/templates/email-template.html';
+    const mockTemplatePath = '../../models/templates/email-template.html';
 
     userRepository.getUserByEmail = jest.fn().mockResolvedValue(userDb[0]);
     userRepository.recoverPassword = jest.fn().mockResolvedValue(mockDbResult);
@@ -363,7 +362,7 @@ describe('getMyData', () => {
     name: 'test',
     email: 'test@test.com',
   };
-  const mockUserId: string = '1';
+  const mockUserId = '1';
 
   test('successfully retrieved user data', async () => {
     //Arrange

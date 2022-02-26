@@ -15,7 +15,7 @@ enum testStringEnum {
 describe('enumValueChecker', () => {
   test('return true if number is in enum', () => {
     // Arrange
-    const expectedResult: boolean = true;
+    const expectedResult = true;
     // Act
     const result: boolean = enumArrayValueChecker<number>(
       testNumberEnum,
@@ -27,7 +27,7 @@ describe('enumValueChecker', () => {
 
   test('return true if string is in enum', () => {
     // Arrange
-    const expectedResult: boolean = true;
+    const expectedResult = true;
     // Act
     const result: boolean = enumArrayValueChecker<string>(testStringEnum, [
       'test1',
@@ -39,7 +39,7 @@ describe('enumValueChecker', () => {
 
   test('return false if number is not a value of the enum', () => {
     // Arrange
-    const expectedResult: boolean = false;
+    const expectedResult = false;
     // Act
     const result: boolean = enumArrayValueChecker<number>(
       testNumberEnum,
@@ -51,7 +51,7 @@ describe('enumValueChecker', () => {
 
   test('return false if string is not a value of the enum', () => {
     // Arrange
-    const expectedResult: boolean = false;
+    const expectedResult = false;
     // Act
     const result: boolean = enumArrayValueChecker<string>(testNumberEnum, [
       'test1',

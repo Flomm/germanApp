@@ -15,23 +15,15 @@ export const emailService = {
   },
 
   sendEmail(email: IEmail): void {
-    try {
-      transporter.sendMail(email);
-    } catch (err) {
-      throw err;
-    }
+    transporter.sendMail(email);
   },
 
   readTemplate(templatePath: string, replacements: IEmailReplacements): string {
-    try {
-      const html: string = fs.readFileSync(
-        path.join(__dirname, templatePath),
-        'utf8',
-      );
-      const template: HandlebarsTemplateDelegate = handlebars.compile(html);
-      return template(replacements);
-    } catch (err) {
-      throw err;
-    }
+    const html: string = fs.readFileSync(
+      path.join(__dirname, templatePath),
+      'utf8',
+    );
+    const template: HandlebarsTemplateDelegate = handlebars.compile(html);
+    return template(replacements);
   },
 };
