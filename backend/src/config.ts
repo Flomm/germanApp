@@ -13,7 +13,7 @@ export default {
     secretKey: process.env.JWT_SERVICE,
   },
   transporter: {
-    host: 'smtp.mail.yahoo.com',
+    host: 'in-v3.mailjet.com',
     port: 587,
     secure: false,
     auth: {
@@ -22,6 +22,14 @@ export default {
     },
     tls: {
       rejectUnauthorized: false,
+    },
+  },
+  mailJet: {
+    user: process.env.EMAIL_JET_ADDRESS,
+    name: process.env.EMAIL_JET_NAME,
+    auth: {
+      apiKey: process.env.EMAIL_API,
+      secretKey: process.env.EMAIL_SECRET,
     },
   },
   bcyrpt: {
