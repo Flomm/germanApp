@@ -179,7 +179,7 @@ export const userService = {
                 Email: `${userEmail}`,
               },
             ],
-            Subject: 'Regisztráció megerősítése a némettanuló alkalmazáshoz',
+            Subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
             HTMLPart: emailService.readTemplate(
               templatePath,
               emailReplacements,
