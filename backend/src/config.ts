@@ -12,18 +12,6 @@ export default {
   jwt: {
     secretKey: process.env.JWT_SERVICE,
   },
-  transporter: {
-    host: 'in-v3.mailjet.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  },
   mailJet: {
     user: process.env.EMAIL_JET_ADDRESS,
     name: process.env.EMAIL_JET_NAME,
