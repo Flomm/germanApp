@@ -1,5 +1,4 @@
 import config from '../../config';
-import { IEmail } from '../../models/IEmail';
 import IGetUserDataModel from '../../models/models/dataModels/IGetUserDataModel';
 import ILoginUserDataModel from '../../models/models/dataModels/ILoginUserDataModel';
 import IPasswordRecoveryDataModel from '../../models/models/dataModels/IPasswordRecoveryDataModel';
