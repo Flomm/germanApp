@@ -16,10 +16,15 @@ export const emailService = {
     );
   },
 
-  sendMailJetMail(email: IMailjetMail): Promise<mailJet.Email.Response> {
-    return mailJetConnection.post('send', { version: 'v3.1' }).request({
-      Messages: [email],
-    });
+  async sendMailJetMail(email: IMailjetMail): Promise<void> {
+    try {
+      await mailJetConnection.post('send', { version: 'v3.1' }).request({
+        Messages: [email],
+      });
+      return;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
   readTemplate(templatePath: string, replacements: IEmailReplacements): string {

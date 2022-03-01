@@ -75,8 +75,14 @@ export const userService = {
               emailReplacements,
             ),
           };
-          emailService.sendMailJetMail(email);
-          return;
+          emailService.sendMailJetMail(email).catch(err => {
+            console.log(`Mailjet API error: ${err}`);
+            return Promise.reject(
+              serverError(
+                'Hiba az e-mail küldése közben, kérjük próbálja újra.',
+              ),
+            );
+          });
         }
         return Promise.reject(serverError('Sikertelen regisztáció.'));
       })
@@ -185,8 +191,14 @@ export const userService = {
               emailReplacements,
             ),
           };
-          emailService.sendMailJetMail(email);
-          return;
+          return emailService.sendMailJetMail(email).catch(err => {
+            console.log(`Mailjet API error: ${err}`);
+            return Promise.reject(
+              serverError(
+                'Hiba az e-mail küldése közben, kérjük próbálja újra.',
+              ),
+            );
+          });
         }
         return Promise.reject(serverError('Sikertelen jelszóvisszaállítás.'));
       })
