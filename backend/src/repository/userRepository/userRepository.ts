@@ -28,6 +28,15 @@ export const userRepository = {
       .catch(err => Promise.reject(err));
   },
 
+  getAllUserDataById(id: string): Promise<IUserDomainModel> {
+    return db
+      .query<IUserDomainModel[]>('SELECT * FROM german_app.user WHERE id = ?', [
+        id,
+      ])
+      .then(dbResult => dbResult[0])
+      .catch(err => Promise.reject(err));
+  },
+
   getUserById(id: string): Promise<IGetMyUserDataModel> {
     return db
       .query<IGetMyUserDataModel[]>(
