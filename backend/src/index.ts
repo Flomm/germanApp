@@ -5,7 +5,7 @@ import { emailService } from './services/emailService/emailService';
 const PORT = process.env.PORT || 3000;
 
 db.checkConnection();
-emailService.createTransporter();
+emailService.connectToMailJet();
 
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
