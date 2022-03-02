@@ -22,6 +22,7 @@ import IEmailReplacements from '../../models/IEmailReplacements';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
 import IMailjetMail from '../../models/IMailjetMail';
+import IChangePasswordRequest from '../../models/requests/IChangePasswordRequest';
 
 const userDb: IUserDomainModel[] = [
   {
@@ -358,6 +359,85 @@ describe('updatePassword', () => {
         newPasswordAddingRequest.passwordRecoveryCode,
         newPasswordAddingRequest.password,
       );
+    } catch (err) {
+      //Assert
+      expect(err).toEqual(serverError('test'));
+      expect(hashPasswordService.generateHash).not.toHaveBeenCalled();
+      expect(userRepository.updatePassword).not.toHaveBeenCalled();
+    }
+  });
+});
+
+describe('changePassword', () => {
+  const passwordChangeRequest: IChangePasswordRequest = {
+    newPassword: 'flomm123',
+    oldPassword: 'abc123!',
+  };
+  const mockUserId = '1';
+  const mockDbResult: IDbResultDataModel = {
+    affectedRows: 1,
+  };
+  const mockNewPasswordData: IUpdatePasswordDataModel = {
+    id: userDb[0].id,
+    password: 'testHash',
+  };
+
+  test('successful password change request', async () => {
+    //Arrange
+    userRepository.getAllUserDataById = jest.fn().mockResolvedValue(userDb[0]);
+    userRepository.updatePassword = jest.fn().mockResolvedValue(mockDbResult);
+    hashPasswordService.generateHash = jest.fn().mockReturnValue('testHash');
+    hashPasswordService.comparePasswords = jest.fn().mockReturnValue(true);
+
+    //Act
+    await userService.changePassword(mockUserId, passwordChangeRequest);
+
+    //Assert
+    expect(userRepository.getAllUserDataById).toHaveBeenCalledWith(mockUserId);
+    expect(hashPasswordService.generateHash).toHaveBeenCalledWith(
+      passwordChangeRequest.newPassword,
+    );
+    expect(userRepository.updatePassword).toHaveBeenCalledWith(
+      mockNewPasswordData,
+    );
+  });
+
+  test('previous password is not matching the one in the db', async () => {
+    //Arrange
+    userRepository.getAllUserDataById = jest.fn().mockResolvedValue(userDb[0]);
+    userRepository.updatePassword = jest.fn().mockResolvedValue(mockDbResult);
+    hashPasswordService.comparePasswords = jest.fn().mockReturnValue(false);
+
+    //Act
+    try {
+      await userService.changePassword(mockUserId, passwordChangeRequest);
+    } catch (err) {
+      //Assert
+      expect(err).toEqual(
+        unauthorizedError('A megadott régi jelszó helytelen.'),
+      );
+      expect(userRepository.getAllUserDataById).toHaveBeenCalledWith(
+        mockUserId,
+      );
+      expect(hashPasswordService.comparePasswords).toHaveBeenCalledWith(
+        'abc123!',
+        'test',
+      );
+      expect(userRepository.updatePassword).not.toHaveBeenCalled();
+    }
+  });
+
+  test('repository error', async () => {
+    //Arrange
+    userRepository.getAllUserDataById = jest
+      .fn()
+      .mockRejectedValue(serverError('test'));
+    userRepository.updatePassword = jest.fn().mockResolvedValue(mockDbResult);
+    hashPasswordService.generateHash = jest.fn().mockReturnValue('testHash');
+
+    //Act
+    try {
+      await userService.changePassword(mockUserId, passwordChangeRequest);
     } catch (err) {
       //Assert
       expect(err).toEqual(serverError('test'));

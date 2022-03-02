@@ -12,6 +12,7 @@ import INewPasswordAddingRequest from '../../models/requests/INewPasswordAddingR
 import { userController } from './userController';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
+import IChangePasswordRequest from '../../models/requests/IChangePasswordRequest';
 
 const user: IUserDomainModel = {
   id: 1,
@@ -291,6 +292,116 @@ describe('PUT /new-password', () => {
       newPasswordAddingRequest.password,
     );
     expect(userService.updatePassword).not.toHaveBeenCalled();
+  });
+});
+
+describe('PUT /change-password', () => {
+  test('successful password change', async () => {
+    //Arrange
+    const passwordChangeRequest: IChangePasswordRequest = {
+      newPassword: 'flomm123',
+      oldPassword: 'abc123!',
+    };
+    const mockUserId = '1';
+
+    userService.changePassword = jest.fn().mockResolvedValue(Promise.resolve);
+    userController.checkPassword = jest.fn().mockReturnValue(true);
+
+    //Act
+    const response = await request(app)
+      .put('/api/user/change-password')
+      .set({ authorization: `Bearer ${token}` })
+      .send(passwordChangeRequest);
+
+    //Assert
+    expect(userController.checkPassword).toHaveBeenCalledWith(
+      passwordChangeRequest.newPassword,
+    );
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({
+      message: 'Jelszó sikeresen megváltoztatva.',
+    });
+    expect(userService.changePassword).toHaveBeenCalledWith(
+      mockUserId,
+      passwordChangeRequest,
+    );
+  });
+
+  test('not provided password', async () => {
+    //Arrange
+    const passwordChangeRequest = {
+      newPassword: 'flomm123',
+    };
+    userService.changePassword = jest.fn().mockResolvedValue(Promise.resolve);
+    userController.checkPassword = jest.fn().mockReturnValue(undefined);
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .put('/api/user/change-password')
+      .set({ authorization: `Bearer ${token}` })
+      .send(passwordChangeRequest);
+
+    //Assert
+    expect(response.statusCode).toEqual(400);
+    expect(userController.checkPassword).not.toHaveBeenCalledWith(
+      passwordChangeRequest.newPassword,
+    );
+    expect(response.body).toEqual({
+      message: 'OldPassword mező megadása kötelező.',
+    });
+    expect(userService.changePassword).not.toHaveBeenCalled();
+  });
+
+  test('password does not match', async () => {
+    //Arrange
+    const passwordChangeRequest: IChangePasswordRequest = {
+      newPassword: 'flomm123',
+      oldPassword: 'abc123!',
+    };
+    userService.changePassword = jest.fn().mockResolvedValue(Promise.resolve);
+    userController.checkPassword = jest.fn().mockReturnValue(false);
+    console.error = jest.fn();
+
+    //Act
+    const response = await request(app)
+      .put('/api/user/change-password')
+      .set({ authorization: `Bearer ${token}` })
+      .send(passwordChangeRequest);
+
+    //Assert
+    expect(response.statusCode).toEqual(406);
+    expect(userController.checkPassword).toHaveBeenCalledWith(
+      passwordChangeRequest.newPassword,
+    );
+    expect(userService.changePassword).not.toHaveBeenCalled();
+  });
+
+  test('error in the service', async () => {
+    //Arrange
+    const passwordChangeRequest: IChangePasswordRequest = {
+      newPassword: 'flomm123',
+      oldPassword: 'abc123!',
+    };
+    const mockUserId = '1';
+    userController.checkPassword = jest.fn().mockReturnValue(true);
+    userService.changePassword = jest
+      .fn()
+      .mockRejectedValue(serverError('test'));
+
+    //Act
+    const response = await request(app)
+      .put('/api/user/change-password')
+      .set({ authorization: `Bearer ${token}` })
+      .send(passwordChangeRequest);
+
+    //Assert
+    expect(response.statusCode).toEqual(500);
+    expect(response.body).toEqual({ message: 'test' });
+    expect(userService.changePassword).toHaveBeenCalledWith(
+      mockUserId,
+      passwordChangeRequest,
+    );
   });
 });
 
