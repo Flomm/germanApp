@@ -290,7 +290,7 @@ userRouter
  */
 userRouter
   .route('/change-password')
-  .all(bodyValidator(['oldPassword', 'newPassword']))
+  .all(tokenAuthentication(), bodyValidator(['oldPassword', 'newPassword']))
   .put(userController.changePassword);
 
 /**
