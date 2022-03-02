@@ -100,7 +100,7 @@ export const wordController = {
 
     wordService
       .addNewWord(lang as Language, newWord)
-      .then(_ => {
+      .then(() => {
         res.status(201).json({ message: 'Szó sikeresen hozzáadva.' });
       })
       .catch(err => {
@@ -135,7 +135,7 @@ export const wordController = {
 
     wordService
       .modifyWord(lang as Language, modifiedWord, wordId)
-      .then(_ => {
+      .then(() => {
         res.status(200).json({ message: 'Szó sikeresen módosítva.' });
       })
       .catch(err => {
@@ -154,7 +154,7 @@ export const wordController = {
     }
     wordService
       .removeWord(wordId, lang as Language)
-      .then(_ => {
+      .then(() => {
         res.status(200).json({ message: 'A szó sikeresen eltávolítva.' });
       })
       .catch(err => {

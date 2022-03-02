@@ -38,7 +38,7 @@ describe('AdminAddWordComponent', () => {
 
   it('should call the correct method with the correct data if request is submitted', () => {
     //Arrange
-    const mockData: object = {
+    const mockData: Record<string, unknown> = {
       language: Language.DE,
       word: 'Spiegel',
       gender: Gender.DER,

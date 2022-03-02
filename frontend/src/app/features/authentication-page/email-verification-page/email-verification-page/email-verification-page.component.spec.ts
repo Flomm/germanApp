@@ -15,7 +15,7 @@ describe('EmailVerificationPageComponent', () => {
 
   let authServiceSpy: jasmine.SpyObj<AuthService>;
 
-  const mockActivatedRoute: object[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {

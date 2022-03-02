@@ -14,15 +14,15 @@ import { MessageService } from '../../services/messageService/message.service';
 export default class ExpiredTokenInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      catchError((caughtError) => {
+      catchError(caughtError => {
         if (
           caughtError.status === 401 &&
           caughtError.error.message === 'Nincs érvényes token.'
@@ -33,8 +33,8 @@ export default class ExpiredTokenInterceptor implements HttpInterceptor {
             duration: 3000,
           });
         }
-        return throwError(caughtError);
-      })
+        return throwError(() => caughtError);
+      }),
     );
   }
 }

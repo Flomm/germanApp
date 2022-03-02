@@ -38,7 +38,7 @@ const mockHuWord: IAddWordDataModel = {
   translations: [{ translation: 'Spiegel', gender: Gender.DER }],
 };
 
-const token: string =
+const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbGVJZCI6MSwiaWF0IjoxNjI1ODU2Mzc5LCJleHAiOjE2MjU4NTk5Nzl9.q1O5nZgju0sO-ORTxiO745KkofE7nnFr0YsMML6Uuas';
 
 describe('GET /', () => {
@@ -297,7 +297,7 @@ describe('PUT /word', () => {
   test('should send back 400 error if params is not an integer', async () => {
     //Arrange
     wordService.modifyWord = jest.fn().mockResolvedValue(Promise.resolve);
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation();
 
     //Act
     const response = await request(app)

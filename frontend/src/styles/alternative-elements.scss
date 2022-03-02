@@ -1,0 +1,62 @@
+.black-panel {
+  background-color: $black;
+  border: 1px solid $mainPurple;
+
+  .mat-expansion-panel-header-title {
+    color: $mainPurple;
+  }
+
+  .mat-expansion-indicator::after {
+    color: $mainPurple;
+  }
+
+  input {
+    color: $mainPurple;
+  }
+}
+
+.panel-with-form {
+  width: 80vw;
+}
+
+.inverse-form {
+  background-color: $mainPurple;
+  color: $black;
+
+  .mat-form-field {
+    .mat-input-element::placeholder,
+    mat-label {
+      color: $black;
+    }
+
+    mat-error {
+      display: none;
+
+      &:first-child {
+        display: block;
+      }
+    }
+    ::-webkit-calendar-picker-indicator {
+      filter: black;
+      cursor: pointer;
+    }
+    .mat-form-field-outline-thick {
+      opacity: 1 !important;
+      color: $black;
+    }
+
+    &.disabled-form-field {
+      .mat-input-element::placeholder,
+      mat-label,
+      .mat-input-element,
+      .mat-form-field-outline-thick {
+        color: $disabledInverse !important;
+      }
+    }
+  }
+
+  .mat-raised-button.mat-button-disabled {
+    background-color: $disabledInverse;
+    color: $black;
+  }
+}

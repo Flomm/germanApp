@@ -8,7 +8,7 @@ let component: AuthenticationPageComponent;
 let fixture: ComponentFixture<AuthenticationPageComponent>;
 
 describe('AuthenticationPageComponent with /registration route', () => {
-  const mockedProviderForRegistration: object[] = [
+  const mockedProviderForRegistration: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
@@ -21,8 +21,8 @@ describe('AuthenticationPageComponent with /registration route', () => {
     },
     {
       provide: AuthService,
-      useValue: {}
-    }
+      useValue: {},
+    },
   ];
 
   beforeEach(async () => {
@@ -50,7 +50,7 @@ describe('AuthenticationPageComponent with /registration route', () => {
 });
 
 describe('AuthenticationPageComponent with /login route', () => {
-  const mockedProviderForLogin: object[] = [
+  const mockedProviderForLogin: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
@@ -63,8 +63,8 @@ describe('AuthenticationPageComponent with /login route', () => {
     },
     {
       provide: AuthService,
-      useValue: {}
-    }
+      useValue: {},
+    },
   ];
 
   beforeEach(async () => {
@@ -87,7 +87,7 @@ describe('AuthenticationPageComponent with /login route', () => {
 });
 
 describe('AuthenticationPageComponent with /password-recovery route', () => {
-  const mockedProviderForPassworRecovery: object[] = [
+  const mockedProviderForPassworRecovery: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
@@ -100,8 +100,8 @@ describe('AuthenticationPageComponent with /password-recovery route', () => {
     },
     {
       provide: AuthService,
-      useValue: {}
-    }
+      useValue: {},
+    },
   ];
 
   beforeEach(async () => {
@@ -124,7 +124,7 @@ describe('AuthenticationPageComponent with /password-recovery route', () => {
 });
 
 describe('AuthenticationPageComponent with /new-password route', () => {
-  const mockedProviderForNewPassword: object[] = [
+  const mockedProviderForNewPassword: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
@@ -137,8 +137,8 @@ describe('AuthenticationPageComponent with /new-password route', () => {
     },
     {
       provide: AuthService,
-      useValue: {}
-    }
+      useValue: {},
+    },
   ];
 
   beforeEach(async () => {
@@ -161,7 +161,7 @@ describe('AuthenticationPageComponent with /new-password route', () => {
 });
 
 describe('AuthenticationPageComponent with /myprofile route', () => {
-  const mockedProviderForMyProfile: object[] = [
+  const mockedProviderForMyProfile: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
@@ -174,8 +174,8 @@ describe('AuthenticationPageComponent with /myprofile route', () => {
     },
     {
       provide: AuthService,
-      useValue: {}
-    }
+      useValue: {},
+    },
   ];
 
   beforeEach(async () => {

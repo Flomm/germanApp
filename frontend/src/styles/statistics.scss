@@ -1,6 +1,6 @@
-@import "../../../../../styles/variables.scss";
+@import "./variables.scss";
 
-main {
+.stat-main {
   flex-direction: column;
   height: $heightForCentering;
 }

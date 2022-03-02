@@ -6,13 +6,12 @@ import { UserRole } from '../../models/enums/UserRole.enum';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   @Input()
-  hasAuthorizationButtons: boolean = true;
+  hasAuthorizationButtons = true;
 
-  userRolesList: object = UserRole;
+  userRolesList = UserRole;
 
   userNameObs: Observable<string>;
 

@@ -1,37 +1,38 @@
-import nodemailer from 'nodemailer';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import config from '../../config';
-import { IEmail } from '../../models/IEmail';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as handlebars from 'handlebars';
+import * as mailJet from 'node-mailjet';
 import IEmailReplacements from '../../models/IEmailReplacements';
+import IMailjetMail from '../../models/IMailjetMail';
 
-let transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
+let mailJetConnection: mailJet.Email.Client;
 
 export const emailService = {
-  createTransporter(): void {
-    transporter = nodemailer.createTransport(config.transporter);
+  connectToMailJet(): void {
+    mailJetConnection = mailJet.connect(
+      config.mailJet.auth.apiKey as string,
+      config.mailJet.auth.secretKey as string,
+    );
   },
 
-  sendEmail(email: IEmail): void {
+  async sendMailJetMail(email: IMailjetMail): Promise<void> {
     try {
-      transporter.sendMail(email);
+      await mailJetConnection.post('send', { version: 'v3.1' }).request({
+        Messages: [email],
+      });
+      return;
     } catch (err) {
-      throw err;
+      return Promise.reject(err);
     }
   },
 
   readTemplate(templatePath: string, replacements: IEmailReplacements): string {
-    try {
-      const html: string = fs.readFileSync(
-        path.join(__dirname, templatePath),
-        'utf8',
-      );
-      const template: HandlebarsTemplateDelegate = handlebars.compile(html);
-      return template(replacements);
-    } catch (err) {
-      throw err;
-    }
+    const html: string = fs.readFileSync(
+      path.join(__dirname, templatePath),
+      'utf8',
+    );
+    const template: HandlebarsTemplateDelegate = handlebars.compile(html);
+    return template(replacements);
   },
 };

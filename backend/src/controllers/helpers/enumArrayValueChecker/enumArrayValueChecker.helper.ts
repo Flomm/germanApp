@@ -3,6 +3,6 @@ export default function enumArrayValueChecker<T>(
   valueArray: T[],
 ): boolean {
   return valueArray.every(val => {
-    return (<any>Object).values(enumToCheck).includes(val);
+    return Object.values(enumToCheck).includes(val);
   });
 }

@@ -31,6 +31,14 @@ export class MessageService {
     this.snackBar.open(message, action, config);
   }
 
+  showSpinner() {
+    this.spinnerRef.attach(new ComponentPortal(SpinnerComponent));
+  }
+
+  hideSpinner() {
+    this.spinnerRef.detach();
+  }
+
   private createSpinner() {
     return this.overlay.create({
       hasBackdrop: true,
@@ -41,12 +49,5 @@ export class MessageService {
         .centerHorizontally()
         .centerVertically(),
     });
-  }
-
-  showSpinner() {
-    this.spinnerRef.attach(new ComponentPortal(SpinnerComponent));
-  }
-  hideSpinner() {
-    this.spinnerRef.detach();
   }
 }

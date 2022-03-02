@@ -1,6 +1,5 @@
 import IGetUserDataModel from '../../models/models/dataModels/IGetUserDataModel';
 import config from '../../config';
-import { IEmail } from '../../models/IEmail';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import ILoginUserDataModel from '../../models/models/dataModels/ILoginUserDataModel';
 import IUpdatePasswordDataModel from '../../models/models/dataModels/IUpdatePasswordDataModel';
@@ -22,6 +21,7 @@ import { userService } from './userService';
 import IEmailReplacements from '../../models/IEmailReplacements';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
+import IMailjetMail from '../../models/IMailjetMail';
 
 const userDb: IUserDomainModel[] = [
   {
@@ -199,7 +199,7 @@ describe('recoverPasswordByEmail', () => {
     const mockDbResult: IDbResultDataModel = {
       affectedRows: 1,
     };
-    const mockSixDigitCode: number = 123456;
+    const mockSixDigitCode = 123456;
 
     const mockEmailReplacements: IEmailReplacements = {
       userName: 'test',
@@ -208,20 +208,29 @@ describe('recoverPasswordByEmail', () => {
       url: `http://localhost:4200/new-password?email=${passwordRecoveryRequest.email}&code=${mockSixDigitCode}`,
     };
 
-    const mockTemplatePath: string =
-      '../../models/templates/email-template.html';
+    const mockTemplatePath = '../../models/templates/email-template.html';
 
     userRepository.getUserByEmail = jest.fn().mockResolvedValue(userDb[0]);
     userRepository.recoverPassword = jest.fn().mockResolvedValue(mockDbResult);
-    emailService.sendEmail = jest.fn().mockResolvedValue(Promise.resolve);
+    emailService.sendMailJetMail = jest.fn().mockResolvedValue(Promise.resolve);
     codeGeneratorService.generateSixDigitCode = jest
       .fn()
       .mockReturnValue(mockSixDigitCode);
-    const email: IEmail = {
-      from: config.transporter.auth.user!,
-      to: 'test@test.hu',
-      subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
-      html: emailService.readTemplate(mockTemplatePath, mockEmailReplacements),
+    const email: IMailjetMail = {
+      From: {
+        Email: config.mailJet.user as string,
+        Name: config.mailJet.name as string,
+      },
+      To: [
+        {
+          Email: 'test@test.hu',
+        },
+      ],
+      Subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
+      HTMLPart: emailService.readTemplate(
+        mockTemplatePath,
+        mockEmailReplacements,
+      ),
     };
 
     //Act
@@ -229,14 +238,14 @@ describe('recoverPasswordByEmail', () => {
 
     //Assert
     expect(userRepository.getUserByEmail).toHaveBeenCalledWith('test@test.hu');
-    expect(emailService.sendEmail).toBeCalledTimes(1);
-    expect(emailService.sendEmail).toHaveBeenCalledWith(email);
+    expect(emailService.sendMailJetMail).toBeCalledTimes(1);
+    expect(emailService.sendMailJetMail).toHaveBeenCalledWith(email);
   });
 
   test('not found user', async () => {
     //Arrange
     userRepository.getUserByEmail = jest.fn().mockResolvedValue(undefined);
-    emailService.sendEmail = jest.fn().mockResolvedValue(Promise.resolve);
+    emailService.sendMailJetMail = jest.fn().mockResolvedValue(Promise.resolve);
 
     //Act
     try {
@@ -249,7 +258,7 @@ describe('recoverPasswordByEmail', () => {
       expect(userRepository.getUserByEmail).toHaveBeenCalledWith(
         'test@test.hu',
       );
-      expect(emailService.sendEmail).not.toHaveBeenCalled();
+      expect(emailService.sendMailJetMail).not.toHaveBeenCalled();
     }
   });
 
@@ -258,7 +267,7 @@ describe('recoverPasswordByEmail', () => {
     userRepository.getUserByEmail = jest
       .fn()
       .mockRejectedValue(serverError('test'));
-    emailService.sendEmail = jest.fn().mockResolvedValue(Promise.resolve);
+    emailService.sendMailJetMail = jest.fn().mockResolvedValue(Promise.resolve);
 
     //Act
     try {
@@ -271,7 +280,7 @@ describe('recoverPasswordByEmail', () => {
       expect(userRepository.getUserByEmail).toHaveBeenCalledWith(
         'test@test.hu',
       );
-      expect(emailService.sendEmail).not.toHaveBeenCalled();
+      expect(emailService.sendMailJetMail).not.toHaveBeenCalled();
     }
   });
 });
@@ -363,7 +372,7 @@ describe('getMyData', () => {
     name: 'test',
     email: 'test@test.com',
   };
-  const mockUserId: string = '1';
+  const mockUserId = '1';
 
   test('successfully retrieved user data', async () => {
     //Arrange

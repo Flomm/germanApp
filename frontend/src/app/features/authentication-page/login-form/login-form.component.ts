@@ -6,17 +6,16 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit {
-  loginForm: FormGroup;
-  isPasswordVisible: boolean = false;
-
   @Input()
   loginResponse: ICustomResponse;
 
   @Output()
-  loginRequest: EventEmitter<ILoginRequest> = new EventEmitter<ILoginRequest>();
+  loginRequest = new EventEmitter<ILoginRequest>();
+
+  loginForm: FormGroup;
+  isPasswordVisible = false;
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({

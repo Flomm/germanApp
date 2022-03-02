@@ -34,7 +34,7 @@ const mockCheckAnswerResponse: ICheckAnswerResponse = {
   translations: [{ translation: 'test' }],
 };
 
-const token: string =
+const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoiZmJnZXJhem9sQGdtYWlsLmNvbSIsInJvbGVJZCI6MiwiaWF0IjoxNjQxMzE1NDM5LCJleHAiOjE2NDEzMTkwMzl9.c2w8OdrzlLLJ5cS54dbL9fyM_Kf56s2AZGvX2O_xt94';
 
 describe('POST /random-words', () => {

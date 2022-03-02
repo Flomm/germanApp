@@ -7,14 +7,14 @@
   .table-paginator-container {
     flex-direction: column;
     width: 80%;
-  }
-}
 
-mat-paginator {
-  margin-top: 5px;
-  background-color: $mainPurple;
-  color: $black;
-  align-self: flex-end;
+    mat-paginator {
+      margin-top: 5px;
+      background-color: $mainPurple;
+      color: $black;
+      align-self: flex-end;
+    }
+  }
 }
 
 ::ng-deep .mat-select-panel {

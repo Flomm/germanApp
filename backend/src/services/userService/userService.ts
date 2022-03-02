@@ -1,5 +1,4 @@
 import config from '../../config';
-import { IEmail } from '../../models/IEmail';
 import IGetUserDataModel from '../../models/models/dataModels/IGetUserDataModel';
 import ILoginUserDataModel from '../../models/models/dataModels/ILoginUserDataModel';
 import IPasswordRecoveryDataModel from '../../models/models/dataModels/IPasswordRecoveryDataModel';
@@ -22,8 +21,9 @@ import IEmailReplacements from '../../models/IEmailReplacements';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
 import { statisticsService } from '../statisticsService/statisticsService';
+import IMailjetMail from '../../models/IMailjetMail';
 
-const templatePath: string = '../../models/templates/email-template.html';
+const templatePath = '../../models/templates/email-template.html';
 
 export const userService = {
   getAllUsers(): Promise<IGetUserDataModel[]> {
@@ -59,14 +59,30 @@ export const userService = {
             buttonText: 'Regisztráció megerősítése',
             url: `http://localhost:4200/email/verify?code=${verificationCode}&email=${registration.email}`,
           };
-          const email: IEmail = {
-            from: config.transporter.auth.user!,
-            to: `${registration.email}`,
-            subject: 'Regisztráció megerősítése a némettanuló alkalmazáshoz',
-            html: emailService.readTemplate(templatePath, emailReplacements),
+          const email: IMailjetMail = {
+            From: {
+              Email: config.mailJet.user as string,
+              Name: config.mailJet.name as string,
+            },
+            To: [
+              {
+                Email: `${registration.email}`,
+              },
+            ],
+            Subject: 'Regisztráció megerősítése a némettanuló alkalmazáshoz',
+            HTMLPart: emailService.readTemplate(
+              templatePath,
+              emailReplacements,
+            ),
           };
-          emailService.sendEmail(email);
-          return;
+          emailService.sendMailJetMail(email).catch(err => {
+            console.log(`Mailjet API error: ${err}`);
+            return Promise.reject(
+              serverError(
+                'Hiba az e-mail küldése közben, kérjük próbálja újra.',
+              ),
+            );
+          });
         }
         return Promise.reject(serverError('Sikertelen regisztáció.'));
       })
@@ -96,7 +112,7 @@ export const userService = {
         if (result && result.affectedRows > 0) {
           return statisticsService
             .createNewStatistics(userId.toString())
-            .then(_ => {
+            .then(() => {
               return;
             })
             .catch(err => Promise.reject(err));
@@ -159,14 +175,30 @@ export const userService = {
             buttonText: 'Új jelszó',
             url: `http://localhost:4200/new-password?email=${userEmail}&code=${passwordRecoveryCode}`,
           };
-          const email: IEmail = {
-            from: config.transporter.auth.user!,
-            to: `${userEmail}`,
-            subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
-            html: emailService.readTemplate(templatePath, emailReplacements),
+          const email: IMailjetMail = {
+            From: {
+              Email: config.mailJet.user as string,
+              Name: config.mailJet.name as string,
+            },
+            To: [
+              {
+                Email: `${userEmail}`,
+              },
+            ],
+            Subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
+            HTMLPart: emailService.readTemplate(
+              templatePath,
+              emailReplacements,
+            ),
           };
-          emailService.sendEmail(email);
-          return;
+          return emailService.sendMailJetMail(email).catch(err => {
+            console.log(`Mailjet API error: ${err}`);
+            return Promise.reject(
+              serverError(
+                'Hiba az e-mail küldése közben, kérjük próbálja újra.',
+              ),
+            );
+          });
         }
         return Promise.reject(serverError('Sikertelen jelszóvisszaállítás.'));
       })

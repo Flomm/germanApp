@@ -52,7 +52,7 @@ export const userController = {
     }
     userService
       .registerUser(newRegistration)
-      .then(_ => {
+      .then(() => {
         res.status(201).json({ message: 'Sikeres regisztráció.' });
       })
       .catch(err => {
@@ -70,7 +70,7 @@ export const userController = {
 
     userService
       .verifyUser(email, verificationCode)
-      .then(_ => {
+      .then(() => {
         res.status(200).json({ message: 'Sikeres megerősítés.' });
       })
       .catch(err => {
@@ -111,7 +111,7 @@ export const userController = {
   ): void {
     userService
       .recoverUserPasswordByEmail(req.body.email)
-      .then(_ => {
+      .then(() => {
         res
           .status(200)
           .json({ message: 'A jelszó visszaállító kód sikeresen elküldve.' });
@@ -137,7 +137,7 @@ export const userController = {
     }
     userService
       .updatePassword(email, passwordRecoveryCode, password)
-      .then(_ => {
+      .then(() => {
         res.status(200).json({ message: 'Új jelszó hozzáadva.' });
       })
       .catch(err => {
@@ -146,7 +146,7 @@ export const userController = {
   },
 
   checkPassword(password: string): boolean {
-    const passwordPattern: RegExp = /^(?=.*\d)(?=.*[a-z]).{6,}$/;
+    const passwordPattern = /^(?=.*\d)(?=.*[a-z]).{6,}$/;
     return passwordPattern.test(password);
   },
 
@@ -178,7 +178,7 @@ export const userController = {
     };
     userService
       .changeUserName(modifiedUserName)
-      .then(_ => {
+      .then(() => {
         res
           .status(200)
           .json({ message: 'A felhasználónév sikeresen megváltoztatva.' });

@@ -9,7 +9,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 export class CheckboxSelectAllComponent {
   @Input() control: FormControl;
   @Input() values: (number | string)[] = [];
-  @Input() label: string = 'Összes';
+  @Input() label = 'Összes';
 
   isChecked(): boolean {
     if (this?.control.value) {
@@ -24,8 +24,10 @@ export class CheckboxSelectAllComponent {
   }
 
   toggleSelection(change: MatCheckboxChange): void {
-    change.checked
-      ? this.control.setValue(this.values)
-      : this.control.setValue([]);
+    if (change.checked) {
+      this.control.setValue(this.values);
+    } else {
+      this.control.setValue([]);
+    }
   }
 }

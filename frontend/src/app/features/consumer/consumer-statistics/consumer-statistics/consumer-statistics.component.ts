@@ -5,7 +5,6 @@ import IGetStatisticsResponse from 'src/app/shared/models/responses/IGetStatisti
 @Component({
   selector: 'app-consumer-statistics',
   templateUrl: './consumer-statistics.component.html',
-  styleUrls: ['./consumer-statistics.component.scss'],
 })
 export class ConsumerStatisticsComponent implements OnInit {
   getStatisticsResponse: IGetStatisticsResponse;
