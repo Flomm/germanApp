@@ -21,13 +21,15 @@
 <app-new-password-form
   *ngIf="formType === 'new-password'"
   class="flex-center"
-  [newPasswordChangeResponse]="newPasswordChangeResponse"
-  (newPasswordChangeRequest)="onNewPasswordSubmit($event)"
+  [newPasswordResponse]="newPasswordResponse"
+  (newPasswordRequest)="onNewPasswordSubmit($event)"
 >
 </app-new-password-form>
 <app-change-password-form
   *ngIf="formType === 'change-password'"
   class="flex-center"
+  [changePasswordResponse]="changePasswordResponse"
+  (changePasswordRequest)="onChangePasswordSubmit($event)"
 ></app-change-password-form>
 <app-my-profile
   *ngIf="formType === 'myprofile'"
