@@ -12,10 +12,10 @@
   (loginRequest)="onLoginSubmit($event)"
 ></app-login-form>
 <app-password-recovery-form
-*ngIf="formType === 'password-recovery'"
-class="flex-center"
-[passwordRecoveryResponse]="passwordRecoveryResponse"
-(passwordRecoveryRequest)="onPasswordRecoverySubmit($event)"
+  *ngIf="formType === 'password-recovery'"
+  class="flex-center"
+  [passwordRecoveryResponse]="passwordRecoveryResponse"
+  (passwordRecoveryRequest)="onPasswordRecoverySubmit($event)"
 >
 </app-password-recovery-form>
 <app-new-password-form
@@ -25,8 +25,14 @@ class="flex-center"
   (newPasswordChangeRequest)="onNewPasswordSubmit($event)"
 >
 </app-new-password-form>
+<app-change-password-form
+  *ngIf="formType === 'change-password'"
+  class="flex-center"
+></app-change-password-form>
 <app-my-profile
-*ngIf="formType === 'myprofile'"class="flex-center"
-[newUsernameResponse]="newUsernameResponse"
-  (newUsernameRequest)="onNewUsernameChangeSubmit($event)"></app-my-profile>
+  *ngIf="formType === 'myprofile'"
+  class="flex-center"
+  [newUsernameResponse]="newUsernameResponse"
+  (newUsernameRequest)="onNewUsernameChangeSubmit($event)"
+></app-my-profile>
 <app-footer></app-footer>
