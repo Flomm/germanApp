@@ -17,10 +17,10 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
 })
 export class NewPasswordFormComponent implements OnInit {
   @Input()
-  newPasswordChangeResponse: ICustomResponse;
+  newPasswordResponse: ICustomResponse;
 
   @Output()
-  newPasswordChangeRequest = new EventEmitter<INewPasswordRequest>();
+  newPasswordRequest = new EventEmitter<INewPasswordRequest>();
 
   newPasswordForm: FormGroup;
   isPasswordVisible = false;
@@ -89,6 +89,6 @@ export class NewPasswordFormComponent implements OnInit {
       passwordRecoveryCode: this.paramsPasswordRecoveryCode,
       password: this.newPasswordForm.controls.password.value,
     };
-    this.newPasswordChangeRequest.emit(newPassword);
+    this.newPasswordRequest.emit(newPassword);
   }
 }
