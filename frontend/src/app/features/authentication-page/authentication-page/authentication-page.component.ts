@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
@@ -13,19 +13,16 @@ import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswo
   selector: 'app-authentication-page',
   templateUrl: './authentication-page.component.html',
 })
-export class AuthenticationPageComponent {
+export class AuthenticationPageComponent implements OnInit {
   formType: string;
-  loginResponse: ICustomResponse;
-  registrationResponse: ICustomResponse;
-  newPasswordResponse: ICustomResponse;
-  changePasswordResponse: ICustomResponse;
-  passwordRecoveryResponse: ICustomResponse;
-  newUsernameResponse: ICustomResponse;
+  apiResponse: ICustomResponse;
 
   constructor(
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.formType = this.activatedRoute.parent.snapshot.url[0].path;
   }
 
@@ -33,7 +30,7 @@ export class AuthenticationPageComponent {
     this.authService
       .register(registrationRequest)
       .subscribe((registrationResponse: ICustomResponse) => {
-        this.registrationResponse = registrationResponse;
+        this.apiResponse = registrationResponse;
       });
   }
 
@@ -41,7 +38,7 @@ export class AuthenticationPageComponent {
     this.authService
       .login(loginRequest)
       .subscribe((loginResponse: ICustomResponse) => {
-        this.loginResponse = loginResponse;
+        this.apiResponse = loginResponse;
       });
   }
 
@@ -51,7 +48,7 @@ export class AuthenticationPageComponent {
     this.authService
       .recoverPassword(passwordRecoveryRequest)
       .subscribe((passwordRecoveryResponse: ICustomResponse) => {
-        this.passwordRecoveryResponse = passwordRecoveryResponse;
+        this.apiResponse = passwordRecoveryResponse;
       });
   }
 
@@ -59,7 +56,7 @@ export class AuthenticationPageComponent {
     this.authService
       .updatePassword(newPasswordRequest)
       .subscribe((newPasswordResponse: ICustomResponse) => {
-        this.newPasswordResponse = newPasswordResponse;
+        this.apiResponse = newPasswordResponse;
       });
   }
 
@@ -67,7 +64,7 @@ export class AuthenticationPageComponent {
     this.authService
       .changePassword(changePasswordRequest)
       .subscribe((changePasswordResponse: ICustomResponse) => {
-        this.changePasswordResponse = changePasswordResponse;
+        this.apiResponse = changePasswordResponse;
       });
   }
 
@@ -75,7 +72,7 @@ export class AuthenticationPageComponent {
     this.authService
       .changeUsername(newUsernameRequest)
       .subscribe((newUsernameResponse: ICustomResponse) => {
-        this.newUsernameResponse = newUsernameResponse;
+        this.apiResponse = newUsernameResponse;
       });
   }
 }

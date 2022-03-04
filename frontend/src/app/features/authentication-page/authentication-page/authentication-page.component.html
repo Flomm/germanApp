@@ -9,33 +9,33 @@
   <app-login-form
     *ngSwitchCase="'login'"
     class="flex-center"
-    [loginResponse]="loginResponse"
+    [loginResponse]="apiResponse"
     (loginRequest)="onLoginSubmit($event)"
   ></app-login-form>
   <app-password-recovery-form
     *ngSwitchCase="'password-recovery'"
     class="flex-center"
-    [passwordRecoveryResponse]="passwordRecoveryResponse"
+    [passwordRecoveryResponse]="apiResponse"
     (passwordRecoveryRequest)="onPasswordRecoverySubmit($event)"
   >
   </app-password-recovery-form>
   <app-new-password-form
     *ngSwitchCase="'new-password'"
     class="flex-center"
-    [newPasswordResponse]="newPasswordResponse"
+    [newPasswordResponse]="apiResponse"
     (newPasswordRequest)="onNewPasswordSubmit($event)"
   >
   </app-new-password-form>
   <app-change-password-form
     *ngSwitchCase="'change-password'"
     class="flex-center"
-    [changePasswordResponse]="changePasswordResponse"
+    [changePasswordResponse]="apiResponse"
     (changePasswordRequest)="onChangePasswordSubmit($event)"
   ></app-change-password-form>
   <app-my-profile
     *ngSwitchCase="'myprofile'"
     class="flex-center"
-    [newUsernameResponse]="newUsernameResponse"
+    [newUsernameResponse]="apiResponse"
     (newUsernameRequest)="onNewUsernameChangeSubmit($event)"
   ></app-my-profile>
   <div class="flex-center" *ngSwitchDefault>
