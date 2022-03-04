@@ -160,6 +160,43 @@ describe('AuthenticationPageComponent with /new-password route', () => {
   });
 });
 
+describe('AuthenticationPageComponent with /new-password route', () => {
+  const mockedProviderForNewPassword: Record<string, unknown>[] = [
+    {
+      provide: ActivatedRoute,
+      useValue: {
+        parent: {
+          snapshot: {
+            url: [{ path: 'change-password' }],
+          },
+        },
+      },
+    },
+    {
+      provide: AuthService,
+      useValue: {},
+    },
+  ];
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [AuthenticationPageComponent],
+      imports: [RouterTestingModule],
+      providers: mockedProviderForNewPassword,
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AuthenticationPageComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should have formType "change-passoword" when route is /new-password', () => {
+    //Assert
+    expect(component.formType).toEqual('change-password');
+  });
+});
+
 describe('AuthenticationPageComponent with /myprofile route', () => {
   const mockedProviderForMyProfile: Record<string, unknown>[] = [
     {
