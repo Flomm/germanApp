@@ -63,7 +63,7 @@ export class AuthenticationPageComponent {
       });
   }
 
-  onNChangePasswordSubmit(changePasswordRequest: IChangePasswordRequest): void {
+  onChangePasswordSubmit(changePasswordRequest: IChangePasswordRequest): void {
     this.authService
       .changePassword(changePasswordRequest)
       .subscribe((changePasswordResponse: ICustomResponse) => {
