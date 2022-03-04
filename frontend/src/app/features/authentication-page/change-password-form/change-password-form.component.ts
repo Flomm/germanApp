@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
+import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswordRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 
 @Component({
@@ -17,13 +17,14 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
 })
 export class ChangePasswordFormComponent implements OnInit {
   @Input()
-  newPasswordChangeResponse: ICustomResponse;
+  changePasswordResponse: ICustomResponse;
 
   @Output()
-  newPasswordChangeRequest = new EventEmitter<INewPasswordRequest>();
+  changePasswordRequest = new EventEmitter<IChangePasswordRequest>();
 
-  newPasswordForm: FormGroup;
-  isPasswordVisible = false;
+  changePasswordForm: FormGroup;
+  isOldPasswordVisible = false;
+  isNewPasswordVisible = false;
   paramsEmail: string;
   paramsPasswordRecoveryCode: number;
 
@@ -34,26 +35,31 @@ export class ChangePasswordFormComponent implements OnInit {
       this.paramsPasswordRecoveryCode = parseInt(params.code, 10);
       this.paramsEmail = params.email;
     });
-    this.newPasswordForm = new FormGroup(
+    this.changePasswordForm = new FormGroup(
       {
-        password: new FormControl('', [
+        oldPassword: new FormControl('', [Validators.required]),
+        newPassword: new FormControl('', [
           Validators.required,
           Validators.minLength(6),
           Validators.pattern(/(?:[A-Za-z].*?\d|\d.*?[A-Za-z])/),
         ]),
-        confirmedPassword: new FormControl('', [Validators.required]),
+        confirmedNewPassword: new FormControl('', [Validators.required]),
       },
       {
         validators: this.passwordMatchValidator(
-          'password',
-          'confirmedPassword',
+          'newPassword',
+          'confirmedNewPassword',
         ),
       },
     );
   }
 
-  togglePasswordVisibility(): void {
-    this.isPasswordVisible = !this.isPasswordVisible;
+  toggleOldPasswordVisibility(): void {
+    this.isOldPasswordVisible = !this.isOldPasswordVisible;
+  }
+
+  toggleNewPasswordVisibility(): void {
+    this.isNewPasswordVisible = !this.isNewPasswordVisible;
   }
 
   passwordMatchValidator(
@@ -83,12 +89,11 @@ export class ChangePasswordFormComponent implements OnInit {
     };
   }
 
-  submitNewPassword(): void {
-    const newPassword: INewPasswordRequest = {
-      email: this.paramsEmail,
-      passwordRecoveryCode: this.paramsPasswordRecoveryCode,
-      password: this.newPasswordForm.controls.password.value,
+  submitChangePassword(): void {
+    const changePasswordRequest: IChangePasswordRequest = {
+      oldPassword: this.changePasswordForm.controls.oldPassword.value,
+      newPassword: this.changePasswordForm.controls.newPassword.value,
     };
-    this.newPasswordChangeRequest.emit(newPassword);
+    this.changePasswordRequest.emit(changePasswordRequest);
   }
 }
