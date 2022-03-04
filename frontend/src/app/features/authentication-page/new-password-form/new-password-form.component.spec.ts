@@ -48,7 +48,7 @@ describe('NewPasswordFormComponent', () => {
       password: 'abc123!',
       confirmedPassword: 'abc123!',
     });
-    spyOn(component.newPasswordChangeRequest, 'emit');
+    spyOn(component.newPasswordRequest, 'emit');
     const mockNewPasswordAddingRequest: INewPasswordRequest = {
       email: 'test@test.hu',
       passwordRecoveryCode: 123654,
@@ -59,8 +59,8 @@ describe('NewPasswordFormComponent', () => {
     component.submitNewPassword();
 
     // Assert
-    expect(component.newPasswordChangeRequest.emit).toHaveBeenCalledOnceWith(
-      mockNewPasswordAddingRequest
+    expect(component.newPasswordRequest.emit).toHaveBeenCalledOnceWith(
+      mockNewPasswordAddingRequest,
     );
   });
 });
