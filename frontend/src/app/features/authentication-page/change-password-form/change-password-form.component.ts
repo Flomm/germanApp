@@ -7,7 +7,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswordRequest';
 import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 
@@ -28,13 +27,7 @@ export class ChangePasswordFormComponent implements OnInit {
   paramsEmail: string;
   paramsPasswordRecoveryCode: number;
 
-  constructor(private route: ActivatedRoute) {}
-
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.paramsPasswordRecoveryCode = parseInt(params.code, 10);
-      this.paramsEmail = params.email;
-    });
     this.changePasswordForm = new FormGroup(
       {
         oldPassword: new FormControl('', [Validators.required]),
