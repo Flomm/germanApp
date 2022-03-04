@@ -46,6 +46,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'change-password',
+    loadChildren: () =>
+      import('./features/authentication-page/authentication-page.module').then(
+        m => m.AuthenticationPageModule,
+      ),
+  },
+  {
     path: 'myprofile',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(

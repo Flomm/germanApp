@@ -10,6 +10,7 @@ import { NewPasswordFormComponent } from './new-password-form/new-password-form.
 import { PasswordRecoveryFormComponent } from './password-recovery-form/password-recovery-form.component';
 import { EmailVerificationPageComponent } from './email-verification-page/email-verification-page/email-verification-page.component';
 import { MyProfileComponent } from './my-profile-page/my-profile.component';
+import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MyProfileComponent } from './my-profile-page/my-profile.component';
     PasswordRecoveryFormComponent,
     EmailVerificationPageComponent,
     MyProfileComponent,
+    ChangePasswordFormComponent,
   ],
   imports: [
     CommonModule,

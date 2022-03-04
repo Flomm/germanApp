@@ -254,6 +254,48 @@ userRouter
 /**
  * @swagger
  * paths:
+ *  /api/user/change-password:
+ *      put:
+ *          tags:
+ *            - USER
+ *          summary: Change your password
+ *          produces:
+ *            - application/json
+ *          parameters:
+ *          - in: body
+ *            name: body
+ *            description: Changing password
+ *            required: true
+ *            schema:
+ *              $ref: '#/definitions/ChangePassword'
+ *          responses:
+ *              '200':
+ *                  description: New password is successfully added.
+ *              '400':
+ *                  description: Invalid password recovery code.
+ *              '404':
+ *                  description: E-mail is not found.
+ *              '406':
+ *                  description: Password must be at least 6 characters and contain letter and number.
+ *              '500':
+ *                  description: Internal server error.
+ * definitions:
+ *  ChangePassword:
+ *      type: object
+ *      properties:
+ *          newPassword:
+ *              type: string
+ *          oldPassword:
+ *              type: string
+ */
+userRouter
+  .route('/change-password')
+  .all(tokenAuthentication(), bodyValidator(['oldPassword', 'newPassword']))
+  .put(userController.changePassword);
+
+/**
+ * @swagger
+ * paths:
  *  /api/user/my-data:
  *    get:
  *      tags:

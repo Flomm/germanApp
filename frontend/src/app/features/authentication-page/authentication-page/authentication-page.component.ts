@@ -7,6 +7,7 @@ import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse
 import ILoginRequest from 'src/app/shared/models/requests/ILoginRequest';
 import IRegistrationRequest from 'src/app/shared/models/requests/IRegistrationRequest';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
+import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswordRequest';
 
 @Component({
   selector: 'app-authentication-page',
@@ -16,13 +17,14 @@ export class AuthenticationPageComponent {
   formType: string;
   loginResponse: ICustomResponse;
   registrationResponse: ICustomResponse;
-  newPasswordChangeResponse: ICustomResponse;
+  newPasswordResponse: ICustomResponse;
+  changePasswordResponse: ICustomResponse;
   passwordRecoveryResponse: ICustomResponse;
   newUsernameResponse: ICustomResponse;
 
   constructor(
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
     this.formType = this.activatedRoute.parent.snapshot.url[0].path;
   }
@@ -44,7 +46,7 @@ export class AuthenticationPageComponent {
   }
 
   onPasswordRecoverySubmit(
-    passwordRecoveryRequest: IPasswordRecoveryRequest
+    passwordRecoveryRequest: IPasswordRecoveryRequest,
   ): void {
     this.authService
       .recoverPassword(passwordRecoveryRequest)
@@ -56,8 +58,16 @@ export class AuthenticationPageComponent {
   onNewPasswordSubmit(newPasswordRequest: INewPasswordRequest): void {
     this.authService
       .updatePassword(newPasswordRequest)
-      .subscribe((newPasswordChangeResponse: ICustomResponse) => {
-        this.newPasswordChangeResponse = newPasswordChangeResponse;
+      .subscribe((newPasswordResponse: ICustomResponse) => {
+        this.newPasswordResponse = newPasswordResponse;
+      });
+  }
+
+  onChangePasswordSubmit(changePasswordRequest: IChangePasswordRequest): void {
+    this.authService
+      .changePassword(changePasswordRequest)
+      .subscribe((changePasswordResponse: ICustomResponse) => {
+        this.changePasswordResponse = changePasswordResponse;
       });
   }
 

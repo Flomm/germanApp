@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
 import { MessageService } from '../messageService/message.service';
+import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswordRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -198,6 +199,30 @@ export default class AuthService {
             panelClass: 'default-dialog',
           });
         }),
+        map(response => {
+          return {
+            message: response.message,
+            isError: false,
+          };
+        }),
+        catchError((httpError: HttpErrorResponse) =>
+          of({
+            message: httpError.error.message,
+            isError: true,
+          }),
+        ),
+      );
+  }
+
+  changePassword(
+    changePasswordRequestData: IChangePasswordRequest,
+  ): Observable<ICustomResponse> {
+    return this.httpClient
+      .put<ICustomResponse>(
+        `${environment.serverUrl}/user/change-password`,
+        changePasswordRequestData,
+      )
+      .pipe(
         map(response => {
           return {
             message: response.message,

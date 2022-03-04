@@ -22,6 +22,8 @@ import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataMo
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
 import { statisticsService } from '../statisticsService/statisticsService';
 import IMailjetMail from '../../models/IMailjetMail';
+import IChangePasswordRequest from '../../models/requests/IChangePasswordRequest';
+import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 
 const templatePath = '../../models/templates/email-template.html';
 
@@ -237,6 +239,41 @@ export const userService = {
         return Promise.reject(serverError('Sikertelen regisztráció.'));
       })
       .catch(err => Promise.reject(err));
+  },
+
+  async changePassword(
+    userId: string,
+    passwordChangeReq: IChangePasswordRequest,
+  ): Promise<void> {
+    try {
+      const user: IUserDomainModel = await userRepository.getAllUserDataById(
+        userId,
+      );
+      if (
+        !hashPasswordService.comparePasswords(
+          passwordChangeReq.oldPassword,
+          user.password,
+        )
+      ) {
+        throw unauthorizedError('A megadott régi jelszó helytelen.');
+      }
+      const newPasswordData: IUpdatePasswordDataModel = {
+        id: user.id,
+        password: hashPasswordService.generateHash(
+          passwordChangeReq.newPassword,
+        ),
+      };
+
+      const updateResult: IDbResultDataModel =
+        await userRepository.updatePassword(newPasswordData);
+
+      if (updateResult && updateResult.affectedRows > 0) {
+        return;
+      }
+      throw serverError('Sikertelen regisztráció.');
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
   getMyData(id: string): Promise<IGetMyUserDataModel> {

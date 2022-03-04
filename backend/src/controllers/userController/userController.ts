@@ -15,6 +15,7 @@ import INewPasswordAddingRequest from '../../models/requests/INewPasswordAddingR
 import { notAcceptableError } from '../../services/errorCreatorService/errorCreatorService';
 import IGetMyUserDataResponse from '../../models/responses/IGetMyUserDataResponse';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
+import IChangePasswordRequest from '../../models/requests/IChangePasswordRequest';
 
 export const userController = {
   getAllUsers(
@@ -85,7 +86,6 @@ export const userController = {
     next: NextFunction,
   ): void {
     const { email, password } = req.body;
-
     userService
       .loginUser({ email, password })
       .then(user => {
@@ -139,6 +139,34 @@ export const userController = {
       .updatePassword(email, passwordRecoveryCode, password)
       .then(() => {
         res.status(200).json({ message: 'Új jelszó hozzáadva.' });
+      })
+      .catch(err => {
+        return next(err);
+      });
+  },
+
+  changePassword(
+    req: Request,
+    res: Response<ICustomResponse>,
+    next: NextFunction,
+  ): void {
+    const changePasswordReq: IChangePasswordRequest = req.body;
+
+    if (!userController.checkPassword(changePasswordReq.newPassword)) {
+      return next(
+        notAcceptableError(
+          'A jelszó legalább 6 karakter kell legyen és tartalmaznia kell egy számot.',
+        ),
+      );
+    }
+
+    const token: string = jwtService.getTokenFromRequest(req)!;
+    const userId: string = jwtService.getUserIdFromToken(token).toString();
+
+    userService
+      .changePassword(userId, changePasswordReq)
+      .then(() => {
+        res.status(200).json({ message: 'Jelszó sikeresen megváltoztatva.' });
       })
       .catch(err => {
         return next(err);
