@@ -18,42 +18,7 @@ const routes: Routes = [
     component: EmailVerificationPageComponent,
   },
   {
-    path: 'registration',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'login',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'password-recovery',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'new-password',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'change-password',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'myprofile',
+    path: 'auth/:formType',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(
         m => m.AuthenticationPageModule,

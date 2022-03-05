@@ -5,13 +5,13 @@
     *ngIf="verificationResponse"
     [ngClass]="verificationResponse.isError ? 'warn' : 'success'"
   >
-    {{ verificationResponse.message || "Hálózati hiba" }}
+    {{ verificationResponse.message || 'Hálózati hiba' }}
   </h1>
   <button
     *ngIf="verificationResponse && !verificationResponse.isError"
     mat-raised-button
     color="primary"
-    routerLink="/login"
+    routerLink="/auth/login"
   >
     Most már bejelentkezhetsz!
   </button>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
 import IPasswordRecoveryRequest from 'src/app/shared/models/requests/IPasswordRecoveryRequest';
@@ -25,8 +25,12 @@ export class AuthenticationPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formType = this.activatedRoute.parent.snapshot.url[0]
-      .path as AuthFormType;
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      if (this.apiResponse) {
+        this.apiResponse = null;
+      }
+      this.formType = params.get('formType') as AuthFormType;
+    });
   }
 
   onRegistrationSubmit(registrationRequest: IRegistrationRequest): void {
@@ -34,6 +38,7 @@ export class AuthenticationPageComponent implements OnInit {
       .register(registrationRequest)
       .subscribe((registrationResponse: ICustomResponse) => {
         this.apiResponse = registrationResponse;
+        console.warn(this.apiResponse);
       });
   }
 

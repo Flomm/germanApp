@@ -3,7 +3,7 @@
   <app-registration-form
     *ngSwitchCase="authFormType.REG"
     class="flex-center"
-    [registrationResponse]="registrationResponse"
+    [registrationResponse]="apiResponse"
     (registrationRequest)="onRegistrationSubmit($event)"
   ></app-registration-form>
   <app-login-form
