@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import { UserRole } from '../../models/enums/UserRole.enum';
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userNameObs = this.authService.userNameObservable;
     this.userRoleObs = this.authService.userRoleObservable;
   }
