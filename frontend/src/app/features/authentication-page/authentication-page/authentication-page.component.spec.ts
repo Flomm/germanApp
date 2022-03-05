@@ -1,7 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import AuthService from 'src/app/core/services/authService/auth.service';
+import { of } from 'rxjs';
 import { AuthFormType } from 'src/app/shared/models/enums/AuthFormType.enum';
 import { AuthenticationPageComponent } from './authentication-page.component';
 
@@ -9,28 +12,29 @@ let component: AuthenticationPageComponent;
 let fixture: ComponentFixture<AuthenticationPageComponent>;
 
 describe('AuthenticationPageComponent with /registration route', () => {
-  const mockedProviderForRegistration: Record<string, unknown>[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
-        parent: {
-          snapshot: {
-            url: [{ path: 'registration' }],
-          },
-        },
+        paramMap: of(
+          convertToParamMap({
+            formType: 'registration',
+          }),
+        ),
       },
-    },
-    {
-      provide: AuthService,
-      useValue: {},
     },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AuthenticationPageComponent],
-      imports: [RouterTestingModule],
-      providers: mockedProviderForRegistration,
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
+      providers: [mockActivatedRoute],
     }).compileComponents();
   });
 
@@ -44,7 +48,7 @@ describe('AuthenticationPageComponent with /registration route', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have formType "registration" when route is /registration', () => {
+  it('should have formType "registration" when route is /registration', async () => {
     //Assert
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -54,28 +58,29 @@ describe('AuthenticationPageComponent with /registration route', () => {
 });
 
 describe('AuthenticationPageComponent with /login route', () => {
-  const mockedProviderForLogin: Record<string, unknown>[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
-        parent: {
-          snapshot: {
-            url: [{ path: 'login' }],
-          },
-        },
+        paramMap: of(
+          convertToParamMap({
+            formType: 'login',
+          }),
+        ),
       },
-    },
-    {
-      provide: AuthService,
-      useValue: {},
     },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AuthenticationPageComponent],
-      imports: [RouterTestingModule],
-      providers: mockedProviderForLogin,
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
+      providers: [mockActivatedRoute],
     }).compileComponents();
   });
 
@@ -84,7 +89,7 @@ describe('AuthenticationPageComponent with /login route', () => {
     component = fixture.componentInstance;
   });
 
-  it('should have formType "login" when route is /login', () => {
+  it('should have formType "login" when route is /login', async () => {
     //Assert
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -94,28 +99,29 @@ describe('AuthenticationPageComponent with /login route', () => {
 });
 
 describe('AuthenticationPageComponent with /password-recovery route', () => {
-  const mockedProviderForPassworRecovery: Record<string, unknown>[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
-        parent: {
-          snapshot: {
-            url: [{ path: 'password-recovery' }],
-          },
-        },
+        paramMap: of(
+          convertToParamMap({
+            formType: 'password-recovery',
+          }),
+        ),
       },
-    },
-    {
-      provide: AuthService,
-      useValue: {},
     },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AuthenticationPageComponent],
-      imports: [RouterTestingModule],
-      providers: mockedProviderForPassworRecovery,
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
+      providers: [mockActivatedRoute],
     }).compileComponents();
   });
 
@@ -124,7 +130,7 @@ describe('AuthenticationPageComponent with /password-recovery route', () => {
     component = fixture.componentInstance;
   });
 
-  it('should have formType "passwordRecoveryForm" when route is /password-recovery', () => {
+  it('should have formType "passwordRecoveryForm" when route is /password-recovery', async () => {
     //Assert
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -134,28 +140,29 @@ describe('AuthenticationPageComponent with /password-recovery route', () => {
 });
 
 describe('AuthenticationPageComponent with /new-password route', () => {
-  const mockedProviderForNewPassword: Record<string, unknown>[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
-        parent: {
-          snapshot: {
-            url: [{ path: 'new-password' }],
-          },
-        },
+        paramMap: of(
+          convertToParamMap({
+            formType: 'new-password',
+          }),
+        ),
       },
-    },
-    {
-      provide: AuthService,
-      useValue: {},
     },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AuthenticationPageComponent],
-      imports: [RouterTestingModule],
-      providers: mockedProviderForNewPassword,
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
+      providers: [mockActivatedRoute],
     }).compileComponents();
   });
 
@@ -164,7 +171,7 @@ describe('AuthenticationPageComponent with /new-password route', () => {
     component = fixture.componentInstance;
   });
 
-  it('should have formType "newPasswordForm" when route is /new-password', () => {
+  it('should have formType "newPasswordForm" when route is /new-password', async () => {
     //Assert
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -174,28 +181,29 @@ describe('AuthenticationPageComponent with /new-password route', () => {
 });
 
 describe('AuthenticationPageComponent with /new-password route', () => {
-  const mockedProviderForNewPassword: Record<string, unknown>[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
-        parent: {
-          snapshot: {
-            url: [{ path: 'change-password' }],
-          },
-        },
+        paramMap: of(
+          convertToParamMap({
+            formType: 'change-password',
+          }),
+        ),
       },
-    },
-    {
-      provide: AuthService,
-      useValue: {},
     },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AuthenticationPageComponent],
-      imports: [RouterTestingModule],
-      providers: mockedProviderForNewPassword,
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
+      providers: [mockActivatedRoute],
     }).compileComponents();
   });
 
@@ -204,7 +212,7 @@ describe('AuthenticationPageComponent with /new-password route', () => {
     component = fixture.componentInstance;
   });
 
-  it('should have formType "change-passoword" when route is /new-password', () => {
+  it('should have formType "change-passoword" when route is /new-password', async () => {
     //Assert
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -214,28 +222,29 @@ describe('AuthenticationPageComponent with /new-password route', () => {
 });
 
 describe('AuthenticationPageComponent with /myprofile route', () => {
-  const mockedProviderForMyProfile: Record<string, unknown>[] = [
+  const mockActivatedRoute: Record<string, unknown>[] = [
     {
       provide: ActivatedRoute,
       useValue: {
-        parent: {
-          snapshot: {
-            url: [{ path: 'myprofile' }],
-          },
-        },
+        paramMap: of(
+          convertToParamMap({
+            formType: 'myprofile',
+          }),
+        ),
       },
-    },
-    {
-      provide: AuthService,
-      useValue: {},
     },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AuthenticationPageComponent],
-      imports: [RouterTestingModule],
-      providers: mockedProviderForMyProfile,
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
+      providers: [mockActivatedRoute],
     }).compileComponents();
   });
 
@@ -244,11 +253,52 @@ describe('AuthenticationPageComponent with /myprofile route', () => {
     component = fixture.componentInstance;
   });
 
-  it('should have formType "myprofile" when route is /myprofile', () => {
+  it('should have formType "myprofile" when route is /myprofile', async () => {
     //Assert
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.formType).toEqual(AuthFormType.PROFILE);
+    });
+  });
+});
+
+describe('AuthenticationPageComponent with /verification route', () => {
+  const mockActivatedRoute: Record<string, unknown>[] = [
+    {
+      provide: ActivatedRoute,
+      useValue: {
+        paramMap: of(
+          convertToParamMap({
+            formType: 'verify',
+          }),
+        ),
+      },
+    },
+  ];
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [AuthenticationPageComponent],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
+      providers: [mockActivatedRoute],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AuthenticationPageComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should have formType "verify" when route is /verify', async () => {
+    //Assert
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.formType).toEqual(AuthFormType.VERIFY);
     });
   });
 });
