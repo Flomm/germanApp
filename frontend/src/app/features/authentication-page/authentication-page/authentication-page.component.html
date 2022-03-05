@@ -1,39 +1,39 @@
 <app-header [hasAuthorizationButtons]="false"></app-header>
 <ng-container [ngSwitch]="formType">
   <app-registration-form
-    *ngSwitchCase="'registration'"
+    *ngSwitchCase="authFormType.REG"
     class="flex-center"
     [registrationResponse]="registrationResponse"
     (registrationRequest)="onRegistrationSubmit($event)"
   ></app-registration-form>
   <app-login-form
-    *ngSwitchCase="'login'"
+    *ngSwitchCase="authFormType.LOGIN"
     class="flex-center"
     [loginResponse]="apiResponse"
     (loginRequest)="onLoginSubmit($event)"
   ></app-login-form>
   <app-password-recovery-form
-    *ngSwitchCase="'password-recovery'"
+    *ngSwitchCase="authFormType.RECOVERY"
     class="flex-center"
     [passwordRecoveryResponse]="apiResponse"
     (passwordRecoveryRequest)="onPasswordRecoverySubmit($event)"
   >
   </app-password-recovery-form>
   <app-new-password-form
-    *ngSwitchCase="'new-password'"
+    *ngSwitchCase="authFormType.NEW_PASSWORD"
     class="flex-center"
     [newPasswordResponse]="apiResponse"
     (newPasswordRequest)="onNewPasswordSubmit($event)"
   >
   </app-new-password-form>
   <app-change-password-form
-    *ngSwitchCase="'change-password'"
+    *ngSwitchCase="authFormType.CHANGE_PASSWORD"
     class="flex-center"
     [changePasswordResponse]="apiResponse"
     (changePasswordRequest)="onChangePasswordSubmit($event)"
   ></app-change-password-form>
   <app-my-profile
-    *ngSwitchCase="'myprofile'"
+    *ngSwitchCase="authFormType.PROFILE"
     class="flex-center"
     [newUsernameResponse]="apiResponse"
     (newUsernameRequest)="onNewUsernameChangeSubmit($event)"

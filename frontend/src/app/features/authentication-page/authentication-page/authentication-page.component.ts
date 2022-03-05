@@ -8,14 +8,16 @@ import ILoginRequest from 'src/app/shared/models/requests/ILoginRequest';
 import IRegistrationRequest from 'src/app/shared/models/requests/IRegistrationRequest';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
 import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswordRequest';
+import { AuthFormType } from 'src/app/shared/models/enums/AuthFormType.enum';
 
 @Component({
   selector: 'app-authentication-page',
   templateUrl: './authentication-page.component.html',
 })
 export class AuthenticationPageComponent implements OnInit {
-  formType: string;
+  formType: AuthFormType;
   apiResponse: ICustomResponse;
+  authFormType = AuthFormType;
 
   constructor(
     private authService: AuthService,
@@ -23,7 +25,8 @@ export class AuthenticationPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formType = this.activatedRoute.parent.snapshot.url[0].path;
+    this.formType = this.activatedRoute.parent.snapshot.url[0]
+      .path as AuthFormType;
   }
 
   onRegistrationSubmit(registrationRequest: IRegistrationRequest): void {

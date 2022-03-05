@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import AuthService from 'src/app/core/services/authService/auth.service';
+import { AuthFormType } from 'src/app/shared/models/enums/AuthFormType.enum';
 import { AuthenticationPageComponent } from './authentication-page.component';
 
 let component: AuthenticationPageComponent;
@@ -45,7 +46,10 @@ describe('AuthenticationPageComponent with /registration route', () => {
 
   it('should have formType "registration" when route is /registration', () => {
     //Assert
-    expect(component.formType).toEqual('registration');
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.formType).toEqual(AuthFormType.REG);
+    });
   });
 });
 
@@ -82,7 +86,10 @@ describe('AuthenticationPageComponent with /login route', () => {
 
   it('should have formType "login" when route is /login', () => {
     //Assert
-    expect(component.formType).toEqual('login');
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.formType).toEqual(AuthFormType.LOGIN);
+    });
   });
 });
 
@@ -119,7 +126,10 @@ describe('AuthenticationPageComponent with /password-recovery route', () => {
 
   it('should have formType "passwordRecoveryForm" when route is /password-recovery', () => {
     //Assert
-    expect(component.formType).toEqual('password-recovery');
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.formType).toEqual(AuthFormType.RECOVERY);
+    });
   });
 });
 
@@ -156,7 +166,10 @@ describe('AuthenticationPageComponent with /new-password route', () => {
 
   it('should have formType "newPasswordForm" when route is /new-password', () => {
     //Assert
-    expect(component.formType).toEqual('new-password');
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.formType).toEqual(AuthFormType.NEW_PASSWORD);
+    });
   });
 });
 
@@ -193,7 +206,10 @@ describe('AuthenticationPageComponent with /new-password route', () => {
 
   it('should have formType "change-passoword" when route is /new-password', () => {
     //Assert
-    expect(component.formType).toEqual('change-password');
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.formType).toEqual(AuthFormType.CHANGE_PASSWORD);
+    });
   });
 });
 
@@ -230,6 +246,9 @@ describe('AuthenticationPageComponent with /myprofile route', () => {
 
   it('should have formType "myprofile" when route is /myprofile', () => {
     //Assert
-    expect(component.formType).toEqual('myprofile');
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.formType).toEqual(AuthFormType.PROFILE);
+    });
   });
 });
