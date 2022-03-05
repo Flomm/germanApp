@@ -77,7 +77,7 @@ export const userService = {
               emailReplacements,
             ),
           };
-          emailService.sendMailJetMail(email).catch(err => {
+          return emailService.sendMailJetMail(email).catch(err => {
             console.log(`Mailjet API error: ${err}`);
             return Promise.reject(
               serverError(
@@ -175,7 +175,7 @@ export const userService = {
             userName: userName,
             instructions: 'Kattints az alábbi gombra új jelsző megadásához!',
             buttonText: 'Új jelszó',
-            url: `http://localhost:4200/new-password?email=${userEmail}&code=${passwordRecoveryCode}`,
+            url: `http://localhost:4200/auth/new-password?email=${userEmail}&code=${passwordRecoveryCode}`,
           };
           const email: IMailjetMail = {
             From: {
