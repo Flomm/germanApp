@@ -43,8 +43,10 @@
     [verificationResponse]="apiResponse"
     (verificationRequest)="onVerificationSubmit($event)"
   ></app-email-verification-page>
-  <div class="flex-center" *ngSwitchDefault>
-    A kért oldal nem található. Kérlek lépj vissza!
-  </div>
+  <main class="flex-center" *ngSwitchDefault>
+    <div class="flex-center auth-form-holder">
+      <h2>A kért oldal nem található. Kérlek lépj vissza!</h2>
+    </div>
+  </main>
 </ng-container>
 <app-footer></app-footer>
