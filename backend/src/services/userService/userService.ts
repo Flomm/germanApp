@@ -59,7 +59,7 @@ export const userService = {
             instructions:
               'Köszönjük a regisztrációt! Kattints a lenti gombra a megerősítéshez!',
             buttonText: 'Regisztráció megerősítése',
-            url: `http://localhost:4200/email/verify?code=${verificationCode}&email=${registration.email}`,
+            url: `http://localhost:4200/auth/verify?code=${verificationCode}&email=${registration.email}`,
           };
           const email: IMailjetMail = {
             From: {
