@@ -45,7 +45,6 @@ exports.up = function (db) {
     },
     passwordRecoveryCode: {
       type: "int",
-      notNull: true,
     },
   });
 };

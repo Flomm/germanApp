@@ -36,7 +36,7 @@
         formControlName="password"
       />
       <mat-icon (click)="togglePasswordVisibility()" matSuffix>{{
-        isPasswordVisible ? "visibility_off" : "visibility"
+        isPasswordVisible ? 'visibility_off' : 'visibility'
       }}</mat-icon>
       <mat-error *ngIf="registrationForm.controls.password.hasError('required')"
         >Kötelező mező</mat-error
@@ -83,7 +83,7 @@
       {{ registrationResponse.message }}
     </p>
   </div>
-  <a class="default-anchor" routerLink="/login"
+  <a class="default-anchor" routerLink="/auth/login"
     >Már van fiókod? Itt beléphetsz.</a
   >
 </div>

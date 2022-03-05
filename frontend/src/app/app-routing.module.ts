@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/services/authGuard/auth.guard';
-import { EmailVerificationPageComponent } from './features/authentication-page/email-verification-page/email-verification-page/email-verification-page.component';
 import { UserRole } from './shared/models/enums/UserRole.enum';
 
 const routes: Routes = [
@@ -14,46 +13,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'email/verify',
-    component: EmailVerificationPageComponent,
-  },
-  {
-    path: 'registration',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'login',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'password-recovery',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'new-password',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'change-password',
-    loadChildren: () =>
-      import('./features/authentication-page/authentication-page.module').then(
-        m => m.AuthenticationPageModule,
-      ),
-  },
-  {
-    path: 'myprofile',
+    path: 'auth/:formType',
     loadChildren: () =>
       import('./features/authentication-page/authentication-page.module').then(
         m => m.AuthenticationPageModule,

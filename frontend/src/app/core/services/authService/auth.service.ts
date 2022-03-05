@@ -112,7 +112,7 @@ export default class AuthService {
       )
       .pipe(
         tap(() => {
-          this.router.navigate(['login']);
+          this.router.navigate(['auth/login']);
           this.messageService.openDialog({
             data: {
               dialogText:
@@ -141,7 +141,7 @@ export default class AuthService {
     localStorage.removeItem('role');
     localStorage.removeItem('token');
     localStorage.removeItem('email');
-    this.router.navigate(['login']);
+    this.router.navigate(['auth/login']);
     this.userSubject.next(null);
     this.roleSubject.next(null);
   }
@@ -156,7 +156,7 @@ export default class AuthService {
       )
       .pipe(
         tap(() => {
-          this.router.navigate(['login']);
+          this.router.navigate(['auth/login']);
           this.messageService.openDialog({
             data: {
               dialogText:
@@ -190,7 +190,7 @@ export default class AuthService {
       )
       .pipe(
         tap(() => {
-          this.router.navigate(['login']);
+          this.router.navigate(['auth/login']);
           this.messageService.openDialog({
             data: {
               dialogText:
@@ -248,7 +248,7 @@ export default class AuthService {
       )
       .pipe(
         tap(() => {
-          this.router.navigate(['myprofile']);
+          this.router.navigate(['auth/myprofile']);
           this.userSubject.next(newUsernameRequestData.name);
           this.setUserName(newUsernameRequestData.name);
         }),
