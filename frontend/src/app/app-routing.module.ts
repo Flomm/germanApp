@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/services/authGuard/auth.guard';
-import { EmailVerificationPageComponent } from './features/authentication-page/email-verification-page/email-verification-page/email-verification-page.component';
 import { UserRole } from './shared/models/enums/UserRole.enum';
 
 const routes: Routes = [
@@ -12,10 +11,6 @@ const routes: Routes = [
       import('./features/landing-page/landing-page.module').then(
         m => m.LandingPageModule,
       ),
-  },
-  {
-    path: 'email/verify',
-    component: EmailVerificationPageComponent,
   },
   {
     path: 'auth/:formType',

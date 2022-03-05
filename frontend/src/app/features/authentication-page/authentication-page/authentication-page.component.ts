@@ -9,6 +9,7 @@ import IRegistrationRequest from 'src/app/shared/models/requests/IRegistrationRe
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
 import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswordRequest';
 import { AuthFormType } from 'src/app/shared/models/enums/AuthFormType.enum';
+import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
 
 @Component({
   selector: 'app-authentication-page',
@@ -38,7 +39,6 @@ export class AuthenticationPageComponent implements OnInit {
       .register(registrationRequest)
       .subscribe((registrationResponse: ICustomResponse) => {
         this.apiResponse = registrationResponse;
-        console.warn(this.apiResponse);
       });
   }
 
@@ -81,6 +81,14 @@ export class AuthenticationPageComponent implements OnInit {
       .changeUsername(newUsernameRequest)
       .subscribe((newUsernameResponse: ICustomResponse) => {
         this.apiResponse = newUsernameResponse;
+      });
+  }
+
+  onVerificationSubmit(newVerificationRequest: IVerificationRequest): void {
+    this.authService
+      .verify(newVerificationRequest)
+      .subscribe((verificationResponse: ICustomResponse) => {
+        this.apiResponse = verificationResponse;
       });
   }
 }

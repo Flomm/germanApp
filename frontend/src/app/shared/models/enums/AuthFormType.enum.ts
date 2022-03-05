@@ -5,4 +5,5 @@ export enum AuthFormType {
   NEW_PASSWORD = 'new-password',
   CHANGE_PASSWORD = 'change-password',
   PROFILE = 'myprofile',
+  VERIFY = 'verify',
 }

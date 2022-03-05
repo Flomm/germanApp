@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import AuthService from 'src/app/core/services/authService/auth.service';
 import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
 import { ICustomResponse } from '../../../../shared/models/responses/ICustomResponse';
 
@@ -9,24 +8,28 @@ import { ICustomResponse } from '../../../../shared/models/responses/ICustomResp
   templateUrl: './email-verification-page.component.html',
 })
 export class EmailVerificationPageComponent implements OnInit {
-  verificationResponse: ICustomResponse;
+  @Input() verificationResponse: ICustomResponse;
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-  ) {}
+  @Output() verificationRequest = new EventEmitter<IVerificationRequest>();
+
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const verificationRequest: IVerificationRequest = {
+      const newVerificationRequest: IVerificationRequest = {
         verificationCode: parseInt(params.code, 10),
         email: params.email,
       };
-      this.authService
-        .verify(verificationRequest)
-        .subscribe((verificationResponse: ICustomResponse) => {
-          this.verificationResponse = verificationResponse;
-        });
+      if (
+        newVerificationRequest.verificationCode &&
+        newVerificationRequest.email
+      ) {
+        this.submitVerify(newVerificationRequest);
+      }
     });
+  }
+
+  submitVerify(verificationRequest: IVerificationRequest): void {
+    this.verificationRequest.emit(verificationRequest);
   }
 }

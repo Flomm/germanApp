@@ -38,6 +38,11 @@
     [newUsernameResponse]="apiResponse"
     (newUsernameRequest)="onNewUsernameChangeSubmit($event)"
   ></app-my-profile>
+  <app-email-verification-page
+    *ngSwitchCase="authFormType.VERIFY"
+    [verificationResponse]="apiResponse"
+    (verificationRequest)="onVerificationSubmit($event)"
+  ></app-email-verification-page>
   <div class="flex-center" *ngSwitchDefault>
     A kért oldal nem található. Kérlek lépj vissza!
   </div>
