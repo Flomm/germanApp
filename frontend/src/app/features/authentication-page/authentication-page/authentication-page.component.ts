@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
 import IPasswordRecoveryRequest from 'src/app/shared/models/requests/IPasswordRecoveryRequest';
@@ -23,14 +23,22 @@ export class AuthenticationPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
-      if (this.apiResponse) {
-        this.apiResponse = null;
+      const formTypeFromParam: AuthFormType = params.get(
+        'formType',
+      ) as AuthFormType;
+      if (!Object.values(AuthFormType).includes(formTypeFromParam)) {
+        this.router.navigate(['not-found']);
+      } else {
+        if (this.apiResponse) {
+          this.apiResponse = null;
+        }
+        this.formType = formTypeFromParam;
       }
-      this.formType = params.get('formType') as AuthFormType;
     });
   }
 
