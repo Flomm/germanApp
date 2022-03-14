@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response, NextFunction } from 'express';
+import chalk from 'chalk';
 import IApiError from '../../models/IApiError';
 
 export default function errorHandler(
@@ -11,7 +12,7 @@ export default function errorHandler(
   const currentTime = new Date();
   const formattedDate = `${currentTime.getFullYear()}-${currentTime.getMonth()}-${currentTime.getDate()} ${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
   console.error(
-    `[${formattedDate}] - ${'status' in err ? err.status : 500} - ${
+    `[${formattedDate}] - ${chalk.red('status' in err ? err.status : 500)} - ${
       err.message
     } - ${req.originalUrl} - ${req.method} - ${req.ip}`,
   );
