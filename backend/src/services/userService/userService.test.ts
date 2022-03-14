@@ -206,7 +206,7 @@ describe('recoverPasswordByEmail', () => {
       userName: 'test',
       instructions: 'Kattints az alábbi gombra új jelsző megadásához!',
       buttonText: 'Új jelszó',
-      url: `http://localhost:4200/new-password?email=${passwordRecoveryRequest.email}&code=${mockSixDigitCode}`,
+      url: `http://localhost:4200/auth/new-password?email=${passwordRecoveryRequest.email}&code=${mockSixDigitCode}`,
     };
 
     const mockTemplatePath = '../../models/templates/email-template.html';
