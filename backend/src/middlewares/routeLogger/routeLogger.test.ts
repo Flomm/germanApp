@@ -9,7 +9,6 @@ describe('routeLogger', () => {
   beforeEach(() => {
     console.log = jest.fn();
     nextFunction = jest.fn();
-
     mockRequest = {
       originalUrl: 'localhost',
       method: 'GET',
