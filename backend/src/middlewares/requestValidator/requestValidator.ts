@@ -1,21 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
+import { RequestPart } from '../../models/models/Enums/RequestPart.enum';
 import { badRequestError } from '../../services/errorCreatorService/errorCreatorService';
 
 export const bodyValidator = (values: string[]) =>
-  requestValidator(values, 'body');
+  requestValidator(values, RequestPart.BODY);
 export const queryValidator = (values: string[]) =>
-  requestValidator(values, 'query');
+  requestValidator(values, RequestPart.QUERY);
 
-function requestValidator(values: string[], examinedPart: 'body' | 'query') {
-  return (req: Request, res: Response, next: NextFunction) => {
+export function requestValidator(values: string[], examinedPart: RequestPart) {
+  return (req: Request, res: Response, next: NextFunction): void => {
     const needToValidate = req[examinedPart];
-    const errors: string[] = [];
-    for (const value of values) {
-      const key = needToValidate[value];
-      if (!key) {
-        errors.push(value);
-      }
-    }
+    const errors: string[] = values.filter(val => {
+      return !needToValidate[val];
+    });
     if (errors.length) {
       const errorMessages: string = errors
         .map(
