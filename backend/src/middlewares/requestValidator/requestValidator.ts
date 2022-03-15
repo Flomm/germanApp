@@ -6,10 +6,7 @@ export const bodyValidator = (values: string[]) =>
 export const queryValidator = (values: string[]) =>
   requestValidator(values, 'query');
 
-export default function requestValidator(
-  values: string[],
-  examinedPart: 'body' | 'query',
-) {
+function requestValidator(values: string[], examinedPart: 'body' | 'query') {
   return (req: Request, res: Response, next: NextFunction) => {
     const needToValidate = req[examinedPart];
     const errors: string[] = [];
