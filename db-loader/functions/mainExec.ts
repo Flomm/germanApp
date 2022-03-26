@@ -14,8 +14,8 @@ export const mainExec = async (fileNames: string[]): Promise<void> => {
     console.log("Closing connection");
     db.disconnect();
   } catch (err) {
-    console.warn(err?.message);
-    console.log("Closing connection and resetting db due to error");
+    console.warn(err);
+    console.log("Closing connection due to error");
     db.disconnect();
   }
 };
