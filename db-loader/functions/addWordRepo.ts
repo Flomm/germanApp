@@ -1,11 +1,15 @@
 import { db } from "../data/connection";
 import { addTranslations } from "./addTranslationRepo";
 import IAddWordDataModel from "../models/IAddWordDataModel";
+import dbConfig from "../data/dbConfig";
 
 export const wordRepository = {
   getWordByWord(lang: string, word: string): Promise<any> {
     return db
-      .query<any[]>(`SELECT * FROM german_app.${lang} WHERE word = ?`, [word])
+      .query<any[]>(
+        `SELECT * FROM ${dbConfig.database}.${lang} WHERE word = ?`,
+        [word]
+      )
       .then((res) => res[0])
       .catch((err) => Promise.reject(err));
   },
@@ -13,7 +17,7 @@ export const wordRepository = {
   getWordById(lang: string, wordId: number): Promise<any> {
     return db
       .query<any[]>(
-        `SELECT * FROM german_app.${lang} WHERE id = ? AND isDeleted = 0`,
+        `SELECT * FROM ${dbConfig.database}.${lang} WHERE id = ? AND isDeleted = 0`,
         [`${lang}`, `${wordId}`]
       )
       .then((res) => res[0])
@@ -22,7 +26,7 @@ export const wordRepository = {
 
   async addWord(lang: string, newWord: IAddWordDataModel): Promise<any> {
     try {
-      let queryString: string = `UPDATE german_app.${lang} SET isDeleted = 0 WHERE id = ?`;
+      let queryString: string = `UPDATE ${dbConfig.database}.${lang} SET isDeleted = 0 WHERE id = ?`;
       const existingWord: any = await wordRepository.getWordByWord(
         lang,
         newWord.word
@@ -46,10 +50,10 @@ export const wordRepository = {
           `${newWord.topic}`,
         ];
         if (lang === "de" && newWord.gender) {
-          queryString = `INSERT INTO german_app.${lang} (word, numOfTranslations, topic, gender) VALUES (?, ?, ?, ?)`;
+          queryString = `INSERT INTO ${dbConfig.database}.${lang} (word, numOfTranslations, topic, gender) VALUES (?, ?, ?, ?)`;
           queryArray.push(newWord.gender);
         } else {
-          queryString = `INSERT INTO german_app.${lang} (word, numOfTranslations, topic) VALUES (?, ?, ?)`;
+          queryString = `INSERT INTO ${dbConfig.database}.${lang} (word, numOfTranslations, topic) VALUES (?, ?, ?)`;
         }
         const dbResult: any = await db.query<any>(queryString, queryArray);
         if (dbResult.affectedRows === 0) {

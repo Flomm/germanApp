@@ -1,4 +1,5 @@
 import { db } from "../data/connection";
+import dbConfig from "../data/dbConfig";
 import ITranslationDataModel from "../models/ITranslationDataModel";
 import { generateMultipleInsertQueryQuestionMarks } from "./multipleInsertionHelper";
 
@@ -9,7 +10,9 @@ export function addTranslations(
 ): Promise<any> {
   return db
     .query<any>(
-      `INSERT INTO german_app.translation (lang, wordId, translation, gender) VALUES ${generateMultipleInsertQueryQuestionMarks(
+      `INSERT INTO ${
+        dbConfig.database
+      }.translation (lang, wordId, translation, gender) VALUES ${generateMultipleInsertQueryQuestionMarks(
         4,
         translations.length
       )}`,
