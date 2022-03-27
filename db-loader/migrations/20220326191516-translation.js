@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var dbm;
 var type;
@@ -15,30 +15,30 @@ exports.setup = function (options, seedLink) {
 };
 
 exports.up = function (db) {
-  return db.createTable('translation', {
+  return db.createTable("translation", {
     id: {
-      type: 'int',
+      type: "int",
       primaryKey: true,
       autoIncrement: true,
-      unique: 'true',
+      unique: "true",
       notNull: true,
     },
     lang: {
-      type: 'string',
+      type: "string",
       length: 2,
       notNull: true,
     },
     wordId: {
-      type: 'int',
+      type: "int",
       notNull: true,
     },
-    gender: { type: 'string', length: 3, notNull: false },
-    translation: { type: 'string', length: 70, notNull: true },
+    gender: { type: "string", length: 3, notNull: false },
+    translation: { type: "string", length: 70, notNull: true },
   });
 };
 
 exports.down = function (db) {
-  return db.dropTable('translation');
+  return db.dropTable("translation");
 };
 
 exports._meta = {
