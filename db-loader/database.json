@@ -3,6 +3,7 @@
     "driver": "mysql",
     "database": { "ENV": "MYSQL_DATABASE" },
     "user": { "ENV": "MYSQL_USER" },
-    "password": { "ENV": "MYSQL_PASSWORD" }
+    "password": { "ENV": "MYSQL_PASSWORD" },
+    "host": { "ENV": "MYSQL_HOST" }
   }
 }
