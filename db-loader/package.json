@@ -5,7 +5,8 @@
   "main": "exer.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "load": "ts-node exe.ts"
+    "load": "ts-node restartDB.exe.ts",
+    "word-reset": "ts-node resetWords.exe.ts"
   },
   "keywords": [],
   "author": "",
