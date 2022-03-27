@@ -1,6 +1,6 @@
 const dBM = require("db-migrate");
 
-export const resetWords = async (): Promise<void> => {
+export const resetDBWords = async (): Promise<void> => {
   try {
     const dbm = dBM.getInstance(true);
     await dbm.down(3);
