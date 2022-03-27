@@ -1,12 +1,20 @@
 import { db } from "../data/connection";
 import { resetDB } from "../data/resetDB";
 import { dbLoader } from "./dbLoader";
+import { resetDBWords } from "./resetDBWords";
 
-export const mainExec = async (fileNames: string[]): Promise<void> => {
+export const mainExec = async (
+  fileNames: string[],
+  isInitial: boolean
+): Promise<void> => {
   try {
     await db.checkConnection();
     console.log("Starting main process...");
-    await resetDB();
+    if (isInitial) {
+      await resetDB();
+    } else {
+      await resetDBWords();
+    }
     console.warn("Database have been reseted.");
     await dbLoader(fileNames[0], "hu");
     await dbLoader(fileNames[1], "de");
