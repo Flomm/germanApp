@@ -48,7 +48,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
       this.createForm();
     }
     if (changes.checkResponse && !changes.checkResponse.firstChange) {
-      this.nextButtonElement.focus();
+      this.nextButtonElement?.focus();
     }
   }
 
