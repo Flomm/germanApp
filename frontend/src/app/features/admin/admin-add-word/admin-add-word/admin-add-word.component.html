@@ -32,7 +32,7 @@
             *ngFor="let topic of topicType | enumToView"
             [value]="topic.value"
           >
-            {{ topic.name | translation: "TopicType" }}
+            {{ topic.name | translation: 'TopicType' }}
             <span *ngIf="addWordForm.controls.topic.value === topic.value">
               &#10004;</span
             >
@@ -68,6 +68,7 @@
         <mat-label>Új szó</mat-label>
         <input
           matInput
+          autocomplete="off"
           placeholder="Add meg egy új szót"
           formControlName="word"
         />

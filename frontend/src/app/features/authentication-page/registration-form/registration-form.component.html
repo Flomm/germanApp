@@ -5,6 +5,7 @@
       <mat-label>Felhasználónév</mat-label>
       <input
         matInput
+        autocomplete="username"
         placeholder="Add meg a felhasználóneved"
         formControlName="name"
       />
@@ -16,6 +17,7 @@
       <mat-label>E-mail</mat-label>
       <input
         matInput
+        autocomplete="email"
         placeholder="Add meg az e-mailed"
         type="email"
         formControlName="email"
@@ -31,6 +33,7 @@
       <mat-label>Jelszó</mat-label>
       <input
         matInput
+        autocomplete="new-password"
         placeholder="Add meg a jelszavad"
         [type]="isPasswordVisible ? 'text' : 'password'"
         formControlName="password"
@@ -53,6 +56,7 @@
       <mat-label>Jelszó megerősítés</mat-label>
       <input
         matInput
+        autocomplete="new-password"
         placeholder="Erősítsd meg a jelszót"
         [type]="isPasswordVisible ? 'text' : 'password'"
         formControlName="confirmedPassword"
