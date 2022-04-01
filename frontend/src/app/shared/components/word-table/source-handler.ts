@@ -39,6 +39,8 @@ export class SourceHandler implements DataSource<IGetWordData> {
 
   loadWordList(filterData: IFilterFormData): void {
     this._isLoading = true;
+    this.totalElements.next(0);
+    this.wordListSubject.next([]);
     this.wordService.getFilteredWords(filterData).subscribe(wordResponse => {
       this._isLoading = false;
       if (wordResponse.isError) {
