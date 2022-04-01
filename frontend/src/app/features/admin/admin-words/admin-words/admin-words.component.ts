@@ -26,6 +26,7 @@ export class AdminWordsComponent {
   }
 
   onModifyWord(modifyData: IModifyWordDialogData): void {
+    this.messageService.showSpinner();
     const modifyDialogRef: MatDialogRef<DialogComponent> =
       this.messageService.openDialog({
         data: {
@@ -50,6 +51,7 @@ export class AdminWordsComponent {
         }),
       )
       .subscribe(res => {
+        this.messageService.hideSpinner();
         if (res.message !== null) {
           const panelClass: string = res.isError ? 'warn' : 'success';
           this.messageService.openSnackBar(res.message, '', {
@@ -78,9 +80,11 @@ export class AdminWordsComponent {
 
     removalDialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.messageService.showSpinner();
         this.wordService
           .removeWord(removeRequest.language, removeRequest.wordId)
           .subscribe(response => {
+            this.messageService.hideSpinner();
             if (!response.isError) {
               this.reloadEmitter.next();
             }
