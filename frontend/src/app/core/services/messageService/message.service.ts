@@ -16,7 +16,7 @@ export class MessageService {
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private overlay: Overlay
+    private overlay: Overlay,
   ) {}
 
   openDialog(config?: MatDialogConfig): MatDialogRef<DialogComponent> {
@@ -26,20 +26,20 @@ export class MessageService {
   openSnackBar(
     message: string,
     action: string,
-    config: MatSnackBarConfig
+    config: MatSnackBarConfig,
   ): void {
     this.snackBar.open(message, action, config);
   }
 
-  showSpinner() {
+  showSpinner(): void {
     this.spinnerRef.attach(new ComponentPortal(SpinnerComponent));
   }
 
-  hideSpinner() {
+  hideSpinner(): void {
     this.spinnerRef.detach();
   }
 
-  private createSpinner() {
+  private createSpinner(): OverlayRef {
     return this.overlay.create({
       hasBackdrop: true,
       backdropClass: 'default-backdrop',
