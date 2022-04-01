@@ -22,8 +22,8 @@ export const db = {
   },
 
   async query<T>(query: string, values: (string | number)[]): Promise<T> {
-    return new Promise<T>(async (resolve, reject) => {
-      const connection = await db.usePooledConnectionAsync();
+    const connection = await db.usePooledConnectionAsync();
+    return new Promise<T>((resolve, reject) => {
       connection.query(query, values, (err, result) => {
         if (err) {
           reject(err);
