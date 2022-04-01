@@ -80,6 +80,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
   }
 
   submitForm(): void {
+    this.checkResponse = null;
     this.answerEmitter.emit(this.wordForm.controls.answerList.value);
     this.isSubmitted = true;
   }
