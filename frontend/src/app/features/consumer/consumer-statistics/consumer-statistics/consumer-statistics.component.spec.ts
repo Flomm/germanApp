@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
 import IGetStatisticsResponse from 'src/app/shared/models/responses/IGetStatisticsResponse';
@@ -13,14 +15,14 @@ describe('ConsumerStatisticsComponent', () => {
   beforeEach(async () => {
     statisticsServiceSpy = jasmine.createSpyObj<StatisticsService>(
       'statisticsService',
-      ['getMyStatistics']
+      ['getMyStatistics'],
     );
     await TestBed.configureTestingModule({
       declarations: [ConsumerStatisticsComponent],
       providers: [
         { provide: StatisticsService, useValue: statisticsServiceSpy },
       ],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MatSnackBarModule, MatDialogModule],
     }).compileComponents();
   });
 

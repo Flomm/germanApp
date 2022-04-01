@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
@@ -22,7 +24,7 @@ describe('AdminAddWordComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AdminAddWordComponent, EnumToViewPipe, TranslationPipe],
       providers: [{ provide: WordService, useValue: wordServiceSpy }],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MatSnackBarModule, MatDialogModule],
     }).compileComponents();
   });
 
@@ -62,7 +64,7 @@ describe('AdminAddWordComponent', () => {
     //Assert
     expect(wordServiceSpy.addNewWord).toHaveBeenCalledWith(
       Language.DE,
-      mockRequest
+      mockRequest,
     );
   });
 });
