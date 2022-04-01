@@ -7,6 +7,7 @@ import IGetWordData from '../../models/viewModels/IGetWordData.viewModel';
 
 export class SourceHandler implements DataSource<IGetWordData> {
   totalElements$: Observable<number>;
+  isLoading$: Observable<boolean>;
 
   private wordListSubject: BehaviorSubject<IGetWordData[]> =
     new BehaviorSubject<IGetWordData[]>([]);
@@ -15,11 +16,17 @@ export class SourceHandler implements DataSource<IGetWordData> {
     0,
   );
 
+  private _isLoading = true;
+
   constructor(
     private wordService: WordService,
     private messageService: MessageService,
   ) {
     this.totalElements$ = this.totalElements.asObservable();
+  }
+
+  get isLoading(): boolean {
+    return this._isLoading;
   }
 
   connect(collectionViewer: CollectionViewer): Observable<IGetWordData[]> {
@@ -31,7 +38,9 @@ export class SourceHandler implements DataSource<IGetWordData> {
   }
 
   loadWordList(filterData: IFilterFormData): void {
+    this._isLoading = true;
     this.wordService.getFilteredWords(filterData).subscribe(wordResponse => {
+      this._isLoading = false;
       if (wordResponse.isError) {
         this.messageService.openSnackBar(wordResponse.message, '', {
           panelClass: ['warn'],

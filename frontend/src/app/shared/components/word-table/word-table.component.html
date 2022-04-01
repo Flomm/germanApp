@@ -51,7 +51,7 @@
                   *ngFor="let topic of topicType | enumToView"
                   [value]="topic.value"
                 >
-                  {{ topic.name | translation: "TopicType" }}
+                  {{ topic.name | translation: 'TopicType' }}
                 </mat-option>
               </mat-select>
               <mat-error
@@ -87,7 +87,7 @@
       <ng-container matColumnDef="word">
         <th mat-header-cell *matHeaderCellDef>Szó</th>
         <td mat-cell *matCellDef="let word">
-          {{ (word.gender || "") + " " + word.word }}
+          {{ (word.gender || '') + ' ' + word.word }}
         </td>
       </ng-container>
       <ng-container matColumnDef="translations">
@@ -95,10 +95,10 @@
         <td mat-cell *matCellDef="let word">
           <span *ngFor="let translation of word.translations; let last = last">
             {{
-              (translation.gender || "") +
-                " " +
+              (translation.gender || '') +
+                ' ' +
                 translation.translation +
-                (last ? "" : ",")
+                (last ? '' : ',')
             }}
           </span>
         </td>
@@ -121,10 +121,20 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <div
-      *ngIf="(dataSourceHandler.totalElements$ | async) < 1"
+      *ngIf="
+        !dataSourceHandler.isLoading &&
+        (dataSourceHandler.totalElements$ | async) < 1
+      "
       class="margin-top-small margin-bottom-small"
     >
       Nincs megjeleníthető elem...
+    </div>
+    <div
+      *ngIf="dataSourceHandler.isLoading"
+      class="margin-top-small margin-bottom-small"
+    >
+      <mat-spinner></mat-spinner>
+      Töltés folyamatban...
     </div>
     <mat-paginator
       [length]="dataSourceHandler.totalElements$ | async"
