@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { UserRole } from 'src/app/shared/models/enums/UserRole.enum';
 import ILoginRequest from 'src/app/shared/models/requests/ILoginRequest';
 import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
@@ -74,12 +74,16 @@ export default class AuthService {
   }
 
   login(loginRequestData: ILoginRequest): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .post<ILoginResponse>(
         `${environment.serverUrl}/user/login`,
         loginRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(response => {
           this.saveDataToLocalStorage(response);
           this.setEmail(loginRequestData.email);
@@ -93,12 +97,14 @@ export default class AuthService {
             isError: false,
           };
         }),
-        catchError((httpError: HttpErrorResponse) =>
-          of({
-            message: httpError.error.message,
+        catchError((httpError: HttpErrorResponse) => {
+          return of({
+            message:
+              httpError.error.message ??
+              'Hálózati hiba történt, kérjük próbáld újra később',
             isError: true,
-          }),
-        ),
+          });
+        }),
       );
   }
 
@@ -129,7 +135,7 @@ export default class AuthService {
         }),
         catchError((httpError: HttpErrorResponse) =>
           of({
-            message: httpError.error.message,
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           }),
         ),
