@@ -111,12 +111,16 @@ export default class AuthService {
   register(
     registrationRequestData: IRegistrationRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .post<ICustomResponse>(
         `${environment.serverUrl}/user/register`,
         registrationRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
           this.router.navigate(['auth/login']);
           this.messageService.openDialog({
