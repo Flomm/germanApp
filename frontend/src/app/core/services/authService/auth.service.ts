@@ -159,12 +159,16 @@ export default class AuthService {
   recoverPassword(
     passwordRecoveryRequestData: IPasswordRecoveryRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/password-recovery`,
         passwordRecoveryRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
           this.router.navigate(['auth/login']);
           this.messageService.openDialog({
@@ -193,12 +197,16 @@ export default class AuthService {
   updatePassword(
     newPasswordRequestData: INewPasswordRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/new-password`,
         newPasswordRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
           this.router.navigate(['auth/login']);
           this.messageService.openDialog({
@@ -227,12 +235,16 @@ export default class AuthService {
   changePassword(
     changePasswordRequestData: IChangePasswordRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/change-password`,
         changePasswordRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         map(response => {
           return {
             message: response.message,
@@ -251,12 +263,16 @@ export default class AuthService {
   changeUsername(
     newUsernameRequestData: INewUsernameRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/change-name`,
         newUsernameRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
           this.router.navigate(['auth/myprofile']);
           this.userSubject.next(newUsernameRequestData.name);
@@ -279,12 +295,16 @@ export default class AuthService {
   verify(
     verificationRequest: IVerificationRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/verify`,
         verificationRequest,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         map(response => {
           return {
             message: response.message,
