@@ -59,7 +59,7 @@ export const userService = {
             instructions:
               'Köszönjük a regisztrációt! Kattints a lenti gombra a megerősítéshez!',
             buttonText: 'Regisztráció megerősítése',
-            url: `http://localhost:4200/auth/verify?code=${verificationCode}&email=${registration.email}`,
+            url: `${config.frontend.frontendUrl}/auth/verify?code=${verificationCode}&email=${registration.email}`,
           };
           const email: IMailjetMail = {
             From: {
@@ -175,7 +175,7 @@ export const userService = {
             userName: userName,
             instructions: 'Kattints az alábbi gombra új jelsző megadásához!',
             buttonText: 'Új jelszó',
-            url: `http://localhost:4200/auth/new-password?email=${userEmail}&code=${passwordRecoveryCode}`,
+            url: `${config.frontend.frontendUrl}/auth/new-password?email=${userEmail}&code=${passwordRecoveryCode}`,
           };
           const email: IMailjetMail = {
             From: {
