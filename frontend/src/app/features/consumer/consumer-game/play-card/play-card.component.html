@@ -104,18 +104,19 @@
           {{ (translation?.gender || '') + ' ' + translation?.translation }}
         </span>
       </div>
-      <button
-        mat-raised-button
-        #nextButton
-        color="primary"
-        (click)="emitNext()"
-        *ngIf="isSubmitted"
-      >
-        Következő
-      </button>
     </ng-container>
     <ng-template #loadingSpinner>
       <mat-spinner></mat-spinner>
     </ng-template>
+    <button
+      mat-raised-button
+      [ngClass]="checkResponse ? '' : 'bg-black'"
+      #nextButton
+      color="primary"
+      (click)="emitNext()"
+      *ngIf="isSubmitted"
+    >
+      Következő
+    </button>
   </ng-container>
 </form>
