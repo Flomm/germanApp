@@ -1,13 +1,16 @@
-import { db } from "../data/connection";
+import { db, createConnection } from "../data/connection";
 import { resetDB } from "../data/resetDB";
 import { dbLoader } from "./dbLoader";
 import { resetDBWords } from "../data/resetDBWords";
+import { EnvType } from "../models/EnvType.enum";
 
 export const mainExec = async (
   fileNames: string[],
-  isInitial: boolean
+  isInitial: boolean,
+  env: EnvType
 ): Promise<void> => {
   try {
+    createConnection(env);
     await db.checkConnection();
     console.log("Starting main process...");
     if (isInitial) {

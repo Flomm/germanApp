@@ -1,12 +1,27 @@
 import mysql from "mysql";
+import { EnvType } from "../models/EnvType.enum";
 import dbConfig from "./dbConfig";
 
-const databaseConnection = mysql.createConnection({
-  host: dbConfig.host,
-  user: dbConfig.user,
-  password: dbConfig.password,
-  database: dbConfig.database,
-});
+let databaseConnection: mysql.Connection;
+
+export const createConnection = (env: EnvType): void => {
+  if (env === EnvType.DEV) {
+    databaseConnection = mysql.createConnection({
+      host: dbConfig.dev.host,
+      user: dbConfig.dev.user,
+      password: dbConfig.dev.password,
+      database: dbConfig.dev.database,
+    });
+  } else {
+    databaseConnection = mysql.createConnection({
+      host: dbConfig.prod.host,
+      user: dbConfig.prod.user,
+      password: dbConfig.prod.password,
+      database: dbConfig.prod.database,
+    });
+  }
+  console.warn(databaseConnection);
+};
 
 export const db = {
   checkConnection(): Promise<void> {
