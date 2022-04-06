@@ -20,7 +20,6 @@ export const createConnection = (env: EnvType): void => {
       database: dbConfig.prod.database,
     });
   }
-  console.warn(databaseConnection);
 };
 
 export const db = {
