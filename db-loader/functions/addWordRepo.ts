@@ -2,34 +2,40 @@ import { db } from "../data/connection";
 import { addTranslations } from "./addTranslationRepo";
 import IAddWordDataModel from "../models/IAddWordDataModel";
 import dbConfig from "../data/dbConfig";
+import { EnvType } from "../models/EnvType.enum";
 
 export const wordRepository = {
-  getWordByWord(lang: string, word: string): Promise<any> {
+  getWordByWord(lang: string, word: string, env: EnvType): Promise<any> {
     return db
       .query<any[]>(
-        `SELECT * FROM ${dbConfig.database}.${lang} WHERE word = ?`,
+        `SELECT * FROM ${dbConfig[env].database}.${lang} WHERE word = ?`,
         [word]
       )
       .then((res) => res[0])
       .catch((err) => Promise.reject(err));
   },
 
-  getWordById(lang: string, wordId: number): Promise<any> {
+  getWordById(lang: string, wordId: number, env: EnvType): Promise<any> {
     return db
       .query<any[]>(
-        `SELECT * FROM ${dbConfig.database}.${lang} WHERE id = ? AND isDeleted = 0`,
+        `SELECT * FROM ${dbConfig[env].database}.${lang} WHERE id = ? AND isDeleted = 0`,
         [`${lang}`, `${wordId}`]
       )
       .then((res) => res[0])
       .catch((err) => Promise.reject(err));
   },
 
-  async addWord(lang: string, newWord: IAddWordDataModel): Promise<any> {
+  async addWord(
+    lang: string,
+    newWord: IAddWordDataModel,
+    env: EnvType
+  ): Promise<any> {
     try {
-      let queryString: string = `UPDATE ${dbConfig.database}.${lang} SET isDeleted = 0 WHERE id = ?`;
+      let queryString: string = `UPDATE ${dbConfig[env].database}.${lang} SET isDeleted = 0 WHERE id = ?`;
       const existingWord: any = await wordRepository.getWordByWord(
         lang,
-        newWord.word
+        newWord.word,
+        env
       );
       if (existingWord) {
         if (existingWord.isDeleted) {
@@ -50,10 +56,10 @@ export const wordRepository = {
           `${newWord.topic}`,
         ];
         if (lang === "de" && newWord.gender) {
-          queryString = `INSERT INTO ${dbConfig.database}.${lang} (word, numOfTranslations, topic, gender) VALUES (?, ?, ?, ?)`;
+          queryString = `INSERT INTO ${dbConfig[env].database}.${lang} (word, numOfTranslations, topic, gender) VALUES (?, ?, ?, ?)`;
           queryArray.push(newWord.gender);
         } else {
-          queryString = `INSERT INTO ${dbConfig.database}.${lang} (word, numOfTranslations, topic) VALUES (?, ?, ?)`;
+          queryString = `INSERT INTO ${dbConfig[env].database}.${lang} (word, numOfTranslations, topic) VALUES (?, ?, ?)`;
         }
         const dbResult: any = await db.query<any>(queryString, queryArray);
         if (dbResult.affectedRows === 0) {
@@ -68,16 +74,18 @@ export const wordRepository = {
 
   async addNewWordEntry(
     lang: string,
-    newWord: IAddWordDataModel
+    newWord: IAddWordDataModel,
+    env: EnvType
   ): Promise<any> {
     try {
-      await wordRepository.addWord(lang, newWord);
+      await wordRepository.addWord(lang, newWord, env);
       const addedWord: any = await wordRepository.getWordByWord(
         lang,
-        newWord.word
+        newWord.word,
+        env
       );
       return Promise.resolve(
-        addTranslations(lang, addedWord.id, newWord.translations)
+        addTranslations(lang, addedWord.id, newWord.translations, env)
       );
     } catch (err) {
       return Promise.reject(err);

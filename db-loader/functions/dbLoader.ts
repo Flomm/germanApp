@@ -1,4 +1,5 @@
 import { resolve } from "path/posix";
+import { EnvType } from "../models/EnvType.enum";
 import IAddWordDataModel from "../models/IAddWordDataModel";
 import IExcelObjectModel from "../models/IExcelObjectModel";
 import { wordRepository } from "./addWordRepo";
@@ -7,7 +8,8 @@ import { rowToObjectTransformer } from "./rowToObjectTransformer";
 
 export const dbLoader = async (
   fileName: string,
-  language: string
+  language: string,
+  env: EnvType
 ): Promise<void> => {
   try {
     console.log(`Start loading ${language} words...`);
@@ -21,7 +23,7 @@ export const dbLoader = async (
       if (wordArray.length > 0) {
         wordArray.forEach((wordObj) => {
           wordAddPromises.push(
-            wordRepository.addNewWordEntry(language, wordObj)
+            wordRepository.addNewWordEntry(language, wordObj, env)
           );
         });
       }

@@ -19,8 +19,8 @@ export const mainExec = async (
       await resetDBWords();
     }
     console.warn("Database have been reseted.");
-    await dbLoader(fileNames[0], "hu");
-    await dbLoader(fileNames[1], "de");
+    await dbLoader(fileNames[0], "hu", env);
+    await dbLoader(fileNames[1], "de", env);
     console.log("Main process has been finished.");
     console.log("Closing connection");
     db.disconnect();
