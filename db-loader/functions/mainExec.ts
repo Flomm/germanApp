@@ -1,7 +1,7 @@
 import { db } from "../data/connection";
 import { resetDB } from "../data/resetDB";
 import { dbLoader } from "./dbLoader";
-import { resetDBWords } from "./resetDBWords";
+import { resetDBWords } from "../data/resetDBWords";
 
 export const mainExec = async (
   fileNames: string[],
