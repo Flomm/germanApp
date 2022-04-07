@@ -5,8 +5,10 @@
   "main": "exer.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "load": "ts-node restartDB.exe.ts",
-    "word-reset": "ts-node resetWords.exe.ts"
+    "load_dev": "env NODE_ENV=dev ts-node restartDB.exe.ts",
+    "word-reset_dev": "env NODE_ENV=dev ts-node resetWords.exe.ts",
+    "load_prod": "env NODE_ENV=dev ts-node restartDB.exe.ts",
+    "word-reset_prod": "env NODE_ENV=dev ts-node resetWords.exe.ts"
   },
   "keywords": [],
   "author": "",
