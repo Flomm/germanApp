@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "load_dev": "env NODE_ENV=dev ts-node restartDB.exe.ts",
     "word-reset_dev": "env NODE_ENV=dev ts-node resetWords.exe.ts",
-    "load_prod": "env NODE_ENV=dev ts-node restartDB.exe.ts",
-    "word-reset_prod": "env NODE_ENV=dev ts-node resetWords.exe.ts"
+    "load_prod": "env NODE_ENV=prod ts-node restartDB.exe.ts",
+    "word-reset_prod": "env NODE_ENV=prod ts-node resetWords.exe.ts"
   },
   "keywords": [],
   "author": "",
