@@ -2,7 +2,6 @@
   "name": "db-loader",
   "version": "1.0.0",
   "description": "",
-  "main": "exer.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "load_dev": "env NODE_ENV=dev ts-node restartDB.exe.ts",
