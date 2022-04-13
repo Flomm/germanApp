@@ -14,13 +14,13 @@ export const mainExec = async (
     await db.checkConnection();
     console.log("Starting main process...");
     if (isInitial) {
-      await resetDB();
+      await resetDB(env);
     } else {
-      await resetDBWords();
+      await resetDBWords(env);
     }
     console.warn("Database have been reseted.");
-    await dbLoader(fileNames[0], "hu", env);
-    await dbLoader(fileNames[1], "de", env);
+    const dbCounterAfterHun = await dbLoader(fileNames[0], "hu", env, 0);
+    await dbLoader(fileNames[1], "de", env, dbCounterAfterHun);
     console.log("Main process has been finished.");
     console.log("Closing connection");
     db.disconnect();
