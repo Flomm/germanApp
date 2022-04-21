@@ -1,4 +1,4 @@
-import { db, createConnection } from "../data/connection";
+import { db } from "../data/connection";
 import { resetDB } from "../data/resetDB";
 import { dbLoader } from "./dbLoader";
 import { resetDBWords } from "../data/resetDBWords";
@@ -10,8 +10,6 @@ export const mainExec = async (
   env: EnvType
 ): Promise<void> => {
   try {
-    createConnection(env);
-    await db.checkConnection();
     console.log("Starting main process...");
     if (isInitial) {
       await resetDB(env);
@@ -19,11 +17,9 @@ export const mainExec = async (
       await resetDBWords(env);
     }
     console.warn("Database have been reseted.");
-    const dbCounterAfterHun = await dbLoader(fileNames[0], "hu", env, 0);
-    await dbLoader(fileNames[1], "de", env, dbCounterAfterHun);
+    await dbLoader(fileNames[0], "hu", env);
+    await dbLoader(fileNames[1], "de", env);
     console.log("Main process has been finished.");
-    console.log("Closing connection");
-    db.disconnect();
   } catch (err) {
     console.warn(err);
     console.log("Closing connection due to error");
