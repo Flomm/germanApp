@@ -25,7 +25,7 @@ import IMailjetMail from '../../models/IMailjetMail';
 import IChangePasswordRequest from '../../models/requests/IChangePasswordRequest';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 
-const templatePath = '../../models/templates/email-template.html';
+const templatePath = '../../../templates/email-template.html';
 
 export const userService = {
   getAllUsers(): Promise<IGetUserDataModel[]> {
