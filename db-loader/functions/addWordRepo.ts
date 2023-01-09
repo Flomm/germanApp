@@ -47,6 +47,7 @@ export const wordRepository = {
           }
           return Promise.resolve(dbResult);
         } else {
+          console.log(`Existing word: ${newWord.word}`);
           throw new Error("A szó már szerepel az adatbázisban.");
         }
       } else {

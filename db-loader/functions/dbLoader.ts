@@ -15,7 +15,7 @@ export const dbLoader = async (
 ): Promise<void> => {
   try {
     console.log(`Start loading ${language} words...`);
-    const sleepTime = env === EnvType.DEV ? 10000 : 4680000;
+    const sleepTime = env === EnvType.DEV ? 0 : 4680000;
     const excelFileData: IExcelObjectModel[] = await excelReader(fileName);
     const wordObjectList: IAddWordDataModel[][] = await rowToObjectTransformer(
       excelFileData,
