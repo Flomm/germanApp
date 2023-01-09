@@ -8,6 +8,7 @@
         placeholder="Add meg az e-mailed"
         type="email"
         formControlName="email"
+        autocomplete="email"
       />
       <mat-error *ngIf="loginForm.controls.email.hasError('required')"
         >Kötelező mező</mat-error
@@ -21,11 +22,12 @@
       <input
         matInput
         placeholder="Add meg a jelszavad"
+        autocomplete="current-password"
         [type]="isPasswordVisible ? 'text' : 'password'"
         formControlName="password"
       />
       <mat-icon (click)="togglePasswordVisibility()" matSuffix>{{
-        isPasswordVisible ? "visibility_off" : "visibility"
+        isPasswordVisible ? 'visibility_off' : 'visibility'
       }}</mat-icon>
       <mat-error *ngIf="loginForm.controls.password.hasError('required')"
         >Kötelező mező</mat-error
@@ -41,7 +43,7 @@
     </button>
   </form>
   <div class="forgot-password-holder">
-    <a class="default-anchor" routerLink="/password-recovery"
+    <a class="default-anchor" routerLink="/auth/password-recovery"
       >Elfelejtetted a jelszavad?</a
     >
   </div>
@@ -53,7 +55,7 @@
       {{ loginResponse.message }}
     </p>
   </div>
-  <a class="default-anchor" routerLink="/registration"
+  <a class="default-anchor" routerLink="/auth/registration"
     >Még nem regisztráltál? Itt megteheted.</a
   >
 </div>

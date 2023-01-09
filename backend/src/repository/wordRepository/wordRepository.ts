@@ -1,3 +1,4 @@
+import config from '../../config';
 import { db } from '../../data/connection';
 import IAddWordDataModel from '../../models/models/dataModels/IAddWordDataModel';
 import IDBCountResultDataModel from '../../models/models/dataModels/IDBCountResultDataModel';
@@ -19,7 +20,7 @@ export const wordRepository = {
   getAllWords(lang: Language): Promise<IGetWordsDataModel[]> {
     return db
       .query<IGetWordsDataModel[]>(
-        `SELECT * FROM german_app.?? WHERE isDeleted = 0 ORDER BY word`,
+        `SELECT * FROM ${config.mysql.database}.?? WHERE isDeleted = 0 ORDER BY word`,
         [`${lang}`],
       )
       .catch(err => Promise.reject(err));
@@ -28,7 +29,7 @@ export const wordRepository = {
   getWordByWord(lang: Language, word: string): Promise<IGetWordsDomainModel> {
     return db
       .query<IGetWordsDomainModel[]>(
-        `SELECT * FROM german_app.?? WHERE word = ?`,
+        `SELECT * FROM ${config.mysql.database}.?? WHERE word = ?`,
         [`${lang}`, word],
       )
       .then(res => res[0])
@@ -38,7 +39,7 @@ export const wordRepository = {
   getWordById(lang: Language, wordId: number): Promise<IGetWordsDomainModel> {
     return db
       .query<IGetWordsDomainModel[]>(
-        `SELECT * FROM german_app.?? WHERE id = ? AND isDeleted = 0`,
+        `SELECT * FROM ${config.mysql.database}.?? WHERE id = ? AND isDeleted = 0`,
         [`${lang}`, `${wordId}`],
       )
       .then(res => res[0])
@@ -50,7 +51,7 @@ export const wordRepository = {
     newWord: IAddWordDataModel,
   ): Promise<IDbResultDataModel> {
     try {
-      let queryString = `UPDATE german_app.?? SET isDeleted = 0 WHERE id = ?`;
+      let queryString = `UPDATE ${config.mysql.database}.?? SET isDeleted = 0 WHERE id = ?`;
       const existingWord: IGetWordsDomainModel =
         await wordRepository.getWordByWord(lang, newWord.word);
       if (existingWord) {
@@ -75,10 +76,10 @@ export const wordRepository = {
           `${newWord.topic}`,
         ];
         if (lang === Language.DE && newWord.gender) {
-          queryString = `INSERT INTO german_app.?? (word, numOfTranslations, topic, gender) VALUES (?, ?, ?, ?)`;
+          queryString = `INSERT INTO ${config.mysql.database}.?? (word, numOfTranslations, topic, gender) VALUES (?, ?, ?, ?)`;
           queryArray.push(newWord.gender);
         } else {
-          queryString = `INSERT INTO german_app.?? (word, numOfTranslations, topic) VALUES (?, ?, ?)`;
+          queryString = `INSERT INTO ${config.mysql.database}.?? (word, numOfTranslations, topic) VALUES (?, ?, ?)`;
         }
         const dbResult: IDbResultDataModel = await db.query<IDbResultDataModel>(
           queryString,
@@ -120,7 +121,7 @@ export const wordRepository = {
   ): Promise<IDbResultDataModel> {
     try {
       await db.query<IDbResultDataModel>(
-        `UPDATE german_app.?? SET isDeleted = 1 WHERE id = ?`,
+        `UPDATE ${config.mysql.database}.?? SET isDeleted = 1 WHERE id = ?`,
         [`${lang}`, `${wordId}`],
       );
       return Promise.resolve(
@@ -136,7 +137,7 @@ export const wordRepository = {
     modifiedWord: IAddWordDataModel,
     wordId: number,
   ): Promise<IDbResultDataModel> {
-    let queryString = `UPDATE german_app.?? SET word = ?, numOfTranslations = ?, topic = ? WHERE id = ?`;
+    let queryString = `UPDATE ${config.mysql.database}.?? SET word = ?, numOfTranslations = ?, topic = ? WHERE id = ?`;
     const queryArray: string[] = [
       `${lang}`,
       modifiedWord.word,
@@ -150,7 +151,7 @@ export const wordRepository = {
         0,
         modifiedWord.gender!,
       );
-      queryString = `UPDATE german_app.?? SET gender = ?, word = ?, numOfTranslations = ?, topic = ? WHERE id = ?`;
+      queryString = `UPDATE ${config.mysql.database}.?? SET gender = ?, word = ?, numOfTranslations = ?, topic = ? WHERE id = ?`;
     }
     return db
       .query<IDbResultDataModel>(queryString, queryArray)
@@ -200,7 +201,9 @@ export const wordRepository = {
       const offSet: number = (filterData.pageNumber - 1) * filterData.pageSize;
       let queryString = `SELECT id, word${
         filterData.language === Language.DE ? ', gender ' : ''
-      }, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY word LIMIT ?, ?;`;
+      }, topic FROM ${
+        config.mysql.database
+      }.?? WHERE isDeleted = 0 ORDER BY word LIMIT ?, ?;`;
       const queryArray: (string | number)[] = [`${filterData.language}`];
 
       if (filterData.topics?.length && filterData.topics.length > 0) {
@@ -253,7 +256,7 @@ export const wordRepository = {
   async getTotalElementsForFilter(
     filterData: IFilterFormDataModel,
   ): Promise<IDBCountResultDataModel> {
-    let queryString = `SELECT COUNT(*) FROM german_app.?? WHERE isDeleted = 0 ORDER BY word`;
+    let queryString = `SELECT COUNT(*) FROM ${config.mysql.database}.?? WHERE isDeleted = 0 ORDER BY word`;
     const queryArray: (string | number)[] = [`${filterData.language}`];
 
     if (filterData.topics?.length && filterData.topics.length > 0) {
@@ -305,7 +308,9 @@ export const wordRepository = {
     try {
       let queryString = `SELECT id, word${
         lang === Language.DE ? ', gender ' : ''
-      }, numOfTranslations, topic FROM german_app.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
+      }, numOfTranslations, topic FROM ${
+        config.mysql.database
+      }.?? WHERE isDeleted = 0 ORDER BY RAND() LIMIT ?;`;
       const queryArray: (string | number)[] = [`${lang}`];
 
       if (topics?.length > 0) {

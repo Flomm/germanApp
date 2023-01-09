@@ -48,7 +48,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
       this.createForm();
     }
     if (changes.checkResponse && !changes.checkResponse.firstChange) {
-      this.nextButtonElement.focus();
+      this.nextButtonElement?.focus();
     }
   }
 
@@ -80,6 +80,7 @@ export class PlayCardComponent implements OnInit, OnChanges {
   }
 
   submitForm(): void {
+    this.checkResponse = null;
     this.answerEmitter.emit(this.wordForm.controls.answerList.value);
     this.isSubmitted = true;
   }

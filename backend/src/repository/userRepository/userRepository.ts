@@ -7,12 +7,13 @@ import IGetUserDataModel from '../../models/models/dataModels/IGetUserDataModel'
 import IUpdatePasswordDataModel from '../../models/models/dataModels/IUpdatePasswordDataModel';
 import IGetMyUserDataModel from '../../models/models/dataModels/IGetMyUserDataModel';
 import IChangeUserNameDataModel from '../../models/models/dataModels/IChangeUserNameDataModel';
+import config from '../../config';
 
 export const userRepository = {
   getAllUsers(): Promise<IGetUserDataModel[]> {
     return db
       .query<IGetUserDataModel[]>(
-        'SELECT name, email, isVerified, roleId FROM german_app.user',
+        `SELECT name, email, isVerified, roleId FROM ${config.mysql.database}.user`,
         [],
       )
       .catch(err => Promise.reject(err));
@@ -21,7 +22,7 @@ export const userRepository = {
   getUserByEmail(email: string): Promise<IUserDomainModel> {
     return db
       .query<IUserDomainModel[]>(
-        'SELECT * FROM german_app.user WHERE email = ?',
+        `SELECT * FROM ${config.mysql.database}.user WHERE email = ?`,
         [email],
       )
       .then(dbResult => dbResult[0])
@@ -30,9 +31,10 @@ export const userRepository = {
 
   getAllUserDataById(id: string): Promise<IUserDomainModel> {
     return db
-      .query<IUserDomainModel[]>('SELECT * FROM german_app.user WHERE id = ?', [
-        id,
-      ])
+      .query<IUserDomainModel[]>(
+        `SELECT * FROM ${config.mysql.database}.user WHERE id = ?`,
+        [id],
+      )
       .then(dbResult => dbResult[0])
       .catch(err => Promise.reject(err));
   },
@@ -40,7 +42,7 @@ export const userRepository = {
   getUserById(id: string): Promise<IGetMyUserDataModel> {
     return db
       .query<IGetMyUserDataModel[]>(
-        'SELECT name, email FROM german_app.user WHERE id = ?',
+        `SELECT name, email FROM ${config.mysql.database}.user WHERE id = ?`,
         [id],
       )
       .then(dbResult => dbResult[0])
@@ -52,7 +54,7 @@ export const userRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `INSERT INTO german_app.user (name, email, password, verificationCode, roleId)
+        `INSERT INTO ${config.mysql.database}.user (name, email, password, verificationCode, roleId)
     VALUES (?, ?, ?, ?, ?)`,
         [
           registration.name,
@@ -71,7 +73,7 @@ export const userRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `UPDATE german_app.user SET isVerified = 1 WHERE email = ? AND verificationCode = ?`,
+        `UPDATE ${config.mysql.database}.user SET isVerified = 1 WHERE email = ? AND verificationCode = ?`,
         [email, `${verificationCode}`],
       )
       .catch(err => Promise.reject(err));
@@ -82,7 +84,7 @@ export const userRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `UPDATE german_app.user SET passwordRecoveryCode = ? WHERE id = ?`,
+        `UPDATE ${config.mysql.database}.user SET passwordRecoveryCode = ? WHERE id = ?`,
         [
           `${passwordRecoveryCodeData.passwordRecoveryCode}`,
           `${passwordRecoveryCodeData.id}`,
@@ -95,7 +97,7 @@ export const userRepository = {
     newPasswordData: IUpdatePasswordDataModel,
   ): Promise<IDbResultDataModel> {
     return db.query<IDbResultDataModel>(
-      `UPDATE german_app.user SET password = ?, passwordRecoveryCode = 0 WHERE id = ?`,
+      `UPDATE ${config.mysql.database}.user SET password = ?, passwordRecoveryCode = 0 WHERE id = ?`,
       [newPasswordData.password, `${newPasswordData.id}`],
     );
   },
@@ -104,7 +106,7 @@ export const userRepository = {
     newUserNameData: IChangeUserNameDataModel,
   ): Promise<IDbResultDataModel> {
     return db.query<IDbResultDataModel>(
-      `UPDATE german_app.user SET name = ? WHERE id = ?`,
+      `UPDATE ${config.mysql.database}.user SET name = ? WHERE id = ?`,
       [newUserNameData.name, newUserNameData.id],
     );
   },

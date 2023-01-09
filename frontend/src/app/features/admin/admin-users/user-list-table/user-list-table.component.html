@@ -16,13 +16,13 @@
       <ng-container matColumnDef="isVerified">
         <th mat-header-cell *matHeaderCellDef>Megerősítve</th>
         <td mat-cell *matCellDef="let user">
-          {{ user.isVerified ? "Igen" : "Nem" }}
+          {{ user.isVerified ? 'Igen' : 'Nem' }}
         </td>
       </ng-container>
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef>Típus</th>
         <td mat-cell *matCellDef="let user">
-          {{ userRoleEnum[user.roleId] | translation: "UserType" }}
+          {{ userRoleEnum[user.roleId] | translation: 'UserType' }}
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -36,6 +36,10 @@
   </div>
   <div *ngIf="getUserResponse && getUserResponse.isError" class="warn">
     {{ getUserResponse.message }}
+  </div>
+  <div *ngIf="getUserResponse === undefined">
+    <mat-spinner></mat-spinner>
+    Töltés folyamatban...
   </div>
   <div
     *ngIf="

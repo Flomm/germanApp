@@ -23,6 +23,9 @@ export default {
   bcyrpt: {
     numberOfSaltRounds: 8,
   },
+  frontend: {
+    frontendUrl: process.env.FE_URL,
+  },
   swaggerOptions: {
     apis: ['./src/routes/*.routes.ts'],
     swaggerDefinition: {

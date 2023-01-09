@@ -1,4 +1,5 @@
 import { db } from '../../data/connection';
+import config from '../../config';
 import ITranslationDataModel from '../../models/models/dataModels/ITranslationDataModel';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import { Language } from '../../models/models/Enums/Language.enum';
@@ -11,7 +12,7 @@ export const translationRepository = {
   ): Promise<ITranslationDataModel[]> {
     return db
       .query<ITranslationDataModel[]>(
-        'SELECT translation, gender FROM german_app.translation WHERE lang = ? AND wordId = ?',
+        `SELECT translation, gender FROM ${config.mysql.database}.translation WHERE lang = ? AND wordId = ?`,
         [lang, `${wordId}`],
       )
       .catch(err => Promise.reject(err));
@@ -24,7 +25,9 @@ export const translationRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `INSERT INTO german_app.translation (lang, wordId, translation, gender) VALUES ${generateMultipleInsertQueryQuestionMarks(
+        `INSERT INTO ${
+          config.mysql.database
+        }.translation (lang, wordId, translation, gender) VALUES ${generateMultipleInsertQueryQuestionMarks(
           4,
           translations.length,
         )}`,
@@ -46,7 +49,7 @@ export const translationRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        `DELETE FROM german_app.translation WHERE wordId = ? AND lang = ?`,
+        `DELETE FROM ${config.mysql.database}.translation WHERE wordId = ? AND lang = ?`,
         [`${wordId}`, lang],
       )
       .catch(err => Promise.reject(err));

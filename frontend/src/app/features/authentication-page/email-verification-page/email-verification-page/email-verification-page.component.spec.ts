@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import AuthService from 'src/app/core/services/authService/auth.service';
 import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
-import { ICustomResponse } from 'src/app/shared/models/responses/ICustomResponse';
 import { EmailVerificationPageComponent } from './email-verification-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -12,8 +10,6 @@ import { of } from 'rxjs';
 describe('EmailVerificationPageComponent', () => {
   let component: EmailVerificationPageComponent;
   let fixture: ComponentFixture<EmailVerificationPageComponent>;
-
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   const mockActivatedRoute: Record<string, unknown>[] = [
     {
@@ -28,16 +24,9 @@ describe('EmailVerificationPageComponent', () => {
   ];
 
   beforeEach(async () => {
-    authServiceSpy = jasmine.createSpyObj<AuthService>(['verify']);
     await TestBed.configureTestingModule({
       declarations: [EmailVerificationPageComponent],
-      providers: [
-        mockActivatedRoute,
-        {
-          provide: AuthService,
-          useValue: authServiceSpy,
-        },
-      ],
+      providers: [mockActivatedRoute],
       imports: [RouterTestingModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -58,16 +47,14 @@ describe('EmailVerificationPageComponent', () => {
       verificationCode: 69696969,
       email: 'cica@cica.nz',
     };
-    const mockCustomResponse: ICustomResponse = { message: 'sziauram' };
-    authServiceSpy.verify.and.returnValue(of(mockCustomResponse));
+    spyOn(component.verificationRequest, 'emit');
 
     // Act
-    fixture.detectChanges();
+    component.submitVerify(mockVerificationRequest);
 
     // Assert
-    expect(authServiceSpy.verify).toHaveBeenCalledOnceWith(
-      mockVerificationRequest
+    expect(component.verificationRequest.emit).toHaveBeenCalledWith(
+      mockVerificationRequest,
     );
-    expect(component.verificationResponse).toEqual(mockCustomResponse);
   });
 });

@@ -1,8 +1,16 @@
 {
-    "dev": {
-      "driver": "mysql",
-      "database": {"ENV": "MYSQL_DATABASE"},
-      "user": {"ENV": "MYSQL_USER"},
-      "password": {"ENV": "MYSQL_PASSWORD"}
-    }
+  "dev": {
+    "driver": "mysql",
+    "database": { "ENV": "MYSQL_DATABASE_DEV" },
+    "user": { "ENV": "MYSQL_USER_DEV" },
+    "password": { "ENV": "MYSQL_PASSWORD_DEV" },
+    "host": { "ENV": "MYSQL_HOST_DEV" }
+  },
+  "prod": {
+    "driver": "mysql",
+    "database": { "ENV": "MYSQL_DATABASE" },
+    "user": { "ENV": "MYSQL_USER" },
+    "password": { "ENV": "MYSQL_PASSWORD" },
+    "host": { "ENV": "MYSQL_HOST" }
+  }
 }

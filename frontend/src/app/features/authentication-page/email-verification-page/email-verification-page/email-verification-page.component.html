@@ -1,17 +1,16 @@
-<app-header [hasAuthorizationButtons]="false"></app-header>
 <main class="flex-center warn email-main">
   <mat-spinner *ngIf="!verificationResponse"></mat-spinner>
   <h1
     *ngIf="verificationResponse"
     [ngClass]="verificationResponse.isError ? 'warn' : 'success'"
   >
-    {{ verificationResponse.message || "Hálózati hiba" }}
+    {{ verificationResponse.message || 'Hálózati hiba' }}
   </h1>
   <button
     *ngIf="verificationResponse && !verificationResponse.isError"
     mat-raised-button
     color="primary"
-    routerLink="/login"
+    routerLink="/auth/login"
   >
     Most már bejelentkezhetsz!
   </button>
@@ -24,4 +23,3 @@
     Vissza a kezdőlapra
   </button>
 </main>
-<app-footer></app-footer>

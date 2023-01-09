@@ -1,6 +1,6 @@
 <form class="flex-center default-form" [formGroup]="wordForm">
   <h1>
-    {{ (actualWord?.gender || "") + " " + actualWord?.word }}
+    {{ (actualWord?.gender || '') + ' ' + actualWord?.word }}
   </h1>
   <h3>Pontszám: {{ numOfCorrectAnswers }}</h3>
   <ng-container *ngIf="!isSubmitted">
@@ -51,6 +51,7 @@
             <ng-container *ngIf="first; else withoutFocus">
               <input
                 matInput
+                autocomplete="off"
                 matInputAutofocus
                 placeholder="Add meg a jelentést"
                 formControlName="answer"
@@ -59,6 +60,7 @@
             <ng-template #withoutFocus>
               <input
                 matInput
+                autocomplete="off"
                 placeholder="Add meg a jelentést"
                 formControlName="answer"
               />
@@ -86,9 +88,9 @@
     </button>
   </ng-container>
   <ng-container *ngIf="isSubmitted">
-    <ng-container *ngIf="checkResponse">
+    <ng-container *ngIf="checkResponse; else loadingSpinner">
       <h4 [ngClass]="checkResponse.isCorrect ? 'success' : 'warn'">
-        {{ checkResponse.isCorrect ? "Helyes válasz!" : "Helytelen válasz!" }}
+        {{ checkResponse.isCorrect ? 'Helyes válasz!' : 'Helytelen válasz!' }}
       </h4>
       <div class="flex-center translation-holder">
         Jelentések
@@ -98,13 +100,17 @@
             let first = first
           "
         >
-          {{ first ? ": " : ", " }}
-          {{ (translation?.gender || "") + " " + translation?.translation }}
+          {{ first ? ': ' : ', ' }}
+          {{ (translation?.gender || '') + ' ' + translation?.translation }}
         </span>
       </div>
     </ng-container>
+    <ng-template #loadingSpinner>
+      <mat-spinner></mat-spinner>
+    </ng-template>
     <button
       mat-raised-button
+      [ngClass]="checkResponse ? '' : 'bg-black'"
       #nextButton
       color="primary"
       (click)="emitNext()"

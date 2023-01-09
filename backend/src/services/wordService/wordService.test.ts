@@ -218,13 +218,13 @@ describe('modifyWord', () => {
     const mockDbResult: IDbResultDataModel = {
       affectedRows: 1,
     };
-    wordRepository.modifyWord = jest.fn().mockResolvedValue(mockDbResult);
+    wordRepository.modifyWordEntry = jest.fn().mockResolvedValue(mockDbResult);
 
     //Act
     await wordService.modifyWord(Language.DE, mockDeWord, 1);
     //Assert
 
-    expect(wordRepository.modifyWord).toHaveBeenCalledWith(
+    expect(wordRepository.modifyWordEntry).toHaveBeenCalledWith(
       Language.DE,
       mockDeWord,
       1,
@@ -236,7 +236,7 @@ describe('modifyWord', () => {
       affectedRows: 0,
     };
 
-    wordRepository.modifyWord = jest.fn().mockResolvedValue(mockDbResult);
+    wordRepository.modifyWordEntry = jest.fn().mockResolvedValue(mockDbResult);
 
     //Act
     try {
@@ -244,7 +244,7 @@ describe('modifyWord', () => {
     } catch (err) {
       //Assert
       expect(err).toEqual(notFoundError('A módosítás nem sikerült.'));
-      expect(wordRepository.modifyWord).toHaveBeenCalledWith(
+      expect(wordRepository.modifyWordEntry).toHaveBeenCalledWith(
         Language.DE,
         mockDeWord,
         1,
@@ -254,7 +254,7 @@ describe('modifyWord', () => {
 
   test('repository error', async () => {
     //Arrange
-    wordRepository.modifyWord = jest
+    wordRepository.modifyWordEntry = jest
       .fn()
       .mockRejectedValue(serverError('test'));
 
@@ -264,7 +264,7 @@ describe('modifyWord', () => {
     } catch (err) {
       //Assert
       expect(err).toEqual(serverError('test'));
-      expect(wordRepository.modifyWord).toHaveBeenCalledWith(
+      expect(wordRepository.modifyWordEntry).toHaveBeenCalledWith(
         Language.DE,
         mockDeWord,
         1,

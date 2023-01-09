@@ -5,6 +5,7 @@
       <mat-label>Felhasználónév</mat-label>
       <input
         matInput
+        autocomplete="username"
         placeholder="Add meg a felhasználóneved"
         formControlName="name"
       />
@@ -16,6 +17,7 @@
       <mat-label>E-mail</mat-label>
       <input
         matInput
+        autocomplete="email"
         placeholder="Add meg az e-mailed"
         type="email"
         formControlName="email"
@@ -31,12 +33,13 @@
       <mat-label>Jelszó</mat-label>
       <input
         matInput
+        autocomplete="new-password"
         placeholder="Add meg a jelszavad"
         [type]="isPasswordVisible ? 'text' : 'password'"
         formControlName="password"
       />
       <mat-icon (click)="togglePasswordVisibility()" matSuffix>{{
-        isPasswordVisible ? "visibility_off" : "visibility"
+        isPasswordVisible ? 'visibility_off' : 'visibility'
       }}</mat-icon>
       <mat-error *ngIf="registrationForm.controls.password.hasError('required')"
         >Kötelező mező</mat-error
@@ -53,6 +56,7 @@
       <mat-label>Jelszó megerősítés</mat-label>
       <input
         matInput
+        autocomplete="new-password"
         placeholder="Erősítsd meg a jelszót"
         [type]="isPasswordVisible ? 'text' : 'password'"
         formControlName="confirmedPassword"
@@ -83,7 +87,7 @@
       {{ registrationResponse.message }}
     </p>
   </div>
-  <a class="default-anchor" routerLink="/login"
+  <a class="default-anchor" routerLink="/auth/login"
     >Már van fiókod? Itt beléphetsz.</a
   >
 </div>

@@ -1,7 +1,7 @@
 import mysql from 'mysql';
 import config from '../config';
 
-const databaseConnection = mysql.createConnection({
+const databaseConnection = mysql.createPool({
   host: config.mysql.host,
   user: config.mysql.user,
   password: config.mysql.password,
@@ -9,22 +9,27 @@ const databaseConnection = mysql.createConnection({
 });
 
 export const db = {
-  checkConnection(): void {
-    databaseConnection.connect(err => {
-      if (err) {
-        console.error('Cannot connect to the database', err);
-        return;
-      }
-      console.log('Database Connection is OK');
+  async usePooledConnectionAsync(): Promise<mysql.PoolConnection> {
+    return await new Promise((resolve, reject) => {
+      databaseConnection.getConnection((error, connection) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(connection);
+        }
+      });
     });
   },
-  query<T>(query: string, values: (string | number)[]): Promise<T> {
+
+  async query<T>(query: string, values: (string | number)[]): Promise<T> {
+    const connection = await db.usePooledConnectionAsync();
     return new Promise<T>((resolve, reject) => {
-      databaseConnection.query(query, values, (err, result) => {
+      connection.query(query, values, (err, result) => {
         if (err) {
           reject(err);
           return;
         }
+        connection.release();
         resolve(JSON.parse(JSON.stringify(result)));
       });
     });

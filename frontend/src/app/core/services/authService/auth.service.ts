@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { UserRole } from 'src/app/shared/models/enums/UserRole.enum';
 import ILoginRequest from 'src/app/shared/models/requests/ILoginRequest';
 import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
@@ -74,12 +74,16 @@ export default class AuthService {
   }
 
   login(loginRequestData: ILoginRequest): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .post<ILoginResponse>(
         `${environment.serverUrl}/user/login`,
         loginRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(response => {
           this.saveDataToLocalStorage(response);
           this.setEmail(loginRequestData.email);
@@ -93,26 +97,32 @@ export default class AuthService {
             isError: false,
           };
         }),
-        catchError((httpError: HttpErrorResponse) =>
-          of({
-            message: httpError.error.message,
+        catchError((httpError: HttpErrorResponse) => {
+          return of({
+            message:
+              httpError.error.message ??
+              'Hálózati hiba történt, kérjük próbáld újra később',
             isError: true,
-          }),
-        ),
+          });
+        }),
       );
   }
 
   register(
     registrationRequestData: IRegistrationRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .post<ICustomResponse>(
         `${environment.serverUrl}/user/register`,
         registrationRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
-          this.router.navigate(['login']);
+          this.router.navigate(['auth/login']);
           this.messageService.openDialog({
             data: {
               dialogText:
@@ -129,7 +139,7 @@ export default class AuthService {
         }),
         catchError((httpError: HttpErrorResponse) =>
           of({
-            message: httpError.error.message,
+            message: httpError.error.message ?? 'Hálózati hiba történt.',
             isError: true,
           }),
         ),
@@ -141,7 +151,7 @@ export default class AuthService {
     localStorage.removeItem('role');
     localStorage.removeItem('token');
     localStorage.removeItem('email');
-    this.router.navigate(['login']);
+    this.router.navigate(['auth/login']);
     this.userSubject.next(null);
     this.roleSubject.next(null);
   }
@@ -149,14 +159,18 @@ export default class AuthService {
   recoverPassword(
     passwordRecoveryRequestData: IPasswordRecoveryRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/password-recovery`,
         passwordRecoveryRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
-          this.router.navigate(['login']);
+          this.router.navigate(['auth/login']);
           this.messageService.openDialog({
             data: {
               dialogText:
@@ -183,14 +197,18 @@ export default class AuthService {
   updatePassword(
     newPasswordRequestData: INewPasswordRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/new-password`,
         newPasswordRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
-          this.router.navigate(['login']);
+          this.router.navigate(['auth/login']);
           this.messageService.openDialog({
             data: {
               dialogText:
@@ -217,12 +235,16 @@ export default class AuthService {
   changePassword(
     changePasswordRequestData: IChangePasswordRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/change-password`,
         changePasswordRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         map(response => {
           return {
             message: response.message,
@@ -241,14 +263,18 @@ export default class AuthService {
   changeUsername(
     newUsernameRequestData: INewUsernameRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/change-name`,
         newUsernameRequestData,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         tap(() => {
-          this.router.navigate(['myprofile']);
+          this.router.navigate(['auth/myprofile']);
           this.userSubject.next(newUsernameRequestData.name);
           this.setUserName(newUsernameRequestData.name);
         }),
@@ -269,12 +295,16 @@ export default class AuthService {
   verify(
     verificationRequest: IVerificationRequest,
   ): Observable<ICustomResponse> {
+    this.messageService.showSpinner();
     return this.httpClient
       .put<ICustomResponse>(
         `${environment.serverUrl}/user/verify`,
         verificationRequest,
       )
       .pipe(
+        finalize(() => {
+          this.messageService.hideSpinner();
+        }),
         map(response => {
           return {
             message: response.message,

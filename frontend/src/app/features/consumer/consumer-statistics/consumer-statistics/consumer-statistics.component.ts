@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
 import IGetStatisticsResponse from 'src/app/shared/models/responses/IGetStatisticsResponse';
 
@@ -9,13 +10,18 @@ import IGetStatisticsResponse from 'src/app/shared/models/responses/IGetStatisti
 export class ConsumerStatisticsComponent implements OnInit {
   getStatisticsResponse: IGetStatisticsResponse;
 
-  constructor(private statisticsService: StatisticsService) {}
+  constructor(
+    private statisticsService: StatisticsService,
+    private messageService: MessageService,
+  ) {}
 
   ngOnInit(): void {
+    this.messageService.showSpinner();
     this.statisticsService
       .getMyStatistics()
       .subscribe((res: IGetStatisticsResponse) => {
         this.getStatisticsResponse = res;
+        this.messageService.hideSpinner();
       });
   }
 }

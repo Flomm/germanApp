@@ -5,5 +5,5 @@ import { Component, Input } from '@angular/core';
   templateUrl: './spinner.component.html',
 })
 export class SpinnerComponent {
-  @Input() text = 'Betöltés...';
+  @Input() text = 'Adatok feldolgozása folyamatban...';
 }

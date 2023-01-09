@@ -1,3 +1,4 @@
+import config from '../../config';
 import { db } from '../../data/connection';
 import IDbResultDataModel from '../../models/models/dataModels/IDbResultDataModel';
 import IStatisticsDomainModel from '../../models/models/domainModels/IStatisticsDomainModel';
@@ -6,7 +7,7 @@ export const statisticsRepository = {
   createNewStatistics(userId: string): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        'INSERT INTO german_app.statistics (userId) VALUES (?)',
+        `INSERT INTO ${config.mysql.database}.statistics (userId) VALUES (?)`,
         [userId],
       )
       .catch(err => Promise.reject(err));
@@ -15,7 +16,7 @@ export const statisticsRepository = {
   getStatisticsByUserId(userId: string): Promise<IStatisticsDomainModel> {
     return db
       .query<IStatisticsDomainModel[]>(
-        'SELECT * FROM german_app.statistics WHERE userId = ?',
+        `SELECT * FROM ${config.mysql.database}.statistics WHERE userId = ?`,
         [userId],
       )
       .then(dbResult => dbResult[0])
@@ -28,7 +29,7 @@ export const statisticsRepository = {
   ): Promise<IDbResultDataModel> {
     return db
       .query<IDbResultDataModel>(
-        'UPDATE german_app.statistics SET ?? = ?? + 1 WHERE userId = ?',
+        `UPDATE ${config.mysql.database}.statistics SET ?? = ?? + 1 WHERE userId = ?`,
         [columnName, columnName, userId],
       )
       .catch(err => Promise.reject(err));

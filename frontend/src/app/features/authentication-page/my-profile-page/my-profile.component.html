@@ -3,14 +3,14 @@
   <form class="flex-center inverse-form" [formGroup]="myUserProfileForm">
     <mat-form-field appearance="standard" class="disabled-form-field">
       <mat-label>E-mail</mat-label>
-      <input matInput formControlName="email" />
+      <input matInput autocomplete="email" formControlName="email" />
     </mat-form-field>
     <mat-form-field
       appearance="standard"
       [class.disabled-form-field]="!myUserProfileForm.controls.name.enabled"
     >
       <mat-label>Felhasználónév</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput formControlName="name" autocomplete="username" />
       <mat-icon (click)="toggleUsernameModification()" matSuffix
         >create</mat-icon
       >
@@ -18,7 +18,7 @@
         >Kötelező mező</mat-error
       >
     </mat-form-field>
-    <a class="default-anchor black" routerLink="/change-password"
+    <a class="default-anchor black" routerLink="/auth/change-password"
       >Jelszó megváltoztatása</a
     >
     <button

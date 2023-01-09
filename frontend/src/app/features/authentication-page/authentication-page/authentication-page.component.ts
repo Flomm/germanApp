@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import AuthService from 'src/app/core/services/authService/auth.service';
 import INewPasswordRequest from 'src/app/shared/models/requests/INewPasswordRequest';
 import IPasswordRecoveryRequest from 'src/app/shared/models/requests/IPasswordRecoveryRequest';
@@ -8,32 +8,45 @@ import ILoginRequest from 'src/app/shared/models/requests/ILoginRequest';
 import IRegistrationRequest from 'src/app/shared/models/requests/IRegistrationRequest';
 import INewUsernameRequest from 'src/app/shared/models/requests/INewUsernameRequest';
 import IChangePasswordRequest from 'src/app/shared/models/requests/IChangePasswordRequest';
+import { AuthFormType } from 'src/app/shared/models/enums/AuthFormType.enum';
+import { IVerificationRequest } from 'src/app/shared/models/requests/IVerificationRequest';
 
 @Component({
   selector: 'app-authentication-page',
   templateUrl: './authentication-page.component.html',
 })
-export class AuthenticationPageComponent {
-  formType: string;
-  loginResponse: ICustomResponse;
-  registrationResponse: ICustomResponse;
-  newPasswordResponse: ICustomResponse;
-  changePasswordResponse: ICustomResponse;
-  passwordRecoveryResponse: ICustomResponse;
-  newUsernameResponse: ICustomResponse;
+export class AuthenticationPageComponent implements OnInit {
+  formType: AuthFormType;
+  apiResponse: ICustomResponse;
+  authFormType = AuthFormType;
 
   constructor(
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-  ) {
-    this.formType = this.activatedRoute.parent.snapshot.url[0].path;
+    private router: Router,
+  ) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      const formTypeFromParam: AuthFormType = params.get(
+        'formType',
+      ) as AuthFormType;
+      if (!Object.values(AuthFormType).includes(formTypeFromParam)) {
+        this.router.navigate(['not-found']);
+      } else {
+        if (this.apiResponse) {
+          this.apiResponse = null;
+        }
+        this.formType = formTypeFromParam;
+      }
+    });
   }
 
   onRegistrationSubmit(registrationRequest: IRegistrationRequest): void {
     this.authService
       .register(registrationRequest)
       .subscribe((registrationResponse: ICustomResponse) => {
-        this.registrationResponse = registrationResponse;
+        this.apiResponse = registrationResponse;
       });
   }
 
@@ -41,7 +54,7 @@ export class AuthenticationPageComponent {
     this.authService
       .login(loginRequest)
       .subscribe((loginResponse: ICustomResponse) => {
-        this.loginResponse = loginResponse;
+        this.apiResponse = loginResponse;
       });
   }
 
@@ -51,7 +64,7 @@ export class AuthenticationPageComponent {
     this.authService
       .recoverPassword(passwordRecoveryRequest)
       .subscribe((passwordRecoveryResponse: ICustomResponse) => {
-        this.passwordRecoveryResponse = passwordRecoveryResponse;
+        this.apiResponse = passwordRecoveryResponse;
       });
   }
 
@@ -59,7 +72,7 @@ export class AuthenticationPageComponent {
     this.authService
       .updatePassword(newPasswordRequest)
       .subscribe((newPasswordResponse: ICustomResponse) => {
-        this.newPasswordResponse = newPasswordResponse;
+        this.apiResponse = newPasswordResponse;
       });
   }
 
@@ -67,7 +80,7 @@ export class AuthenticationPageComponent {
     this.authService
       .changePassword(changePasswordRequest)
       .subscribe((changePasswordResponse: ICustomResponse) => {
-        this.changePasswordResponse = changePasswordResponse;
+        this.apiResponse = changePasswordResponse;
       });
   }
 
@@ -75,7 +88,15 @@ export class AuthenticationPageComponent {
     this.authService
       .changeUsername(newUsernameRequest)
       .subscribe((newUsernameResponse: ICustomResponse) => {
-        this.newUsernameResponse = newUsernameResponse;
+        this.apiResponse = newUsernameResponse;
+      });
+  }
+
+  onVerificationSubmit(newVerificationRequest: IVerificationRequest): void {
+    this.authService
+      .verify(newVerificationRequest)
+      .subscribe((verificationResponse: ICustomResponse) => {
+        this.apiResponse = verificationResponse;
       });
   }
 }

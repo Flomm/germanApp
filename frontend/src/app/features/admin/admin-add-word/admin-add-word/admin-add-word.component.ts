@@ -1,6 +1,7 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { WordService } from 'src/app/core/services/wordService/word.service';
 import { Gender } from 'src/app/shared/models/enums/Gender.enum';
 import { Language } from 'src/app/shared/models/enums/Language.enum';
@@ -22,7 +23,8 @@ export class AdminAddWordComponent implements OnInit {
 
   constructor(
     private wordService: WordService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class AdminAddWordComponent implements OnInit {
   }
 
   submitNewWord(): void {
+    this.messageService.showSpinner();
     const formData = this.addWordForm.value;
     const { language, ...newWordRequest } = formData;
     this.wordService
@@ -55,6 +58,7 @@ export class AdminAddWordComponent implements OnInit {
           this.addWordForm.get('language').setValue(Language.DE);
         }
         this.addWordResponse = addWordResponse;
+        this.messageService.hideSpinner();
       });
   }
 
@@ -68,7 +72,7 @@ export class AdminAddWordComponent implements OnInit {
     this.translationsFormArray.push(newTranslationGroup);
     setTimeout(() => {
       this.scrollToElement(
-        `trans${this.translationsFormArray.controls.length - 1}`
+        `trans${this.translationsFormArray.controls.length - 1}`,
       );
     });
   }

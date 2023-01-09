@@ -27,6 +27,7 @@
       <mat-label>Szó</mat-label>
       <input
         matInput
+        autocomplete="off"
         placeholder="Adj meg egy új jelentést"
         formControlName="word"
       />
@@ -43,7 +44,7 @@
           *ngFor="let topic of topicType | enumToView"
           [value]="topic.value"
         >
-          {{ topic.name | translation: "TopicType" }}
+          {{ topic.name | translation: 'TopicType' }}
           <span *ngIf="modifyWordForm.controls.topic.value === topic.value">
             &#10004;</span
           >

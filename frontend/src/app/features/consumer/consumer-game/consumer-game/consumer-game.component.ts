@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { of } from 'rxjs';
-import { concatMap, delay, finalize } from 'rxjs/operators';
+import { concatMap, finalize } from 'rxjs/operators';
 import { GameService } from 'src/app/core/services/gameService/game.service';
 import { MessageService } from 'src/app/core/services/messageService/message.service';
 import { StatisticsService } from 'src/app/core/services/statisticsService/statistics-service.service';
@@ -39,7 +39,6 @@ export class ConsumerGameComponent {
     this.gameService
       .getRandomWords(randomWordRequestData)
       .pipe(
-        delay(1200),
         concatMap(res => {
           if (!res.isError) {
             this.actualIndex = 0;
