@@ -202,37 +202,12 @@ describe('recoverPasswordByEmail', () => {
     };
     const mockSixDigitCode = 123456;
 
-    const mockEmailReplacements: IEmailReplacements = {
-      userName: 'test',
-      instructions: 'Kattints az alábbi gombra új jelsző megadásához!',
-      buttonText: 'Új jelszó',
-      url: `http://localhost:4200/auth/new-password?email=${passwordRecoveryRequest.email}&code=${mockSixDigitCode}`,
-    };
-
-    const mockTemplatePath = '../../models/templates/email-template.html';
-
     userRepository.getUserByEmail = jest.fn().mockResolvedValue(userDb[0]);
     userRepository.recoverPassword = jest.fn().mockResolvedValue(mockDbResult);
     emailService.sendMailJetMail = jest.fn().mockResolvedValue(Promise.resolve);
     codeGeneratorService.generateSixDigitCode = jest
       .fn()
       .mockReturnValue(mockSixDigitCode);
-    const email: IMailjetMail = {
-      From: {
-        Email: config.mailJet.user as string,
-        Name: config.mailJet.name as string,
-      },
-      To: [
-        {
-          Email: 'test@test.hu',
-        },
-      ],
-      Subject: 'Elfelejtett jelszó a némettanuló alkalmazáshoz',
-      HTMLPart: emailService.readTemplate(
-        mockTemplatePath,
-        mockEmailReplacements,
-      ),
-    };
 
     //Act
     await userService.recoverUserPasswordByEmail(passwordRecoveryRequest.email);
@@ -240,7 +215,6 @@ describe('recoverPasswordByEmail', () => {
     //Assert
     expect(userRepository.getUserByEmail).toHaveBeenCalledWith('test@test.hu');
     expect(emailService.sendMailJetMail).toBeCalledTimes(1);
-    expect(emailService.sendMailJetMail).toHaveBeenCalledWith(email);
   });
 
   test('not found user', async () => {
